@@ -1,0 +1,790 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>STACK//FRAME — Collage · Home Lab Edition</title>
+  <link rel="icon" type="image/svg+xml" href="/favicons/lab.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0a0a0c;
+      --bg-2: #111114;
+      --surface: #161619;
+      --surface-2: #1c1c20;
+      --metal: linear-gradient(180deg, #2a2a30 0%, #1c1c20 50%, #2a2a30 100%);
+      --metal-2: linear-gradient(180deg, #3a3a42 0%, #1c1c20 50%, #3a3a42 100%);
+      --border: #2a2a32;
+      --border-bright: #3f3f4a;
+      --fg: #f5f5f7;
+      --fg-muted: #8a8a93;
+      --fg-dim: #5a5a63;
+      --led-green: #00ff66;
+      --led-amber: #ffb000;
+      --led-red: #ff3b30;
+      --led-cyan: #00d4ff;
+      --font-sans: 'Inter', -apple-system, sans-serif;
+      --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+    }
+
+    html { background: var(--bg); }
+    body {
+      font-family: var(--font-sans);
+      background:
+        radial-gradient(ellipse 80% 50% at 50% -10%, rgba(255, 176, 0, 0.06), transparent),
+        var(--bg);
+      color: var(--fg);
+      min-height: 100vh;
+      padding: 32px 20px 80px;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .wrap { max-width: 460px; margin: 0 auto; }
+
+    /* ---- Top bar ---- */
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-family: var(--font-mono);
+      font-size: 10px;
+      color: var(--fg-dim);
+      letter-spacing: 0.1em;
+      margin-bottom: 24px;
+    }
+    .topbar .pulse {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .topbar .pulse::before {
+      content: '';
+      width: 6px; height: 6px;
+      background: var(--led-green);
+      border-radius: 50%;
+      box-shadow: 0 0 8px var(--led-green);
+      animation: pulse 1.4s ease-in-out infinite;
+    }
+    @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+    .topbar a {
+      color: var(--fg-muted);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .topbar a:hover { color: var(--led-amber); }
+
+    /* ---- RACK FRAME (reusable) ---- */
+    .rack {
+      position: relative;
+      background: var(--metal);
+      border-radius: 8px;
+      padding: 14px 12px;
+      border: 1px solid #3a3a42;
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,0.04),
+        0 8px 32px rgba(0,0,0,0.4);
+    }
+    .rack::before, .rack::after {
+      content: '';
+      position: absolute;
+      top: 0; bottom: 0;
+      width: 4px;
+      background: linear-gradient(90deg, #0a0a0c, #1c1c20, #0a0a0c);
+    }
+    .rack::before { left: 0; border-radius: 8px 0 0 8px; }
+    .rack::after { right: 0; border-radius: 0 8px 8px 0; }
+    .rack-screws {
+      position: absolute;
+      top: 6px; bottom: 6px;
+      width: 2px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .rack-screws.left { left: 4px; }
+    .rack-screws.right { right: 4px; }
+    .screw {
+      width: 4px; height: 4px;
+      background: #5a5a63;
+      border-radius: 50%;
+      box-shadow: inset 0 0 1px #000;
+    }
+
+    .unit {
+      position: relative;
+      background: var(--bg-2);
+      border: 1px solid #2a2a32;
+      border-radius: 4px;
+      padding: 10px 12px;
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .unit:last-child { margin-bottom: 0; }
+    .unit-leds {
+      display: flex;
+      gap: 4px;
+      flex-shrink: 0;
+    }
+    .led {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--led-green);
+      box-shadow: 0 0 6px currentColor;
+    }
+    .led.amber { background: var(--led-amber); }
+    .led.red { background: var(--led-red); }
+    .led.cyan { background: var(--led-cyan); }
+    .led.blink-1 { animation: blink1 1.2s ease-in-out infinite; }
+    .led.blink-2 { animation: blink2 1.8s ease-in-out infinite; }
+    .led.blink-3 { animation: blink3 2.4s ease-in-out infinite; }
+    @keyframes blink1 { 0%, 100% { opacity: 1; } 30% { opacity: 0.2; } }
+    @keyframes blink2 { 0%, 100% { opacity: 0.3; } 70% { opacity: 1; } }
+    @keyframes blink3 { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+
+    .fan {
+      width: 18px; height: 18px;
+      flex-shrink: 0;
+      position: relative;
+    }
+    .fan svg { width: 100%; height: 100%; }
+    .fan svg g { transform-origin: center; animation: spin 1.6s linear infinite; }
+    .fan.fast svg g { animation-duration: 0.8s; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ---- HERO ---- */
+    .hero {
+      margin-bottom: 40px;
+    }
+    .hero-tag {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      color: var(--led-amber);
+      letter-spacing: 0.2em;
+      margin-bottom: 8px;
+      text-transform: uppercase;
+    }
+    .hero h1 {
+      font-family: var(--font-mono);
+      font-size: 36px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      line-height: 1;
+      margin-bottom: 12px;
+    }
+    .hero h1 .slash { color: var(--led-amber); }
+    .hero p {
+      font-size: 14px;
+      color: var(--fg-muted);
+      line-height: 1.6;
+      max-width: 380px;
+    }
+    .hero p code {
+      font-family: var(--font-mono);
+      color: var(--led-amber);
+      font-size: 12px;
+    }
+
+    .hero-rack {
+      margin-top: 28px;
+    }
+    .hero-unit {
+      padding: 14px 16px;
+      background: linear-gradient(180deg, #1c1c20, #0a0a0c);
+    }
+    .hero-screen {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--led-amber);
+      letter-spacing: 0.05em;
+      line-height: 1.4;
+    }
+    .hero-screen .label { color: var(--fg-dim); }
+    .hero-screen .val { color: var(--led-green); }
+
+    /* ---- SECTION ---- */
+    .section {
+      margin-bottom: 40px;
+    }
+    .section-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 14px;
+    }
+    .section-title {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--fg-muted);
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+    }
+    .section-title::before {
+      content: '// ';
+      color: var(--led-amber);
+    }
+    .section-meta {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      color: var(--fg-dim);
+    }
+
+    /* ---- PHOTO QUEUE (rack slots) ---- */
+    .photo-rack .unit {
+      padding: 8px 10px;
+      gap: 10px;
+    }
+    .photo-thumb {
+      width: 36px; height: 36px;
+      background: linear-gradient(135deg, #2a2a32, #1c1c20);
+      border: 1px solid #2a2a32;
+      border-radius: 3px;
+      flex-shrink: 0;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-mono);
+      font-size: 9px;
+      color: var(--fg-dim);
+    }
+    .photo-thumb.gradient-1 { background: linear-gradient(135deg, #DC2626, #F87171); }
+    .photo-thumb.gradient-2 { background: linear-gradient(135deg, #854D0E, #FACC15); }
+    .photo-thumb.gradient-3 { background: linear-gradient(135deg, #BE185D, #F472B6); }
+    .photo-thumb.gradient-4 { background: linear-gradient(135deg, #047857, #34D399); }
+    .photo-thumb.gradient-5 { background: linear-gradient(135deg, #C2410C, #FB923C); }
+    .photo-thumb.gradient-6 { background: linear-gradient(135deg, #1D4ED8, #60A5FA); }
+    .photo-thumb.gradient-7 { background: linear-gradient(135deg, #7C3AED, #A78BFA); }
+    .photo-thumb.picsum { background: none; }
+    .photo-thumb img { width: 100%; height: 100%; object-fit: cover; }
+
+    .photo-meta {
+      flex: 1;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      min-width: 0;
+    }
+    .photo-meta .name {
+      color: var(--fg);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .photo-meta .info {
+      color: var(--fg-dim);
+      font-size: 9px;
+      letter-spacing: 0.05em;
+    }
+    .photo-status {
+      font-family: var(--font-mono);
+      font-size: 9px;
+      color: var(--led-green);
+      letter-spacing: 0.1em;
+      flex-shrink: 0;
+    }
+    .photo-status.warn { color: var(--led-amber); }
+
+    .photo-toggle {
+      display: flex;
+      gap: 6px;
+      margin-bottom: 12px;
+      font-family: var(--font-mono);
+      font-size: 10px;
+    }
+    .photo-toggle button {
+      background: var(--bg-2);
+      border: 1px solid var(--border);
+      color: var(--fg-muted);
+      padding: 4px 10px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-family: inherit;
+      font-size: inherit;
+      letter-spacing: 0.05em;
+      transition: all 0.2s;
+    }
+    .photo-toggle button.active {
+      background: var(--led-amber);
+      color: #0a0a0c;
+      border-color: var(--led-amber);
+    }
+
+    /* ---- LAYOUT SELECTOR (rack bays) ---- */
+    .layout-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 6px;
+    }
+    .layout-bay {
+      aspect-ratio: 1;
+      background: var(--bg-2);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      cursor: pointer;
+      display: grid;
+      gap: 2px;
+      padding: 4px;
+      transition: all 0.2s;
+    }
+    .layout-bay:hover { border-color: var(--border-bright); }
+    .layout-bay.active {
+      border-color: var(--led-amber);
+      box-shadow: 0 0 0 1px var(--led-amber), 0 0 12px rgba(255, 176, 0, 0.3);
+    }
+    .layout-bay > div {
+      background: var(--surface-2);
+      border-radius: 1px;
+    }
+    .layout-bay.active > div { background: var(--led-amber); opacity: 0.8; }
+    .layout-bay.l1 { grid-template: 1fr / 1fr; }
+    .layout-bay.l2 { grid-template: 1fr 1fr / 1fr; }
+    .layout-bay.l3 { grid-template: 1fr 1fr / 1fr 1fr; }
+    .layout-bay.l4 { grid-template: 1fr 1fr 1fr / 1fr; }
+
+    .layout-name {
+      font-family: var(--font-mono);
+      font-size: 9px;
+      color: var(--fg-dim);
+      text-align: center;
+      margin-top: 6px;
+      letter-spacing: 0.05em;
+    }
+    .layout-bay.active + .layout-name { color: var(--led-amber); }
+
+    /* ---- DEPLOY BUTTON ---- */
+    .deploy {
+      width: 100%;
+      padding: 16px 20px;
+      background: linear-gradient(180deg, #ffb000, #cc8800);
+      color: #0a0a0c;
+      border: 1px solid #ffb000;
+      border-radius: 6px;
+      font-family: var(--font-mono);
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      cursor: pointer;
+      text-transform: uppercase;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.2s, box-shadow 0.3s;
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,0.3),
+        0 4px 16px rgba(255, 176, 0, 0.3);
+    }
+    .deploy:hover {
+      transform: translateY(-1px);
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,0.3),
+        0 6px 24px rgba(255, 176, 0, 0.5);
+    }
+    .deploy:active { transform: translateY(0); }
+    .deploy .arrow {
+      display: inline-block;
+      transition: transform 0.3s;
+    }
+    .deploy:hover .arrow { transform: translateX(4px); }
+    .deploy::after {
+      content: '';
+      position: absolute;
+      top: 0; left: -100%;
+      width: 100%; height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+      animation: shine 3s ease-in-out infinite;
+    }
+    @keyframes shine { 0%, 70% { left: -100%; } 100% { left: 200%; } }
+
+    .deploy-hint {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      color: var(--fg-dim);
+      text-align: center;
+      margin-top: 8px;
+      letter-spacing: 0.05em;
+    }
+
+    /* ---- STATUS TERMINAL ---- */
+    .status-rack {
+      margin-top: 24px;
+    }
+    .status-screen {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      color: var(--led-green);
+      letter-spacing: 0.05em;
+      line-height: 1.8;
+    }
+    .status-screen .ts { color: var(--fg-dim); }
+    .status-screen .ok { color: var(--led-green); }
+    .status-screen .warn { color: var(--led-amber); }
+
+    /* ---- BRAND KIT ---- */
+    .kit {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 24px;
+      margin-top: 48px;
+    }
+    .kit-title {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      color: var(--fg-dim);
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      margin-bottom: 20px;
+    }
+    .kit-grid {
+      display: grid;
+      gap: 16px;
+    }
+    .kit-item {
+      display: grid;
+      grid-template-columns: 80px 1fr;
+      gap: 12px;
+      font-size: 12px;
+    }
+    .kit-item h4 {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      color: var(--led-amber);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+    .kit-item .val {
+      color: var(--fg);
+      line-height: 1.5;
+    }
+    .swatches { display: flex; gap: 4px; flex-wrap: wrap; margin-top: 4px; }
+    .swatch {
+      width: 24px; height: 24px;
+      border-radius: 4px;
+      border: 1px solid var(--border);
+    }
+
+    /* ---- FOOTER ---- */
+    .foot {
+      margin-top: 32px;
+      padding-top: 20px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      font-family: var(--font-mono);
+      font-size: 10px;
+      color: var(--fg-dim);
+      letter-spacing: 0.05em;
+    }
+
+    @media (max-width: 480px) {
+      body { padding: 20px 14px 60px; }
+      .hero h1 { font-size: 30px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+
+    <div class="topbar">
+      <span class="pulse">RACK_01 · ONLINE</span>
+      <a href="preview.html">← back to lab</a>
+    </div>
+
+    <!-- HERO -->
+    <section class="hero">
+      <div class="hero-tag">// Direction 01 / 04</div>
+      <h1>STACK<span class="slash">//</span>FRAME</h1>
+      <p>แอปคอลลาจจากกลุ่ม LINE ในคราบ rack server<br>
+      Deploy photos. Stack frames. Ship to LINE.<br>
+      <code>cat-5 certified</code> · <code>uptime 99.99%</code></p>
+
+      <div class="hero-rack rack" data-rack>
+        <div class="rack-screws left"><div class="screw"></div><div class="screw"></div><div class="screw"></div></div>
+        <div class="rack-screws right"><div class="screw"></div><div class="screw"></div><div class="screw"></div></div>
+
+        <div class="unit hero-unit" data-unit>
+          <div class="unit-leds">
+            <span class="led blink-1"></span>
+            <span class="led amber blink-2"></span>
+            <span class="led cyan"></span>
+          </div>
+          <div class="hero-screen">
+            <span class="label">SVC </span><span class="val">OK</span>
+            <span class="label"> · UPTIME </span><span class="val">99.99%</span>
+            <span class="label"> · TEMP </span><span class="val">42°C</span>
+            <span class="label"> · LOAD </span><span class="val">0.34</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PHOTO QUEUE -->
+    <section class="section photo-rack" data-rack>
+      <div class="section-head">
+        <div class="section-title">PHOTO QUEUE</div>
+        <div class="section-meta">SLOTS: 7/20</div>
+      </div>
+
+      <div class="photo-toggle">
+        <button class="active" data-mode="gradient">gradient</button>
+        <button data-mode="picsum">picsum</button>
+      </div>
+
+      <div class="rack" style="padding:10px">
+        <div class="rack-screws left"><div class="screw"></div><div class="screw"></div><div class="screw"></div></div>
+        <div class="rack-screws right"><div class="screw"></div><div class="screw"></div><div class="screw"></div></div>
+
+        <div class="unit" data-unit>
+          <div class="photo-thumb gradient-1">01</div>
+          <div class="photo-meta">
+            <div class="name">IMG_3842.jpg</div>
+            <div class="info">1024×768 · 142kb · 12:04:23</div>
+          </div>
+          <div class="unit-leds"><span class="led blink-1"></span><span class="led"></span></div>
+          <div class="photo-status">SYNCED</div>
+        </div>
+
+        <div class="unit" data-unit>
+          <div class="photo-thumb gradient-2">02</div>
+          <div class="photo-meta">
+            <div class="name">IMG_3843.jpg</div>
+            <div class="info">1280×960 · 198kb · 12:04:24</div>
+          </div>
+          <div class="unit-leds"><span class="led blink-2"></span><span class="led"></span></div>
+          <div class="photo-status">SYNCED</div>
+        </div>
+
+        <div class="unit" data-unit>
+          <div class="photo-thumb gradient-3">03</div>
+          <div class="photo-meta">
+            <div class="name">IMG_3844.jpg</div>
+            <div class="info">800×600 · 88kb · 12:04:25</div>
+          </div>
+          <div class="unit-leds"><span class="led blink-3"></span><span class="led"></span></div>
+          <div class="photo-status">SYNCED</div>
+        </div>
+
+        <div class="unit" data-unit>
+          <div class="photo-thumb gradient-4">04</div>
+          <div class="photo-meta">
+            <div class="name">IMG_3845.jpg</div>
+            <div class="info">2048×1536 · 412kb · 12:04:26</div>
+          </div>
+          <div class="unit-leds"><span class="led"></span><span class="led amber blink-1"></span></div>
+          <div class="photo-status warn">PENDING</div>
+        </div>
+
+        <div class="unit" data-unit>
+          <div class="photo-thumb gradient-5">05</div>
+          <div class="photo-meta">
+            <div class="name">IMG_3846.jpg</div>
+            <div class="info">1024×768 · 156kb · 12:04:27</div>
+          </div>
+          <div class="unit-leds"><span class="led blink-1"></span><span class="led"></span></div>
+          <div class="photo-status">SYNCED</div>
+        </div>
+
+        <div class="unit" data-unit>
+          <div class="photo-thumb gradient-6">06</div>
+          <div class="photo-meta">
+            <div class="name">IMG_3847.jpg</div>
+            <div class="info">1280×720 · 188kb · 12:04:28</div>
+          </div>
+          <div class="unit-leds"><span class="led"></span><span class="led blink-2"></span></div>
+          <div class="photo-status">SYNCED</div>
+        </div>
+
+        <div class="unit" data-unit>
+          <div class="photo-thumb gradient-7">07</div>
+          <div class="photo-meta">
+            <div class="name">IMG_3848.jpg</div>
+            <div class="info">1920×1080 · 320kb · 12:04:30</div>
+          </div>
+          <div class="unit-leds"><span class="led blink-3"></span><span class="led cyan"></span></div>
+          <div class="photo-status">READY</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- LAYOUT -->
+    <section class="section">
+      <div class="section-head">
+        <div class="section-title">RACK BAY CONFIG</div>
+        <div class="section-meta">BAY: 2x4</div>
+      </div>
+      <div class="layout-grid">
+        <div class="layout-bay l1" data-layout="1"><div></div></div>
+        <div class="layout-bay l2" data-layout="2-1"><div></div><div></div></div>
+        <div class="layout-bay l3 active" data-layout="2-2"><div></div><div></div><div></div><div></div></div>
+        <div class="layout-bay l4" data-layout="3-1"><div></div><div></div><div></div></div>
+      </div>
+      <div class="layout-name">2×2 / GRID / 7 photos fit</div>
+    </section>
+
+    <!-- DEPLOY -->
+    <section class="section">
+      <button class="deploy" data-deploy>
+        <span>DEPLOY TO /DEV/LINE</span>
+        <span class="arrow">→</span>
+      </button>
+      <div class="deploy-hint">requires: LINE LIFF SDK · auth: ok · press [enter] ↵</div>
+
+      <div class="rack status-rack" style="margin-top:20px">
+        <div class="rack-screws left"><div class="screw"></div><div class="screw"></div></div>
+        <div class="rack-screws right"><div class="screw"></div><div class="screw"></div></div>
+        <div class="unit">
+          <div class="unit-leds">
+            <span class="led blink-1"></span>
+            <span class="led"></span>
+          </div>
+          <div class="hero-screen status-screen" style="width:100%">
+            <div><span class="ts">[12:04:31]</span> <span class="ok">OK</span> 7 photos indexed</div>
+            <div><span class="ts">[12:04:32]</span> <span class="ok">OK</span> layout 2x2 selected</div>
+            <div><span class="ts">[12:04:33]</span> <span class="ok">OK</span> canvas 1080x1080 ready</div>
+            <div><span class="ts">[12:04:34]</span> <span class="warn">..</span> awaiting DEPLOY signal</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- BRAND KIT MINI -->
+    <section class="kit">
+      <div class="kit-title">// BRAND KIT — STACK//FRAME</div>
+      <div class="kit-grid">
+        <div class="kit-item">
+          <h4>Voice</h4>
+          <div class="val">"Cat-5 certified" · "Uptime 99.99%"<br>"Deploy photos to /dev/line"</div>
+        </div>
+        <div class="kit-item">
+          <h4>Colors</h4>
+          <div class="val">
+            <div class="swatches">
+              <div class="swatch" style="background:#0a0a0c"></div>
+              <div class="swatch" style="background:#1c1c20"></div>
+              <div class="swatch" style="background:#3a3a42"></div>
+              <div class="swatch" style="background:#ffb000;box-shadow:0 0 6px #ffb000"></div>
+              <div class="swatch" style="background:#00ff66;box-shadow:0 0 6px #00ff66"></div>
+              <div class="swatch" style="background:#ff3b30"></div>
+              <div class="swatch" style="background:#00d4ff"></div>
+            </div>
+          </div>
+        </div>
+        <div class="kit-item">
+          <h4>Type</h4>
+          <div class="val">JetBrains Mono · 500/700<br>Inter · 400/500 (body)<br>UPPERCASE · letter-spacing 0.15em</div>
+        </div>
+        <div class="kit-item">
+          <h4>Motion</h4>
+          <div class="val">GSAP rack stagger reveal<br>Fan spin (CSS) · LED random blink<br>Magnetic deploy CTA</div>
+        </div>
+        <div class="kit-item">
+          <h4>Tagline</h4>
+          <div class="val">"Deploy photos. Stack frames. Ship to LINE."<br><span style="color:var(--fg-dim)">— alt: "It runs on your group chat."</span></div>
+        </div>
+      </div>
+    </section>
+
+    <footer class="foot">
+      <span>STACK//FRAME · v0.1.0</span>
+      <span>01 / 04 · <a href="preview.html" style="color:inherit;text-decoration:none">lab ↩</a></span>
+    </footer>
+  </div>
+
+  <script>
+    gsap.registerPlugin(ScrollTrigger);
+
+    // Initial reveal
+    window.addEventListener('load', () => {
+      gsap.from('.hero h1', {
+        y: 30, opacity: 0, duration: 0.8, ease: 'power3.out'
+      });
+      gsap.from('.hero p, .hero-tag', {
+        y: 20, opacity: 0, duration: 0.6, delay: 0.2, ease: 'power3.out', stagger: 0.1
+      });
+      gsap.from('[data-unit]', {
+        x: -40, opacity: 0, duration: 0.6, delay: 0.4, ease: 'power2.out', stagger: 0.06
+      });
+      gsap.from('.deploy', {
+        y: 20, opacity: 0, duration: 0.6, delay: 0.8, ease: 'power2.out'
+      });
+    });
+
+    // Scroll reveal
+    gsap.utils.toArray('.section').forEach((sec, i) => {
+      if (i === 0) return;
+      gsap.from(sec, {
+        y: 30, opacity: 0, duration: 0.7, ease: 'power2.out',
+        scrollTrigger: { trigger: sec, start: 'top 85%' }
+      });
+    });
+
+    // Layout selector
+    document.querySelectorAll('.layout-bay').forEach(bay => {
+      bay.addEventListener('click', () => {
+        document.querySelectorAll('.layout-bay').forEach(b => b.classList.remove('active'));
+        bay.classList.add('active');
+        const name = bay.dataset.layout;
+        const labels = { '1':'1×1 / SOLO', '2-1':'2×1 / STACK', '2-2':'2×2 / GRID', '3-1':'3×1 / TOWER' };
+        document.querySelector('.layout-name').textContent = `${name} / ${labels[name] || ''} / 7 photos fit`;
+      });
+    });
+
+    // Photo toggle (gradient <-> picsum)
+    const gradients = ['#DC2626,#F87171','#854D0E,#FACC15','#BE185D,#F472B6','#047857,#34D399','#C2410C,#FB923C','#1D4ED8,#60A5FA','#7C3AED,#A78BFA'];
+    document.querySelectorAll('.photo-toggle button').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.photo-toggle button').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        const mode = btn.dataset.mode;
+        const thumbs = document.querySelectorAll('.photo-thumb');
+        thumbs.forEach((t, i) => {
+          if (mode === 'picsum') {
+            t.className = 'photo-thumb picsum';
+            t.innerHTML = `<img src="https://picsum.photos/seed/collage${i+1}/80/80" alt="photo ${i+1}">`;
+          } else {
+            t.className = `photo-thumb gradient-${i+1}`;
+            t.innerHTML = String(i+1).padStart(2, '0');
+          }
+        });
+      });
+    });
+
+    // Deploy button hover
+    const deploy = document.querySelector('[data-deploy]');
+    deploy.addEventListener('mousemove', (e) => {
+      const r = deploy.getBoundingClientRect();
+      const x = (e.clientX - r.left - r.width / 2) * 0.15;
+      const y = (e.clientY - r.top - r.height / 2) * 0.15;
+      gsap.to(deploy, { x, y, duration: 0.3, ease: 'power2.out' });
+    });
+    deploy.addEventListener('mouseleave', () => {
+      gsap.to(deploy, { x: 0, y: 0, duration: 0.5, ease: 'elastic.out(1, 0.4)' });
+    });
+    deploy.addEventListener('click', () => {
+      gsap.fromTo(deploy, { scale: 0.95 }, { scale: 1, duration: 0.3, ease: 'back.out(2)' });
+      // Update status
+      const screen = document.querySelector('.status-screen');
+      const ts = new Date().toISOString().split('T')[1].slice(0,8);
+      const newLine = document.createElement('div');
+      newLine.innerHTML = `<span class="ts">[${ts}]</span> <span class="ok">DEPLOY</span> 7 photos → /dev/line`;
+      screen.appendChild(newLine);
+    });
+
+    // Respect reduced motion
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      gsap.globalTimeline.timeScale(0.01);
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,970 @@
+<!DOCTYPE html>
+<html lang="th" data-theme="rack">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Collage Theme Lab — Choose your stack</title>
+  <link rel="icon" type="image/svg+xml" href="/favicons/lab.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&family=VT323&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+  <style>
+    /* ============================================================
+       BASE — shared reset, layout, components
+       ============================================================ */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body { min-height: 100%; }
+    body {
+      font-family: 'Inter', -apple-system, sans-serif;
+      min-height: 100vh;
+      padding: 16px 16px 80px;
+      -webkit-font-smoothing: antialiased;
+      transition: background 0.5s, color 0.5s;
+    }
+
+    .wrap { max-width: 460px; margin: 0 auto; }
+
+    /* ============================================================
+       THEME: STACK//FRAME — server rack
+       ============================================================ */
+    [data-theme="rack"] {
+      --bg: #0a0a0c;
+      --bg-2: #111114;
+      --surface: #16161a;
+      --metal: linear-gradient(180deg, #2a2a30 0%, #1c1c20 50%, #2a2a30 100%);
+      --border: #2a2a32;
+      --fg: #f5f5f7;
+      --fg-muted: #8a8a93;
+      --fg-dim: #5a5a63;
+      --accent: #ffb000;
+      --accent-2: #00ff66;
+      --accent-3: #00d4ff;
+      --danger: #ff3b30;
+      --font-display: 'JetBrains Mono', monospace;
+      --font-body: 'Inter', sans-serif;
+    }
+    [data-theme="rack"] body {
+      background: radial-gradient(ellipse 80% 50% at 50% -10%, rgba(255,176,0,0.06), transparent), var(--bg);
+      color: var(--fg);
+      font-family: var(--font-body);
+    }
+
+    /* ============================================================
+       THEME: PIXSH — CRT terminal
+       ============================================================ */
+    [data-theme="crt"] {
+      --bg: #050505;
+      --bg-2: #0a0a0a;
+      --surface: #001a0c;
+      --border: #003318;
+      --fg: #00ff66;
+      --fg-muted: #00cc52;
+      --fg-dim: #003318;
+      --accent: #ffb000;
+      --accent-2: #00ff66;
+      --danger: #ff3b30;
+      --font-display: 'VT323', monospace;
+      --font-body: 'IBM Plex Mono', 'JetBrains Mono', monospace;
+    }
+    [data-theme="crt"] body {
+      background: #000;
+      color: var(--fg);
+      font-family: 'IBM Plex Mono', monospace;
+    }
+    [data-theme="crt"] body::before {
+      content: '';
+      position: fixed; inset: 0;
+      pointer-events: none; z-index: 1000;
+      background: repeating-linear-gradient(0deg, rgba(0,0,0,0.15) 0px, rgba(0,0,0,0.15) 1px, transparent 1px, transparent 3px);
+      mix-blend-mode: multiply;
+    }
+    [data-theme="crt"] body::after {
+      content: '';
+      position: fixed; inset: 0;
+      pointer-events: none; z-index: 1001;
+      background: radial-gradient(ellipse at center, transparent 50%, rgba(0,0,0,0.4) 100%);
+    }
+
+    /* ============================================================
+       THEME: PACKETGRID — NOC dashboard
+       ============================================================ */
+    [data-theme="noc"] {
+      --bg: #0a0e14;
+      --bg-2: #0f1419;
+      --surface: #141a22;
+      --border: #1f2733;
+      --fg: #e6e9ef;
+      --fg-muted: #8b95a7;
+      --fg-dim: #5a6478;
+      --accent: #00d4ff;
+      --accent-2: #00ff9c;
+      --warn: #ffb000;
+      --danger: #ff3b5c;
+      --font-display: 'JetBrains Mono', monospace;
+      --font-body: 'JetBrains Mono', monospace;
+    }
+    [data-theme="noc"] body {
+      background: radial-gradient(ellipse 60% 40% at 50% 0%, rgba(0,212,255,0.04), transparent), var(--bg);
+      color: var(--fg);
+      font-family: var(--font-body);
+    }
+
+    /* ============================================================
+       THEME: collage.sh — minimal geek
+       ============================================================ */
+    [data-theme="min"] {
+      --bg: #fafafa;
+      --bg-2: #f0f0f2;
+      --surface: #ffffff;
+      --border: #e5e5e8;
+      --fg: #0e0e10;
+      --fg-muted: #5a5a63;
+      --fg-dim: #8a8a93;
+      --accent: #c8ff00;
+      --accent-2: #84cc16;
+      --success: #16a34a;
+      --font-display: 'Inter', sans-serif;
+      --font-body: 'Inter', sans-serif;
+    }
+    [data-theme="min"] body {
+      background: var(--bg);
+      color: var(--fg);
+      font-family: var(--font-body);
+    }
+
+    /* ============================================================
+       TOPBAR
+       ============================================================ */
+    .topbar {
+      display: flex; justify-content: space-between; align-items: center;
+      font-family: var(--font-display);
+      font-size: 11px; color: var(--fg-dim);
+      margin-bottom: 16px; letter-spacing: 0.05em;
+      padding: 10px 12px;
+      background: var(--bg-2);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+    }
+    [data-theme="rack"] .topbar, [data-theme="crt"] .topbar, [data-theme="noc"] .topbar { border-radius: 4px; }
+    .topbar a { color: var(--fg-muted); text-decoration: none; }
+    .topbar a:hover { color: var(--accent); }
+    .topbar .status { display: flex; align-items: center; gap: 6px; }
+    .topbar .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 6px var(--accent); animation: pulse 1.4s ease-in-out infinite; }
+    [data-theme="min"] .topbar .dot { box-shadow: none; }
+    @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+
+    /* ============================================================
+       THEME PICKER
+       ============================================================ */
+    .picker {
+      display: grid; grid-template-columns: repeat(4, 1fr);
+      gap: 6px; margin-bottom: 20px;
+    }
+    .pchip {
+      cursor: pointer; padding: 10px 6px;
+      background: var(--bg-2); border: 1px solid var(--border);
+      border-radius: 6px;
+      font-family: var(--font-display); font-size: 10px;
+      color: var(--fg-muted); text-align: center;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      letter-spacing: 0.1em;
+    }
+    [data-theme="min"] .pchip { font-family: var(--font-body); letter-spacing: 0.02em; font-size: 11px; border-radius: 8px; }
+    .pchip:hover { border-color: var(--accent); color: var(--fg); }
+    .pchip.active {
+      border-color: var(--accent);
+      color: var(--accent);
+      box-shadow: 0 0 0 1px var(--accent);
+    }
+    [data-theme="rack"] .pchip.active { box-shadow: 0 0 0 1px var(--accent), 0 0 12px rgba(255,176,0,0.3); }
+    [data-theme="crt"] .pchip.active { box-shadow: 0 0 0 1px var(--accent), 0 0 8px var(--accent); }
+    [data-theme="noc"] .pchip.active { box-shadow: 0 0 0 1px var(--accent), 0 0 8px rgba(0,212,255,0.3); }
+    [data-theme="min"] .pchip.active { background: var(--accent); color: #0e0e10; box-shadow: 0 0 0 1px var(--accent); }
+    .pchip .pdot { display: block; width: 8px; height: 8px; border-radius: 50%; margin: 0 auto 6px; background: var(--accent); }
+
+    /* ============================================================
+       HERO
+       ============================================================ */
+    .hero { margin-bottom: 24px; }
+    .hero-meta { font-family: var(--font-display); font-size: 10px; color: var(--fg-dim); letter-spacing: 0.15em; margin-bottom: 6px; text-transform: uppercase; }
+    [data-theme="min"] .hero-meta { text-transform: none; }
+    .hero h1 {
+      font-family: var(--font-display);
+      font-size: 32px; font-weight: 700;
+      letter-spacing: -0.02em; line-height: 1;
+      margin-bottom: 8px;
+    }
+    [data-theme="rack"] .hero h1 { color: var(--fg); }
+    [data-theme="rack"] .hero h1 .slash { color: var(--accent); }
+    [data-theme="crt"] .hero h1 { font-size: 40px; color: var(--fg); text-shadow: 0 0 8px var(--fg); }
+    [data-theme="noc"] .hero h1 { color: var(--accent); }
+    [data-theme="noc"] .hero h1 .accent { color: var(--accent-2); }
+    [data-theme="min"] .hero h1 { font-size: 36px; letter-spacing: -0.04em; }
+    [data-theme="min"] .hero h1 .ext { background: var(--accent); color: #0e0e10; padding: 0 4px; border-radius: 4px; }
+
+    .hero p {
+      font-size: 13px; line-height: 1.5;
+      color: var(--fg-muted);
+      font-family: var(--font-body);
+    }
+    [data-theme="crt"] .hero p { font-family: var(--font-body); }
+    [data-theme="crt"] .hero p .accent { color: var(--accent); }
+    [data-theme="noc"] .hero p { font-family: var(--font-body); }
+    [data-theme="noc"] .hero p code { color: var(--accent-2); }
+
+    /* ============================================================
+       FORM SECTION
+       ============================================================ */
+    .section {
+      margin-bottom: 20px;
+      padding: 14px;
+      background: var(--bg-2);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+    }
+    [data-theme="min"] .section { border-radius: 12px; }
+    [data-theme="crt"] .section { background: transparent; }
+    [data-theme="rack"] .section { background: var(--bg-2); }
+
+    .section-head {
+      display: flex; justify-content: space-between; align-items: baseline;
+      margin-bottom: 12px;
+    }
+    .section-title {
+      font-family: var(--font-display);
+      font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase;
+      color: var(--fg-muted);
+    }
+    [data-theme="min"] .section-title { text-transform: none; letter-spacing: 0.02em; }
+    [data-theme="crt"] .section-title { color: var(--accent); }
+    [data-theme="noc"] .section-title { color: var(--accent); }
+    [data-theme="rack"] .section-title { color: var(--accent); }
+    [data-theme="rack"] .section-title::before { content: '// '; }
+    [data-theme="crt"] .section-title::before { content: '## '; color: var(--fg-dim); }
+    [data-theme="noc"] .section-title::before { content: '● '; }
+    [data-theme="min"] .section-title::before { content: '$ '; color: var(--success); }
+
+    .section-meta {
+      font-family: var(--font-display); font-size: 10px;
+      color: var(--fg-dim); letter-spacing: 0.05em;
+    }
+
+    /* ---- inputs ---- */
+    .row { display: flex; gap: 8px; margin-bottom: 8px; }
+    .row:last-child { margin-bottom: 0; }
+    .input {
+      flex: 1; padding: 8px 10px;
+      background: var(--bg); color: var(--fg);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      font-family: var(--font-display);
+      font-size: 12px; outline: none;
+      transition: border-color 0.2s;
+    }
+    [data-theme="min"] .input { border-radius: 6px; font-family: var(--font-body); }
+    .input:focus { border-color: var(--accent); }
+    .input::placeholder { color: var(--fg-dim); }
+
+    /* ---- photo grid ---- */
+    .photo-grid {
+      display: grid; grid-template-columns: repeat(4, 1fr);
+      gap: 4px; margin-bottom: 10px;
+    }
+    .p-card {
+      aspect-ratio: 1;
+      border-radius: 4px;
+      overflow: hidden; position: relative;
+      cursor: pointer;
+      transition: transform 0.3s cubic-bezier(0.16,1,0.3,1);
+      border: 1px solid var(--border);
+    }
+    [data-theme="min"] .p-card { border-radius: 6px; }
+    .p-card:hover { transform: scale(1.05); }
+    .p-card .g { width: 100%; height: 100%; }
+    .g-1 { background: linear-gradient(135deg,#DC2626,#F87171); }
+    .g-2 { background: linear-gradient(135deg,#854D0E,#FACC15); }
+    .g-3 { background: linear-gradient(135deg,#BE185D,#F472B6); }
+    .g-4 { background: linear-gradient(135deg,#047857,#34D399); }
+    .g-5 { background: linear-gradient(135deg,#C2410C,#FB923C); }
+    .g-6 { background: linear-gradient(135deg,#1D4ED8,#60A5FA); }
+    .g-7 { background: linear-gradient(135deg,#7C3AED,#A78BFA); }
+    .p-card img { width: 100%; height: 100%; object-fit: cover; }
+    .p-card .check {
+      position: absolute; top: 3px; left: 3px;
+      width: 14px; height: 14px; border-radius: 50%;
+      background: var(--accent); color: #000;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 9px; font-weight: 700;
+    }
+    [data-theme="crt"] .p-card .check { background: var(--fg); color: #000; }
+    [data-theme="min"] .p-card .check { background: var(--accent); color: #0e0e10; }
+    .p-card .idx {
+      position: absolute; bottom: 2px; right: 4px;
+      font-family: var(--font-display); font-size: 8px;
+      color: rgba(255,255,255,0.85);
+      text-shadow: 0 0 2px rgba(0,0,0,0.6);
+    }
+
+    .toggle {
+      display: flex; gap: 4px;
+      font-family: var(--font-display); font-size: 10px;
+      margin-bottom: 8px;
+    }
+    [data-theme="min"] .toggle { font-family: var(--font-body); }
+    .toggle button {
+      background: transparent; border: 1px solid var(--border);
+      color: var(--fg-muted); padding: 3px 8px;
+      border-radius: 3px; cursor: pointer;
+      font-family: inherit; font-size: inherit;
+      transition: all 0.2s;
+    }
+    [data-theme="min"] .toggle button { border-radius: 4px; }
+    .toggle button.active { background: var(--accent); color: #000; border-color: var(--accent); }
+    [data-theme="crt"] .toggle button.active { background: var(--fg); color: #000; }
+
+    /* ---- layouts ---- */
+    .layouts { display: grid; grid-template-columns: repeat(4, 1fr); gap: 4px; }
+    [data-theme="min"] .layouts { gap: 6px; }
+    .lcard {
+      aspect-ratio: 1;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 3px;
+      cursor: pointer; padding: 4px;
+      display: grid; gap: 2px;
+      transition: all 0.2s;
+    }
+    [data-theme="min"] .lcard { border-radius: 5px; }
+    .lcard:hover { border-color: var(--fg-muted); }
+    .lcard.active { border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent); }
+    [data-theme="crt"] .lcard.active { box-shadow: 0 0 0 1px var(--accent), 0 0 8px var(--accent); }
+    [data-theme="min"] .lcard.active { background: rgba(200,255,0,0.08); }
+    .lcard > div { background: var(--fg-dim); border-radius: 1px; }
+    .lcard.active > div { background: var(--accent); }
+    .l-l1 { grid-template: 1fr / 1fr; }
+    .l-l2 { grid-template: 1fr 1fr / 1fr; }
+    .l-l3 { grid-template: 1fr 1fr / 1fr 1fr; }
+    .l-l4 { grid-template: 1fr 1fr 1fr / 1fr; }
+
+    /* ============================================================
+       RESULT — THE MONEY SHOT
+       ============================================================ */
+    .result {
+      margin-top: 28px;
+      opacity: 1;
+      transition: opacity 0.4s;
+    }
+    .result.hidden { display: none; }
+    .result-frame {
+      position: relative;
+      padding: 16px;
+      background: var(--bg-2);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      overflow: hidden;
+    }
+    [data-theme="min"] .result-frame { border-radius: 14px; }
+    [data-theme="crt"] .result-frame { background: #000; border: 2px solid var(--fg-dim); border-radius: 8px; }
+    [data-theme="rack"] .result-frame { background: var(--metal); border: 1px solid #3a3a42; }
+    [data-theme="noc"] .result-frame { background: var(--bg-2); border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent), 0 0 24px rgba(0,212,255,0.2); }
+
+    .result-head {
+      display: flex; justify-content: space-between; align-items: center;
+      margin-bottom: 12px;
+      font-family: var(--font-display); font-size: 11px;
+      color: var(--fg-muted); letter-spacing: 0.05em;
+    }
+    .result-head .tag {
+      padding: 2px 6px; border-radius: 3px;
+      font-size: 9px; font-weight: 600;
+    }
+    [data-theme="rack"] .result-head .tag { background: rgba(0,255,102,0.15); color: var(--accent-2); }
+    [data-theme="crt"] .result-head .tag { background: rgba(0,255,102,0.1); color: var(--fg); }
+    [data-theme="noc"] .result-head .tag { background: rgba(0,212,255,0.15); color: var(--accent); }
+    [data-theme="min"] .result-head .tag { background: var(--accent); color: #0e0e10; }
+
+    /* ---- The actual collage preview (composed 2x2 of 4 photos) ---- */
+    .collage-preview {
+      display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr;
+      gap: 2px; aspect-ratio: 1;
+      border-radius: 6px; overflow: hidden;
+    }
+    [data-theme="rack"] .collage-preview { border: 1px solid var(--fg-dim); gap: 0; }
+    [data-theme="crt"] .collage-preview { filter: contrast(1.1) saturate(0.9); }
+    [data-theme="min"] .collage-preview { border-radius: 8px; }
+    .collage-preview > div { width: 100%; height: 100%; background-size: cover; background-position: center; }
+    .collage-preview img { width: 100%; height: 100%; object-fit: cover; }
+
+    /* ---- Theme-specific result decorations ---- */
+    /* RACK: rack unit around the collage with LEDs */
+    [data-theme="rack"] .result-frame .rack-deco {
+      position: absolute; top: 12px; right: 12px;
+      display: flex; gap: 4px;
+    }
+    [data-theme="rack"] .result-frame .rled {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--accent-2); box-shadow: 0 0 6px var(--accent-2);
+    }
+    [data-theme="rack"] .result-frame .rled.amber { background: var(--accent); box-shadow: 0 0 6px var(--accent); }
+    [data-theme="rack"] .result-frame .rled.dim { background: var(--fg-dim); box-shadow: none; }
+    [data-theme="rack"] .result-status {
+      margin-top: 12px;
+      font-family: var(--font-display); font-size: 10px;
+      color: var(--accent-2);
+      padding: 8px 10px;
+      background: rgba(0,255,102,0.05);
+      border: 1px solid rgba(0,255,102,0.2);
+      border-radius: 4px;
+      letter-spacing: 0.05em; line-height: 1.6;
+    }
+    [data-theme="rack"] .result-status .dim { color: var(--fg-dim); }
+
+    /* CRT: terminal log above/below + scanline */
+    [data-theme="crt"] .crt-scan {
+      position: absolute; inset: 0;
+      background: repeating-linear-gradient(0deg, transparent 0px, transparent 2px, rgba(0,0,0,0.15) 2px, rgba(0,0,0,0.15) 3px);
+      pointer-events: none;
+    }
+    [data-theme="crt"] .crt-log {
+      margin-top: 10px;
+      font-family: var(--font-display); font-size: 14px; line-height: 1.4;
+      color: var(--fg); text-shadow: 0 0 4px var(--fg);
+    }
+    [data-theme="crt"] .crt-log .ok { color: var(--fg); }
+    [data-theme="crt"] .crt-log .warn { color: var(--accent); }
+    [data-theme="crt"] .crt-log .cur { display: inline-block; width: 8px; background: var(--fg); animation: bl 1s steps(2) infinite; }
+    @keyframes bl { 0%, 50% { opacity: 1; } 51%, 100% { opacity: 0; } }
+
+    /* NOC: latency graph + log feed */
+    [data-theme="noc"] .noc-graph {
+      margin-top: 12px;
+      height: 50px;
+      background: var(--bg-3);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 4px;
+      position: relative;
+    }
+    [data-theme="noc"] .noc-graph svg { width: 100%; height: 100%; }
+    [data-theme="noc"] .noc-log {
+      margin-top: 8px;
+      font-family: var(--font-display); font-size: 10px;
+      line-height: 1.6;
+      max-height: 70px; overflow: hidden;
+    }
+    [data-theme="noc"] .noc-log .row { display: grid; grid-template-columns: 50px 50px 1fr; gap: 6px; }
+    [data-theme="noc"] .noc-log .ts { color: var(--fg-dim); }
+    [data-theme="noc"] .noc-log .tag { color: var(--accent-2); font-weight: 600; }
+    [data-theme="noc"] .noc-log .tag.info { color: var(--accent); }
+    [data-theme="noc"] .noc-log .msg { color: var(--fg-muted); }
+
+    /* MIN: clean code block + achievement */
+    [data-theme="min"] .min-code {
+      margin-top: 12px;
+      padding: 12px 14px;
+      background: var(--bg-2);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px; line-height: 1.6;
+      color: var(--fg);
+    }
+    [data-theme="min"] .min-code .ok { color: var(--success); }
+    [data-theme="min"] .min-code .num { color: var(--fg-dim); }
+    [data-theme="min"] .min-code .accent { color: var(--success); font-weight: 600; }
+
+    /* ============================================================
+       GENERATE BUTTON
+       ============================================================ */
+    .gen {
+      width: 100%; padding: 14px;
+      font-family: var(--font-display);
+      font-size: 12px; font-weight: 700;
+      letter-spacing: 0.15em; text-transform: uppercase;
+      cursor: pointer;
+      transition: all 0.2s;
+      margin-top: 12px;
+    }
+    [data-theme="min"] .gen { text-transform: none; letter-spacing: 0.02em; font-family: var(--font-body); font-size: 13px; border-radius: 8px; }
+    [data-theme="rack"] .gen {
+      background: linear-gradient(180deg, #ffb000, #cc8800);
+      color: #0a0a0c; border: 1px solid #ffb000;
+      border-radius: 4px;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.3), 0 4px 16px rgba(255,176,0,0.3);
+    }
+    [data-theme="crt"] .gen {
+      background: transparent; color: var(--accent);
+      border: 1px solid var(--accent); border-radius: 4px;
+      text-shadow: 0 0 4px var(--accent);
+      box-shadow: inset 0 0 8px rgba(255,176,0,0.1);
+    }
+    [data-theme="noc"] .gen {
+      background: linear-gradient(180deg, var(--accent-2), #00cc7d);
+      color: var(--bg); border: none; border-radius: 4px;
+      box-shadow: 0 0 20px rgba(0,255,156,0.3);
+    }
+    [data-theme="min"] .gen {
+      background: var(--accent); color: #0e0e10; border: none;
+    }
+    .gen:hover { transform: translateY(-1px); }
+    .gen:active { transform: scale(0.98); }
+    .gen-hint {
+      text-align: center; font-family: var(--font-display);
+      font-size: 10px; color: var(--fg-dim);
+      margin-top: 6px; letter-spacing: 0.05em;
+    }
+
+    /* ============================================================
+       TOAST
+       ============================================================ */
+    .toast {
+      position: fixed; bottom: 24px; left: 50%;
+      transform: translateX(-50%) translateY(100px);
+      background: var(--accent); color: #0e0e10;
+      padding: 12px 20px; border-radius: 10px;
+      font-family: var(--font-display); font-size: 12px; font-weight: 600;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+      z-index: 2000; opacity: 0; pointer-events: none;
+      transition: all 0.4s cubic-bezier(0.16,1,0.3,1);
+    }
+    [data-theme="min"] .toast { border-radius: 999px; }
+    .toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
+
+    @media (max-width: 480px) {
+      body { padding: 12px 12px 60px; }
+      .hero h1 { font-size: 28px; }
+      [data-theme="crt"] .hero h1 { font-size: 36px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+
+    <!-- TOPBAR -->
+    <div class="topbar">
+      <div class="status">
+        <span class="dot"></span>
+        <span data-theme-label>STACK//FRAME</span>
+      </div>
+      <a href="preview.html">← gallery</a>
+    </div>
+
+    <!-- THEME PICKER -->
+    <div class="picker" data-picker>
+      <div class="pchip" data-theme-btn="rack">
+        <span class="pdot" style="background:#ffb000"></span>
+        RACK
+      </div>
+      <div class="pchip" data-theme-btn="crt">
+        <span class="pdot" style="background:#00ff66"></span>
+        CRT
+      </div>
+      <div class="pchip" data-theme-btn="noc">
+        <span class="pdot" style="background:#00d4ff"></span>
+        NOC
+      </div>
+      <div class="pchip" data-theme-btn="min">
+        <span class="pdot" style="background:#c8ff00"></span>
+        .sh
+      </div>
+    </div>
+
+    <!-- HERO -->
+    <section class="hero">
+      <div class="hero-meta" data-hero-meta>// HOMELAB EDITION</div>
+      <h1 data-hero-title>STACK<span class="slash">//</span>FRAME</h1>
+      <p data-hero-desc>Deploy photos. Stack frames. Ship to LINE.<br>เลือกธีมด้านบนเพื่อเปลี่ยน brand + output frame</p>
+    </section>
+
+    <!-- META INPUTS -->
+    <div class="section">
+      <div class="section-head">
+        <div class="section-title">META</div>
+        <div class="section-meta">2 fields</div>
+      </div>
+      <div class="row">
+        <input class="input" type="text" id="nameInput" placeholder="ชื่อ / name" value="homelab-crew">
+      </div>
+      <div class="row">
+        <input class="input" type="date" id="dateInput" value="2026-07-30">
+      </div>
+    </div>
+
+    <!-- PHOTOS -->
+    <div class="section">
+      <div class="section-head">
+        <div class="section-title" data-photos-title>photos/</div>
+        <div class="section-meta">7 items · 1.5M</div>
+      </div>
+      <div class="toggle" data-photo-toggle>
+        <button class="active" data-mode="gradient">gradient</button>
+        <button data-mode="picsum">picsum</button>
+      </div>
+      <div class="photo-grid" data-photo-grid>
+        <div class="p-card" data-idx="0"><div class="g g-1"></div><span class="check">✓</span><span class="idx">01</span></div>
+        <div class="p-card" data-idx="1"><div class="g g-2"></div><span class="check">✓</span><span class="idx">02</span></div>
+        <div class="p-card" data-idx="2"><div class="g g-3"></div><span class="check">✓</span><span class="idx">03</span></div>
+        <div class="p-card" data-idx="3"><div class="g g-4"></div><span class="check">✓</span><span class="idx">04</span></div>
+        <div class="p-card" data-idx="4"><div class="g g-5"></div><span class="check">✓</span><span class="idx">05</span></div>
+        <div class="p-card" data-idx="5"><div class="g g-6"></div><span class="check">✓</span><span class="idx">06</span></div>
+        <div class="p-card" data-idx="6"><div class="g g-7"></div><span class="check">✓</span><span class="idx">07</span></div>
+      </div>
+    </div>
+
+    <!-- LAYOUT -->
+    <div class="section">
+      <div class="section-head">
+        <div class="section-title" data-layout-title>layout</div>
+        <div class="section-meta" data-layout-meta>2×2 / grid</div>
+      </div>
+      <div class="layouts">
+        <div class="lcard l-l1" data-layout="1"></div>
+        <div class="lcard l-l2" data-layout="2-1"></div>
+        <div class="lcard l-l3 active" data-layout="2-2"></div>
+        <div class="lcard l-l4" data-layout="3-1"></div>
+      </div>
+    </div>
+
+    <!-- GENERATE -->
+    <button class="gen" data-gen>
+      <span data-gen-label>▶ DEPLOY TO /DEV/LINE</span>
+    </button>
+    <div class="gen-hint" data-gen-hint>// requires: LIFF SDK · auth: ok</div>
+
+    <!-- RESULT (initially hidden) -->
+    <section class="result hidden" data-result>
+      <div class="result-frame">
+
+        <div class="result-head">
+          <span data-result-title>STACK 01 · COLLAGE DEPLOYED</span>
+          <span class="tag" data-result-tag>OK</span>
+        </div>
+
+        <!-- The collage (2x2 of first 4 photos) -->
+        <div class="collage-preview" data-collage>
+          <div data-c="0" class="g g-1"></div>
+          <div data-c="1" class="g g-2"></div>
+          <div data-c="2" class="g g-3"></div>
+          <div data-c="3" class="g g-4"></div>
+        </div>
+
+        <!-- RACK decoration (LEDs in corner) -->
+        <div class="rack-deco" data-rack-deco>
+          <span class="rled"></span>
+          <span class="rled amber"></span>
+          <span class="rled dim"></span>
+          <span class="rled"></span>
+        </div>
+
+        <!-- CRT scanline overlay -->
+        <div class="crt-scan" data-crt-scan></div>
+
+        <!-- Theme-specific result status -->
+        <div data-rack-status class="result-status" style="display:none">
+          <div><span class="dim">[12:04:34]</span> <span class="dim">SVC</span> OK · 7 photos indexed</div>
+          <div><span class="dim">[12:04:35]</span> <span class="dim">BUILD</span> canvas 1080×1080 ready</div>
+          <div><span class="dim">[12:04:36]</span> <span class="dim">DEPLOY</span> → /dev/line · ACK received</div>
+          <div><span class="dim">[12:04:37]</span> <span class="dim">UPLINK</span> <span style="color:var(--accent-2)">192.168.1.47</span> → LINE · 0 errors</div>
+        </div>
+
+        <div data-crt-log class="crt-log" style="display:none">
+          <div><span class="ok">$ pixsh deploy --photos 7</span></div>
+          <div><span class="ok">[ok]</span> build complete · 1080×1080</div>
+          <div><span class="ok">[ok]</span> routed to /dev/line</div>
+          <div><span class="warn">[ack]</span> group received · 200 OK</div>
+          <div><span class="ok">$</span> <span class="cur"></span></div>
+        </div>
+
+        <div data-noc-extras style="display:none">
+          <div class="noc-graph">
+            <svg viewBox="0 0 200 40" preserveAspectRatio="none">
+              <polyline fill="none" stroke="#00ff9c" stroke-width="1" opacity="0.6"
+                points="0,30 20,28 40,25 60,26 80,22 100,23 120,20 140,21 160,18 180,19 200,16"/>
+              <polyline fill="none" stroke="#00d4ff" stroke-width="1.5"
+                points="0,25 20,22 40,20 60,18 80,15 100,16 120,12 140,13 160,10 180,8 200,5"/>
+            </svg>
+          </div>
+          <div class="noc-log">
+            <div class="row"><span class="ts">12:04:36</span><span class="tag">ACK</span><span class="msg">line-gw → 200 OK · 12ms</span></div>
+            <div class="row"><span class="ts">12:04:37</span><span class="tag info">SEND</span><span class="msg">7 packets delivered</span></div>
+            <div class="row"><span class="ts">12:04:38</span><span class="tag">OK</span><span class="msg">deploy complete · 0 drops</span></div>
+          </div>
+        </div>
+
+        <div data-min-code class="min-code" style="display:none">
+          <div><span class="num">→</span> <span class="accent">collage.sh send --to=line-group</span></div>
+          <div><span class="num">[1/4]</span> <span class="ok">OK</span> build 1080×1080</div>
+          <div><span class="num">[2/4]</span> <span class="ok">OK</span> compress · 312KB</div>
+          <div><span class="num">[3/4]</span> <span class="ok">OK</span> upload to LIFF CDN</div>
+          <div><span class="num">[4/4]</span> <span class="ok">OK</span> share to group · done ✓</div>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <div class="toast" data-toast>🏆 Deployed</div>
+
+  <script>
+    gsap.registerPlugin();
+
+    // ---- Theme content (per-theme copy) ----
+    const THEMES = {
+      rack: {
+        name: 'STACK//FRAME',
+        heroMeta: '// HOMELAB EDITION',
+        photosTitle: 'photos/',
+        layoutTitle: 'layout',
+        layoutMeta: '2×2 / grid',
+        gen: '▶ DEPLOY TO /DEV/LINE',
+        genHint: '// requires: LIFF SDK · auth: ok',
+        title: 'STACK 01 · COLLAGE DEPLOYED',
+        tag: 'OK',
+        achievements: [
+          '🏆 Achievement: Deployed',
+          '🏆 Achievement: 99.99% uptime',
+          '🏆 Achievement: Cat-5 certified',
+          '🏆 Achievement: Stack popped'
+        ]
+      },
+      crt: {
+        name: 'PIXSH v1.0',
+        heroMeta: '[ CRT EDITION · VT323 ]',
+        photosTitle: '$ ls -la /photos',
+        layoutTitle: '$ pixsh layout',
+        layoutMeta: '--grid 2x2',
+        gen: '► EXECUTE DEPLOY',
+        genHint: '// it works on my crt.',
+        title: 'PIXSH v1.0 · COMPILED',
+        tag: '200 OK',
+        achievements: [
+          '🏆 Achievement: It works on my CRT',
+          '🏆 Achievement: (core dumped) → recovered',
+          '🏆 Achievement: Phosphor loaded',
+          '🏆 Achievement: Segfault avoided'
+        ]
+      },
+      noc: {
+        name: 'PACKETGRID',
+        heroMeta: '// NOC DASHBOARD',
+        photosTitle: 'photo buffer',
+        layoutTitle: 'route layout',
+        layoutMeta: '2×2 / auto-fit',
+        gen: '▶ TRANSMIT TO GROUP',
+        genHint: 'BGP route established · ack required',
+        title: 'PACKETGRID · TX COMPLETE',
+        tag: 'DELIVERED',
+        achievements: [
+          '🏆 Achievement: Lossless delivery',
+          '🏆 Achievement: 12ms ping',
+          '🏆 Achievement: BGP route established',
+          '🏆 Achievement: 0 drops · 100% integrity'
+        ]
+      },
+      min: {
+        name: 'collage.sh',
+        heroMeta: '~/line-group',
+        photosTitle: 'photos/',
+        layoutTitle: 'layout --select',
+        layoutMeta: '2×2 / grid auto',
+        gen: '▶ ./send --to=line-group',
+        genHint: '// it works on my machine.',
+        title: 'collage.sh · DEPLOYED',
+        tag: 'OK',
+        achievements: [
+          '🏆 Achievement: Sent to Group',
+          '🏆 Achievement: Works on your machine too',
+          '🏆 Achievement: Bash-ing since 2026',
+          '🏆 Achievement: 99.99% uptime achieved'
+        ]
+      }
+    };
+
+    // ---- State ----
+    let currentTheme = localStorage.getItem('collage_theme') || 'rack';
+    let selectedLayout = '2-2';
+    let photoMode = 'gradient';
+    let achIdx = 0;
+
+    // ---- Init ----
+    document.documentElement.setAttribute('data-theme', currentTheme);
+    setActivePicker(currentTheme);
+    applyThemeContent(currentTheme);
+
+    // ---- Theme picker ----
+    document.querySelectorAll('[data-theme-btn]').forEach(chip => {
+      chip.addEventListener('click', () => {
+        const next = chip.dataset.themeBtn;
+        if (next === currentTheme) return;
+        switchTheme(next);
+      });
+    });
+
+    function switchTheme(next) {
+      const out = { y: 12, opacity: 0 };
+      const inn = { y: 12, opacity: 0 };
+      const tl = gsap.timeline();
+      tl.to('.hero, .section, .gen, .gen-hint, .result', {
+        ...out, duration: 0.25, ease: 'power2.in', stagger: 0.03
+      });
+      tl.add(() => {
+        currentTheme = next;
+        document.documentElement.setAttribute('data-theme', next);
+        localStorage.setItem('collage_theme', next);
+        setActivePicker(next);
+        applyThemeContent(next);
+        // Reset result decorations visibility
+        updateResultDecorations();
+      });
+      tl.fromTo('.hero, .section, .gen, .gen-hint, .result', inn, { y: 0, opacity: 1, duration: 0.4, ease: 'power2.out', stagger: 0.04 });
+    }
+
+    function setActivePicker(t) {
+      document.querySelectorAll('[data-theme-btn]').forEach(c => {
+        c.classList.toggle('active', c.dataset.themeBtn === t);
+      });
+    }
+
+    function applyThemeContent(t) {
+      const c = THEMES[t];
+      document.querySelector('[data-theme-label]').textContent = c.name;
+      document.querySelector('[data-hero-meta]').textContent = c.heroMeta;
+      document.querySelector('[data-hero-title]').innerHTML = heroTitleHTML(t);
+      document.querySelector('[data-hero-desc]').innerHTML = heroDescHTML(t);
+      document.querySelector('[data-photos-title]').textContent = c.photosTitle;
+      document.querySelector('[data-layout-title]').textContent = c.layoutTitle;
+      document.querySelector('[data-layout-meta]').textContent = c.layoutMeta;
+      document.querySelector('[data-gen-label]').textContent = c.gen;
+      document.querySelector('[data-gen-hint]').textContent = c.genHint;
+      document.querySelector('[data-result-title]').textContent = c.title;
+      document.querySelector('[data-result-tag]').textContent = c.tag;
+    }
+
+    function heroTitleHTML(t) {
+      if (t === 'rack') return 'STACK<span class="slash">//</span>FRAME';
+      if (t === 'crt') return 'PIXSH<span style="color:var(--accent)">_</span>';
+      if (t === 'noc') return 'PACKET<span class="accent">GRID</span>';
+      if (t === 'min') return 'collage<span class="ext">.sh</span>';
+    }
+
+    function heroDescHTML(t) {
+      if (t === 'rack') return 'Deploy photos. Stack frames. Ship to LINE.<br><span style="color:var(--fg-dim)">cat-5 certified · uptime 99.99%</span>';
+      if (t === 'crt') return 'Boot. Build. Broadcast.<br><span class="accent">// it works on my crt.</span>';
+      if (t === 'noc') return 'Lossless photo delivery. BGP-routed.<br><code>$ ping line-gw.ok</code> · 12ms · 0% loss';
+      if (t === 'min') return 'แอปคอลลาจจากกลุ่ม LINE · minimal geek edition<br>It\'s just <span style="color:var(--success);font-family:monospace">bash</span>. But for your group photos.';
+    }
+
+    // ---- Layout cards ----
+    document.querySelectorAll('[data-layout]').forEach(card => {
+      card.addEventListener('click', () => {
+        document.querySelectorAll('[data-layout]').forEach(c => c.classList.remove('active'));
+        card.classList.add('active');
+        selectedLayout = card.dataset.layout;
+      });
+    });
+
+    // ---- Photo toggle ----
+    document.querySelectorAll('[data-photo-toggle] button').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('[data-photo-toggle] button').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        photoMode = btn.dataset.mode;
+        const cards = document.querySelectorAll('[data-photo-grid] .p-card');
+        cards.forEach((c, i) => {
+          if (photoMode === 'picsum') {
+            c.innerHTML = `<img src="https://picsum.photos/seed/cg${i+1}/100/100" alt="p${i+1}"><span class="check">✓</span><span class="idx">${String(i+1).padStart(2,'0')}</span>`;
+          } else {
+            c.innerHTML = `<div class="g g-${i+1}"></div><span class="check">✓</span><span class="idx">${String(i+1).padStart(2,'0')}</span>`;
+          }
+        });
+        // also update collage preview
+        updateCollage();
+      });
+    });
+
+    // ---- Generate ----
+    document.querySelector('[data-gen]').addEventListener('click', () => {
+      const result = document.querySelector('[data-result]');
+      result.classList.remove('hidden');
+      updateCollage();
+      updateResultDecorations();
+      // animate reveal
+      gsap.fromTo(result, { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.6, ease: 'power3.out' });
+      // For rack: stagger LEDs
+      if (currentTheme === 'rack') {
+        gsap.fromTo('[data-rack-deco] .rled', { scale: 0 }, { scale: 1, duration: 0.3, ease: 'back.out(2)', stagger: 0.1 });
+      }
+      // For CRT: typing log
+      if (currentTheme === 'crt') {
+        animateCrtLog();
+      }
+      // Toast
+      const ach = THEMES[currentTheme].achievements[achIdx % THEMES[currentTheme].achievements.length];
+      achIdx++;
+      showToast(ach);
+      // Scroll to result
+      result.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+
+    function updateCollage() {
+      const cells = document.querySelectorAll('[data-collage] [data-c]');
+      // Pick first 4 photos
+      const idxs = [0, 1, 2, 3];
+      cells.forEach((cell, i) => {
+        if (photoMode === 'picsum') {
+          cell.outerHTML = `<div data-c="${i}" style="background:url('https://picsum.photos/seed/cg${idxs[i]+1}/300/300') center/cover"></div>`;
+        } else {
+          cell.outerHTML = `<div data-c="${i}" class="g g-${idxs[i]+1}"></div>`;
+        }
+      });
+    }
+
+    function updateResultDecorations() {
+      const rack = document.querySelector('[data-rack-status]');
+      const crt = document.querySelector('[data-crt-log]');
+      const noc = document.querySelector('[data-noc-extras]');
+      const min = document.querySelector('[data-min-code]');
+      const scan = document.querySelector('[data-crt-scan]');
+      const deco = document.querySelector('[data-rack-deco]');
+      rack.style.display = currentTheme === 'rack' ? 'block' : 'none';
+      crt.style.display = currentTheme === 'crt' ? 'block' : 'none';
+      noc.style.display = currentTheme === 'noc' ? 'block' : 'none';
+      min.style.display = currentTheme === 'min' ? 'block' : 'none';
+      scan.style.display = currentTheme === 'crt' ? 'block' : 'none';
+      deco.style.display = currentTheme === 'rack' ? 'flex' : 'none';
+    }
+
+    function animateCrtLog() {
+      const lines = document.querySelectorAll('[data-crt-log] > div');
+      lines.forEach(l => { l.style.opacity = '0'; });
+      lines.forEach((line, i) => {
+        gsap.to(line, { opacity: 1, duration: 0.05, delay: 0.3 + i * 0.4, ease: 'none' });
+      });
+    }
+
+    function showToast(text) {
+      const toast = document.querySelector('[data-toast]');
+      toast.textContent = text;
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 2400);
+    }
+
+    // ---- Initial: hide all decorations except current theme ----
+    updateResultDecorations();
+
+    // ---- Reveal on load ----
+    window.addEventListener('load', () => {
+      gsap.from('.hero h1', { y: 20, opacity: 0, duration: 0.6, ease: 'power2.out' });
+      gsap.from('.p-card', { scale: 0.8, opacity: 0, duration: 0.4, delay: 0.2, ease: 'back.out(2)', stagger: 0.04 });
+      gsap.from('.pchip', { y: -10, opacity: 0, duration: 0.4, delay: 0.1, ease: 'power2.out', stagger: 0.05 });
+    });
+
+    // Reduced motion
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      gsap.globalTimeline.timeScale(0.01);
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,1105 @@
+<!DOCTYPE html>
+<html lang="th" data-theme="rack">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Collage Maker — รับรูป ทำคอลลาจ ดาวน์โหลด</title>
+  <link rel="icon" type="image/svg+xml" href="/favicons/lab.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&family=VT323&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+  <style>
+    /* ============================================================
+       BASE + RESET
+       ============================================================ */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { min-height: 100%; }
+    body {
+      font-family: 'Inter', -apple-system, sans-serif;
+      min-height: 100vh;
+      padding: 12px 12px 100px;
+      -webkit-font-smoothing: antialiased;
+      transition: background 0.4s, color 0.4s;
+    }
+    .wrap { max-width: 480px; margin: 0 auto; }
+
+    /* ============================================================
+       THEME: RACK
+       ============================================================ */
+    [data-theme="rack"] {
+      --bg: #0a0a0c; --bg-2: #111114; --surface: #16161a;
+      --metal: linear-gradient(180deg, #2a2a30 0%, #1c1c20 50%, #2a2a30 100%);
+      --border: #2a2a32; --fg: #f5f5f7; --fg-muted: #8a8a93; --fg-dim: #5a5a63;
+      --accent: #ffb000; --accent-2: #00ff66; --danger: #ff3b30; --success: #00ff66;
+      --font-disp: 'JetBrains Mono', monospace; --font-body: 'Inter', sans-serif;
+    }
+    [data-theme="rack"] body {
+      background: radial-gradient(ellipse 80% 40% at 50% 0%, rgba(255,176,0,0.05), transparent), var(--bg);
+      color: var(--fg); font-family: var(--font-body);
+    }
+
+    /* ============================================================
+       THEME: CRT
+       ============================================================ */
+    [data-theme="crt"] {
+      --bg: #050505; --bg-2: #0a0a0a; --surface: #001a0c; --border: #003318;
+      --fg: #00ff66; --fg-muted: #00cc52; --fg-dim: #003318;
+      --accent: #ffb000; --accent-2: #00ff66; --danger: #ff3b30; --success: #00ff66;
+      --font-disp: 'VT323', monospace; --font-body: 'JetBrains Mono', monospace;
+    }
+    [data-theme="crt"] body {
+      background: #000; color: var(--fg); font-family: var(--font-body);
+    }
+    [data-theme="crt"] body::before {
+      content: ''; position: fixed; inset: 0;
+      pointer-events: none; z-index: 1000;
+      background: repeating-linear-gradient(0deg, rgba(0,0,0,0.15) 0px, rgba(0,0,0,0.15) 1px, transparent 1px, transparent 3px);
+      mix-blend-mode: multiply;
+    }
+    [data-theme="crt"] body::after {
+      content: ''; position: fixed; inset: 0;
+      pointer-events: none; z-index: 1001;
+      background: radial-gradient(ellipse at center, transparent 50%, rgba(0,0,0,0.5) 100%);
+    }
+
+    /* ============================================================
+       THEME: NOC
+       ============================================================ */
+    [data-theme="noc"] {
+      --bg: #0a0e14; --bg-2: #0f1419; --surface: #141a22; --border: #1f2733;
+      --fg: #e6e9ef; --fg-muted: #8b95a7; --fg-dim: #5a6478;
+      --accent: #00d4ff; --accent-2: #00ff9c; --warn: #ffb000; --danger: #ff3b5c; --success: #00ff9c;
+      --font-disp: 'JetBrains Mono', monospace; --font-body: 'JetBrains Mono', monospace;
+    }
+    [data-theme="noc"] body {
+      background: radial-gradient(ellipse 60% 40% at 50% 0%, rgba(0,212,255,0.04), transparent), var(--bg);
+      color: var(--fg); font-family: var(--font-body);
+    }
+
+    /* ============================================================
+       THEME: MIN
+       ============================================================ */
+    [data-theme="min"] {
+      --bg: #fafafa; --bg-2: #f0f0f2; --surface: #ffffff; --border: #e5e5e8;
+      --fg: #0e0e10; --fg-muted: #5a5a63; --fg-dim: #8a8a93;
+      --accent: #c8ff00; --accent-2: #84cc16; --success: #16a34a; --danger: #ef4444;
+      --font-disp: 'Inter', sans-serif; --font-body: 'Inter', sans-serif;
+    }
+    [data-theme="min"] body {
+      background: var(--bg); color: var(--fg); font-family: var(--font-body);
+    }
+
+    /* ============================================================
+       TOPBAR + PICKER
+       ============================================================ */
+    .topbar {
+      display: flex; justify-content: space-between; align-items: center;
+      font-family: var(--font-disp); font-size: 11px;
+      color: var(--fg-dim); padding: 10px 12px;
+      background: var(--bg-2); border: 1px solid var(--border);
+      border-radius: 8px; margin-bottom: 12px;
+      letter-spacing: 0.05em;
+    }
+    [data-theme="min"] .topbar { border-radius: 10px; }
+    .topbar .status { display: flex; align-items: center; gap: 6px; }
+    .topbar .dot {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--success); box-shadow: 0 0 6px var(--success);
+      animation: pulse 1.4s ease-in-out infinite;
+    }
+    [data-theme="min"] .topbar .dot { box-shadow: none; }
+    @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+    .topbar a { color: var(--fg-muted); text-decoration: none; }
+    .topbar a:hover { color: var(--accent); }
+
+    .picker { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; margin-bottom: 16px; }
+    .pchip {
+      cursor: pointer; padding: 8px 4px;
+      background: var(--bg-2); border: 1px solid var(--border);
+      border-radius: 6px;
+      font-family: var(--font-disp); font-size: 10px;
+      color: var(--fg-muted); text-align: center;
+      letter-spacing: 0.1em;
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    [data-theme="min"] .pchip { border-radius: 8px; font-family: var(--font-body); font-size: 11px; letter-spacing: 0.02em; }
+    .pchip:hover { border-color: var(--accent); color: var(--fg); }
+    .pchip.active { border-color: var(--accent); color: var(--accent); box-shadow: 0 0 0 1px var(--accent); }
+    [data-theme="rack"] .pchip.active { box-shadow: 0 0 0 1px var(--accent), 0 0 12px rgba(255,176,0,0.3); }
+    [data-theme="crt"] .pchip.active { box-shadow: 0 0 0 1px var(--accent), 0 0 8px var(--accent); }
+    [data-theme="noc"] .pchip.active { box-shadow: 0 0 0 1px var(--accent), 0 0 8px rgba(0,212,255,0.3); }
+    [data-theme="min"] .pchip.active { background: var(--accent); color: #0e0e10; }
+    .pchip .pdot { display: block; width: 8px; height: 8px; border-radius: 50%; margin: 0 auto 4px; background: var(--accent); }
+
+    /* ============================================================
+       HERO
+       ============================================================ */
+    .hero { margin-bottom: 20px; }
+    .hero-meta { font-family: var(--font-disp); font-size: 10px; color: var(--fg-dim); letter-spacing: 0.15em; margin-bottom: 4px; text-transform: uppercase; }
+    [data-theme="min"] .hero-meta { text-transform: none; }
+    .hero h1 {
+      font-family: var(--font-disp); font-size: 28px; font-weight: 700;
+      letter-spacing: -0.02em; line-height: 1.05; margin-bottom: 6px;
+    }
+    [data-theme="crt"] .hero h1 { font-size: 38px; color: var(--fg); text-shadow: 0 0 8px var(--fg); }
+    [data-theme="rack"] .hero h1 .slash { color: var(--accent); }
+    [data-theme="noc"] .hero h1 .accent { color: var(--accent-2); }
+    [data-theme="min"] .hero h1 { font-size: 32px; letter-spacing: -0.04em; }
+    [data-theme="min"] .hero h1 .ext { background: var(--accent); color: #0e0e10; padding: 0 4px; border-radius: 4px; }
+    .hero p { font-size: 13px; line-height: 1.5; color: var(--fg-muted); }
+    [data-theme="crt"] .hero p .accent { color: var(--accent); }
+
+    /* ============================================================
+       SECTION
+       ============================================================ */
+    .section {
+      margin-bottom: 14px; padding: 14px;
+      background: var(--bg-2); border: 1px solid var(--border); border-radius: 10px;
+    }
+    [data-theme="min"] .section { border-radius: 14px; }
+    [data-theme="crt"] .section { background: transparent; }
+    .section-head {
+      display: flex; justify-content: space-between; align-items: baseline;
+      margin-bottom: 10px;
+    }
+    .section-title {
+      font-family: var(--font-disp); font-size: 10px;
+      letter-spacing: 0.15em; text-transform: uppercase;
+      color: var(--fg-muted);
+    }
+    [data-theme="min"] .section-title { text-transform: none; letter-spacing: 0.02em; }
+    [data-theme="rack"] .section-title { color: var(--accent); }
+    [data-theme="rack"] .section-title::before { content: '// '; }
+    [data-theme="crt"] .section-title { color: var(--accent); }
+    [data-theme="crt"] .section-title::before { content: '## '; color: var(--fg-dim); }
+    [data-theme="noc"] .section-title { color: var(--accent); }
+    [data-theme="noc"] .section-title::before { content: '● '; }
+    [data-theme="min"] .section-title { color: var(--success); }
+    [data-theme="min"] .section-title::before { content: '$ '; }
+    .section-meta { font-family: var(--font-disp); font-size: 10px; color: var(--fg-dim); }
+
+    /* ============================================================
+       UPLOAD ZONE
+       ============================================================ */
+    .upload {
+      position: relative; padding: 24px 16px;
+      border: 2px dashed var(--border); border-radius: 8px;
+      text-align: center; cursor: pointer;
+      transition: all 0.25s;
+    }
+    [data-theme="min"] .upload { border-radius: 12px; }
+    .upload:hover { border-color: var(--accent); background: rgba(255,255,255,0.02); }
+    [data-theme="min"] .upload:hover { background: rgba(0,0,0,0.02); }
+    .upload.dragover { border-color: var(--accent); background: rgba(255,255,255,0.05); border-style: solid; }
+    .upload input { position: absolute; inset: 0; opacity: 0; cursor: pointer; }
+    .upload-icon {
+      width: 40px; height: 40px; margin: 0 auto 8px;
+      border: 1px solid var(--border); border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      color: var(--fg-muted);
+    }
+    .upload-icon svg { width: 20px; height: 20px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+    .upload-text { font-size: 13px; font-weight: 500; margin-bottom: 2px; color: var(--fg); }
+    .upload-hint { font-size: 11px; color: var(--fg-dim); }
+
+    /* ============================================================
+       PHOTO GRID
+       ============================================================ */
+    .photo-grid {
+      display: grid; grid-template-columns: repeat(4, 1fr);
+      gap: 4px; margin-bottom: 4px;
+    }
+    .p-card {
+      aspect-ratio: 1; border-radius: 4px; overflow: hidden;
+      position: relative; cursor: pointer;
+      transition: all 0.2s;
+      border: 1px solid var(--border);
+    }
+    [data-theme="min"] .p-card { border-radius: 6px; }
+    .p-card:hover { transform: scale(1.04); }
+    .p-card img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .p-card .idx {
+      position: absolute; bottom: 2px; left: 4px;
+      font-family: var(--font-disp); font-size: 8px;
+      color: rgba(255,255,255,0.9);
+      background: rgba(0,0,0,0.5);
+      padding: 1px 4px; border-radius: 2px;
+    }
+    .p-card .del {
+      position: absolute; top: 3px; right: 3px;
+      width: 18px; height: 18px; border-radius: 50%;
+      background: rgba(0,0,0,0.7); color: #fff;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 11px; cursor: pointer;
+      opacity: 0; transition: opacity 0.2s;
+    }
+    .p-card:hover .del { opacity: 1; }
+    .p-card.disabled { opacity: 0.3; }
+    .p-card.disabled .del { background: var(--accent); color: #000; }
+    .p-empty {
+      aspect-ratio: 1; border: 1px dashed var(--border-dim, var(--border));
+      border-radius: 4px; display: flex; align-items: center; justify-content: center;
+      font-family: var(--font-disp); font-size: 14px; color: var(--fg-dim);
+    }
+    [data-theme="min"] .p-empty { border-radius: 6px; }
+
+    .actions-row {
+      display: flex; gap: 6px; margin-top: 8px;
+      font-family: var(--font-disp); font-size: 10px;
+    }
+    .actions-row button {
+      flex: 1; padding: 6px 8px;
+      background: transparent; border: 1px solid var(--border);
+      color: var(--fg-muted); border-radius: 4px;
+      cursor: pointer; font-family: inherit; font-size: inherit;
+      letter-spacing: 0.05em;
+      transition: all 0.2s;
+    }
+    [data-theme="min"] .actions-row button { border-radius: 6px; font-family: var(--font-body); letter-spacing: 0.02em; }
+    .actions-row button:hover { border-color: var(--accent); color: var(--fg); }
+    .actions-row button.danger:hover { border-color: var(--danger); color: var(--danger); }
+
+    /* ============================================================
+       LAYOUT PICKER
+       ============================================================ */
+    .layouts { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; }
+    [data-theme="min"] .layouts { gap: 8px; }
+    .lcard {
+      aspect-ratio: 1; background: var(--bg);
+      border: 1px solid var(--border); border-radius: 4px;
+      cursor: pointer; padding: 4px;
+      display: grid; gap: 2px;
+      transition: all 0.2s;
+    }
+    [data-theme="min"] .lcard { border-radius: 6px; }
+    .lcard:hover { border-color: var(--fg-muted); }
+    .lcard.active { border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent); }
+    [data-theme="crt"] .lcard.active { box-shadow: 0 0 0 1px var(--accent), 0 0 6px var(--accent); }
+    [data-theme="min"] .lcard.active { background: rgba(200,255,0,0.08); }
+    .lcard > div { background: var(--fg-dim); border-radius: 1px; }
+    .lcard.active > div { background: var(--accent); }
+    .l-l1 { grid-template: 1fr / 1fr; }
+    .l-l2 { grid-template: 1fr / 1fr 1fr; }
+    .l-l3 { grid-template: 1fr 1fr / 1fr; }
+    .l-l4 { grid-template: 1fr 1fr / 1fr 1fr; }
+    .l-l5 { grid-template: 2fr 1fr / 1fr 1fr; }
+    .l-l6 { grid-template: 1fr 1fr 1fr / 1fr 1fr; }
+    .lcard-label { grid-column: 1 / -1; text-align: center; font-family: var(--font-disp); font-size: 8px; color: var(--fg-dim); margin-top: 2px; }
+
+    /* ============================================================
+       SETTINGS
+       ============================================================ */
+    .settings { display: grid; gap: 10px; }
+    .setting {
+      display: grid; grid-template-columns: 80px 1fr;
+      align-items: center; gap: 10px;
+    }
+    .setting label {
+      font-family: var(--font-disp); font-size: 10px;
+      color: var(--fg-muted); letter-spacing: 0.1em;
+    }
+    [data-theme="min"] .setting label { letter-spacing: 0.02em; font-family: var(--font-body); font-size: 12px; }
+    .setting input[type="number"], .setting select {
+      width: 100%; padding: 6px 8px;
+      background: var(--bg); color: var(--fg);
+      border: 1px solid var(--border); border-radius: 4px;
+      font-family: var(--font-disp); font-size: 12px; outline: none;
+    }
+    [data-theme="min"] .setting input, [data-theme="min"] .setting select { border-radius: 6px; font-family: var(--font-body); }
+    .setting input:focus, .setting select:focus { border-color: var(--accent); }
+    .setting input[type="color"] {
+      width: 100%; height: 32px; padding: 2px;
+      background: var(--bg); border: 1px solid var(--border);
+      border-radius: 4px; cursor: pointer;
+    }
+    [data-theme="min"] .setting input[type="color"] { border-radius: 6px; }
+
+    /* ============================================================
+       GENERATE BUTTON
+       ============================================================ */
+    .gen {
+      width: 100%; padding: 14px;
+      font-family: var(--font-disp); font-size: 12px; font-weight: 700;
+      letter-spacing: 0.15em; text-transform: uppercase;
+      cursor: pointer; transition: all 0.2s; margin-top: 4px;
+    }
+    [data-theme="min"] .gen { border-radius: 10px; font-family: var(--font-body); text-transform: none; font-size: 13px; letter-spacing: 0.02em; }
+    [data-theme="rack"] .gen {
+      background: linear-gradient(180deg, #ffb000, #cc8800);
+      color: #0a0a0c; border: 1px solid #ffb000; border-radius: 4px;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.3), 0 4px 16px rgba(255,176,0,0.3);
+    }
+    [data-theme="crt"] .gen {
+      background: transparent; color: var(--accent);
+      border: 1px solid var(--accent); border-radius: 4px;
+      text-shadow: 0 0 4px var(--accent);
+    }
+    [data-theme="noc"] .gen {
+      background: linear-gradient(180deg, var(--accent-2), #00cc7d);
+      color: var(--bg); border: none; border-radius: 4px;
+      box-shadow: 0 0 20px rgba(0,255,156,0.3);
+    }
+    [data-theme="min"] .gen {
+      background: var(--accent); color: #0e0e10; border: none;
+    }
+    .gen:hover { transform: translateY(-1px); }
+    .gen:active { transform: scale(0.98); }
+    .gen:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+    .gen-hint {
+      text-align: center; font-family: var(--font-disp);
+      font-size: 10px; color: var(--fg-dim);
+      margin-top: 6px; letter-spacing: 0.05em;
+    }
+
+    /* ============================================================
+       OUTPUT
+       ============================================================ */
+    .output {
+      margin-top: 24px;
+      opacity: 0;
+      transition: opacity 0.4s;
+    }
+    .output.hidden { display: none; }
+    .output-frame {
+      padding: 14px; background: var(--bg-2);
+      border: 1px solid var(--border); border-radius: 12px;
+    }
+    [data-theme="min"] .output-frame { border-radius: 16px; }
+    [data-theme="rack"] .output-frame { background: var(--metal); border-color: #3a3a42; }
+    [data-theme="crt"] .output-frame { background: #000; border: 2px solid var(--fg-dim); }
+    [data-theme="noc"] .output-frame { border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent), 0 0 24px rgba(0,212,255,0.2); }
+
+    .output-head {
+      display: flex; justify-content: space-between; align-items: center;
+      margin-bottom: 12px;
+      font-family: var(--font-disp); font-size: 11px;
+      color: var(--fg-muted);
+    }
+    [data-theme="min"] .output-head { font-family: var(--font-body); font-size: 13px; }
+    .output-head .tag {
+      padding: 2px 6px; border-radius: 3px; font-size: 9px; font-weight: 600;
+    }
+    [data-theme="rack"] .output-head .tag { background: rgba(0,255,102,0.15); color: var(--accent-2); }
+    [data-theme="crt"] .output-head .tag { background: rgba(0,255,102,0.1); color: var(--fg); }
+    [data-theme="noc"] .output-head .tag { background: rgba(0,212,255,0.15); color: var(--accent); }
+    [data-theme="min"] .output-head .tag { background: var(--accent); color: #0e0e10; }
+
+    .canvas-wrap {
+      position: relative; width: 100%;
+      background: #fff;
+      border-radius: 6px; overflow: hidden;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+    }
+    [data-theme="min"] .canvas-wrap { border-radius: 8px; }
+    [data-theme="crt"] .canvas-wrap::after {
+      content: ''; position: absolute; inset: 0;
+      background: repeating-linear-gradient(0deg, transparent 0px, transparent 2px, rgba(0,0,0,0.15) 2px, rgba(0,0,0,0.15) 3px);
+      pointer-events: none;
+    }
+    [data-theme="crt"] .canvas-wrap canvas { filter: contrast(1.05) saturate(0.95); }
+    .canvas-wrap canvas { display: block; width: 100%; height: auto; }
+
+    .output-deco { display: flex; gap: 4px; margin-top: 12px; }
+    .rled { width: 6px; height: 6px; border-radius: 50%; background: var(--accent-2); box-shadow: 0 0 6px var(--accent-2); }
+    .rled.amber { background: var(--accent); box-shadow: 0 0 6px var(--accent); }
+
+    .dl-row {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 12px;
+    }
+    .dl-row button {
+      padding: 12px; cursor: pointer;
+      font-family: var(--font-disp); font-size: 11px; font-weight: 600;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      transition: all 0.2s;
+    }
+    [data-theme="min"] .dl-row button { border-radius: 8px; font-family: var(--font-body); text-transform: none; letter-spacing: 0.02em; font-size: 12px; }
+    [data-theme="rack"] .dl-row button { background: var(--accent-2); color: #0a0a0c; border: 1px solid var(--accent-2); border-radius: 4px; }
+    [data-theme="rack"] .dl-row button.secondary { background: transparent; color: var(--accent-2); }
+    [data-theme="crt"] .dl-row button { background: var(--fg); color: #000; border: 1px solid var(--fg); border-radius: 4px; }
+    [data-theme="crt"] .dl-row button.secondary { background: transparent; color: var(--fg); }
+    [data-theme="noc"] .dl-row button { background: var(--accent-2); color: var(--bg); border: none; border-radius: 4px; box-shadow: 0 0 12px rgba(0,255,156,0.3); }
+    [data-theme="noc"] .dl-row button.secondary { background: transparent; color: var(--accent); border: 1px solid var(--accent); }
+    [data-theme="min"] .dl-row button { background: var(--accent); color: #0e0e10; border: none; }
+    [data-theme="min"] .dl-row button.secondary { background: var(--bg-2); color: var(--fg); border: 1px solid var(--border); }
+    .dl-row button:hover { transform: translateY(-1px); }
+    .dl-row button:active { transform: scale(0.98); }
+
+    /* ============================================================
+       STATUS LOG (per theme)
+       ============================================================ */
+    .status-log {
+      margin-top: 12px; padding: 8px 10px;
+      background: rgba(0,0,0,0.3); border-radius: 4px;
+      font-family: var(--font-disp); font-size: 11px;
+      color: var(--fg-muted); line-height: 1.6;
+      max-height: 120px; overflow-y: auto;
+    }
+    [data-theme="rack"] .status-log { background: rgba(0,255,102,0.05); border: 1px solid rgba(0,255,102,0.2); color: var(--accent-2); }
+    [data-theme="crt"] .status-log { background: #000; border: 1px solid var(--fg-dim); color: var(--fg); }
+    [data-theme="noc"] .status-log { background: var(--bg-3); border: 1px solid var(--border); color: var(--fg-muted); }
+    [data-theme="min"] .status-log { background: var(--bg-2); border: 1px solid var(--border); color: var(--fg); border-radius: 8px; font-family: 'JetBrains Mono', monospace; }
+    .status-log .ts { color: var(--fg-dim); margin-right: 6px; }
+    .status-log .ok { color: var(--success); }
+    .status-log .warn { color: var(--accent); }
+    .status-log .err { color: var(--danger); }
+    [data-theme="crt"] .status-log .ok { color: var(--fg); }
+
+    /* ============================================================
+       TOAST
+       ============================================================ */
+    .toast {
+      position: fixed; bottom: 24px; left: 50%;
+      transform: translateX(-50%) translateY(100px);
+      background: var(--accent); color: #0e0e10;
+      padding: 12px 20px; border-radius: 10px;
+      font-family: var(--font-disp); font-size: 12px; font-weight: 600;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+      z-index: 2000; opacity: 0; pointer-events: none;
+      transition: all 0.4s cubic-bezier(0.16,1,0.3,1);
+    }
+    [data-theme="min"] .toast { border-radius: 999px; }
+    .toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
+
+    @media (max-width: 480px) {
+      body { padding: 8px 8px 80px; }
+      .hero h1 { font-size: 24px; }
+      [data-theme="crt"] .hero h1 { font-size: 32px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+
+    <!-- TOPBAR -->
+    <div class="topbar">
+      <div class="status">
+        <span class="dot"></span>
+        <span data-theme-label>STACK//FRAME</span>
+      </div>
+      <a href="preview.html">← lab</a>
+    </div>
+
+    <!-- THEME PICKER -->
+    <div class="picker">
+      <div class="pchip" data-theme-btn="rack">
+        <span class="pdot" style="background:#ffb000"></span>RACK
+      </div>
+      <div class="pchip" data-theme-btn="crt">
+        <span class="pdot" style="background:#00ff66"></span>CRT
+      </div>
+      <div class="pchip" data-theme-btn="noc">
+        <span class="pdot" style="background:#00d4ff"></span>NOC
+      </div>
+      <div class="pchip" data-theme-btn="min">
+        <span class="pdot" style="background:#c8ff00"></span>.sh
+      </div>
+    </div>
+
+    <!-- HERO -->
+    <section class="hero">
+      <div class="hero-meta" data-hero-meta>// COLLAGE MAKER · CLIENT-SIDE</div>
+      <h1 data-hero-title>STACK<span class="slash">//</span>FRAME</h1>
+      <p data-hero-desc>อัปโหลดรูป → เราจัดวางให้อัตโนมัติ → ดาวน์โหลดเป็น PNG<br><span style="color:var(--fg-dim)">ไม่ต้อง login, ไม่อัปขึ้น server, ทำงานบนเครื่องคุณ</span></p>
+    </section>
+
+    <!-- UPLOAD -->
+    <div class="section">
+      <div class="section-head">
+        <div class="section-title">PHOTOS</div>
+        <div class="section-meta" data-photo-meta>0 items</div>
+      </div>
+      <div class="upload" data-upload>
+        <input type="file" id="fileInput" accept="image/*" multiple>
+        <div class="upload-icon">
+          <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+        </div>
+        <div class="upload-text" data-upload-text>คลิก หรือลากไฟล์มาที่นี่</div>
+        <div class="upload-hint">JPG, PNG, WEBP — สูงสุด 20 รูป · สูงสุด ~8MB/รูป</div>
+      </div>
+
+      <div class="photo-grid" data-photo-grid style="margin-top: 10px;"></div>
+      <div class="actions-row" data-photo-actions style="display:none">
+        <button data-act="select-all">select all</button>
+        <button data-act="select-none">deselect</button>
+        <button data-act="reset" class="danger">clear all</button>
+      </div>
+    </div>
+
+    <!-- LAYOUT -->
+    <div class="section">
+      <div class="section-head">
+        <div class="section-title">LAYOUT</div>
+        <div class="section-meta" data-layout-meta>auto</div>
+      </div>
+      <div class="layouts" data-layouts>
+        <div class="lcard l-l1" data-layout="auto" title="auto">
+          <div></div>
+          <div class="lcard-label">auto</div>
+        </div>
+        <div class="lcard l-l2" data-layout="1x2" title="1x2">
+          <div></div><div></div>
+          <div class="lcard-label">1×2</div>
+        </div>
+        <div class="lcard l-l3" data-layout="2x1" title="2x1">
+          <div></div>
+          <div></div>
+          <div class="lcard-label">2×1</div>
+        </div>
+        <div class="lcard l-l4" data-layout="2x2" title="2x2">
+          <div></div><div></div><div></div><div></div>
+          <div class="lcard-label">2×2</div>
+        </div>
+        <div class="lcard l-l5" data-layout="1+2" title="1+2">
+          <div></div><div></div><div></div>
+          <div class="lcard-label">1+2</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SETTINGS -->
+    <div class="section">
+      <div class="section-head">
+        <div class="section-title">SETTINGS</div>
+        <div class="section-meta">output config</div>
+      </div>
+      <div class="settings">
+        <div class="setting">
+          <label>SIZE</label>
+          <select id="optSize">
+            <option value="1080" selected>1080 × 1080 (Instagram)</option>
+            <option value="1440">1440 × 1440 (high-res)</option>
+            <option value="2048">2048 × 2048 (print)</option>
+            <option value="2160">2160 × 2160 (4K)</option>
+          </select>
+        </div>
+        <div class="setting">
+          <label>GAP</label>
+          <select id="optGap">
+            <option value="0">none</option>
+            <option value="2">2 px</option>
+            <option value="4" selected>4 px</option>
+            <option value="8">8 px</option>
+            <option value="16">16 px</option>
+          </select>
+        </div>
+        <div class="setting">
+          <label>BG COLOR</label>
+          <input type="color" id="optBg" value="#ffffff">
+        </div>
+      </div>
+    </div>
+
+    <!-- GENERATE -->
+    <button class="gen" data-gen disabled>
+      <span data-gen-label>▶ ADD PHOTOS TO START</span>
+    </button>
+    <div class="gen-hint" data-gen-hint>// อัปโหลดอย่างน้อย 1 รูป</div>
+
+    <!-- OUTPUT -->
+    <section class="output hidden" data-output>
+      <div class="output-frame">
+        <div class="output-head">
+          <span data-output-title>COLLAGE READY</span>
+          <span class="tag" data-output-tag>OK</span>
+        </div>
+
+        <div class="canvas-wrap">
+          <canvas id="outputCanvas"></canvas>
+        </div>
+
+        <div class="output-deco" data-output-deco>
+          <span class="rled"></span>
+          <span class="rled amber"></span>
+          <span class="rled"></span>
+        </div>
+
+        <div class="dl-row">
+          <button data-dl="png">▼ DOWNLOAD PNG</button>
+          <button class="secondary" data-dl="copy">COPY</button>
+        </div>
+
+        <div class="status-log" data-log></div>
+      </div>
+    </section>
+
+  </div>
+
+  <div class="toast" data-toast></div>
+
+  <script>
+  /* ============================================================
+     STATE
+     ============================================================ */
+  const PHOTOS = []; // { id, src, img, name, selected }
+  let nextId = 1;
+  let currentTheme = localStorage.getItem('collage_theme') || 'rack';
+  let chosenLayout = 'auto';
+  let achIdx = 0;
+  const MAX_PHOTOS = 20;
+  const MAX_SIZE = 8 * 1024 * 1024; // 8MB per file
+
+  /* ============================================================
+     THEME CONTENT
+     ============================================================ */
+  const THEMES = {
+    rack: {
+      name: 'STACK//FRAME', heroMeta: '// COLLAGE MAKER · CLIENT-SIDE',
+      genIdle: '▶ ADD PHOTOS TO START', genReady: '▶ RENDER & EXPORT',
+      genHint: '// canvas-based · no upload to server',
+      outputTitle: 'RACK 01 · COLLAGE READY', outputTag: 'DEPLOYED',
+      uploadText: 'คลิก หรือลากไฟล์มาที่นี่',
+      logIntro: 'BOOT collage.kernel', ach: [
+        '🏆 Render complete', '🏆 Uptime 99.99%', '🏆 Cat-5 certified', '🏆 Stack popped'
+      ]
+    },
+    crt: {
+      name: 'PIXSH v1.0', heroMeta: '[ CRT EDITION · VT323 ]',
+      genIdle: '► LOAD PHOTOS TO START', genReady: '► EXECUTE COMPILE',
+      genHint: '// it works on my crt.',
+      outputTitle: 'PIXSH v1.0 · COMPILED', outputTag: '200 OK',
+      uploadText: '[ drop image files here ]',
+      logIntro: '$ pixsh build --input=photos', ach: [
+        '🏆 It works on my CRT', '🏆 (core dumped) → recovered', '🏆 Phosphor loaded', '🏆 Segfault avoided'
+      ]
+    },
+    noc: {
+      name: 'PACKETGRID', heroMeta: '// NOC DASHBOARD · CLIENT-SIDE',
+      genIdle: '▶ NO SIGNAL', genReady: '▶ TRANSMIT & RENDER',
+      genHint: 'BGP route established · 0% loss',
+      outputTitle: 'PACKETGRID · TX COMPLETE', outputTag: 'DELIVERED',
+      uploadText: '[ ingest photos ]',
+      logIntro: 'INTAKE photo-buffer --watch', ach: [
+        '🏆 Lossless delivery', '🏆 12ms ping', '🏆 BGP route established', '🏆 0 drops'
+      ]
+    },
+    min: {
+      name: 'collage.sh', heroMeta: '~/collage',
+      genIdle: '▶ ./add-photos', genReady: '▶ ./build',
+      genHint: '// it works on my machine.',
+      outputTitle: 'collage.sh · DONE', outputTag: 'OK',
+      uploadText: 'drop images here',
+      logIntro: '$ collage.sh build', ach: [
+        '🏆 Sent to Group', '🏆 Works on your machine', '🏆 Bash-ing since 2026', '🏆 99.99% uptime'
+      ]
+    }
+  };
+
+  function heroTitle(t) {
+    if (t === 'rack') return 'STACK<span class="slash">//</span>FRAME';
+    if (t === 'crt') return 'PIXSH<span style="color:var(--accent)">_</span>';
+    if (t === 'noc') return 'PACKET<span class="accent">GRID</span>';
+    if (t === 'min') return 'collage<span class="ext">.sh</span>';
+  }
+  function heroDesc(t) {
+    if (t === 'rack') return 'อัปโหลดรูป → เราจัดวางให้อัตโนมัติ → ดาวน์โหลดเป็น PNG<br><span style="color:var(--fg-dim)">cat-5 certified · uptime 99.99%</span>';
+    if (t === 'crt') return 'อัปโหลดรูป → compile → PNG<br><span class="accent">// it works on my crt.</span>';
+    if (t === 'noc') return 'Lossless photo intake → render → export.<br><code>$ ping canvas.ok</code> · 0% loss';
+    if (t === 'min') return 'อัปโหลดรูป → build → download<br>It\'s just <span style="color:var(--success);font-family:monospace">bash</span>. But for your photos.';
+  }
+
+  /* ============================================================
+     THEME SWITCH
+     ============================================================ */
+  document.documentElement.setAttribute('data-theme', currentTheme);
+  applyThemeContent(currentTheme);
+  setActivePicker(currentTheme);
+
+  document.querySelectorAll('[data-theme-btn]').forEach(chip => {
+    chip.addEventListener('click', () => {
+      const next = chip.dataset.themeBtn;
+      if (next === currentTheme) return;
+      const tl = gsap.timeline();
+      tl.to(['.hero', '.section', '.gen', '.gen-hint', '.output'], {
+        opacity: 0, y: 8, duration: 0.2, ease: 'power2.in', stagger: 0.02
+      });
+      tl.add(() => {
+        currentTheme = next;
+        document.documentElement.setAttribute('data-theme', next);
+        localStorage.setItem('collage_theme', next);
+        setActivePicker(next);
+        applyThemeContent(next);
+      });
+      tl.fromTo(['.hero', '.section', '.gen', '.gen-hint', '.output'],
+        { opacity: 0, y: 8 }, { opacity: 1, y: 0, duration: 0.35, ease: 'power2.out', stagger: 0.03 }
+      );
+    });
+  });
+
+  function setActivePicker(t) {
+    document.querySelectorAll('[data-theme-btn]').forEach(c => c.classList.toggle('active', c.dataset.themeBtn === t));
+  }
+  function applyThemeContent(t) {
+    const c = THEMES[t];
+    document.querySelector('[data-theme-label]').textContent = c.name;
+    document.querySelector('[data-hero-meta]').textContent = c.heroMeta;
+    document.querySelector('[data-hero-title]').innerHTML = heroTitle(t);
+    document.querySelector('[data-hero-desc]').innerHTML = heroDesc(t);
+    document.querySelector('[data-upload-text]').textContent = c.uploadText;
+    document.querySelector('[data-gen-hint]').textContent = c.genHint;
+    document.querySelector('[data-output-title]').textContent = c.outputTitle;
+    document.querySelector('[data-output-tag]').textContent = c.outputTag;
+    updateGenLabel();
+  }
+
+  /* ============================================================
+     UPLOAD
+     ============================================================ */
+  const fileInput = document.getElementById('fileInput');
+  const uploadZone = document.querySelector('[data-upload]');
+  const photoGrid = document.querySelector('[data-photo-grid]');
+  const photoMeta = document.querySelector('[data-photo-meta]');
+  const photoActions = document.querySelector('[data-photo-actions]');
+
+  fileInput.addEventListener('change', (e) => {
+    addFiles(Array.from(e.target.files));
+    e.target.value = ''; // reset so same file can be re-added
+  });
+
+  // Drag and drop
+  ['dragenter', 'dragover'].forEach(ev => {
+    uploadZone.addEventListener(ev, (e) => {
+      e.preventDefault(); e.stopPropagation();
+      uploadZone.classList.add('dragover');
+    });
+  });
+  ['dragleave', 'drop'].forEach(ev => {
+    uploadZone.addEventListener(ev, (e) => {
+      e.preventDefault(); e.stopPropagation();
+      uploadZone.classList.remove('dragover');
+    });
+  });
+  uploadZone.addEventListener('drop', (e) => {
+    const files = Array.from(e.dataTransfer.files).filter(f => f.type.startsWith('image/'));
+    addFiles(files);
+  });
+
+  async function addFiles(files) {
+    log('info', `INTAKE ${files.length} file(s) — ${THEMES[currentTheme].logIntro}`);
+    for (const f of files) {
+      if (PHOTOS.length >= MAX_PHOTOS) {
+        log('warn', `LIMIT max ${MAX_PHOTOS} photos`);
+        showToast(`Max ${MAX_PHOTOS} photos`);
+        break;
+      }
+      if (!f.type.startsWith('image/')) {
+        log('err', `REJECT ${f.name} (not image)`);
+        continue;
+      }
+      if (f.size > MAX_SIZE) {
+        log('warn', `SKIP ${f.name} (too large: ${(f.size/1024/1024).toFixed(1)}MB)`);
+        continue;
+      }
+      try {
+        const photo = await loadPhoto(f);
+        PHOTOS.push(photo);
+        log('ok', `LOADED ${f.name} (${photo.img.width}×${photo.img.height})`);
+      } catch (e) {
+        log('err', `FAILED ${f.name}: ${e.message}`);
+      }
+    }
+    renderPhotos();
+    updateGenLabel();
+  }
+
+  function loadPhoto(file) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const img = new Image();
+        img.onload = () => resolve({ id: nextId++, src: e.target.result, img, name: file.name, selected: true });
+        img.onerror = () => reject(new Error('decode failed'));
+        img.src = e.target.result;
+      };
+      reader.onerror = () => reject(new Error('read failed'));
+      reader.readAsDataURL(file);
+    });
+  }
+
+  function renderPhotos() {
+    photoGrid.innerHTML = '';
+    PHOTOS.forEach((p, i) => {
+      const card = document.createElement('div');
+      card.className = 'p-card' + (p.selected ? '' : ' disabled');
+      card.innerHTML = `
+        <img src="${p.src}" alt="${p.name}">
+        <span class="idx">${String(i+1).padStart(2,'0')}</span>
+        <span class="del" title="remove">×</span>
+      `;
+      card.addEventListener('click', (e) => {
+        if (e.target.classList.contains('del')) {
+          PHOTOS.splice(i, 1);
+          log('info', `REMOVED ${p.name}`);
+          renderPhotos();
+          updateGenLabel();
+          return;
+        }
+        p.selected = !p.selected;
+        card.classList.toggle('disabled');
+        updateGenLabel();
+      });
+      photoGrid.appendChild(card);
+    });
+    const total = PHOTOS.length;
+    const sel = PHOTOS.filter(p => p.selected).length;
+    photoMeta.textContent = total === 0 ? '0 items' : `${sel}/${total} selected`;
+    photoActions.style.display = total > 0 ? 'flex' : 'none';
+  }
+
+  // Actions
+  document.querySelectorAll('[data-act]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const act = btn.dataset.act;
+      if (act === 'select-all') PHOTOS.forEach(p => p.selected = true);
+      if (act === 'select-none') PHOTOS.forEach(p => p.selected = false);
+      if (act === 'reset') { PHOTOS.length = 0; log('info', 'CLEARED all photos'); }
+      renderPhotos();
+      updateGenLabel();
+    });
+  });
+
+  /* ============================================================
+     LAYOUTS
+     ============================================================ */
+  // Define layout cells (normalized 0..1)
+  const LAYOUTS = {
+    '1x1': [{x:0, y:0, w:1, h:1}],
+    '1x2': [{x:0, y:0, w:0.5, h:1}, {x:0.5, y:0, w:0.5, h:1}],
+    '2x1': [{x:0, y:0, w:1, h:0.5}, {x:0, y:0.5, w:1, h:0.5}],
+    '2x2': [{x:0, y:0, w:0.5, h:0.5}, {x:0.5, y:0, w:0.5, h:0.5}, {x:0, y:0.5, w:0.5, h:0.5}, {x:0.5, y:0.5, w:0.5, h:0.5}],
+    '1+2': [{x:0, y:0, w:0.5, h:1}, {x:0.5, y:0, w:0.5, h:0.5}, {x:0.5, y:0.5, w:0.5, h:0.5}],
+    '2+1': [{x:0, y:0, w:0.5, h:0.5}, {x:0, y:0.5, w:0.5, h:0.5}, {x:0.5, y:0, w:1, h:1}], // hmm x out of bounds
+    '3x1': [{x:0, y:0, w:1, h:1/3}, {x:0, y:1/3, w:1, h:1/3}, {x:0, y:2/3, w:1, h:1/3}],
+    '1x3': [{x:0, y:0, w:1/3, h:1}, {x:1/3, y:0, w:1/3, h:1}, {x:2/3, y:0, w:1/3, h:1}],
+    '3x2': [
+      {x:0, y:0, w:1/3, h:0.5}, {x:1/3, y:0, w:1/3, h:0.5}, {x:2/3, y:0, w:1/3, h:0.5},
+      {x:0, y:0.5, w:1/3, h:0.5}, {x:1/3, y:0.5, w:1/3, h:0.5}, {x:2/3, y:0.5, w:1/3, h:0.5}
+    ],
+    '3x3': [
+      {x:0, y:0, w:1/3, h:1/3}, {x:1/3, y:0, w:1/3, h:1/3}, {x:2/3, y:0, w:1/3, h:1/3},
+      {x:0, y:1/3, w:1/3, h:1/3}, {x:1/3, y:1/3, w:1/3, h:1/3}, {x:2/3, y:1/3, w:1/3, h:1/3},
+      {x:0, y:2/3, w:1/3, h:1/3}, {x:1/3, y:2/3, w:1/3, h:1/3}, {x:2/3, y:2/3, w:1/3, h:1/3}
+    ]
+  };
+
+  function autoLayout(count) {
+    if (count === 1) return LAYOUTS['1x1'];
+    if (count === 2) return LAYOUTS['1x2'];
+    if (count === 3) return LAYOUTS['1+2'];
+    if (count === 4) return LAYOUTS['2x2'];
+    if (count <= 6) return LAYOUTS['3x2'];
+    if (count <= 9) return LAYOUTS['3x3'];
+    // 10+: pick cols ∈ [2..5] for nice square-ish grid
+    const MAX_COLS = 5;
+    let best = { score: Infinity };
+    for (let cols = 2; cols <= MAX_COLS; cols++) {
+      const rows = Math.ceil(count / cols);
+      const empty = cols * rows - count;
+      const aspectDev = Math.abs(cols - rows) / Math.max(cols, rows);
+      const score = empty * 5 + aspectDev;
+      if (score < best.score) best = { score, cols, rows };
+    }
+    const { cols, rows } = best;
+    // Build cells; if a row is partial, last cell in that row extends to fill
+    const cells = [];
+    for (let i = 0; i < count; i++) {
+      const col = i % cols;
+      const row = Math.floor(i / cols);
+      const isLastInRow = (i + 1 === count) || (Math.floor((i + 1) / cols) !== row);
+      let w = 1 / cols;
+      if (isLastInRow && col < cols - 1) {
+        // stretch to right edge of canvas
+        w = 1 - col / cols;
+      }
+      cells.push({ x: col / cols, y: row / rows, w, h: 1 / rows });
+    }
+    return cells;
+  }
+
+  function pickLayout(count) {
+    if (chosenLayout === 'auto') return autoLayout(count);
+    if (LAYOUTS[chosenLayout]) {
+      // Take first N cells of layout, or repeat last if user picked a smaller layout
+      const base = LAYOUTS[chosenLayout];
+      if (base.length >= count) return base.slice(0, count);
+      // Pad: use auto for the rest
+      return [...base, ...autoLayout(count - base.length)];
+    }
+    return autoLayout(count);
+  }
+
+  document.querySelectorAll('[data-layout]').forEach(card => {
+    card.addEventListener('click', () => {
+      document.querySelectorAll('[data-layout]').forEach(c => c.classList.remove('active'));
+      card.classList.add('active');
+      chosenLayout = card.dataset.layout;
+    });
+  });
+  // Default active
+  document.querySelector('[data-layout="auto"]').classList.add('active');
+
+  /* ============================================================
+     GENERATE
+     ============================================================ */
+  const genBtn = document.querySelector('[data-gen]');
+  genBtn.addEventListener('click', () => {
+    if (PHOTOS.filter(p => p.selected).length === 0) return;
+    log('info', 'RENDER start');
+    const t0 = performance.now();
+    const canvas = generateCollage();
+    const ms = (performance.now() - t0).toFixed(0);
+    log('ok', `RENDER complete · ${canvas.width}×${canvas.height} · ${ms}ms`);
+    // Show output
+    const out = document.querySelector('[data-output]');
+    out.classList.remove('hidden');
+    out.style.opacity = '0';
+    requestAnimationFrame(() => {
+      out.style.opacity = '1';
+      out.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+    // Achievements
+    const ach = THEMES[currentTheme].ach[achIdx % THEMES[currentTheme].ach.length];
+    achIdx++;
+    setTimeout(() => showToast(ach), 600);
+  });
+
+  function updateGenLabel() {
+    const sel = PHOTOS.filter(p => p.selected).length;
+    const c = THEMES[currentTheme];
+    if (sel === 0) {
+      genBtn.disabled = true;
+      document.querySelector('[data-gen-label]').textContent = c.genIdle;
+    } else {
+      genBtn.disabled = false;
+      document.querySelector('[data-gen-label]').textContent = c.genReady + ` (${sel})`;
+    }
+  }
+
+  function generateCollage() {
+    const size = parseInt(document.getElementById('optSize').value);
+    const gap = parseInt(document.getElementById('optGap').value);
+    const bg = document.getElementById('optBg').value;
+
+    const photos = PHOTOS.filter(p => p.selected);
+    const cells = pickLayout(photos.length);
+    const canvas = document.getElementById('outputCanvas');
+    canvas.width = size;
+    canvas.height = size;
+    const ctx = canvas.getContext('2d');
+    ctx.fillStyle = bg;
+    ctx.fillRect(0, 0, size, size);
+
+    cells.forEach((cell, i) => {
+      const photo = photos[i];
+      if (!photo) return;
+      const cellW = cell.w * size - gap;
+      const cellH = cell.h * size - gap;
+      const x = cell.x * size + gap / 2;
+      const y = cell.y * size + gap / 2;
+      drawCover(ctx, photo.img, x, y, cellW, cellH);
+    });
+
+    log('ok', `EXPORT ready · click DOWNLOAD to save PNG (${size}×${size})`);
+    return canvas;
+  }
+
+  function drawCover(ctx, img, x, y, w, h) {
+    const imgA = img.width / img.height;
+    const cellA = w / h;
+    let sx, sy, sw, sh;
+    if (imgA > cellA) {
+      // wider — crop sides
+      sh = img.height;
+      sw = img.height * cellA;
+      sx = (img.width - sw) / 2;
+      sy = 0;
+    } else {
+      sw = img.width;
+      sh = img.width / cellA;
+      sx = 0;
+      sy = (img.height - sh) / 2;
+    }
+    ctx.drawImage(img, sx, sy, sw, sh, x, y, w, h);
+  }
+
+  /* ============================================================
+     DOWNLOAD
+     ============================================================ */
+  document.querySelector('[data-dl="png"]').addEventListener('click', () => {
+    const canvas = document.getElementById('outputCanvas');
+    canvas.toBlob((blob) => {
+      if (!blob) { log('err', 'EXPORT failed'); return; }
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      const ts = new Date().toISOString().replace(/[:.]/g, '-').slice(0, 19);
+      a.href = url;
+      a.download = `collage-${ts}.png`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      setTimeout(() => URL.revokeObjectURL(url), 1000);
+      log('ok', `DOWNLOADED collage-${ts}.png (${(blob.size/1024).toFixed(0)}KB)`);
+      showToast('✓ Downloaded');
+    }, 'image/png', 0.95);
+  });
+
+  document.querySelector('[data-dl="copy"]').addEventListener('click', async () => {
+    const canvas = document.getElementById('outputCanvas');
+    try {
+      canvas.toBlob(async (blob) => {
+        if (!navigator.clipboard || !window.ClipboardItem) throw new Error('no clipboard api');
+        await navigator.clipboard.write([new ClipboardItem({ 'image/png': blob })]);
+        log('ok', 'COPIED to clipboard');
+        showToast('✓ Copied to clipboard');
+      }, 'image/png');
+    } catch (e) {
+      log('err', `COPY failed: ${e.message}`);
+      showToast('Copy not supported');
+    }
+  });
+
+  /* ============================================================
+     LOG
+     ============================================================ */
+  const logEl = document.querySelector('[data-log]');
+  function log(type, msg) {
+    const ts = new Date().toTimeString().slice(0, 8);
+    const cls = type === 'ok' ? 'ok' : type === 'warn' ? 'warn' : type === 'err' ? 'err' : '';
+    const line = document.createElement('div');
+    line.innerHTML = `<span class="ts">${ts}</span><span class="${cls}">${escapeHtml(msg)}</span>`;
+    logEl.appendChild(line);
+    logEl.scrollTop = logEl.scrollHeight;
+    // Cap at 50 lines
+    while (logEl.children.length > 50) logEl.removeChild(logEl.firstChild);
+  }
+  function escapeHtml(s) {
+    return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  }
+
+  /* ============================================================
+     TOAST
+     ============================================================ */
+  const toast = document.querySelector('[data-toast]');
+  function showToast(text) {
+    toast.textContent = text;
+    toast.classList.add('show');
+    clearTimeout(showToast._t);
+    showToast._t = setTimeout(() => toast.classList.remove('show'), 2200);
+  }
+
+  /* ============================================================
+     INIT
+     ============================================================ */
+  log('info', 'READY · waiting for photos');
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    gsap.globalTimeline.timeScale(0.01);
+  }
+
+  // Welcome
+  window.addEventListener('load', () => {
+    gsap.from('.hero h1', { y: 16, opacity: 0, duration: 0.5, ease: 'power2.out' });
+    gsap.from('.pchip', { y: -8, opacity: 0, duration: 0.3, delay: 0.1, ease: 'power2.out', stagger: 0.04 });
+  });
+  </script>
+</body>
+</html>

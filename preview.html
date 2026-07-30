@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Collage — Brand Refresh Lab</title>
+  <link rel="icon" type="image/svg+xml" href="/favicons/lab.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0a0a0c;
+      --bg-2: #111114;
+      --surface: #16161a;
+      --surface-2: #1c1c22;
+      --border: #2a2a32;
+      --border-hover: #3f3f4a;
+      --fg: #f5f5f7;
+      --fg-muted: #8a8a93;
+      --fg-dim: #5a5a63;
+      --accent: #c8ff00;
+      --warn: #ffb000;
+      --danger: #ff3b30;
+      --info: #00d4ff;
+      --success: #00ff9c;
+      --font-sans: 'Inter', -apple-system, sans-serif;
+      --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+    }
+
+    html { background: var(--bg); }
+    body {
+      font-family: var(--font-sans);
+      background:
+        radial-gradient(ellipse at top, rgba(200, 255, 0, 0.04), transparent 50%),
+        var(--bg);
+      color: var(--fg);
+      min-height: 100vh;
+      padding: 48px 20px 80px;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .wrap { max-width: 1100px; margin: 0 auto; }
+
+    /* ---- HEADER ---- */
+    .head { margin-bottom: 56px; }
+    .head-meta {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--fg-dim);
+      letter-spacing: 0.1em;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .head-meta .dot {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 8px var(--accent);
+      animation: pulse 1.6s ease-in-out infinite;
+    }
+    @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+
+    .head h1 {
+      font-size: clamp(40px, 6vw, 72px);
+      font-weight: 600;
+      letter-spacing: -0.04em;
+      line-height: 0.95;
+      margin-bottom: 16px;
+    }
+    .head h1 .strike {
+      font-family: var(--font-mono);
+      font-weight: 400;
+      color: var(--fg-dim);
+      text-decoration: line-through;
+      text-decoration-color: var(--danger);
+      text-decoration-thickness: 3px;
+      margin-right: 12px;
+      font-size: 0.6em;
+    }
+    .head h1 .new {
+      background: linear-gradient(135deg, var(--accent), #00ff9c);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    .head p {
+      color: var(--fg-muted);
+      max-width: 560px;
+      font-size: 15px;
+      line-height: 1.6;
+    }
+    .head p code {
+      font-family: var(--font-mono);
+      font-size: 13px;
+      color: var(--accent);
+      background: rgba(200, 255, 0, 0.08);
+      padding: 2px 6px;
+      border-radius: 4px;
+    }
+
+    /* ---- FEATURED: try all themes ---- */
+    .featured {
+      display: block;
+      text-decoration: none;
+      color: inherit;
+      background: linear-gradient(135deg, var(--surface), var(--bg-2));
+      border: 1px solid var(--accent);
+      border-radius: 14px;
+      padding: 20px;
+      margin-bottom: 24px;
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    .featured::before {
+      content: '';
+      position: absolute;
+      top: -50%; right: -20%;
+      width: 300px; height: 300px;
+      background: radial-gradient(circle, var(--accent) 0%, transparent 60%);
+      opacity: 0.08;
+      pointer-events: none;
+    }
+    .featured:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 32px rgba(200, 255, 0, 0.15);
+    }
+    .featured-tag {
+      display: inline-block;
+      font-family: var(--font-mono);
+      font-size: 10px;
+      padding: 3px 8px;
+      background: var(--accent);
+      color: #0a0a0c;
+      border-radius: 4px;
+      letter-spacing: 0.1em;
+      margin-bottom: 12px;
+      font-weight: 600;
+    }
+    .featured h2 {
+      font-size: 22px;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      margin-bottom: 6px;
+    }
+    .featured p {
+      font-size: 13px;
+      color: var(--fg-muted);
+      line-height: 1.5;
+      max-width: 480px;
+    }
+    .featured-dots {
+      display: flex;
+      gap: 6px;
+      margin-top: 12px;
+      align-items: center;
+      font-family: var(--font-mono);
+      font-size: 10px;
+      color: var(--fg-dim);
+      letter-spacing: 0.1em;
+    }
+    .featured-dots .dot {
+      width: 10px; height: 10px;
+      border-radius: 50%;
+      box-shadow: 0 0 6px currentColor;
+    }
+
+    /* ---- GRID ---- */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+      margin-bottom: 64px;
+    }
+
+    .card {
+      position: relative;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      overflow: hidden;
+      text-decoration: none;
+      color: inherit;
+      transition: border-color 0.3s, transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      display: flex;
+      flex-direction: column;
+      min-height: 380px;
+    }
+    .card:hover {
+      border-color: var(--border-hover);
+      transform: translateY(-4px);
+    }
+    .card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, transparent 60%, var(--accent-glow, transparent) 100%);
+      opacity: 0;
+      transition: opacity 0.4s;
+      pointer-events: none;
+    }
+    .card:hover::before { opacity: 0.15; }
+
+    .card-visual {
+      position: relative;
+      aspect-ratio: 4/3;
+      background: var(--bg-2);
+      overflow: hidden;
+      border-bottom: 1px solid var(--border);
+    }
+    .card-visual svg { width: 100%; height: 100%; display: block; }
+    .card-num {
+      position: absolute;
+      top: 12px; left: 12px;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--fg-muted);
+      background: rgba(0,0,0,0.6);
+      padding: 4px 8px;
+      border-radius: 4px;
+      letter-spacing: 0.1em;
+      backdrop-filter: blur(8px);
+    }
+    .card-tag {
+      position: absolute;
+      top: 12px; right: 12px;
+      font-family: var(--font-mono);
+      font-size: 10px;
+      padding: 4px 8px;
+      border-radius: 4px;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      font-weight: 500;
+    }
+
+    .card-body {
+      padding: 20px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .card-name {
+      font-family: var(--font-mono);
+      font-size: 20px;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+    }
+    .card-tagline {
+      font-size: 13px;
+      color: var(--fg-muted);
+      line-height: 1.5;
+    }
+    .card-footer {
+      margin-top: auto;
+      padding-top: 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--fg-dim);
+    }
+    .card-arrow {
+      display: inline-block;
+      transition: transform 0.3s;
+    }
+    .card:hover .card-arrow { transform: translateX(4px); }
+
+    /* ---- DIRECTION-SPECIFIC THEMES ---- */
+    .card[data-dir="rack"] { --accent-glow: #ffb000; }
+    .card[data-dir="rack"] .card-tag { background: rgba(255, 176, 0, 0.15); color: #ffb000; }
+    .card[data-dir="rack"] .card-name { color: #ffb000; }
+
+    .card[data-dir="crt"] { --accent-glow: #00ff66; }
+    .card[data-dir="crt"] .card-tag { background: rgba(0, 255, 102, 0.15); color: #00ff66; }
+    .card[data-dir="crt"] .card-name { color: #00ff66; }
+
+    .card[data-dir="noc"] { --accent-glow: #00d4ff; }
+    .card[data-dir="noc"] .card-tag { background: rgba(0, 212, 255, 0.15); color: #00d4ff; }
+    .card[data-dir="noc"] .card-name { color: #00d4ff; }
+
+    .card[data-dir="minimal"] { --accent-glow: #c8ff00; }
+    .card[data-dir="minimal"] .card-tag { background: rgba(200, 255, 0, 0.15); color: #c8ff00; }
+    .card[data-dir="minimal"] .card-name { color: #c8ff00; }
+
+    /* ---- BRAND KIT ---- */
+    .kit {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 32px;
+    }
+    .kit-title {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--fg-dim);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-bottom: 24px;
+    }
+    .kit-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 24px;
+    }
+    .kit-item h4 {
+      font-size: 12px;
+      color: var(--fg-muted);
+      font-weight: 500;
+      margin-bottom: 8px;
+      font-family: var(--font-mono);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+    .kit-item .val {
+      font-size: 14px;
+      color: var(--fg);
+      line-height: 1.5;
+    }
+    .kit-item .val-mono {
+      font-family: var(--font-mono);
+      font-size: 13px;
+    }
+    .swatches { display: flex; gap: 4px; flex-wrap: wrap; }
+    .swatch {
+      width: 32px; height: 32px; border-radius: 6px;
+      border: 1px solid var(--border);
+    }
+
+    /* ---- FOOTER ---- */
+    .foot {
+      margin-top: 64px;
+      padding-top: 24px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--fg-dim);
+      letter-spacing: 0.05em;
+    }
+    .foot .blink { animation: blink 1s steps(2) infinite; }
+    @keyframes blink { 0%, 50% { opacity: 1; } 51%, 100% { opacity: 0; } }
+
+    @media (max-width: 600px) {
+      body { padding: 24px 16px 48px; }
+      .kit { padding: 20px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header class="head">
+      <div class="head-meta">
+        <span class="dot"></span>
+        <span>BRAND_REFRESH_LAB</span>
+        <span>·</span>
+        <span>v0.4.0-rc</span>
+        <span>·</span>
+        <span>4 directions</span>
+      </div>
+      <h1>
+        <span class="strike">Collage</span>
+        <span class="new">Home Lab Edition</span>
+      </h1>
+      <p>
+        4 แนวทาง redesign หน้า LIFF ของแอปทำคอลลาจจากกลุ่ม LINE
+        เพื่อเทียบ vibe, motion และ brand voice ก่อนเลือกทิศทาง
+        ทุกตัวเป็น <code>visual mockup</code> ไม่ต่อ backend, ไม่แตะ <code>index.html</code> เดิม
+      </p>
+    </header>
+
+    <a href="app.html" class="featured" style="border-color: var(--success); background: linear-gradient(135deg, rgba(22,163,74,0.08), var(--bg-2));">
+      <div class="featured-tag" style="background: var(--success);">★ LIVE · ทำงานจริง</div>
+      <h2>Collage Maker — รับรูป → ได้ PNG</h2>
+      <p>อัปโหลดรูป → จัดวางอัตโนมัติ → ดาวน์โหลด PNG ได้เลย · ไม่ต้อง login, ไม่อัปขึ้น server, ทำงานบนเครื่องคุณ · 4 ธีมให้เลือก</p>
+      <div class="featured-dots">
+        <span class="dot" style="background:#22c55e;color:#22c55e"></span>
+        <span>no backend · no LIFF · pure client</span>
+      </div>
+    </a>
+
+    <a href="preview-themes.html" class="featured">
+      <div class="featured-tag">★ INTERACTIVE PREVIEW</div>
+      <h2>Theme Lab — เปลี่ยนธีมได้สด ๆ</h2>
+      <p>1 หน้า 4 ธีม สลับได้แบบ live · แต่ละธีมมี output frame เป็น brand ของตัวเอง — rack mount / CRT / NOC panel / minimal</p>
+      <div class="featured-dots">
+        <span class="dot" style="background:#ffb000;color:#ffb000"></span>
+        <span class="dot" style="background:#00ff66;color:#00ff66"></span>
+        <span class="dot" style="background:#00d4ff;color:#00d4ff"></span>
+        <span class="dot" style="background:#c8ff00;color:#c8ff00"></span>
+        <span>click to try →</span>
+      </div>
+    </a>
+
+    <div class="grid">
+
+      <!-- DIRECTION 1: RACK -->
+      <a href="preview-rack.html" class="card" data-dir="rack">
+        <div class="card-visual">
+          <div class="card-num">01 / 04</div>
+          <div class="card-tag">PHYSICAL · RACK</div>
+          <svg viewBox="0 0 280 210" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+            <defs>
+              <linearGradient id="rackBg" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#1a1a1d"/>
+                <stop offset="100%" stop-color="#0a0a0c"/>
+              </linearGradient>
+            </defs>
+            <rect width="280" height="210" fill="url(#rackBg)"/>
+            <!-- rack frame -->
+            <rect x="20" y="20" width="240" height="170" fill="none" stroke="#3a3a42" stroke-width="1"/>
+            <!-- units -->
+            <g>
+              <rect x="24" y="24" width="232" height="22" fill="#16161a" stroke="#2a2a32"/>
+              <rect x="24" y="48" width="232" height="22" fill="#16161a" stroke="#2a2a32"/>
+              <rect x="24" y="72" width="232" height="22" fill="#16161a" stroke="#2a2a32"/>
+              <rect x="24" y="96" width="232" height="22" fill="#16161a" stroke="#2a2a32"/>
+              <rect x="24" y="120" width="232" height="22" fill="#16161a" stroke="#2a2a32"/>
+              <rect x="24" y="144" width="232" height="22" fill="#16161a" stroke="#2a2a32"/>
+            </g>
+            <!-- LEDs -->
+            <circle cx="36" cy="35" r="2" fill="#00ff66"><animate attributeName="opacity" values="1;0.3;1" dur="1.5s" repeatCount="indefinite"/></circle>
+            <circle cx="44" cy="35" r="2" fill="#ffb000"><animate attributeName="opacity" values="1;1;0.2;1" dur="2s" repeatCount="indefinite"/></circle>
+            <circle cx="52" cy="35" r="2" fill="#00ff66"/>
+            <circle cx="36" cy="59" r="2" fill="#00ff66"><animate attributeName="opacity" values="0.3;1;1" dur="1.8s" repeatCount="indefinite"/></circle>
+            <circle cx="44" cy="59" r="2" fill="#ff3b30"><animate attributeName="opacity" values="0.3;1;0.3" dur="3s" repeatCount="indefinite"/></circle>
+            <circle cx="36" cy="83" r="2" fill="#00ff66"/>
+            <circle cx="44" cy="83" r="2" fill="#00ff66"/>
+            <circle cx="36" cy="107" r="2" fill="#ffb000"><animate attributeName="opacity" values="0.5;1;0.5" dur="1.2s" repeatCount="indefinite"/></circle>
+            <circle cx="36" cy="131" r="2" fill="#00ff66"/>
+            <circle cx="36" cy="155" r="2" fill="#00ff66"/>
+            <!-- fans -->
+            <g transform="translate(220, 35)">
+              <circle r="8" fill="none" stroke="#2a2a32" stroke-width="0.5"/>
+              <g><animateTransform attributeName="transform" type="rotate" from="0" to="360" dur="2s" repeatCount="indefinite"/>
+                <path d="M 0,-6 L 2,-2 L -2,-2 Z" fill="#3a3a42"/>
+                <path d="M 6,0 L 2,2 L 2,-2 Z" fill="#3a3a42"/>
+                <path d="M 0,6 L -2,2 L 2,2 Z" fill="#3a3a42"/>
+                <path d="M -6,0 L -2,-2 L -2,2 Z" fill="#3a3a42"/>
+              </g>
+            </g>
+            <text x="70" y="40" font-family="JetBrains Mono" font-size="9" fill="#5a5a63" letter-spacing="0.5">STACK//FRAME</text>
+            <text x="70" y="180" font-family="JetBrains Mono" font-size="7" fill="#3a3a42" letter-spacing="0.5">RACK 01 · 7 PHOTOS LOADED</text>
+          </svg>
+        </div>
+        <div class="card-body">
+          <div class="card-name">STACK//FRAME</div>
+          <div class="card-tagline">"Deploy photos. Stack frames. Ship to LINE." — ตู้ rack จำลอง, ไฟ LED กระพริบ, brushed metal</div>
+          <div class="card-footer">
+            <span>rack · leds · gsap</span>
+            <span class="card-arrow">→</span>
+          </div>
+        </div>
+      </a>
+
+      <!-- DIRECTION 2: CRT -->
+      <a href="preview-crt.html" class="card" data-dir="crt">
+        <div class="card-visual">
+          <div class="card-num">02 / 04</div>
+          <div class="card-tag">RETRO · CRT</div>
+          <svg viewBox="0 0 280 210" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+            <defs>
+              <pattern id="scan" width="2" height="2" patternUnits="userSpaceOnUse">
+                <rect width="2" height="1" fill="#001a0c" opacity="0.4"/>
+              </pattern>
+            </defs>
+            <rect width="280" height="210" fill="#001a0c"/>
+            <rect width="280" height="210" fill="url(#scan)"/>
+            <!-- glow border -->
+            <rect x="6" y="6" width="268" height="198" fill="none" stroke="#00ff66" stroke-width="0.5" opacity="0.5"/>
+            <!-- boot lines -->
+            <g font-family="monospace" font-size="9" fill="#00ff66">
+              <text x="20" y="30">PIXSH v1.0 (c) 2026</text>
+              <text x="20" y="50" opacity="0.8">BIOS POST... OK</text>
+              <text x="20" y="65" opacity="0.8">Memory Test: 65536K</text>
+              <text x="20" y="80" opacity="0.6">Loading collage.kernel</text>
+              <text x="20" y="100" fill="#ffb000">$ pixsh build --photos 7</text>
+              <text x="20" y="115" opacity="0.7">→ Scanning 7 packets...</text>
+              <text x="20" y="130" opacity="0.7">→ Grid: 3x3 auto</text>
+              <text x="20" y="145" opacity="0.7">→ Deploying to /dev/line</text>
+              <text x="20" y="170" fill="#00ff66"><tspan>$</tspan> <tspan fill="#ffb000" class="cur">█</tspan></text>
+            </g>
+            <text x="20" y="195" font-family="monospace" font-size="6" fill="#003318" letter-spacing="0.3">IT WORKS ON MY CRT.</text>
+          </svg>
+        </div>
+        <div class="card-body">
+          <div class="card-name">PIXSH v1.0</div>
+          <div class="card-tagline">"Boot. Build. Broadcast." — CRT phosphor, scanlines, typing animation, glitch text</div>
+          <div class="card-footer">
+            <span>crt · mono · retro</span>
+            <span class="card-arrow">→</span>
+          </div>
+        </div>
+      </a>
+
+      <!-- DIRECTION 3: NOC -->
+      <a href="preview-noc.html" class="card" data-dir="noc">
+        <div class="card-visual">
+          <div class="card-num">03 / 04</div>
+          <div class="card-tag">NETWORK · NOC</div>
+          <svg viewBox="0 0 280 210" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+            <rect width="280" height="210" fill="#0f1419"/>
+            <!-- KPI cards -->
+            <g font-family="monospace" font-size="6" fill="#8a8a93">
+              <rect x="14" y="14" width="60" height="32" fill="none" stroke="#2a2a32" rx="2"/>
+              <text x="18" y="22" fill="#5a5a63">PACKETS</text>
+              <text x="18" y="36" font-size="11" fill="#00ff9c" font-weight="600">7/7</text>
+              <text x="18" y="44" font-size="5" fill="#00ff9c">+100%</text>
+
+              <rect x="80" y="14" width="60" height="32" fill="none" stroke="#2a2a32" rx="2"/>
+              <text x="84" y="22" fill="#5a5a63">LATENCY</text>
+              <text x="84" y="36" font-size="11" fill="#00d4ff" font-weight="600">12ms</text>
+              <text x="84" y="44" font-size="5" fill="#00ff9c">-3ms</text>
+
+              <rect x="146" y="14" width="60" height="32" fill="none" stroke="#2a2a32" rx="2"/>
+              <text x="150" y="22" fill="#5a5a63">LOSS</text>
+              <text x="150" y="36" font-size="11" fill="#00ff9c" font-weight="600">0.0%</text>
+              <text x="150" y="44" font-size="5" fill="#8a8a93">stable</text>
+
+              <rect x="212" y="14" width="54" height="32" fill="none" stroke="#2a2a32" rx="2"/>
+              <text x="216" y="22" fill="#5a5a63">UPTIME</text>
+              <text x="216" y="36" font-size="11" fill="#ffb000" font-weight="600">99.99</text>
+            </g>
+            <!-- graph -->
+            <g transform="translate(14, 60)">
+              <rect width="252" height="60" fill="none" stroke="#2a2a32" rx="2"/>
+              <polyline points="0,40 20,35 40,38 60,28 80,30 100,22 120,25 140,18 160,20 180,12 200,15 220,8 240,10 252,5" fill="none" stroke="#00d4ff" stroke-width="1"/>
+              <polyline points="0,50 20,48 40,45 60,47 80,42 100,44 120,40 140,42 160,38 180,40 200,36 220,38 240,34 252,30" fill="none" stroke="#00ff9c" stroke-width="1" opacity="0.5"/>
+              <line x1="0" y1="55" x2="252" y2="55" stroke="#2a2a32" stroke-width="0.3" stroke-dasharray="2,2"/>
+            </g>
+            <!-- log -->
+            <g font-family="monospace" font-size="6" transform="translate(14, 135)">
+              <text y="6" fill="#5a5a63">[12:04:23]</text> <text x="48" y="6" fill="#00ff9c">PING</text> <text x="68" y="6" fill="#8a8a93">line-gw → ok 12ms</text>
+              <text y="16" fill="#5a5a63">[12:04:25]</text> <text x="48" y="16" fill="#00d4ff">ROUTE</text> <text x="68" y="16" fill="#8a8a93">7/7 nodes reachable</text>
+              <text y="26" fill="#5a5a63">[12:04:27]</text> <text x="48" y="26" fill="#ffb000">QUEUE</text> <text x="68" y="26" fill="#8a8a93">collage build pending</text>
+              <text y="36" fill="#5a5a63">[12:04:30]</text> <text x="48" y="36" fill="#00ff9c">DEPLOY</text> <text x="68" y="36" fill="#8a8a93">routed to group</text>
+            </g>
+            <text x="14" y="195" font-family="monospace" font-size="6" fill="#3a3a42">PACKETGRID · NOC DASHBOARD</text>
+          </svg>
+        </div>
+        <div class="card-body">
+          <div class="card-name">PACKETGRID</div>
+          <div class="card-tagline">"Lossless photo delivery. BGP-routed to your group." — NOC dashboard, live KPIs, log feed</div>
+          <div class="card-footer">
+            <span>noc · live · cyan</span>
+            <span class="card-arrow">→</span>
+          </div>
+        </div>
+      </a>
+
+      <!-- DIRECTION 4: MINIMAL -->
+      <a href="preview-minimal.html" class="card" data-dir="minimal">
+        <div class="card-visual">
+          <div class="card-num">04 / 04</div>
+          <div class="card-tag">MINIMAL · HYBRID</div>
+          <svg viewBox="0 0 280 210" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+            <rect width="280" height="210" fill="#fafafa"/>
+            <text x="20" y="28" font-family="monospace" font-size="7" fill="#8a8a93" letter-spacing="0.2">$ collage.sh --build</text>
+            <text x="20" y="60" font-family="Inter, sans-serif" font-size="22" font-weight="600" fill="#0e0e10" letter-spacing="-0.5">collage<span style="color:#c8ff00;background:#0e0e10;padding:0 4px;">.sh</span></text>
+            <text x="20" y="78" font-family="Inter, sans-serif" font-size="9" fill="#5a5a63">It's just bash. But for your group photos.</text>
+            <!-- photo grid -->
+            <g transform="translate(20, 95)">
+              <rect x="0" y="0" width="60" height="60" fill="#0e0e10" rx="2"/>
+              <rect x="64" y="0" width="60" height="60" fill="#c8ff00" rx="2"/>
+              <rect x="128" y="0" width="60" height="60" fill="#0e0e10" rx="2"/>
+              <rect x="192" y="0" width="28" height="60" fill="#1c1c22" rx="2"/>
+              <rect x="224" y="0" width="28" height="60" fill="#0e0e10" rx="2"/>
+              <text x="0" y="-6" font-family="monospace" font-size="6" fill="#8a8a93">7 photos · grid auto</text>
+            </g>
+            <text x="20" y="180" font-family="monospace" font-size="6" fill="#5a5a63">v1.0.0 · BUILD ok · 0 errors</text>
+            <text x="20" y="192" font-family="monospace" font-size="6" fill="#8a8a93">~/line-group</text>
+          </svg>
+        </div>
+        <div class="card-body">
+          <div class="card-name">collage.sh</div>
+          <div class="card-tagline">"Works on my machine. Now yours too." — Clean, monospace accent, programmer humor</div>
+          <div class="card-footer">
+            <span>minimal · clean · lime</span>
+            <span class="card-arrow">→</span>
+          </div>
+        </div>
+      </a>
+
+    </div>
+
+    <section class="kit">
+      <div class="kit-title">// BRAND KIT — shared across all 4 directions</div>
+      <div class="kit-grid">
+        <div class="kit-item">
+          <h4>Voice</h4>
+          <div class="val">ไทยผสมอังกฤษ แบบ dev<br>พูดน้อย ติงตลก ไม่ทางการ</div>
+        </div>
+        <div class="kit-item">
+          <h4>Anti-patterns</h4>
+          <div class="val val-mono">no "AI-powered" ✕<br>no "experience" ✕<br>no buzzword ✕</div>
+        </div>
+        <div class="kit-item">
+          <h4>Joke template</h4>
+          <div class="val val-mono">"It works on my [machine/crt/rack]"<br>"Uptime 99.99%"<br>"Blaming Cloudflare"</div>
+        </div>
+        <div class="kit-item">
+          <h4>Microcopy rule</h4>
+          <div class="val">ทุกปุ่มมี personality<br>ทุก status มี sysadmin joke<br>ทุก state เปลี่ยนเป็น terminal log</div>
+        </div>
+        <div class="kit-item">
+          <h4>Type shared</h4>
+          <div class="val val-mono">Inter · 300/400/500/600/700<br>JetBrains Mono · 400/500/600<br>(+ VT323 สำหรับ CRT)</div>
+        </div>
+        <div class="kit-item">
+          <h4>Motion budget</h4>
+          <div class="val val-mono">Lenis smooth scroll<br>GSAP + ScrollTrigger<br>prefers-reduced-motion ✓</div>
+        </div>
+      </div>
+    </section>
+
+    <footer class="foot">
+      <div>collage · homelab_edition · 2026-07-30</div>
+      <div>5 files · 0 lines of index.html touched <span class="blink">_</span></div>
+    </footer>
+  </div>
+</body>
+</html>
