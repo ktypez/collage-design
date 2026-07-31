@@ -54,13 +54,12 @@ Engine เป็น theme-agnostic. แต่ละ design เป็น plugin �
 src/
 ├── engine/            ← theme-agnostic core (layout, photo, export)
 ├── core/              ← canvas-renderer + sharp-renderer + overlays lib
-├── themes/
-│   ├── rack/{manifest.js, canvas.js, ui.css}
-│   ├── crt/{manifest.js, canvas.js, ui.css}
-│   ├── noc/{manifest.js, ui.css}
-│   ├── min/{manifest.js, canvas.js, ui.css}
-│   └── glitchpage/{manifest.js, ui.css}
+└── themes/            ← 1 โฟลเดอร์ต่อ design — manifest.js (+ optional canvas.js)
 ```
+
+> **Concept pages เป็น standalone เต็มตัว** — `concepts/<id>.html` โยง CSS ของตัวเอง
+> (`concepts/<id>.css`) ไม่ได้แชร์ template กลาง เพราะแต่ละ concept คือ brand identity
+> ที่แยกกันชัดเจน เปลี่ยนอะไรในหน้าเดียวไม่กระทบหน้าอื่น
 
 ### `manifest.js` = single source of truth
 
@@ -94,8 +93,8 @@ export const manifest = {
 ## วิธีหยิบไปใช้
 
 ### 1. เป็น standalone หน้า UI
-เปิด `concepts/<id>.html` (หรือ `index.html` ดูภาพรวม) หรือคัดลอก CSS จาก `src/css/themes/<id>/ui.css` +
-`base.css` ไปใช้กับหน้าโปรเจกต์คุณ (`<html data-theme="<id>">`)
+แต่ละ concept อยู่ใน `concepts/<id>.html` + `concepts/<id>.css` — คัดลอกทั้งคู่ไปใช้กับหน้าโปรเจกต์คุณ
+(fonts ต้องโหลดตาม `<head>` ของ concept นั้น — ดู Google Fonts link ในหน้า)
 
 ### 2. เป็น reference ในโค้ด
 manifest = แหล่งข้อมูลสี/type/motion ต่อ design — อ่านจาก `themes/<id>/manifest.js`
@@ -113,9 +112,10 @@ npm run check   # syntax-check ทุก source module (zero dependency — ไ�
 ```
 1. mkdir src/js/themes/<id>
 2. เขียน manifest.js (canvas spec + ui copy)
-3. เขียน canvas.js (hooks เฉพาะถ้ามี) + ui.css (ถ้ามี UI)
+3. เขียน canvas.js (hooks เฉพาะถ้ามี)
 4. register ใน src/js/themes/index.js
-5. npm run check && push
+5. (ถ้าต้องการหน้า components แสดงสไตล์) สร้าง concepts/<id>.html + concepts/<id>.css standalone
+6. npm run check && push
 ```
 
 ## Tech

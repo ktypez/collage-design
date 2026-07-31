@@ -8,41 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&family=VT323&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../src/css/concept-template.css">
-  <link rel="stylesheet" href="../src/css/themes/crt/ui.css">
-  <style>
-    /* CRT: phosphor green + scanlines + VT323 */
-    [data-theme="crt"] .hero-body { background: #001a0c; }
-    [data-theme="crt"] .hero-body::after { content: ''; position: absolute; inset: 0; background: repeating-linear-gradient(0deg, rgba(0,0,0,0.25) 0, rgba(0,0,0,0.25) 1px, transparent 1px, transparent 3px); pointer-events: none; mix-blend-mode: multiply; }
-    .hero-body { position: relative; }
-    .crt-mock { font-family: 'VT323', monospace; color: #00ff66; text-shadow: 0 0 6px #00ff66; font-size: 20px; line-height: 1.3; position: relative; z-index: 1; }
-    .crt-mock .blink { animation: crt-blink 1s infinite; }
-    @keyframes crt-blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
-
-    /* CRT overrides: sharp, mono, glow */
-    [data-theme="crt"] .x-btn, [data-theme="crt"] .x-input, [data-theme="crt"] .x-textarea, [data-theme="crt"] .x-select, [data-theme="crt"] .x-card, [data-theme="crt"] .x-status, [data-theme="crt"] .x-badge, [data-theme="crt"] .x-alert, [data-theme="crt"] .x-kbd, [data-theme="crt"] .x-tab {
-      font-family: 'VT323', monospace; border-radius: 0; font-size: 14px;
-    }
-    [data-theme="crt"] .x-input, [data-theme="crt"] .x-textarea, [data-theme="crt"] .x-select { background: #001a0c; border-color: #003318; color: #00ff66; }
-    [data-theme="crt"] .x-input::placeholder, [data-theme="crt"] .x-textarea::placeholder { color: #005522; }
-    [data-theme="crt"] .x-btn { background: transparent; color: #00ff66; border-color: #003318; }
-    [data-theme="crt"] .x-btn:hover { background: #001a0c; border-color: #00ff66; }
-    [data-theme="crt"] .x-btn.primary { background: transparent; color: var(--accent); border-color: var(--accent); text-shadow: 0 0 6px var(--accent); }
-    [data-theme="crt"] .x-btn.danger { color: #ff3b30; border-color: #ff3b30; text-shadow: 0 0 6px #ff3b30; }
-    [data-theme="crt"] .x-card { background: #001a0c; border-color: #003318; }
-    [data-theme="crt"] .x-status::before { background: #00ff66; box-shadow: 0 0 6px #00ff66; }
-    [data-theme="crt"] .x-status.warn::before { background: #ffb000; box-shadow: 0 0 6px #ffb000; }
-    [data-theme="crt"] .x-badge { background: transparent; color: var(--accent); border: 1px solid var(--accent); border-radius: 0; }
-    [data-theme="crt"] .x-badge.muted { color: #00cc52; border-color: #003318; }
-    [data-theme="crt"] .x-alert { background: #001a0c; border-color: #003318; border-left-color: var(--accent); }
-    [data-theme="crt"] .x-tabs .t { font-family: 'VT323', monospace; font-size: 16px; }
-    [data-theme="crt"] .x-tabs .t.active { text-shadow: 0 0 6px var(--accent); }
-    [data-theme="crt"] .x-table th, [data-theme="crt"] .x-table td { font-family: 'JetBrains Mono', monospace; }
-    [data-theme="crt"] .x-progress { background: #003318; }
-    [data-theme="crt"] .x-progress > div { background: var(--accent); box-shadow: 0 0 6px var(--accent); }
-    [data-theme="crt"] .x-spinner { border-color: #003318; border-top-color: var(--accent); }
-    [data-theme="crt"] .x-check input, [data-theme="crt"] .x-radio input { accent-color: var(--accent); filter: drop-shadow(0 0 4px var(--accent)); }
-  </style>
+  <link rel="stylesheet" href="crt.css">
 </head>
 <body>
   <button class="mob-toggle" id="mobToggle" aria-label="Toggle sidebar">

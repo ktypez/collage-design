@@ -8,43 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../src/css/concept-template.css">
-  <link rel="stylesheet" href="../src/css/themes/min/ui.css">
-  <style>
-    /* MIN: minimal geek — lime accent + Inter + soft */
-    [data-theme="min"] .hero-body { background: #fafafa; }
-    .hero-body { position: relative; }
-    .min-mock { color: #0e0e10; font-family: 'Inter', sans-serif; text-align: left; width: 92%; }
-    .min-mock .title { font-size: 36px; font-weight: 700; letter-spacing: -0.03em; margin-bottom: 6px; }
-    .min-mock .title .ext { background: #c8ff00; color: #0e0e10; padding: 0 6px; border-radius: 4px; }
-    .min-mock .cmd { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #8a8a93; margin: 4px 0 12px; }
-    .min-mock .btn { display: inline-block; background: #c8ff00; color: #0e0e10; padding: 8px 16px; border-radius: 8px; font-size: 12px; font-weight: 600; }
-
-    /* MIN overrides: soft, rounded, sans */
-    [data-theme="min"] .x-input, [data-theme="min"] .x-textarea, [data-theme="min"] .x-select { background: #ffffff; border-color: #e5e5e8; color: #0e0e10; border-radius: 8px; font-family: 'Inter', sans-serif; }
-    [data-theme="min"] .x-input::placeholder, [data-theme="min"] .x-textarea::placeholder { color: #8a8a93; }
-    [data-theme="min"] .x-btn { background: #ffffff; border-color: #e5e5e8; color: #0e0e10; border-radius: 8px; font-family: 'Inter', sans-serif; }
-    [data-theme="min"] .x-btn:hover { background: #f5f5f7; }
-    [data-theme="min"] .x-btn.primary { background: var(--accent); color: #0e0e10; border-color: var(--accent); }
-    [data-theme="min"] .x-btn.danger { background: #ef4444; color: #fff; border-color: #ef4444; }
-    [data-theme="min"] .x-card { background: #ffffff; border-color: #e5e5e8; border-radius: 8px; }
-    [data-theme="min"] .x-status::before { background: #16a34a; box-shadow: none; }
-    [data-theme="min"] .x-status.warn::before { background: #f59e0b; }
-    [data-theme="min"] .x-badge { background: var(--accent); color: #0e0e10; border-radius: 4px; }
-    [data-theme="min"] .x-badge.outline { background: transparent; color: var(--accent); border: 1px solid var(--accent); }
-    [data-theme="min"] .x-badge.muted { background: #f5f5f7; color: #5a5a63; border: 1px solid #e5e5e8; }
-    [data-theme="min"] .x-kbd { background: #f5f5f7; border-color: #e5e5e8; color: #5a5a63; }
-    [data-theme="min"] .x-alert { background: #ffffff; border-color: #e5e5e8; border-left-color: var(--accent); }
-    [data-theme="min"] .x-tabs .t { font-family: 'Inter', sans-serif; }
-    [data-theme="min"] .x-tabs .t.active { color: #0e0e10; border-bottom-color: var(--accent); }
-    [data-theme="min"] .x-progress { background: #f5f5f7; }
-    [data-theme="min"] .x-progress > div { background: var(--accent); }
-    [data-theme="min"] .x-spinner { border-color: #e5e5e8; border-top-color: var(--accent); }
-    [data-theme="min"] .x-page .p { background: #ffffff; border-color: #e5e5e8; color: #5a5a63; }
-    [data-theme="min"] .x-page .p.active { background: var(--accent); color: #0e0e10; border-color: var(--accent); }
-    [data-theme="min"] .x-table th, [data-theme="min"] .x-table td { font-family: 'Inter', sans-serif; }
-    [data-theme="min"] .x-table th { color: #5a5a63; }
-  </style>
+  <link rel="stylesheet" href="min.css">
 </head>
 <body>
   <button class="mob-toggle" id="mobToggle" aria-label="Toggle sidebar">
