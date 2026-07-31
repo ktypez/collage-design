@@ -1,0 +1,22 @@
+{
+  "name": "collage-design",
+  "version": "1.0.0",
+  "description": "Collage Maker brand refresh design lab — 4 themed concepts",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "node build.js",
+    "build:watch": "node build.js --watch",
+    "preview": "node build.js --serve",
+    "serve": "node build.js --serve",
+    "clean": "node build.js --clean",
+    "size": "node build.js --size"
+  },
+  "devDependencies": {
+    "html-minifier-terser": "^7.2.0",
+    "svgo": "^3.3.2"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

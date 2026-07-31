@@ -48,7 +48,7 @@ collage-design/
 
 ## Tech
 
-- Vanilla HTML/CSS/JS — no build step
+- Vanilla HTML/CSS/JS — no build step required (but optional, see below)
 - GSAP via CDN for theme transitions
 - Canvas API for collage composition
 - No backend, no LINE LIFF (app.html is offline-capable)
@@ -56,14 +56,32 @@ collage-design/
 ## Setup
 
 This project is **served via nginx** (location `/design/`) from
-`/home/admin/collage-design/`. No build/dev server needed.
+`/home/admin/collage-design/`. No build needed for serving.
 
-To preview locally:
+To preview locally without nginx:
 
 ```bash
 python3 -m http.server 8000
 # then open http://localhost:8000/preview.html
 ```
+
+## Build (optional — asset optimization)
+
+A build script is included that minifies HTML + inline CSS + inline JS
+and optimizes inline SVGs using `html-minifier-terser` and `svgo`.
+
+```bash
+npm install            # one-time
+npm run build         # minify → ./dist/
+npm run size          # show before/after sizes
+npm run preview       # serve dist/ on :8000
+npm run build:watch   # rebuild on change
+npm run clean         # remove dist/
+```
+
+Typical savings: **~28% smaller files** (~61KB saved across 7 files).
+
+The `dist/` output is gitignored — only source files are tracked.
 
 ## Reverting
 
