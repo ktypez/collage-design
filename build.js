@@ -1,14 +1,10 @@
 /* =============================================================================
-   build.js — Design Gallery build tool
+   build.js — Design Gallery tooling
    -----------------------------------------------------------------------------
-   This repo is a CENTRAL DESIGN LIBRARY. The main build action syncs the
-   design-system (theme manifests + sharp-renderer + fonts) into production
-   so the gallery is the single source of truth.
+   Zero-dependency tool — ใช้ node builtins เท่านั้น (ไม่ต้อง npm install).
 
    Commands:
-     npm run build         → alias of copy:backend (default action)
-     npm run copy:backend  → sync design-system → /home/admin/collage/backend/
-     npm run check         → syntax-check all source modules
+     npm run check  → syntax-check ทุก source module ใน src/js
    ============================================================================= */
 
 import fs from 'node:fs';
@@ -17,59 +13,7 @@ import { execFileSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const ROOT = __dirname;
-const SRC = path.join(ROOT, 'src');
-const BACKEND_DESIGN_DIR = '/home/admin/collage/backend/design-system';
-
-const THEME_IDS = ['rack', 'crt', 'noc', 'min'];
-
-/* =============================================================================
-   copy:backend — sync the design-system into the production backend
-   ============================================================================= */
-function copyToBackend() {
-  console.log('\n  ┌─ design-gallery → backend/design-system ──');
-  if (!fs.existsSync('/home/admin/collage/backend')) {
-    console.log('  └─ ✗ /home/admin/collage/backend not found — skip');
-    process.exit(1);
-  }
-  fs.mkdirSync(BACKEND_DESIGN_DIR, { recursive: true });
-  fs.mkdirSync(path.join(BACKEND_DESIGN_DIR, 'themes'), { recursive: true });
-  fs.mkdirSync(path.join(BACKEND_DESIGN_DIR, 'fonts'), { recursive: true });
-
-  // 1. theme manifests + canvas hooks
-  for (const id of THEME_IDS) {
-    const srcDir = path.join(SRC, 'js', 'themes', id);
-    const dstDir = path.join(BACKEND_DESIGN_DIR, 'themes', id);
-    fs.mkdirSync(dstDir, { recursive: true });
-    for (const file of ['manifest.js', 'canvas.js']) {
-      const s = path.join(srcDir, file);
-      const d = path.join(dstDir, file);
-      if (fs.existsSync(s)) fs.copyFileSync(s, d);
-    }
-    console.log(`  │ themes/${id}/  ✓`);
-  }
-
-  // 2. engine + core (incl. sharp-renderer)
-  for (const rel of ['engine/layout.js', 'core/overlays.js', 'core/canvas-renderer.js', 'core/sharp-renderer.js']) {
-    const s = path.join(SRC, 'js', rel);
-    const d = path.join(BACKEND_DESIGN_DIR, rel);
-    if (fs.existsSync(s)) {
-      fs.mkdirSync(path.dirname(d), { recursive: true });
-      fs.copyFileSync(s, d);
-    }
-  }
-  console.log('  │ engine + core shared modules ✓');
-
-  // 3. fonts (mono + display for sharp text rendering)
-  for (const f of ['JetBrainsMono-Regular.ttf', 'VT323-Regular.ttf']) {
-    const s = path.join(SRC, 'assets', 'fonts', f);
-    const d = path.join(BACKEND_DESIGN_DIR, 'fonts', f);
-    if (fs.existsSync(s)) fs.copyFileSync(s, d);
-  }
-  console.log('  │ fonts (JetBrainsMono + VT323) ✓');
-  console.log(`  └─ ✓ synced → ${BACKEND_DESIGN_DIR}`);
-  console.log();
-}
+const SRC = path.join(__dirname, 'src');
 
 /* =============================================================================
    check — syntax-check all source modules
@@ -84,7 +28,7 @@ function check() {
       else if (e.name.endsWith('.js')) files.push(p);
     }
   };
-  walk(path.join(SRC, 'js'));
+  walk(SRC);
   let bad = 0;
   for (const f of files) {
     try {
@@ -105,4 +49,4 @@ function check() {
    ============================================================================= */
 const arg = process.argv[2];
 if (arg === '--check') check();
-else copyToBackend(); // default = copy:backend (single source of truth → production)
+else console.log('usage: npm run check   (syntax-check src/js modules)');

@@ -20,6 +20,7 @@
       --success: #16a34a; --warn: #f59e0b; --danger: #ef4444; --info: #3b82f6;
       --glow: rgba(200,255,0,0.35);
       --font-disp: 'Inter', sans-serif; --font-mono: 'JetBrains Mono', monospace;
+      color-scheme: light;
       --body-glow: none;
       --scanlines: none;
     }
@@ -31,6 +32,7 @@
       --success: #00ff66; --warn: #ffb000; --danger: #ff3b30; --info: #00d4ff;
       --glow: rgba(255,176,0,0.35);
       --font-disp: 'JetBrains Mono', monospace; --font-mono: 'JetBrains Mono', monospace;
+      color-scheme: dark;
       --body-glow: radial-gradient(ellipse 80% 40% at 50% 0%, rgba(255,176,0,0.07), transparent);
       --scanlines: none;
     }
@@ -42,6 +44,7 @@
       --success: #00ff66; --warn: #ffb000; --danger: #ff3b30; --info: #00ff66;
       --glow: rgba(0,255,102,0.3);
       --font-disp: 'VT323', monospace; --font-mono: 'JetBrains Mono', monospace;
+      color-scheme: dark;
       --body-glow: none;
       --scanlines: repeating-linear-gradient(0deg, rgba(0,0,0,0.15) 0px, rgba(0,0,0,0.15) 1px, transparent 1px, transparent 3px);
     }
@@ -53,12 +56,43 @@
       --success: #00ff9c; --warn: #ffb000; --danger: #ff3b5c; --info: #00d4ff;
       --glow: rgba(0,212,255,0.35);
       --font-disp: 'JetBrains Mono', monospace; --font-mono: 'JetBrains Mono', monospace;
+      color-scheme: dark;
       --body-glow: radial-gradient(ellipse 60% 40% at 50% 0%, rgba(0,212,255,0.05), transparent);
       --scanlines: none;
     }
     [data-theme="crt"] body::before {
       content: ''; position: fixed; inset: 0; pointer-events: none; z-index: 2000;
       background: var(--scanlines); mix-blend-mode: multiply;
+    }
+    [data-theme="glitchpage"] {
+      --bg: #0f0f1a; --bg-2: #15152a; --bg-3: #1a1a2e; --surface: #15152a;
+      --border: #2a2a3a; --border-strong: #3f3f4a;
+      --fg: #e0e0e0; --fg-2: #c8c8d0; --fg-muted: #8899aa; --fg-dim: #556677;
+      --primary: #ff3366; --primary-fg: #0f0f1a; --primary-2: #ff6633;
+      --success: #33ff66; --warn: #ff9933; --danger: #ff3366; --info: #00ffff;
+      --glow: rgba(255,51,102,0.35);
+      --font-disp: 'Kanit', 'Inter', sans-serif; --font-mono: 'JetBrains Mono', monospace;
+      color-scheme: dark;
+      --body-glow: radial-gradient(ellipse 70% 40% at 50% 0%, rgba(255,51,102,0.08), transparent);
+      --scanlines: none;
+    }
+    [data-theme="glitchpage"] body::before {
+      content: ''; position: fixed; inset: 0; pointer-events: none; z-index: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+      background-size: 60px 60px;
+      animation: gp-drift 20s linear infinite;
+    }
+    [data-theme="glitchpage"] body::after {
+      content: ''; position: fixed; inset: 0; pointer-events: none; z-index: 2000;
+      background: repeating-linear-gradient(0deg, rgba(255,51,102,0.04) 0px, transparent 1px, transparent 3px);
+      mix-blend-mode: screen;
+      opacity: .5;
+    }
+    @keyframes gp-drift {
+      0%   { transform: translate(0, 0); }
+      100% { transform: translate(60px, 60px); }
     }
 
     /* ============================================================
@@ -144,6 +178,7 @@
     [data-theme="crt"] .btn-primary { background: transparent; color: var(--primary); border: 1px solid var(--primary); text-shadow: 0 0 6px var(--primary); }
     [data-theme="noc"] .btn-primary { box-shadow: 0 0 16px rgba(0,255,156,0.3); background: var(--primary); color: var(--primary-fg); }
     [data-theme="min"] .btn-primary { background: var(--primary); color: #0e0e10; }
+    [data-theme="glitchpage"] .btn-primary { background: linear-gradient(135deg, #ff3366, #ff6633); color: #fff; border: none; box-shadow: 0 0 24px rgba(255,51,102,0.4); }
     .btn-secondary { background: var(--surface); color: var(--fg); border-color: var(--border); }
     .btn-outline { background: transparent; color: var(--primary); border-color: var(--primary); }
     .btn-ghost { background: transparent; color: var(--fg-muted); }
@@ -203,13 +238,111 @@
       transition: border-color 0.2s, box-shadow 0.2s;
     }
     .input:focus, .select:focus, .textarea:focus { border-color: var(--primary); box-shadow: 0 0 0 2px var(--glow); }
+    .input:hover, .select:hover, .textarea:hover { border-color: var(--fg-dim); }
     .input::placeholder { color: var(--fg-dim); }
+    /* native <select> — themed via color-scheme + custom chevron, native popup hidden */
+    .select {
+      padding-right: 32px;
+      background: var(--bg) url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="12" height="7" viewBox="0 0 12 7" fill="none"><polyline points="1 1 6 6 11 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>')
+        no-repeat right 12px center;
+      background-size: 12px;
+      appearance: none; -webkit-appearance: none;
+      cursor: pointer;
+    }
+    .select::-webkit-select-icon { display: none }
+    .select option { background: var(--surface); color: var(--fg); }
+    .select:disabled { opacity: .5; cursor: not-allowed; }
     .label {
       display: block; font-family: var(--font-mono); font-size: 10px;
       color: var(--fg-muted); letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 6px;
     }
     .checkbox, .radio { accent-color: var(--primary); width: 16px; height: 16px; }
     .check-row { display: flex; align-items: center; gap: 8px; font-size: 14px; }
+
+    /* ============================================================
+       DATEPICKER (custom — themed, native-style field + popup grid)
+       ============================================================ */
+    .datepicker { position: relative; width: 100%; }
+    .dp-field {
+      width: 100%; padding: 8px 12px;
+      background: var(--bg); color: var(--fg);
+      border: 1px solid var(--border-strong); border-radius: 6px;
+      font-family: var(--font-mono); font-size: 13px; text-align: left;
+      cursor: pointer; transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .dp-field:focus { border-color: var(--primary); box-shadow: 0 0 0 2px var(--glow); outline: none; }
+    .dp-field:hover { border-color: var(--fg-dim); }
+    .dp-pop {
+      position: absolute; top: calc(100% + 6px); left: 0; right: 0;
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 8px; padding: 10px;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.12);
+      z-index: 20; display: none;
+      font-family: var(--font-mono); font-size: 12px;
+      color: var(--fg);
+    }
+    .datepicker.open .dp-pop { display: block; }
+    .dp-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; }
+    .dp-month {
+      font-weight: 600; color: var(--fg); font-size: 12px;
+      background: transparent; border: none; border-radius: 6px;
+      padding: 4px 10px; cursor: pointer;
+      display: inline-flex; align-items: center; gap: 4px;
+      transition: background-color 0.12s, color 0.12s;
+    }
+    .dp-month:hover { background: var(--bg-2); color: var(--primary); }
+    .dp-month::after { content: '▾'; font-size: 9px; opacity: 0.6; }
+    /* quick month/year jump panel (dropdown-nav) */
+    .dp-quick { display: none; }
+    .datepicker.dp-quick-open .dp-quick { display: block; }
+    .datepicker.dp-quick-open .dp-wk,
+    .datepicker.dp-quick-open .dp-grid { display: none; }
+    .dp-q-months { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px; }
+    .dp-q-months button {
+      padding: 6px 2px; background: transparent; color: var(--fg-muted);
+      border: 1px solid transparent; border-radius: 6px;
+      font-family: var(--font-mono); font-size: 11px; cursor: pointer;
+      transition: background-color 0.12s, color 0.12s, border-color 0.12s;
+    }
+    .dp-q-months button:hover { background: var(--bg-2); color: var(--fg); }
+    .dp-q-months button.current {
+      background: color-mix(in srgb, var(--primary) 14%, transparent);
+      color: var(--primary); font-weight: 700;
+      border-color: color-mix(in srgb, var(--primary) 35%, transparent);
+    }
+    .dp-q-year { display: flex; align-items: center; justify-content: center; gap: 4px; margin-top: 6px; }
+    .dp-q-year-label { font-size: 12px; font-weight: 700; min-width: 52px; text-align: center; color: var(--fg); }
+    .dp-nav {
+      width: 26px; height: 26px;
+      background: transparent; border: none; border-radius: 6px;
+      cursor: pointer; color: var(--fg-muted);
+      display: flex; align-items: center; justify-content: center;
+      transition: background-color 0.15s, color 0.15s;
+    }
+    .dp-nav:hover { background: var(--bg-2); color: var(--fg); }
+    .dp-nav svg { width: 15px; height: 15px; }
+    .dp-wk { display: grid; grid-template-columns: repeat(7, 1fr); margin-bottom: 4px; }
+    .dp-wk span { text-align: center; font-size: 10px; color: var(--fg-muted); font-weight: 500; padding: 2px 0; }
+    .dp-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 2px; font-variant-numeric: tabular-nums; }
+    .dp-day {
+      height: 28px; padding: 0;
+      background: transparent; color: var(--fg);
+      border: none; border-radius: 6px;
+      font-family: var(--font-mono); font-size: 12px;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; transition: background-color 0.12s, color 0.12s;
+    }
+    .dp-day:hover { background: var(--bg-2); color: var(--fg); }
+    .dp-day.today {
+      background: color-mix(in srgb, var(--primary) 14%, transparent);
+      color: var(--primary); font-weight: 700;
+    }
+    .dp-day.selected {
+      background: var(--primary); color: var(--primary-fg);
+      font-weight: 700; box-shadow: 0 1px 4px rgba(0,0,0,0.2);
+    }
+    .dp-day.outside { color: var(--fg-dim); opacity: 0.45; cursor: default; }
+    .dp-day.outside:hover { background: transparent; color: var(--fg-dim); }
 
     /* ============================================================
        CARDS / STATS
@@ -426,10 +559,10 @@
 
     <!-- HERO -->
     <section class="hero">
-      <div class="badge"><span class="dot"></span>CENTRAL DESIGN LIBRARY · 4 IDENTITIES</div>
+      <div class="badge"><span class="dot"></span>CENTRAL DESIGN LIBRARY · 5 IDENTITIES</div>
       <h1>Design <span class="accent">Gallery</span></h1>
       <p>
-        คลัง design กลาง — 4 visual identity พร้อม design system ครบ
+        คลัง design กลาง — 5 visual identity พร้อม design system ครบ
         ทุกธีม <code>manifest-driven</code> ใช้ได้ทั้ง client canvas และ production backend
         สลับธีมด้านล่างเพื่อดู component ในแต่ละสไตล์
       </p>
@@ -445,6 +578,7 @@
         <button class="tchip" data-theme-btn="rack"><span class="td" style="background:#ffb000"></span>RACK</button>
         <button class="tchip" data-theme-btn="crt"><span class="td" style="background:#00ff66"></span>CRT</button>
         <button class="tchip" data-theme-btn="noc"><span class="td" style="background:#00d4ff"></span>NOC</button>
+        <button class="tchip" data-theme-btn="glitchpage"><span class="td" style="background:#ff3366"></span>GLITCH</button>
         <button class="tchip active" data-theme-btn="min"><span class="td" style="background:#c8ff00"></span>.sh</button>
       </div>
       <div class="mono" style="font-size:11px;color:var(--fg-dim)">// whole page restyles live — pick a style to preview its components</div>
@@ -488,15 +622,50 @@
         <div class="sec-desc">Text, date, select, textarea, checkbox, radio — focus ring ตาม accent ของธีม</div>
       </div>
       <div class="grid">
-        <div class="demo">
-          <div class="demo-label">Text · Date · Select</div>
-          <label class="label">Name</label>
-          <input class="input" placeholder="your name" value="Homelab Crew">
-          <label class="label">Date</label>
-          <input class="input" type="date" value="2026-07-31">
-          <label class="label">Style</label>
-          <select class="select"><option>STACK//FRAME</option><option>PIXSH</option><option>PACKETGRID</option><option>collage.sh</option></select>
-        </div>
+         <div class="demo">
+           <div class="demo-label">Text · Date · Select</div>
+           <label class="label">Name</label>
+           <input class="input" placeholder="your name" value="Homelab Crew">
+           <label class="label">Date</label>
+           <div class="datepicker" data-datepicker data-dp-date="2026-07-31">
+             <button type="button" class="dp-field" data-dp-field>2026-07-31</button>
+             <div class="dp-pop" data-dp-pop>
+               <div class="dp-head">
+                 <button type="button" class="dp-nav dp-prev" data-dp-prev aria-label="เดือนก่อนหน้า">
+                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+                 </button>
+                 <button type="button" class="dp-month" data-dp-month data-dp-quick-btn aria-label="เลือกเดือน/ปี">กรกฎาคม 2569</button>
+                 <button type="button" class="dp-nav dp-next" data-dp-next aria-label="เดือนถัดไป">
+                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+                 </button>
+               </div>
+               <div class="dp-quick" data-dp-quick>
+                 <div class="dp-q-months" data-dp-qmonths></div>
+                 <div class="dp-q-year">
+                   <button type="button" class="dp-nav dp-q-y-prev" data-dp-q-year-prev aria-label="ปีก่อนหน้า">
+                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+                   </button>
+                   <span class="dp-q-year-label" data-dp-q-year>2569</span>
+                   <button type="button" class="dp-nav dp-q-y-next" data-dp-q-year-next aria-label="ปีถัดไป">
+                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+                   </button>
+                 </div>
+               </div>
+               <div class="dp-wk"><span>อา</span><span>จ</span><span>อ</span><span>พ</span><span>พฤ</span><span>ศ</span><span>ส</span></div>
+               <div class="dp-grid" data-dp-grid></div>
+             </div>
+           </div>
+           <label class="label">Style</label>
+           <div class="dropdown" data-dropdown>
+             <button class="dropdown-btn" data-dropdown-btn>STACK//FRAME <span class="caret">▾</span></button>
+             <div class="dropdown-menu">
+               <div class="dropdown-item" data-dd-value="STACK//FRAME">STACK//FRAME</div>
+               <div class="dropdown-item" data-dd-value="PIXSH">PIXSH</div>
+               <div class="dropdown-item" data-dd-value="PACKETGRID">PACKETGRID</div>
+               <div class="dropdown-item" data-dd-value="collage.sh">collage.sh</div>
+             </div>
+           </div>
+         </div>
         <div class="demo">
           <div class="demo-label">Textarea · Checks</div>
           <textarea class="textarea" rows="3" placeholder="notes..."></textarea>
@@ -757,26 +926,166 @@
     }
 
     /* ============================================================
-       DROPDOWN (demo)
+       DROPDOWN (demo) — all instances
        ============================================================ */
-    const dd = document.querySelector('[data-dropdown]');
-    const ddBtn = dd && dd.querySelector('[data-dropdown-btn]');
-    if (dd && ddBtn) {
+    document.querySelectorAll('[data-dropdown]').forEach((dd) => {
+      const ddBtn = dd.querySelector('[data-dropdown-btn]');
+      const items = dd.querySelectorAll('.dropdown-item');
       ddBtn.addEventListener('click', (e) => {
         e.stopPropagation();
         dd.classList.toggle('open');
       });
-      dd.querySelectorAll('.dropdown-item').forEach((item) => {
+      items.forEach((item) => {
         item.addEventListener('click', () => {
-          dd.querySelectorAll('.dropdown-item').forEach((i) => i.classList.remove('active'));
+          items.forEach((i) => i.classList.remove('active'));
           item.classList.add('active');
           ddBtn.childNodes[0].textContent = item.dataset.ddValue + ' ';
           dd.classList.remove('open');
         });
       });
       document.addEventListener('click', () => dd.classList.remove('open'));
+    });
+
+    /* ============================================================
+       DATEPICKER (custom) — native-style field + themed popup grid
+       ============================================================ */
+    const MM_THAI = ['มกราคม', 'กุมภาพันธ์', 'มีนาคม', 'เมษายน', 'พฤษภาคม', 'มิถุนายน',
+                     'กรกฎาคม', 'สิงหาคม', 'กันยายน', 'ตุลาคม', 'พฤศจิกายน', 'ธันวาคม'];
+    const MM_SHORT = ['ม.ค.', 'ก.พ.', 'มี.ค.', 'เม.ย.', 'พ.ค.', 'มิ.ย.',
+                      'ก.ค.', 'ส.ค.', 'ก.ย.', 'ต.ค.', 'พ.ย.', 'ธ.ค.'];
+    const Y_MIN = 1900, Y_MAX = 2100; // clamp year (avoids JS Date 0-99 → 1900s gotcha)
+
+    function daysInMonth(y, m) {
+      return new Date(y, m + 1, 0).getDate();
     }
 
+    function startWeekday(y, m) {
+      // 0=Sunday..6=Saturday → map to Thai week order (อา–ส)
+      return new Date(y, m, 1).getDay();
+    }
+
+    function renderDP(dp) {
+      const grid = dp.querySelector('[data-dp-grid]');
+      const monthEl = dp.querySelector('[data-dp-month]');
+      const field = dp.querySelector('[data-dp-field]');
+      const iso = dp.dataset.dpDate; // YYYY-MM-DD
+      let [sy, sm, sd] = iso.split('-').map(Number);
+      sm -= 1; // 0-indexed
+      let y = sy, m = sm; // view state
+
+      function render() {
+        const dim = daysInMonth(y, m);
+        const prevDim = daysInMonth(y, m - 1);
+        const first = startWeekday(y, m);
+        const today = new Date();
+        const isToday = (n) => today.getFullYear() === y && today.getMonth() === m && today.getDate() === n;
+        const isSelected = (n) => y === sy && m === sm && n === sd;
+        monthEl.textContent = MM_THAI[m] + ' ' + (y + 543); // Buddhist year
+
+        grid.innerHTML = '';
+        // leading days from previous month (dimmed, non-selectable)
+        for (let i = 0; i < first; i++) {
+          const ph = document.createElement('div');
+          ph.className = 'dp-day outside';
+          ph.textContent = prevDim - first + i + 1;
+          grid.appendChild(ph);
+        }
+        for (let n = 1; n <= dim; n++) {
+          const day = document.createElement('div');
+          day.className = 'dp-day';
+          if (isToday(n)) day.classList.add('today');
+          if (isSelected(n)) day.classList.add('selected');
+          day.textContent = n;
+          day.addEventListener('click', () => {
+            // commit selection (full date, not just day number)
+            sy = y; sm = m; sd = n;
+            dp.dataset.dpDate = y + '-' + String(m + 1).padStart(2, '0') + '-' + String(n).padStart(2, '0');
+            field.textContent = dp.dataset.dpDate;
+            // refresh selected state across grid (ignore dimmed outside days)
+            grid.querySelectorAll('.dp-day:not(.outside)').forEach((c) => c.classList.toggle('selected', c.textContent == n));
+            dp.classList.remove('open');
+          });
+          grid.appendChild(day);
+        }
+        // trailing days from next month (dimmed, non-selectable)
+        const total = first + dim;
+        const extra = (7 - (total % 7)) % 7;
+        for (let i = 0; i < extra; i++) {
+          const ph = document.createElement('div');
+          ph.className = 'dp-day outside';
+          ph.textContent = i + 1;
+          grid.appendChild(ph);
+        }
+      }
+
+      render();
+
+      // ---- quick month/year jump panel ----
+      const qMonths = dp.querySelector('[data-dp-qmonths]');
+      const qYear = dp.querySelector('[data-dp-q-year]');
+      const qBtn = dp.querySelector('[data-dp-quick-btn]');
+      const renderQuick = () => {
+        qMonths.innerHTML = '';
+        MM_SHORT.forEach((name, i) => {
+          const b = document.createElement('button');
+          b.type = 'button';
+          b.textContent = name;
+          if (i === m) b.classList.add('current');
+          b.addEventListener('click', () => {
+            m = i;
+            renderQuick();
+            dp.classList.remove('dp-quick-open');
+            render();
+          });
+          qMonths.appendChild(b);
+        });
+        qYear.textContent = y + 543;
+      };
+      qBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        dp.classList.toggle('dp-quick-open');
+        renderQuick();
+      });
+      const qPrev = dp.querySelector('[data-dp-q-year-prev]');
+      const qNext = dp.querySelector('[data-dp-q-year-next]');
+      qPrev.addEventListener('click', (e) => { e.stopPropagation(); if (y > Y_MIN) { y -= 1; renderQuick(); } });
+      qNext.addEventListener('click', (e) => { e.stopPropagation(); if (y < Y_MAX) { y += 1; renderQuick(); } });
+
+      // expose nav handlers
+      const prev = dp.querySelector('[data-dp-prev]');
+      const next = dp.querySelector('[data-dp-next]');
+      const onNav = (dir) => (e) => {
+        e.stopPropagation();
+        m += dir;
+        if (m < 0) { m = 11; if (y > Y_MIN) y--; }
+        if (m > 11) { m = 0; if (y < Y_MAX) y++; }
+        render();
+      };
+      if (prev) prev.onclick = onNav(-1);
+      if (next) next.onclick = onNav(1);
+    }
+
+    function initDatepicker(dp) {
+      const field = dp.querySelector('[data-dp-field]');
+      // sync field display from dataset (ISO YYYY-MM-DD), or default to today
+      if (!dp.dataset.dpDate) {
+        const t = new Date();
+        dp.dataset.dpDate = t.getFullYear() + '-' + String(t.getMonth() + 1).padStart(2, '0') + '-' + String(t.getDate()).padStart(2, '0');
+      }
+      field.textContent = dp.dataset.dpDate;
+      // open / toggle on field click (stopPropagation keeps document listener from closing it)
+      field.addEventListener('click', (e) => {
+        e.stopPropagation();
+        dp.classList.toggle('open');
+      });
+      document.addEventListener('click', () => { dp.classList.remove('open'); dp.classList.remove('dp-quick-open'); });
+      dp.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') { dp.classList.remove('open'); dp.classList.remove('dp-quick-open'); }
+      });
+      renderDP(dp);
+    }
+
+    document.querySelectorAll('[data-datepicker]').forEach(initDatepicker);
     setTheme(current);
   </script>
 </body>
