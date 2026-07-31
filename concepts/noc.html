@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="th" data-theme="noc">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PACKETGRID — Components</title>
+  <link rel="icon" type="image/svg+xml" href="/favicons/lab.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../src/css/concept-template.css">
+  <link rel="stylesheet" href="../src/css/themes/noc/ui.css">
+  <style>
+    /* NOC: dark slate + cyan + grid */
+    [data-theme="noc"] .hero-body { background: #0a0e14; position: relative; }
+    [data-theme="noc"] .hero-body::before { content: ''; position: absolute; inset: 0; background-image: linear-gradient(rgba(0,212,255,0.07) 1px, transparent 1px), linear-gradient(90deg, rgba(0,212,255,0.07) 1px, transparent 1px); background-size: 24px 24px; pointer-events: none; }
+    .hero-body { position: relative; }
+    .noc-mock { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; width: 92%; position: relative; z-index: 1; }
+    .noc-tile { background: #141a22; border: 1px solid #1f2733; border-radius: 4px; padding: 14px; font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #8b95a7; }
+    .noc-tile .l { letter-spacing: 0.1em; font-size: 9px; color: #5a6478; }
+    .noc-tile .v { font-size: 26px; color: #00d4ff; font-weight: 600; margin: 4px 0 2px; }
+    .noc-tile .u { color: #00ff9c; font-size: 9px; }
+    .noc-tile:nth-child(2) .v { color: #00ff9c; }
+    .noc-tile:nth-child(3) .v { color: #ffb000; }
+
+    /* NOC overrides */
+    [data-theme="noc"] .x-input, [data-theme="noc"] .x-textarea, [data-theme="noc"] .x-select { background: #0f1419; border-color: #1f2733; color: #e6e9ef; font-family: 'JetBrains Mono', monospace; }
+    [data-theme="noc"] .x-btn { background: #141a22; border-color: #1f2733; color: #e6e9ef; font-family: 'JetBrains Mono', monospace; }
+    [data-theme="noc"] .x-btn:hover { border-color: #00d4ff; }
+    [data-theme="noc"] .x-btn.primary { background: var(--accent); color: #0a0e14; border-color: var(--accent); box-shadow: 0 0 12px rgba(0,212,255,0.3); }
+    [data-theme="noc"] .x-btn.danger { background: #ff3b5c; color: #fff; border-color: #ff3b5c; }
+    [data-theme="noc"] .x-card { background: #0f1419; border-color: #1f2733; border-top: 1px solid var(--accent); border-radius: 0; font-family: 'JetBrains Mono', monospace; }
+    [data-theme="noc"] .x-status::before { background: #00ff9c; }
+    [data-theme="noc"] .x-status.warn::before { background: #ffb000; }
+    [data-theme="noc"] .x-status.bad::before { background: #ff3b5c; }
+    [data-theme="noc"] .x-badge { background: var(--accent); color: #0a0e14; }
+    [data-theme="noc"] .x-badge.outline { background: transparent; color: var(--accent); border: 1px solid var(--accent); }
+    [data-theme="noc"] .x-badge.muted { background: #141a22; color: #8b95a7; border: 1px solid #1f2733; }
+    [data-theme="noc"] .x-kbd { background: #141a22; border-color: #1f2733; }
+    [data-theme="noc"] .x-alert { background: #0f1419; border-color: #1f2733; border-left-color: var(--accent); }
+    [data-theme="noc"] .x-tabs .t { font-family: 'JetBrains Mono', monospace; }
+    [data-theme="noc"] .x-tabs .t.active { color: var(--accent); border-bottom-color: var(--accent); }
+    [data-theme="noc"] .x-progress { background: #1f2733; }
+    [data-theme="noc"] .x-progress > div { background: var(--accent); }
+    [data-theme="noc"] .x-spinner { border-color: #1f2733; border-top-color: var(--accent); }
+    [data-theme="noc"] .x-page .p { background: #0f1419; border-color: #1f2733; }
+    [data-theme="noc"] .x-page .p.active { background: var(--accent); color: #0a0e14; border-color: var(--accent); }
+  </style>
+</head>
+<body>
+  <button class="mob-toggle" id="mobToggle" aria-label="Toggle sidebar">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+      <line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>
+    </svg>
+  </button>
+  <div class="mob-backdrop" id="mobBackdrop"></div>
+
+  <div class="layout">
+    <aside class="sb">
+      <div class="sb-brand">
+        <div class="mark"><span class="lg">D</span>Design Gallery</div>
+        <div class="sub">// CONCEPT · v1.0</div>
+      </div>
+      <div class="sb-section">
+        <div class="sb-label">CONCEPTS</div>
+        <a class="sb-item" href="rack.html"><span class="num">01</span><span class="dot" style="background:#ffb000"></span><span class="name">STACK//FRAME</span><span class="id">rack</span></a>
+        <a class="sb-item" href="crt.html"><span class="num">02</span><span class="dot" style="background:#00ff66"></span><span class="name">PIXSH v1.0</span><span class="id">crt</span></a>
+        <a class="sb-item" href="noc.html"><span class="num">03</span><span class="dot" style="background:#00d4ff"></span><span class="name">PACKETGRID</span><span class="id">noc</span></a>
+        <a class="sb-item" href="min.html"><span class="num">04</span><span class="dot" style="background:#c8ff00"></span><span class="name">collage.sh</span><span class="id">min</span></a>
+        <a class="sb-item" href="glitchpage.html"><span class="num">05</span><span class="dot" style="background:#ff3366"></span><span class="name">GLITCHPAGE</span><span class="id">glitch</span></a>
+      </div>
+      <div class="sb-section">
+        <div class="sb-label">MORE</div>
+        <a class="sb-item" href="../index.html"><span class="num">←</span><span class="dot" style="background:#888"></span><span class="name">Gallery</span><span class="id">/</span></a>
+      </div>
+      <div class="sb-foot">// 2026 · ktypez · <a href="https://github.com/ktypez/design-gallery" target="_blank" rel="noopener">github ↗</a></div>
+    </aside>
+
+    <main class="main">
+      <div class="crumb">// CONCEPT 03 / 05 · <a href="../index.html">gallery</a></div>
+      <div class="head">
+        <h1>PACKET<span style="color:var(--accent)">GRID</span></h1>
+        <span class="id-pill">id: noc</span>
+        <p>Network Operations Center — dark slate + cyan accent + blueprint grid. เหมาะกับ monitoring, stat tiles, real-time data</p>
+      </div>
+
+      <div class="hero">
+        <div class="hero-head">// MOCKUP · NOC_01</div>
+        <div class="hero-body">
+          <div class="noc-mock">
+            <div class="noc-tile"><div class="l">CPU</div><div class="v">42%</div><div class="u">▲ stable</div></div>
+            <div class="noc-tile"><div class="l">MEM</div><div class="v">68%</div><div class="u">▲ normal</div></div>
+            <div class="noc-tile"><div class="l">NET</div><div class="v">12M</div><div class="u">▲ live</div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tokens">
+        <div class="tok"><span class="lbl">// ACCENT</span><span class="val"><span class="sw" style="background:#00d4ff"></span>#00d4ff</span></div>
+        <div class="tok"><span class="lbl">// BG</span><span class="val">#0a0e14</span></div>
+        <div class="tok"><span class="lbl">// FG</span><span class="val">#e6e9ef</span></div>
+        <div class="tok"><span class="lbl">// FONT</span><span class="val">JetBrains Mono</span></div>
+        <div class="tok"><span class="lbl">// MOTION</span><span class="val">grid 20px · pulse</span></div>
+        <div class="tok"><span class="lbl">// BORDER</span><span class="val">top 1px cyan</span></div>
+      </div>
+
+      <div class="sec">
+        <div class="sec-h"><span class="num">// 01</span><h2>Buttons</h2><span class="of">/ 07</span></div>
+        <div class="grid-2">
+          <div class="c"><div class="lbl">// VARIANTS</div><div class="c-row">
+            <button class="x-btn primary">▶ ACK</button>
+            <button class="x-btn">ESCALATE</button>
+            <button class="x-btn danger">MUTE</button>
+            <button class="x-btn ghost">EXPORT</button>
+          </div></div>
+          <div class="c"><div class="lbl">// SIZES</div><div class="c-row">
+            <button class="x-btn primary sm">SM</button>
+            <button class="x-btn primary">DEFAULT</button>
+            <button class="x-btn primary lg">LARGE</button>
+          </div></div>
+        </div>
+      </div>
+
+      <div class="sec">
+        <div class="sec-h"><span class="num">// 02</span><h2>Inputs</h2><span class="of">/ 07</span></div>
+        <div class="grid-2">
+          <div class="c"><div class="lbl">// TEXT</div>
+            <input class="x-input" placeholder="filter: error" value="severity:critical">
+            <input class="x-input" type="date" value="2026-07-31" style="margin-top:8px">
+            <div style="margin-top:8px"><label class="lbl" style="display:block;margin-bottom:4px">// SELECT</label>
+              <select class="x-select"><option>all nodes</option><option>node-04.dc1</option><option>node-05.dc1</option></select>
+            </div>
+          </div>
+          <div class="c"><div class="lbl">// TEXTAREA</div>
+            <textarea class="x-textarea" placeholder="incident notes...">P2 incident · node-04 latency spike 800ms → 12ms after BGP route refresh · MTTR 4m 22s</textarea>
+          </div>
+        </div>
+      </div>
+
+      <div class="sec">
+        <div class="sec-h"><span class="num">// 03</span><h2>Controls</h2><span class="of">/ 07</span></div>
+        <div class="grid-3">
+          <div class="c"><div class="lbl">// CHECKBOX</div>
+            <label class="x-check"><input type="checkbox" checked> auto-page</label><br>
+            <label class="x-check"><input type="checkbox"> dedupe</label><br>
+            <label class="x-check"><input type="checkbox" checked> alert on breach</label>
+          </div>
+          <div class="c"><div class="lbl">// RADIO</div>
+            <label class="x-radio"><input type="radio" name="r" checked> 1m</label><br>
+            <label class="x-radio"><input type="radio" name="r"> 5m</label><br>
+            <label class="x-radio"><input type="radio" name="r"> 1h</label>
+          </div>
+          <div class="c"><div class="lbl">// SWITCH</div>
+            <label class="x-switch"><input type="checkbox" checked><span class="sl"></span></label>
+            <span style="margin-left:8px">stream metrics</span>
+            <div style="margin-top:10px">
+              <label class="x-switch"><input type="checkbox"><span class="sl"></span></label>
+              <span style="margin-left:8px">pager rotation</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="sec">
+        <div class="sec-h"><span class="num">// 04</span><h2>Cards, status, badges</h2><span class="of">/ 07</span></div>
+        <div class="grid-3">
+          <div class="c"><div class="lbl">// CARD</div>
+            <div class="x-card"><div class="ct">node-04.dc1</div><div class="cm">latency 12ms · packet loss 0.01%</div></div>
+            <div class="x-card" style="margin-top:8px"><div class="ct">edge-router-01</div><div class="cm">throughput 4.2Gbps · 2 sessions</div></div>
+          </div>
+          <div class="c"><div class="lbl">// STATUS</div>
+            <div class="c-row">
+              <span class="x-status ok">HEALTHY</span>
+              <span class="x-status warn">DEGRADED</span>
+              <span class="x-status bad">DOWN</span>
+            </div>
+            <div class="lbl" style="margin-top:14px">// KBD</div>
+            <div>Press <span class="x-kbd">⌘</span> + <span class="x-kbd">Enter</span> to ack</div>
+          </div>
+          <div class="c"><div class="lbl">// BADGES</div>
+            <div class="c-row">
+              <span class="x-badge">P1</span>
+              <span class="x-badge outline">P2</span>
+              <span class="x-badge muted">P3</span>
+            </div>
+            <div class="lbl" style="margin-top:14px">// ALERT</div>
+            <div class="x-alert warn"><span class="icon">!</span><div class="txt"><strong>latency > 200ms</strong><span>3 nodes affected · since 14:22</span></div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="sec">
+        <div class="sec-h"><span class="num">// 05</span><h2>Tabs, progress, breadcrumb, pagination</h2><span class="of">/ 07</span></div>
+        <div class="grid-2">
+          <div class="c"><div class="lbl">// TABS</div>
+            <div class="x-tabs"><div class="t active">NODES</div><div class="t">ALERTS</div><div class="t">LOGS</div><div class="t">TOPO</div></div>
+            <div style="padding:14px 0;font-size:12px;color:#8b95a7">// 14 nodes · 1 alert</div>
+            <div class="lbl" style="margin-top:14px">// BREADCRUMB</div>
+            <div class="x-crumb"><a href="#">dc1</a><span class="sep">/</span><a href="#">rack-04</a><span class="sep">/</span><span>node-04</span></div>
+          </div>
+          <div class="c"><div class="lbl">// PROGRESS</div>
+            <div class="x-progress"><div style="width:78%"></div></div>
+            <div style="font-size:11px;color:#8b95a7;margin-top:4px">throughput 78% · 4.2/5.4Gbps</div>
+            <div class="lbl" style="margin-top:14px">// PAGINATION</div>
+            <div class="x-page"><div class="p">‹</div><div class="p active">1</div><div class="p">2</div><div class="p">3</div><div class="p">›</div></div>
+            <div class="lbl" style="margin-top:14px">// SPINNER</div>
+            <div class="c-row"><div class="x-spinner"></div><span style="font-size:12px;color:#8b95a7">querying nodes...</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="sec">
+        <div class="sec-h"><span class="num">// 06</span><h2>Table</h2><span class="of">/ 07</span></div>
+        <div class="c">
+          <table class="x-table">
+            <thead><tr><th>NODE</th><th>DC</th><th>LATENCY</th><th>LOSS</th><th>STATUS</th></tr></thead>
+            <tbody>
+              <tr><td>node-01</td><td>dc1</td><td class="mono">8ms</td><td class="mono">0%</td><td><span class="x-status ok">HEALTHY</span></td></tr>
+              <tr><td>node-04</td><td>dc1</td><td class="mono">12ms</td><td class="mono">0.01%</td><td><span class="x-status ok">HEALTHY</span></td></tr>
+              <tr><td>node-07</td><td>dc1</td><td class="mono">210ms</td><td class="mono">0.5%</td><td><span class="x-status warn">DEGRADED</span></td></tr>
+              <tr><td>node-12</td><td>dc2</td><td class="mono">—</td><td class="mono">—</td><td><span class="x-status bad">DOWN</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="sec">
+        <div class="sec-h"><span class="num">// 07</span><h2>Terminal</h2><span class="of">/ 07</span></div>
+        <div class="c"><div class="lbl">// OUTPUT</div>
+          <div class="x-term">$ noc status
+→ 14 nodes online · 1 degraded
+→ 23 alerts (last 1h) · 0 critical
+→ 1 pager rotation active
+$ noc ack alert-7842
+✓ acknowledged · assigned to: pong</div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <script>
+    const sidebar = document.querySelector('.sb');
+    const toggle = document.getElementById('mobToggle');
+    const backdrop = document.getElementById('mobBackdrop');
+    const isMobile = () => window.matchMedia('(max-width: 900px)').matches;
+    const open = () => { if (!isMobile()) return; sidebar.classList.add('open'); backdrop.classList.add('open'); };
+    const close = () => { sidebar.classList.remove('open'); backdrop.classList.remove('open'); };
+    toggle.addEventListener('click', () => sidebar.classList.contains('open') ? close() : open());
+    backdrop.addEventListener('click', close);
+    document.querySelectorAll('.sb-item').forEach(i => i.addEventListener('click', close));
+    window.addEventListener('resize', () => { if (!isMobile()) close(); });
+  </script>
+</body>
+</html>
