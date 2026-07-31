@@ -12,12 +12,12 @@
 
 | Page | URL | Notes |
 |---|---|---|
-| **Gallery Index** (landing) | https://192.168.1.47/design/preview.html | เข้าเริ่มต้นที่นี่ — สลับธีมได้ |
-| Concept RACK | https://192.168.1.47/design/preview/rack.html | standalone STACK//FRAME |
-| Concept CRT | https://192.168.1.47/design/preview/crt.html | standalone PIXSH v1.0 |
-| Concept NOC | https://192.168.1.47/design/preview/noc.html | standalone PACKETGRID |
-| Concept MIN | https://192.168.1.47/design/preview/min.html | standalone collage.sh |
-| Concept GLITCHPAGE | https://192.168.1.47/design/preview/glitchpage.html | standalone — error page theme (403/404/500/502/503) |
+| **Gallery Index** (landing) | https://192.168.1.47/design/ | card list — เลือก design ได้ |
+| Concept RACK | https://192.168.1.47/design/concepts/rack.html | **full components** (17+ components in STACK//FRAME style) |
+| Concept CRT | https://192.168.1.47/design/concepts/crt.html | **full components** (PIXSH phosphor style) |
+| Concept NOC | https://192.168.1.47/design/concepts/noc.html | **full components** (PACKETGRID cyan) |
+| Concept MIN | https://192.168.1.47/design/concepts/min.html | **full components** (collage.sh minimal) |
+| Concept GLITCHPAGE | https://192.168.1.47/design/concepts/glitchpage.html | **full components** (error page neon) |
 
 ## 5 Designs ในคลัง
 
@@ -37,8 +37,8 @@ design-gallery/
 ├── PLAN.md                     ← you are here
 ├── build.js                    ← zero-dep tooling (npm run check)
 ├── package.json
-├── preview.html                ← gallery index (landing, theme switcher)
-├── preview/
+├── index.html                  ← gallery index (landing, card list)
+├── concepts/
 │   ├── rack.html               ← standalone STACK//FRAME concept
 │   ├── crt.html                ← standalone PIXSH v1.0 concept
 │   ├── noc.html                ← standalone PACKETGRID concept
@@ -107,8 +107,8 @@ npm run check   # syntax-check ทุก source module ใน src/js (zero depen
 3. เขียน canvas.js (hooks เฉพาะถ้ามี)
 4. เขียน src/css/themes/<id>/ui.css (vars + chrome — ถ้ามี UI)
 5. register ใน src/js/themes/index.js
-6. สร้าง preview/<id>.html (standalone demo)
-7. อัปเดต preview.html (var block + theme chip)
+6. สร้าง concepts/<id>.html (standalone demo)
+7. อัปเดต explore.html (var block + theme chip) — ไม่ต้องแล้ว ถ้าใช้ concepts/<id>.html เป็น standalone
 8. อัปเดต README.md + PLAN.md
 9. npm run check
 ```

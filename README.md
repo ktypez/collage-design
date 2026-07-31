@@ -12,23 +12,29 @@
 |---|---|---|
 | **PLAN.md** | `PLAN.md` | Project plan — live URLs, structure ปัจจุบัน, workflow, roadmap |
 | **README.md** | `README.md` | เอกสารคลัง design กลาง (ฉบับปัจจุบัน) |
+| **index.html** | `index.html` | Landing page (card list — 5 designs) |
 | Core | `src/js/core/` | design-system core — `canvas-renderer.js` (client), `sharp-renderer.js` (production), `overlays.js`, `app.js` |
 | Engine | `src/js/engine/` | theme-agnostic core — layout, photo, export |
 | Themes | `src/js/themes/<id>/` | 1 โฟลเดอร์ต่อ design — manifest.js (+ optional canvas.js) |
 
 > **STACK//FRAME เต็มรูปแบบ** (rack units + LEDs + brushed metal) ดูได้ที่
-> `https://192.168.1.47/status/` (device-status) และ `preview/rack.html` ในคลัง
+> `https://192.168.1.47/status/` (device-status) และ `concepts/rack.html` ในคลัง
 
 ## Live URLs (LAN)
 
 | Page | URL | Notes |
 |---|---|---|
-| **Gallery Index** (landing) | https://192.168.1.47/design/preview.html | เข้าเริ่มต้นที่นี่ — สลับธีมได้ |
-| Concept RACK | https://192.168.1.47/design/preview/rack.html | standalone |
-| Concept CRT | https://192.168.1.47/design/preview/crt.html | standalone |
-| Concept NOC | https://192.168.1.47/design/preview/noc.html | standalone |
-| Concept MIN | https://192.168.1.47/design/preview/min.html | standalone |
-| **Concept GLITCHPAGE** | https://192.168.1.47/design/preview/glitchpage.html | standalone — error page theme (403/404/500/502/503) |
+| **Gallery Index** (landing) | https://192.168.1.47/design/ | card list — เลือก design ได้ |
+| Concept RACK | https://192.168.1.47/design/concepts/rack.html | **full components** — buttons, inputs, controls, table, terminal |
+| Concept CRT | https://192.168.1.47/design/concepts/crt.html | **full components** — phosphor green, scanlines, mono |
+| Concept NOC | https://192.168.1.47/design/concepts/noc.html | **full components** — cyan + grid, monitoring-style |
+| Concept MIN | https://192.168.1.47/design/concepts/min.html | **full components** — minimal, lime accent, Inter |
+| **Concept GLITCHPAGE** | https://192.168.1.47/design/concepts/glitchpage.html | **full components** — error page, neon pink + glitch |
+
+## Component Coverage (per concept)
+
+แต่ละ concept page แสดง component **15+ แบบ** ในสไตล์ของธีมนั้น:
+button (variants, sizes) · input/textarea/select · checkbox/radio/switch · card · status pill · badge (filled/outline/muted) · kbd · alert · tabs · progress · pagination · spinner · table · terminal · breadcrumb
 
 ## 5 Designs ในคลัง
 
@@ -88,7 +94,7 @@ export const manifest = {
 ## วิธีหยิบไปใช้
 
 ### 1. เป็น standalone หน้า UI
-เปิด `preview/<id>.html` หรือคัดลอก CSS จาก `src/css/themes/<id>/ui.css` +
+เปิด `concepts/<id>.html` (หรือ `index.html` ดูภาพรวม) หรือคัดลอก CSS จาก `src/css/themes/<id>/ui.css` +
 `base.css` ไปใช้กับหน้าโปรเจกต์คุณ (`<html data-theme="<id>">`)
 
 ### 2. เป็น reference ในโค้ด

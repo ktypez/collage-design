@@ -13,9 +13,20 @@
   <style>
     /* GLITCHPAGE: dark navy + drift grid + glitch */
     [data-theme="glitchpage"] .hero-body { background: #0f0f1a; position: relative; }
-    [data-theme="glitchpage"] .hero-body::before { content: ''; position: absolute; inset: 0; background-image: linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px); background-size: 24px 24px; pointer-events: none; }
+    [data-theme="glitchpage"] .hero-body::before {
+      content: ''; position: absolute; inset: 0;
+      background-image: linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px);
+      background-size: 32px 32px;
+      animation: gp-drift 20s linear infinite;
+      pointer-events: none;
+    }
+    @keyframes gp-drift {
+      0%   { transform: translate(0, 0); }
+      100% { transform: translate(32px, 32px); }
+    }
     .hero-body { position: relative; }
-    .gp-mock { display: inline-block; position: relative; font-family: 'Kanit', sans-serif; font-weight: 900; font-size: 110px; line-height: 1; color: #ff3366; text-shadow: 0 0 14px rgba(255,51,102,0.6), 0 0 50px rgba(255,51,102,0.3); animation: gp-glitch 3s ease-in-out infinite; }
+    .gp-stage { display: flex; flex-direction: column; align-items: center; gap: 14px; position: relative; z-index: 1; }
+    .gp-mock { display: inline-block; position: relative; font-family: 'Kanit', sans-serif; font-weight: 900; font-size: 140px; line-height: 1; color: #ff3366; text-shadow: 0 0 14px rgba(255,51,102,0.6), 0 0 50px rgba(255,51,102,0.3); animation: gp-glitch 3s ease-in-out infinite; }
     .gp-mock::before, .gp-mock::after { content: '404'; position: absolute; top: 0; left: 0; }
     .gp-mock::before { color: #00ffff; clip-path: inset(20% 0 60% 0); animation: gp-glitch-offset 2s ease-in-out infinite; }
     .gp-mock::after { color: #ffff00; clip-path: inset(60% 0 10% 0); animation: gp-glitch-offset 3s ease-in-out infinite reverse; }
@@ -32,6 +43,7 @@
       90% { transform: translate(5px, -3px); }
       95% { transform: translate(-4px, 4px); }
     }
+    .gp-label { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #556677; letter-spacing: 0.2em; text-transform: uppercase; }
 
     /* GLITCHPAGE overrides */
     [data-theme="glitchpage"] .x-input, [data-theme="glitchpage"] .x-textarea, [data-theme="glitchpage"] .x-select { background: #15152a; border-color: #2a2a3a; color: #e0e0e0; font-family: 'Sarabun', sans-serif; border-radius: 6px; }
@@ -99,7 +111,10 @@
       <div class="hero">
         <div class="hero-head">// MOCKUP · /404.html</div>
         <div class="hero-body">
-          <div class="gp-mock">404</div>
+          <div class="gp-stage">
+            <div class="gp-mock">404</div>
+            <div class="gp-label">// ERROR · page not found</div>
+          </div>
         </div>
       </div>
 
