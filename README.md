@@ -10,9 +10,9 @@ and pick the best one for re-skinning the production app.
 
 | Page | URL | Notes |
 |---|---|---|
-| Gallery (4 concepts) | https://lab.local/design/preview.html | Landing |
-| Theme switcher (interactive) | https://lab.local/design/preview-themes.html | Try all 4 themes live |
-| Collage maker (working app) | https://lab.local/design/app.html | Real upload → canvas → PNG download |
+| Gallery (4 concepts) | https://192.168.1.47/design/preview.html | Landing |
+| Theme switcher (interactive) | https://192.168.1.47/design/preview-themes.html | Try all 4 themes live |
+| Collage maker (working app) | https://192.168.1.47/design/app.html | Real upload → canvas → PNG download |
 
 ## Concepts
 
@@ -27,9 +27,9 @@ and pick the best one for re-skinning the production app.
 
 | Theme | Service | URL |
 |---|---|---|
-| STACK//FRAME | `/status` (device-status) | https://lab.local/status/ |
-| PIXSH CRT | Glance (root dashboard) | https://lab.local/ |
-| PACKETGRID | LIFF collage production | https://lab.local/collage/ |
+| STACK//FRAME | `/status` (device-status) | https://192.168.1.47/status/ |
+| PIXSH CRT | Glance (root dashboard) | https://192.168.1.47/ |
+| PACKETGRID | LIFF collage production | https://report.mcky.space/liff (Vercel) · https://192.168.1.47/collage/ (LAN) |
 | collage.sh | _(not deployed, gallery only)_ | — |
 
 ## File structure
