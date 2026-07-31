@@ -71,4 +71,3 @@ The production app (LIFF collage) is **not** in this folder.
 The actual production code is at `/home/admin/collage/frontend/index.html`.
 If you want to revert that to a previous theme, restore from
 `/home/admin/collage/frontend/_archive/`.
-// test
