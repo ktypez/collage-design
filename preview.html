@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="th">
+<html lang="th" data-theme="min">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,627 +7,593 @@
   <link rel="icon" type="image/svg+xml" href="/favicons/lab.svg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&family=VT323&display=swap" rel="stylesheet">
   <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-    :root {
-      --bg: #0a0a0c;
-      --bg-2: #111114;
-      --surface: #16161a;
-      --surface-2: #1c1c22;
-      --border: #2a2a32;
-      --border-hover: #3f3f4a;
-      --fg: #f5f5f7;
-      --fg-muted: #8a8a93;
-      --fg-dim: #5a5a63;
-      --accent: #c8ff00;
-      --warn: #ffb000;
-      --danger: #ff3b30;
-      --info: #00d4ff;
-      --success: #00ff9c;
-      --font-sans: 'Inter', -apple-system, sans-serif;
-      --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+    /* ============================================================
+       THEME TOKENS — [data-theme] on <html>
+       ============================================================ */
+    :root, [data-theme="min"] {
+      --bg: #fafafa; --bg-2: #f0f0f2; --bg-3: #eaeaee; --surface: #ffffff;
+      --border: #e5e5e8; --border-strong: #c8c8d0;
+      --fg: #0e0e10; --fg-2: #3f3f46; --fg-muted: #5a5a63; --fg-dim: #8a8a93;
+      --primary: #c8ff00; --primary-fg: #0e0e10; --primary-2: #84cc16;
+      --success: #16a34a; --warn: #f59e0b; --danger: #ef4444; --info: #3b82f6;
+      --glow: rgba(200,255,0,0.35);
+      --font-disp: 'Inter', sans-serif; --font-mono: 'JetBrains Mono', monospace;
+      --body-glow: none;
+      --scanlines: none;
+    }
+    [data-theme="rack"] {
+      --bg: #0a0a0c; --bg-2: #111114; --bg-3: #16161a; --surface: #16161a;
+      --border: #2a2a32; --border-strong: #3f3f4a;
+      --fg: #f5f5f7; --fg-2: #c8c8d0; --fg-muted: #8a8a93; --fg-dim: #5a5a63;
+      --primary: #ffb000; --primary-fg: #0a0a0c; --primary-2: #cc8800;
+      --success: #00ff66; --warn: #ffb000; --danger: #ff3b30; --info: #00d4ff;
+      --glow: rgba(255,176,0,0.35);
+      --font-disp: 'JetBrains Mono', monospace; --font-mono: 'JetBrains Mono', monospace;
+      --body-glow: radial-gradient(ellipse 80% 40% at 50% 0%, rgba(255,176,0,0.07), transparent);
+      --scanlines: none;
+    }
+    [data-theme="crt"] {
+      --bg: #050505; --bg-2: #0a0a0a; --bg-3: #001a0c; --surface: #001a0c;
+      --border: #003318; --border-strong: #005522;
+      --fg: #00ff66; --fg-2: #00cc52; --fg-muted: #00aa45; --fg-dim: #005522;
+      --primary: #ffb000; --primary-fg: #000; --primary-2: #ffd34d;
+      --success: #00ff66; --warn: #ffb000; --danger: #ff3b30; --info: #00ff66;
+      --glow: rgba(0,255,102,0.3);
+      --font-disp: 'VT323', monospace; --font-mono: 'JetBrains Mono', monospace;
+      --body-glow: none;
+      --scanlines: repeating-linear-gradient(0deg, rgba(0,0,0,0.15) 0px, rgba(0,0,0,0.15) 1px, transparent 1px, transparent 3px);
+    }
+    [data-theme="noc"] {
+      --bg: #0a0e14; --bg-2: #0f1419; --bg-3: #141a22; --surface: #161c25;
+      --border: #1f2733; --border-strong: #2a3340;
+      --fg: #e6e9ef; --fg-2: #b6bfcc; --fg-muted: #8b95a7; --fg-dim: #5a6478;
+      --primary: #00d4ff; --primary-fg: #0a0e14; --primary-2: #0099cc;
+      --success: #00ff9c; --warn: #ffb000; --danger: #ff3b5c; --info: #00d4ff;
+      --glow: rgba(0,212,255,0.35);
+      --font-disp: 'JetBrains Mono', monospace; --font-mono: 'JetBrains Mono', monospace;
+      --body-glow: radial-gradient(ellipse 60% 40% at 50% 0%, rgba(0,212,255,0.05), transparent);
+      --scanlines: none;
+    }
+    [data-theme="crt"] body::before {
+      content: ''; position: fixed; inset: 0; pointer-events: none; z-index: 2000;
+      background: var(--scanlines); mix-blend-mode: multiply;
     }
 
-    html { background: var(--bg); }
+    /* ============================================================
+       BASE
+       ============================================================ */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
     body {
-      font-family: var(--font-sans);
-      background:
-        radial-gradient(ellipse at top, rgba(200, 255, 0, 0.04), transparent 50%),
-        var(--bg);
+      font-family: var(--font-disp);
+      background: var(--body-glow), var(--bg);
       color: var(--fg);
       min-height: 100vh;
-      padding: 48px 20px 80px;
       -webkit-font-smoothing: antialiased;
+      transition: background 0.4s, color 0.4s;
     }
+    .wrap { max-width: 960px; margin: 0 auto; padding: 0 20px; }
+    code, .mono { font-family: var(--font-mono); }
 
-    .wrap { max-width: 1100px; margin: 0 auto; }
-
-    /* ---- HEADER ---- */
-    .head { margin-bottom: 56px; }
-    .head-meta {
-      font-family: var(--font-mono);
-      font-size: 12px;
-      color: var(--fg-dim);
-      letter-spacing: 0.1em;
-      margin-bottom: 16px;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-    .head-meta .dot {
-      width: 6px; height: 6px; border-radius: 50%;
-      background: var(--accent);
-      box-shadow: 0 0 8px var(--accent);
-      animation: pulse 1.6s ease-in-out infinite;
-    }
-    @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
-
-    .head h1 {
-      font-size: clamp(40px, 6vw, 72px);
-      font-weight: 600;
-      letter-spacing: -0.04em;
-      line-height: 0.95;
-      margin-bottom: 16px;
-    }
-    .head h1 .strike {
-      font-family: var(--font-mono);
-      font-weight: 400;
-      color: var(--fg-dim);
-      text-decoration: line-through;
-      text-decoration-color: var(--danger);
-      text-decoration-thickness: 3px;
-      margin-right: 12px;
-      font-size: 0.6em;
-    }
-    .head h1 .new {
-      background: linear-gradient(135deg, var(--accent), #00ff9c);
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
-    }
-    .head p {
-      color: var(--fg-muted);
-      max-width: 560px;
-      font-size: 15px;
-      line-height: 1.6;
-    }
-    .head p code {
-      font-family: var(--font-mono);
-      font-size: 13px;
-      color: var(--accent);
-      background: rgba(200, 255, 0, 0.08);
-      padding: 2px 6px;
-      border-radius: 4px;
-    }
-
-    /* ---- FEATURED: try all themes ---- */
-    .featured {
-      display: block;
-      text-decoration: none;
-      color: inherit;
-      background: linear-gradient(135deg, var(--surface), var(--bg-2));
-      border: 1px solid var(--accent);
-      border-radius: 14px;
-      padding: 20px;
-      margin-bottom: 24px;
-      position: relative;
-      overflow: hidden;
-      transition: transform 0.3s, box-shadow 0.3s;
-    }
-    .featured::before {
-      content: '';
-      position: absolute;
-      top: -50%; right: -20%;
-      width: 300px; height: 300px;
-      background: radial-gradient(circle, var(--accent) 0%, transparent 60%);
-      opacity: 0.08;
-      pointer-events: none;
-    }
-    .featured:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 8px 32px rgba(200, 255, 0, 0.15);
-    }
-    .featured-tag {
-      display: inline-block;
-      font-family: var(--font-mono);
-      font-size: 10px;
-      padding: 3px 8px;
-      background: var(--accent);
-      color: #0a0a0c;
-      border-radius: 4px;
-      letter-spacing: 0.1em;
-      margin-bottom: 12px;
-      font-weight: 600;
-    }
-    .featured h2 {
-      font-size: 22px;
-      font-weight: 600;
-      letter-spacing: -0.02em;
-      margin-bottom: 6px;
-    }
-    .featured p {
-      font-size: 13px;
-      color: var(--fg-muted);
-      line-height: 1.5;
-      max-width: 480px;
-    }
-    .featured-dots {
-      display: flex;
-      gap: 6px;
-      margin-top: 12px;
-      align-items: center;
-      font-family: var(--font-mono);
-      font-size: 10px;
-      color: var(--fg-dim);
-      letter-spacing: 0.1em;
-    }
-    .featured-dots .dot {
-      width: 10px; height: 10px;
-      border-radius: 50%;
-      box-shadow: 0 0 6px currentColor;
-    }
-
-    /* ---- GRID ---- */
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 20px;
-      margin-bottom: 64px;
-    }
-
-    .card {
-      position: relative;
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      overflow: hidden;
-      text-decoration: none;
-      color: inherit;
-      transition: border-color 0.3s, transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-      display: flex;
-      flex-direction: column;
-      min-height: 380px;
-    }
-    .card:hover {
-      border-color: var(--border-hover);
-      transform: translateY(-4px);
-    }
-    .card::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(135deg, transparent 60%, var(--accent-glow, transparent) 100%);
-      opacity: 0;
-      transition: opacity 0.4s;
-      pointer-events: none;
-    }
-    .card:hover::before { opacity: 0.15; }
-
-    .card-visual {
-      position: relative;
-      aspect-ratio: 4/3;
-      background: var(--bg-2);
-      overflow: hidden;
+    /* ============================================================
+       NAV
+       ============================================================ */
+    .nav {
+      position: sticky; top: 0; z-index: 100;
+      backdrop-filter: blur(12px);
+      background: color-mix(in srgb, var(--bg) 82%, transparent);
       border-bottom: 1px solid var(--border);
     }
-    .card-visual svg { width: 100%; height: 100%; display: block; }
-    .card-num {
-      position: absolute;
-      top: 12px; left: 12px;
-      font-family: var(--font-mono);
-      font-size: 11px;
-      color: var(--fg-muted);
-      background: rgba(0,0,0,0.6);
-      padding: 4px 8px;
-      border-radius: 4px;
-      letter-spacing: 0.1em;
-      backdrop-filter: blur(8px);
+    .nav-in {
+      max-width: 960px; margin: 0 auto; padding: 0 20px;
+      display: flex; align-items: center; justify-content: space-between;
+      height: 56px; gap: 16px;
     }
-    .card-tag {
-      position: absolute;
-      top: 12px; right: 12px;
-      font-family: var(--font-mono);
-      font-size: 10px;
-      padding: 4px 8px;
-      border-radius: 4px;
-      letter-spacing: 0.05em;
-      text-transform: uppercase;
-      font-weight: 500;
-    }
+    .nav-logo { display: flex; align-items: center; gap: 8px; font-weight: 700; font-size: 15px; text-decoration: none; color: var(--fg); }
+    .nav-logo .lg { width: 20px; height: 20px; border-radius: 5px; background: var(--primary); display: inline-flex; align-items: center; justify-content: center; font-size: 11px; color: var(--primary-fg); font-family: var(--font-mono); font-weight: 700; }
+    .nav-links { display: flex; gap: 4px; font-size: 13px; }
+    .nav-links a { color: var(--fg-muted); text-decoration: none; padding: 6px 10px; border-radius: 6px; transition: all 0.2s; }
+    .nav-links a:hover { color: var(--fg); background: var(--bg-2); }
+    @media (max-width: 640px) { .nav-links { display: none; } }
 
-    .card-body {
-      padding: 20px;
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
+    /* ============================================================
+       HERO
+       ============================================================ */
+    .hero { padding: 80px 0 40px; text-align: center; }
+    .hero .badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-family: var(--font-mono); font-size: 11px;
+      color: var(--primary); border: 1px solid var(--primary); border-radius: 999px;
+      padding: 5px 12px; margin-bottom: 20px; letter-spacing: 0.08em;
     }
-    .card-name {
-      font-family: var(--font-mono);
-      font-size: 20px;
-      font-weight: 600;
-      letter-spacing: -0.01em;
+    .hero .badge .dot { width: 6px; height: 6px; background: var(--primary); border-radius: 50%; box-shadow: 0 0 6px var(--primary); }
+    .hero h1 {
+      font-size: clamp(40px, 7vw, 72px); font-weight: 800;
+      letter-spacing: -0.04em; line-height: 0.95; margin-bottom: 18px;
     }
-    .card-tagline {
-      font-size: 13px;
-      color: var(--fg-muted);
-      line-height: 1.5;
+    .hero h1 .accent { color: var(--primary); }
+    .hero p {
+      max-width: 560px; margin: 0 auto 30px;
+      color: var(--fg-muted); font-size: 16px; line-height: 1.65;
     }
-    .card-footer {
-      margin-top: auto;
-      padding-top: 16px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      font-family: var(--font-mono);
-      font-size: 11px;
-      color: var(--fg-dim);
+    .hero p code { color: var(--primary); font-size: 14px; }
+    .hero-cta { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+
+    /* ============================================================
+       BUTTONS
+       ============================================================ */
+    .btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 10px 18px; border-radius: 8px;
+      font-family: var(--font-mono); font-size: 13px; font-weight: 600;
+      cursor: pointer; border: 1px solid transparent; text-decoration: none;
+      transition: transform 0.22s cubic-bezier(0.22,1,0.36,1), box-shadow 0.28s cubic-bezier(0.22,1,0.36,1), filter 0.2s, background-color 0.2s, color 0.2s;
     }
-    .card-arrow {
-      display: inline-block;
-      transition: transform 0.3s;
-    }
-    .card:hover .card-arrow { transform: translateX(4px); }
+    .btn-primary { background: var(--primary); color: var(--primary-fg); }
+    [data-theme="rack"] .btn-primary { box-shadow: inset 0 1px 0 rgba(255,255,255,0.3), 0 4px 16px rgba(255,176,0,0.3); }
+    [data-theme="crt"] .btn-primary { background: transparent; color: var(--primary); border: 1px solid var(--primary); text-shadow: 0 0 6px var(--primary); }
+    [data-theme="noc"] .btn-primary { box-shadow: 0 0 16px rgba(0,255,156,0.3); background: var(--primary); color: var(--primary-fg); }
+    [data-theme="min"] .btn-primary { background: var(--primary); color: #0e0e10; }
+    .btn-secondary { background: var(--surface); color: var(--fg); border-color: var(--border); }
+    .btn-outline { background: transparent; color: var(--primary); border-color: var(--primary); }
+    .btn-ghost { background: transparent; color: var(--fg-muted); }
+    .btn-ghost:hover { background: var(--bg-2); color: var(--fg); }
+    .btn-danger { background: var(--danger); color: #fff; }
+    .btn[disabled] { opacity: 0.45; cursor: not-allowed; transform: none !important; }
+    .btn-sm { padding: 6px 12px; font-size: 12px; border-radius: 6px; }
+    .btn-lg { padding: 13px 24px; font-size: 15px; }
+    .btn svg { width: 15px; height: 15px; }
 
-    /* ---- DIRECTION-SPECIFIC THEMES ---- */
-    .card[data-dir="rack"] { --accent-glow: #ffb000; }
-    .card[data-dir="rack"] .card-tag { background: rgba(255, 176, 0, 0.15); color: #ffb000; }
-    .card[data-dir="rack"] .card-name { color: #ffb000; }
+    /* ============================================================
+       SECTION SHELL
+       ============================================================ */
+    .section { padding: 56px 0; border-top: 1px solid var(--border); }
+    .sec-head { margin-bottom: 28px; }
+    .sec-index { font-family: var(--font-mono); font-size: 11px; color: var(--primary); letter-spacing: 0.15em; margin-bottom: 6px; }
+    .sec-title { font-size: 26px; font-weight: 700; letter-spacing: -0.02em; margin-bottom: 6px; }
+    .sec-desc { color: var(--fg-muted); font-size: 14px; max-width: 560px; }
 
-    .card[data-dir="crt"] { --accent-glow: #00ff66; }
-    .card[data-dir="crt"] .card-tag { background: rgba(0, 255, 102, 0.15); color: #00ff66; }
-    .card[data-dir="crt"] .card-name { color: #00ff66; }
-
-    .card[data-dir="noc"] { --accent-glow: #00d4ff; }
-    .card[data-dir="noc"] .card-tag { background: rgba(0, 212, 255, 0.15); color: #00d4ff; }
-    .card[data-dir="noc"] .card-name { color: #00d4ff; }
-
-    .card[data-dir="minimal"] { --accent-glow: #c8ff00; }
-    .card[data-dir="minimal"] .card-tag { background: rgba(200, 255, 0, 0.15); color: #c8ff00; }
-    .card[data-dir="minimal"] .card-name { color: #c8ff00; }
-
-    /* ---- BRAND KIT ---- */
-    .kit {
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; }
+    .demo {
       background: var(--surface);
       border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 32px;
+      border-radius: 10px;
+      padding: 20px;
+      display: flex; flex-direction: column; gap: 10px; align-items: flex-start;
     }
-    .kit-title {
-      font-family: var(--font-mono);
-      font-size: 11px;
-      color: var(--fg-dim);
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      margin-bottom: 24px;
+    .demo-label {
+      font-family: var(--font-mono); font-size: 10px;
+      color: var(--fg-dim); letter-spacing: 0.1em; text-transform: uppercase;
+      margin-bottom: 2px;
     }
-    .kit-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-      gap: 24px;
-    }
-    .kit-item h4 {
-      font-size: 12px;
-      color: var(--fg-muted);
-      font-weight: 500;
-      margin-bottom: 8px;
-      font-family: var(--font-mono);
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-    }
-    .kit-item .val {
-      font-size: 14px;
-      color: var(--fg);
-      line-height: 1.5;
-    }
-    .kit-item .val-mono {
-      font-family: var(--font-mono);
-      font-size: 13px;
-    }
-    .swatches { display: flex; gap: 4px; flex-wrap: wrap; }
-    .swatch {
-      width: 32px; height: 32px; border-radius: 6px;
-      border: 1px solid var(--border);
-    }
+    .demo-row { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
 
-    /* ---- FOOTER ---- */
+    /* ============================================================
+       INPUTS
+       ============================================================ */
+    .input, .select, .textarea {
+      width: 100%; padding: 10px 12px;
+      background: var(--bg); color: var(--fg);
+      border: 1px solid var(--border-strong); border-radius: 8px;
+      font-family: var(--font-mono); font-size: 13px; outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .input:focus, .select:focus, .textarea:focus { border-color: var(--primary); box-shadow: 0 0 0 2px var(--glow); }
+    .input::placeholder { color: var(--fg-dim); }
+    .label {
+      display: block; font-family: var(--font-mono); font-size: 10px;
+      color: var(--fg-muted); letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 6px;
+    }
+    .checkbox, .radio { accent-color: var(--primary); width: 16px; height: 16px; }
+    .check-row { display: flex; align-items: center; gap: 8px; font-size: 14px; }
+
+    /* ============================================================
+       CARDS / STATS
+       ============================================================ */
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border); border-radius: 12px;
+      padding: 20px;
+    }
+    .card-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+    .card-title { font-weight: 700; font-size: 15px; }
+    .card-meta { font-family: var(--font-mono); font-size: 11px; color: var(--fg-dim); }
+    .card p { color: var(--fg-muted); font-size: 13px; line-height: 1.6; }
+    .stat {
+      background: var(--surface); border: 1px solid var(--border);
+      border-left: 3px solid var(--primary); border-radius: 10px; padding: 16px;
+    }
+    .stat .sl { font-family: var(--font-mono); font-size: 9px; color: var(--fg-dim); letter-spacing: 0.15em; text-transform: uppercase; }
+    .stat .sv { font-size: 28px; font-weight: 800; color: var(--primary); line-height: 1.1; margin: 4px 0; }
+    .stat .sd { font-size: 12px; color: var(--success); }
+    .stat.warn .sv { color: var(--warn); }
+    .stat.danger .sv { color: var(--danger); }
+
+    /* ============================================================
+       BADGES / CHIPS / STATUS
+       ============================================================ */
+    .badge {
+      display: inline-flex; align-items: center; gap: 5px;
+      font-family: var(--font-mono); font-size: 11px;
+      padding: 4px 10px; border-radius: 999px;
+      border: 1px solid var(--border); background: var(--bg-2); color: var(--fg-muted);
+    }
+    .badge.primary { border-color: var(--primary); color: var(--primary); background: color-mix(in srgb, var(--primary) 10%, transparent); }
+    .badge.success { border-color: var(--success); color: var(--success); background: color-mix(in srgb, var(--success) 10%, transparent); }
+    .badge.danger { border-color: var(--danger); color: var(--danger); background: color-mix(in srgb, var(--danger) 10%, transparent); }
+    .badge.warn { border-color: var(--warn); color: var(--warn); background: color-mix(in srgb, var(--warn) 10%, transparent); }
+    .badge .bd { width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+    .pulse {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-family: var(--font-mono); font-size: 11px; color: var(--fg-muted);
+    }
+    .pulse .p {
+      width: 8px; height: 8px; border-radius: 50%;
+      background: var(--success); box-shadow: 0 0 6px var(--success);
+      animation: pulse 1.4s ease-in-out infinite;
+    }
+    .pulse.amber .p { background: var(--warn); box-shadow: 0 0 6px var(--warn); }
+    @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.3; } }
+    .led { width: 8px; height: 8px; border-radius: 50%; background: var(--success); box-shadow: 0 0 6px var(--success); display: inline-block; }
+    .led.amber { background: var(--warn); box-shadow: 0 0 6px var(--warn); }
+    .led.red { background: var(--danger); box-shadow: 0 0 6px var(--danger); }
+    .led.cyan { background: var(--info); box-shadow: 0 0 6px var(--info); }
+
+    .progress { width: 100%; height: 6px; background: var(--bg-2); border: 1px solid var(--border); border-radius: 3px; overflow: hidden; }
+    .progress i { display: block; height: 100%; background: var(--primary); box-shadow: 0 0 8px var(--primary); }
+    .progress.warn i { background: var(--warn); }
+    .progress.danger i { background: var(--danger); }
+
+    /* ============================================================
+       TERMINAL / LOG
+       ============================================================ */
+    .terminal {
+      background: var(--bg); border: 1px solid var(--border-strong);
+      border-radius: 8px; padding: 16px; width: 100%;
+      font-family: var(--font-mono); font-size: 12px; line-height: 1.7;
+    }
+    .terminal .bar { display: flex; gap: 6px; margin-bottom: 10px; }
+    .terminal .bar i { width: 10px; height: 10px; border-radius: 50%; background: var(--border-strong); }
+    .terminal .bar i:first-child { background: var(--danger); }
+    .terminal .bar i:nth-child(2) { background: var(--warn); }
+    .terminal .bar i:nth-child(3) { background: var(--success); }
+    .terminal .prompt { color: var(--primary); }
+    .terminal .ok { color: var(--success); }
+    .terminal .warn { color: var(--warn); }
+    .terminal .dim { color: var(--fg-dim); }
+
+    /* ============================================================
+       ALERTS
+       ============================================================ */
+    .alert {
+      width: 100%; padding: 12px 14px; border-radius: 8px;
+      font-size: 13px; border: 1px solid var(--border); border-left-width: 3px;
+      background: var(--surface);
+    }
+    .alert .at { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; display: block; margin-bottom: 2px; }
+    .alert.info { border-left-color: var(--info); } .alert.info .at { color: var(--info); }
+    .alert.success { border-left-color: var(--success); } .alert.success .at { color: var(--success); }
+    .alert.warn { border-left-color: var(--warn); } .alert.warn .at { color: var(--warn); }
+    .alert.danger { border-left-color: var(--danger); } .alert.danger .at { color: var(--danger); }
+
+    /* ============================================================
+       THEME SWITCHER
+       ============================================================ */
+    .theme-switch { display: flex; gap: 6px; justify-content: center; flex-wrap: wrap; margin-bottom: 8px; }
+    .tchip {
+      display: inline-flex; align-items: center; gap: 7px;
+      padding: 8px 16px; border-radius: 999px;
+      background: var(--bg-2); border: 1px solid var(--border);
+      color: var(--fg-muted); font-family: var(--font-mono); font-size: 12px;
+      cursor: pointer; transition: all 0.25s cubic-bezier(0.22,1,0.36,1);
+    }
+    .tchip:hover { border-color: var(--primary); color: var(--fg); transform: translateY(-1px); }
+    .tchip.active { border-color: var(--primary); color: var(--primary); box-shadow: 0 0 0 1px var(--primary), 0 0 12px var(--glow); }
+    .tchip .td { width: 9px; height: 9px; border-radius: 50%; }
+
+    /* ============================================================
+       COLORS SECTION
+       ============================================================ */
+    .palette { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; }
+    .pchip { border: 1px solid var(--border); border-radius: 10px; overflow: hidden; background: var(--surface); }
+    .pchip .sw { height: 56px; }
+    .pchip .pn { padding: 8px 10px; }
+    .pchip .pn .name { font-family: var(--font-mono); font-size: 11px; color: var(--fg); }
+    .pchip .pn .hex { font-family: var(--font-mono); font-size: 10px; color: var(--fg-dim); }
+
+    /* ============================================================
+       FOOTER
+       ============================================================ */
     .foot {
-      margin-top: 64px;
-      padding-top: 24px;
-      border-top: 1px solid var(--border);
-      display: flex;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 12px;
-      font-family: var(--font-mono);
-      font-size: 11px;
-      color: var(--fg-dim);
-      letter-spacing: 0.05em;
+      border-top: 1px solid var(--border); padding: 32px 0 48px;
+      display: flex; justify-content: space-between; flex-wrap: wrap; gap: 10px;
+      font-family: var(--font-mono); font-size: 11px; color: var(--fg-dim);
     }
-    .foot .blink { animation: blink 1s steps(2) infinite; }
-    @keyframes blink { 0%, 50% { opacity: 1; } 51%, 100% { opacity: 0; } }
+    .foot a { color: var(--fg-muted); text-decoration: none; }
+    .foot a:hover { color: var(--primary); }
 
-    @media (max-width: 600px) {
-      body { padding: 24px 16px 48px; }
-      .kit { padding: 20px; }
+    @media (hover: hover) {
+      .btn-primary:hover { transform: translateY(-1px); filter: brightness(1.07); }
+      .btn-secondary:hover, .btn-outline:hover, .btn-danger:hover { transform: translateY(-1px); filter: brightness(1.05); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; }
+    }
+    @media (max-width: 640px) {
+      .hero { padding: 56px 0 28px; }
+      .section { padding: 40px 0; }
     }
   </style>
 </head>
 <body>
-  <div class="wrap">
-    <header class="head">
-      <div class="head-meta">
-        <span class="dot"></span>
-        <span>DESIGN_GALLERY</span>
-        <span>·</span>
-        <span>v0.4.0-rc</span>
-        <span>·</span>
-        <span>4 designs · reviewed</span>
+
+  <!-- NAV -->
+  <nav class="nav">
+    <div class="nav-in">
+      <a class="nav-logo" href="#top"><span class="lg">D</span>Design Gallery</a>
+      <div class="nav-links">
+        <a href="#components">Components</a>
+        <a href="#colors">Colors</a>
+        <a href="review.html">Reviews</a>
+        <a href="preview-themes.html">Theme Lab</a>
+        <a href="preview.html" style="color:var(--primary)">/design</a>
       </div>
-      <h1>
-        <span class="strike">collage-design</span>
-        <span class="new">Design Gallery</span>
-      </h1>
-      <p>
-        คลัง design กลางของโปรเจกต์ — 4 แนวทาง visual identity พร้อมรีวิวเชิงลึก
-        ทุกตัวในนี้ <code>หยิบไปใช้ได้เลย</code> (manifest + sharp-renderer + production mapping)
-        ดูรีวิวเต็มได้ที่ <a href="review.html" style="color:var(--accent)">Review Gallery →</a>
-      </p>
-    </header>
-
-    <a href="review.html" class="featured" style="border-color: var(--accent); background: linear-gradient(135deg, rgba(200,255,0,0.06), var(--bg-2));">
-      <div class="featured-tag" style="background: var(--accent); color:#0a0a0c;">★ REVIEW GALLERY</div>
-      <h2>รีวิว design แต่ละตัว — เลือกให้ตรงงาน</h2>
-      <p>Concept · Strengths · Weaknesses · Best for · Specs · Ratings · Production mapping — ครบในหน้าเดียว เพื่อตัดสินใจว่าตัวไหนเหมาะกับงานคุณ</p>
-      <div class="featured-dots">
-        <span class="dot" style="background:#ffb000;color:#ffb000"></span>
-        <span class="dot" style="background:#00ff66;color:#00ff66"></span>
-        <span class="dot" style="background:#00d4ff;color:#00d4ff"></span>
-        <span class="dot" style="background:#c8ff00;color:#c8ff00"></span>
-        <span>read the reviews →</span>
-      </div>
-    </a>
-
-    <a href="preview-themes.html" class="featured">
-      <div class="featured-tag">★ INTERACTIVE PREVIEW</div>
-      <h2>Theme Lab — เปลี่ยนธีมได้สด ๆ</h2>
-      <p>1 หน้า 4 ธีม สลับได้แบบ live · แต่ละธีมมี output frame เป็น brand ของตัวเอง — rack mount / CRT / NOC panel / minimal</p>
-      <div class="featured-dots">
-        <span class="dot" style="background:#ffb000;color:#ffb000"></span>
-        <span class="dot" style="background:#00ff66;color:#00ff66"></span>
-        <span class="dot" style="background:#00d4ff;color:#00d4ff"></span>
-        <span class="dot" style="background:#c8ff00;color:#c8ff00"></span>
-        <span>click to try →</span>
-      </div>
-    </a>
-
-    <div class="grid">
-
-      <!-- DIRECTION 1: RACK -->
-      <a href="preview-rack.html" class="card" data-dir="rack">
-        <div class="card-visual">
-          <div class="card-num">01 / 04</div>
-          <div class="card-tag">PHYSICAL · RACK</div>
-          <svg viewBox="0 0 280 210" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
-            <defs>
-              <linearGradient id="rackBg" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stop-color="#1a1a1d"/>
-                <stop offset="100%" stop-color="#0a0a0c"/>
-              </linearGradient>
-            </defs>
-            <rect width="280" height="210" fill="url(#rackBg)"/>
-            <!-- rack frame -->
-            <rect x="20" y="20" width="240" height="170" fill="none" stroke="#3a3a42" stroke-width="1"/>
-            <!-- units -->
-            <g>
-              <rect x="24" y="24" width="232" height="22" fill="#16161a" stroke="#2a2a32"/>
-              <rect x="24" y="48" width="232" height="22" fill="#16161a" stroke="#2a2a32"/>
-              <rect x="24" y="72" width="232" height="22" fill="#16161a" stroke="#2a2a32"/>
-              <rect x="24" y="96" width="232" height="22" fill="#16161a" stroke="#2a2a32"/>
-              <rect x="24" y="120" width="232" height="22" fill="#16161a" stroke="#2a2a32"/>
-              <rect x="24" y="144" width="232" height="22" fill="#16161a" stroke="#2a2a32"/>
-            </g>
-            <!-- LEDs -->
-            <circle cx="36" cy="35" r="2" fill="#00ff66"><animate attributeName="opacity" values="1;0.3;1" dur="1.5s" repeatCount="indefinite"/></circle>
-            <circle cx="44" cy="35" r="2" fill="#ffb000"><animate attributeName="opacity" values="1;1;0.2;1" dur="2s" repeatCount="indefinite"/></circle>
-            <circle cx="52" cy="35" r="2" fill="#00ff66"/>
-            <circle cx="36" cy="59" r="2" fill="#00ff66"><animate attributeName="opacity" values="0.3;1;1" dur="1.8s" repeatCount="indefinite"/></circle>
-            <circle cx="44" cy="59" r="2" fill="#ff3b30"><animate attributeName="opacity" values="0.3;1;0.3" dur="3s" repeatCount="indefinite"/></circle>
-            <circle cx="36" cy="83" r="2" fill="#00ff66"/>
-            <circle cx="44" cy="83" r="2" fill="#00ff66"/>
-            <circle cx="36" cy="107" r="2" fill="#ffb000"><animate attributeName="opacity" values="0.5;1;0.5" dur="1.2s" repeatCount="indefinite"/></circle>
-            <circle cx="36" cy="131" r="2" fill="#00ff66"/>
-            <circle cx="36" cy="155" r="2" fill="#00ff66"/>
-            <!-- fans -->
-            <g transform="translate(220, 35)">
-              <circle r="8" fill="none" stroke="#2a2a32" stroke-width="0.5"/>
-              <g><animateTransform attributeName="transform" type="rotate" from="0" to="360" dur="2s" repeatCount="indefinite"/>
-                <path d="M 0,-6 L 2,-2 L -2,-2 Z" fill="#3a3a42"/>
-                <path d="M 6,0 L 2,2 L 2,-2 Z" fill="#3a3a42"/>
-                <path d="M 0,6 L -2,2 L 2,2 Z" fill="#3a3a42"/>
-                <path d="M -6,0 L -2,-2 L -2,2 Z" fill="#3a3a42"/>
-              </g>
-            </g>
-            <text x="70" y="40" font-family="JetBrains Mono" font-size="9" fill="#5a5a63" letter-spacing="0.5">STACK//FRAME</text>
-            <text x="70" y="180" font-family="JetBrains Mono" font-size="7" fill="#3a3a42" letter-spacing="0.5">RACK 01 · 7 PHOTOS LOADED</text>
-          </svg>
-        </div>
-        <div class="card-body">
-          <div class="card-name">STACK//FRAME</div>
-          <div class="card-tagline">"Deploy photos. Stack frames. Ship to LINE." — ตู้ rack จำลอง, ไฟ LED กระพริบ, brushed metal</div>
-          <div class="card-footer">
-            <span>rack · leds · gsap</span>
-            <span class="card-arrow">→</span>
-          </div>
-        </div>
-      </a>
-
-      <!-- DIRECTION 2: CRT -->
-      <a href="preview-crt.html" class="card" data-dir="crt">
-        <div class="card-visual">
-          <div class="card-num">02 / 04</div>
-          <div class="card-tag">RETRO · CRT</div>
-          <svg viewBox="0 0 280 210" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
-            <defs>
-              <pattern id="scan" width="2" height="2" patternUnits="userSpaceOnUse">
-                <rect width="2" height="1" fill="#001a0c" opacity="0.4"/>
-              </pattern>
-            </defs>
-            <rect width="280" height="210" fill="#001a0c"/>
-            <rect width="280" height="210" fill="url(#scan)"/>
-            <!-- glow border -->
-            <rect x="6" y="6" width="268" height="198" fill="none" stroke="#00ff66" stroke-width="0.5" opacity="0.5"/>
-            <!-- boot lines -->
-            <g font-family="monospace" font-size="9" fill="#00ff66">
-              <text x="20" y="30">PIXSH v1.0 (c) 2026</text>
-              <text x="20" y="50" opacity="0.8">BIOS POST... OK</text>
-              <text x="20" y="65" opacity="0.8">Memory Test: 65536K</text>
-              <text x="20" y="80" opacity="0.6">Loading collage.kernel</text>
-              <text x="20" y="100" fill="#ffb000">$ pixsh build --photos 7</text>
-              <text x="20" y="115" opacity="0.7">→ Scanning 7 packets...</text>
-              <text x="20" y="130" opacity="0.7">→ Grid: 3x3 auto</text>
-              <text x="20" y="145" opacity="0.7">→ Deploying to /dev/line</text>
-              <text x="20" y="170" fill="#00ff66"><tspan>$</tspan> <tspan fill="#ffb000" class="cur">█</tspan></text>
-            </g>
-            <text x="20" y="195" font-family="monospace" font-size="6" fill="#003318" letter-spacing="0.3">IT WORKS ON MY CRT.</text>
-          </svg>
-        </div>
-        <div class="card-body">
-          <div class="card-name">PIXSH v1.0</div>
-          <div class="card-tagline">"Boot. Build. Broadcast." — CRT phosphor, scanlines, typing animation, glitch text</div>
-          <div class="card-footer">
-            <span>crt · mono · retro</span>
-            <span class="card-arrow">→</span>
-          </div>
-        </div>
-      </a>
-
-      <!-- DIRECTION 3: NOC -->
-      <a href="preview-noc.html" class="card" data-dir="noc">
-        <div class="card-visual">
-          <div class="card-num">03 / 04</div>
-          <div class="card-tag">NETWORK · NOC</div>
-          <svg viewBox="0 0 280 210" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
-            <rect width="280" height="210" fill="#0f1419"/>
-            <!-- KPI cards -->
-            <g font-family="monospace" font-size="6" fill="#8a8a93">
-              <rect x="14" y="14" width="60" height="32" fill="none" stroke="#2a2a32" rx="2"/>
-              <text x="18" y="22" fill="#5a5a63">PACKETS</text>
-              <text x="18" y="36" font-size="11" fill="#00ff9c" font-weight="600">7/7</text>
-              <text x="18" y="44" font-size="5" fill="#00ff9c">+100%</text>
-
-              <rect x="80" y="14" width="60" height="32" fill="none" stroke="#2a2a32" rx="2"/>
-              <text x="84" y="22" fill="#5a5a63">LATENCY</text>
-              <text x="84" y="36" font-size="11" fill="#00d4ff" font-weight="600">12ms</text>
-              <text x="84" y="44" font-size="5" fill="#00ff9c">-3ms</text>
-
-              <rect x="146" y="14" width="60" height="32" fill="none" stroke="#2a2a32" rx="2"/>
-              <text x="150" y="22" fill="#5a5a63">LOSS</text>
-              <text x="150" y="36" font-size="11" fill="#00ff9c" font-weight="600">0.0%</text>
-              <text x="150" y="44" font-size="5" fill="#8a8a93">stable</text>
-
-              <rect x="212" y="14" width="54" height="32" fill="none" stroke="#2a2a32" rx="2"/>
-              <text x="216" y="22" fill="#5a5a63">UPTIME</text>
-              <text x="216" y="36" font-size="11" fill="#ffb000" font-weight="600">99.99</text>
-            </g>
-            <!-- graph -->
-            <g transform="translate(14, 60)">
-              <rect width="252" height="60" fill="none" stroke="#2a2a32" rx="2"/>
-              <polyline points="0,40 20,35 40,38 60,28 80,30 100,22 120,25 140,18 160,20 180,12 200,15 220,8 240,10 252,5" fill="none" stroke="#00d4ff" stroke-width="1"/>
-              <polyline points="0,50 20,48 40,45 60,47 80,42 100,44 120,40 140,42 160,38 180,40 200,36 220,38 240,34 252,30" fill="none" stroke="#00ff9c" stroke-width="1" opacity="0.5"/>
-              <line x1="0" y1="55" x2="252" y2="55" stroke="#2a2a32" stroke-width="0.3" stroke-dasharray="2,2"/>
-            </g>
-            <!-- log -->
-            <g font-family="monospace" font-size="6" transform="translate(14, 135)">
-              <text y="6" fill="#5a5a63">[12:04:23]</text> <text x="48" y="6" fill="#00ff9c">PING</text> <text x="68" y="6" fill="#8a8a93">line-gw → ok 12ms</text>
-              <text y="16" fill="#5a5a63">[12:04:25]</text> <text x="48" y="16" fill="#00d4ff">ROUTE</text> <text x="68" y="16" fill="#8a8a93">7/7 nodes reachable</text>
-              <text y="26" fill="#5a5a63">[12:04:27]</text> <text x="48" y="26" fill="#ffb000">QUEUE</text> <text x="68" y="26" fill="#8a8a93">collage build pending</text>
-              <text y="36" fill="#5a5a63">[12:04:30]</text> <text x="48" y="36" fill="#00ff9c">DEPLOY</text> <text x="68" y="36" fill="#8a8a93">routed to group</text>
-            </g>
-            <text x="14" y="195" font-family="monospace" font-size="6" fill="#3a3a42">PACKETGRID · NOC DASHBOARD</text>
-          </svg>
-        </div>
-        <div class="card-body">
-          <div class="card-name">PACKETGRID</div>
-          <div class="card-tagline">"Lossless photo delivery. BGP-routed to your group." — NOC dashboard, live KPIs, log feed</div>
-          <div class="card-footer">
-            <span>noc · live · cyan</span>
-            <span class="card-arrow">→</span>
-          </div>
-        </div>
-      </a>
-
-      <!-- DIRECTION 4: MINIMAL -->
-      <a href="preview-minimal.html" class="card" data-dir="minimal">
-        <div class="card-visual">
-          <div class="card-num">04 / 04</div>
-          <div class="card-tag">MINIMAL · HYBRID</div>
-          <svg viewBox="0 0 280 210" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
-            <rect width="280" height="210" fill="#fafafa"/>
-            <text x="20" y="28" font-family="monospace" font-size="7" fill="#8a8a93" letter-spacing="0.2">$ collage.sh --build</text>
-            <text x="20" y="60" font-family="Inter, sans-serif" font-size="22" font-weight="600" fill="#0e0e10" letter-spacing="-0.5">collage<span style="color:#c8ff00;background:#0e0e10;padding:0 4px;">.sh</span></text>
-            <text x="20" y="78" font-family="Inter, sans-serif" font-size="9" fill="#5a5a63">It's just bash. But for your group photos.</text>
-            <!-- photo grid -->
-            <g transform="translate(20, 95)">
-              <rect x="0" y="0" width="60" height="60" fill="#0e0e10" rx="2"/>
-              <rect x="64" y="0" width="60" height="60" fill="#c8ff00" rx="2"/>
-              <rect x="128" y="0" width="60" height="60" fill="#0e0e10" rx="2"/>
-              <rect x="192" y="0" width="28" height="60" fill="#1c1c22" rx="2"/>
-              <rect x="224" y="0" width="28" height="60" fill="#0e0e10" rx="2"/>
-              <text x="0" y="-6" font-family="monospace" font-size="6" fill="#8a8a93">7 photos · grid auto</text>
-            </g>
-            <text x="20" y="180" font-family="monospace" font-size="6" fill="#5a5a63">v1.0.0 · BUILD ok · 0 errors</text>
-            <text x="20" y="192" font-family="monospace" font-size="6" fill="#8a8a93">~/line-group</text>
-          </svg>
-        </div>
-        <div class="card-body">
-          <div class="card-name">collage.sh</div>
-          <div class="card-tagline">"Works on my machine. Now yours too." — Clean, monospace accent, programmer humor</div>
-          <div class="card-footer">
-            <span>minimal · clean · lime</span>
-            <span class="card-arrow">→</span>
-          </div>
-        </div>
-      </a>
-
     </div>
+  </nav>
 
-    <section class="kit">
-      <div class="kit-title">// BRAND KIT — shared across all 4 directions</div>
-      <div class="kit-grid">
-        <div class="kit-item">
-          <h4>Voice</h4>
-          <div class="val">ไทยผสมอังกฤษ แบบ dev<br>พูดน้อย ติงตลก ไม่ทางการ</div>
+  <div class="wrap" id="top">
+
+    <!-- HERO -->
+    <section class="hero">
+      <div class="badge"><span class="dot"></span>CENTRAL DESIGN LIBRARY · 4 IDENTITIES</div>
+      <h1>Design <span class="accent">Gallery</span></h1>
+      <p>
+        คลัง design กลาง — 4 visual identity พร้อม design system ครบ
+        ทุกธีม <code>manifest-driven</code> ใช้ได้ทั้ง client canvas และ production backend
+        สลับธีมด้านล่างเพื่อดู component ในแต่ละสไตล์
+      </p>
+      <div class="hero-cta">
+        <a class="btn btn-primary" href="#components">Explore Components</a>
+        <a class="btn btn-outline" href="review.html">Read Design Reviews</a>
+      </div>
+    </section>
+
+    <!-- THEME SWITCHER -->
+    <section style="padding: 24px 0 0; text-align:center">
+      <div class="theme-switch" data-switch>
+        <button class="tchip" data-theme-btn="rack"><span class="td" style="background:#ffb000"></span>RACK</button>
+        <button class="tchip" data-theme-btn="crt"><span class="td" style="background:#00ff66"></span>CRT</button>
+        <button class="tchip" data-theme-btn="noc"><span class="td" style="background:#00d4ff"></span>NOC</button>
+        <button class="tchip active" data-theme-btn="min"><span class="td" style="background:#c8ff00"></span>.sh</button>
+      </div>
+      <div class="mono" style="font-size:11px;color:var(--fg-dim)">// whole page restyles live — pick a style to preview its components</div>
+    </section>
+
+    <!-- COMPONENTS -->
+    <section class="section" id="components">
+      <div class="sec-head">
+        <div class="sec-index">01 — BUTTONS</div>
+        <div class="sec-title">Buttons</div>
+        <div class="sec-desc">Primary, secondary, outline, ghost, danger, sizes และ disabled state — สี/สไตล์เปลี่ยนตามธีม</div>
+      </div>
+      <div class="grid">
+        <div class="demo">
+          <div class="demo-label">Variants</div>
+          <div class="demo-row">
+            <button class="btn btn-primary">Primary</button>
+            <button class="btn btn-secondary">Secondary</button>
+            <button class="btn btn-outline">Outline</button>
+            <button class="btn btn-ghost">Ghost</button>
+            <button class="btn btn-danger">Danger</button>
+          </div>
         </div>
-        <div class="kit-item">
-          <h4>Anti-patterns</h4>
-          <div class="val val-mono">no "AI-powered" ✕<br>no "experience" ✕<br>no buzzword ✕</div>
-        </div>
-        <div class="kit-item">
-          <h4>Joke template</h4>
-          <div class="val val-mono">"It works on my [machine/crt/rack]"<br>"Uptime 99.99%"<br>"Blaming Cloudflare"</div>
-        </div>
-        <div class="kit-item">
-          <h4>Microcopy rule</h4>
-          <div class="val">ทุกปุ่มมี personality<br>ทุก status มี sysadmin joke<br>ทุก state เปลี่ยนเป็น terminal log</div>
-        </div>
-        <div class="kit-item">
-          <h4>Type shared</h4>
-          <div class="val val-mono">Inter · 300/400/500/600/700<br>JetBrains Mono · 400/500/600<br>(+ VT323 สำหรับ CRT)</div>
-        </div>
-        <div class="kit-item">
-          <h4>Motion budget</h4>
-          <div class="val val-mono">Lenis smooth scroll<br>GSAP + ScrollTrigger<br>prefers-reduced-motion ✓</div>
+        <div class="demo">
+          <div class="demo-label">Sizes · Icon · Disabled</div>
+          <div class="demo-row">
+            <button class="btn btn-primary btn-sm">Small</button>
+            <button class="btn btn-primary">Default</button>
+            <button class="btn btn-primary btn-lg">Large</button>
+            <button class="btn btn-outline"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>Send</button>
+            <button class="btn btn-primary" disabled>Disabled</button>
+          </div>
         </div>
       </div>
     </section>
 
+    <section class="section">
+      <div class="sec-head">
+        <div class="sec-index">02 — INPUTS</div>
+        <div class="sec-title">Inputs & Forms</div>
+        <div class="sec-desc">Text, date, select, textarea, checkbox, radio — focus ring ตาม accent ของธีม</div>
+      </div>
+      <div class="grid">
+        <div class="demo">
+          <div class="demo-label">Text · Date · Select</div>
+          <label class="label">Name</label>
+          <input class="input" placeholder="your name" value="Homelab Crew">
+          <label class="label">Date</label>
+          <input class="input" type="date" value="2026-07-31">
+          <label class="label">Style</label>
+          <select class="select"><option>STACK//FRAME</option><option>PIXSH</option><option>PACKETGRID</option><option>collage.sh</option></select>
+        </div>
+        <div class="demo">
+          <div class="demo-label">Textarea · Checks</div>
+          <textarea class="textarea" rows="3" placeholder="notes..."></textarea>
+          <div class="check-row"><input class="checkbox" type="checkbox" checked> enable uplink</div>
+          <div class="check-row"><input class="radio" type="radio" name="r" checked> option A</div>
+          <div class="check-row"><input class="radio" type="radio" name="r"> option B</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="sec-head">
+        <div class="sec-index">03 — CARDS & STATS</div>
+        <div class="sec-title">Cards & Stats</div>
+        <div class="sec-desc">Content cards, KPI/stat tiles — สี stat เปลี่ยนตามธีม</div>
+      </div>
+      <div class="grid">
+        <div class="demo">
+          <div class="demo-label">Card</div>
+          <div class="card">
+            <div class="card-head"><span class="card-title">Service Status</span><span class="card-meta">v1.0</span></div>
+            <p>ทุก component ในหน้านี้ render ด้วยธีมที่เลือก — card นี้คือตัวอย่าง content surface</p>
+          </div>
+        </div>
+        <div class="demo">
+          <div class="demo-label">Stat Tiles</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;width:100%">
+            <div class="stat"><div class="sl">Uptime</div><div class="sv">99.99%</div><div class="sd">▲ 247d streak</div></div>
+            <div class="stat warn"><div class="sl">Temp</div><div class="sv">42°C</div><div class="sd">▲ normal</div></div>
+            <div class="stat danger"><div class="sl">Errors</div><div class="sv">0</div><div class="sd">● 0 drops</div></div>
+            <div class="stat"><div class="sl">Latency</div><div class="sv">12ms</div><div class="sd">▼ -3ms</div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="sec-head">
+        <div class="sec-index">04 — BADGES & STATUS</div>
+        <div class="sec-title">Badges · Chips · Status</div>
+        <div class="sec-desc">Badge variants, pulse indicators, LEDs, progress bars</div>
+      </div>
+      <div class="grid">
+        <div class="demo">
+          <div class="demo-label">Badges</div>
+          <div class="demo-row">
+            <span class="badge">default</span>
+            <span class="badge primary"><span class="bd"></span>primary</span>
+            <span class="badge success"><span class="bd"></span>ok</span>
+            <span class="badge warn"><span class="bd"></span>warn</span>
+            <span class="badge danger"><span class="bd"></span>error</span>
+          </div>
+        </div>
+        <div class="demo">
+          <div class="demo-label">Pulse · LEDs</div>
+          <div class="demo-row">
+            <span class="pulse"><span class="p"></span>ONLINE</span>
+            <span class="pulse amber"><span class="p"></span>WARM</span>
+            <span class="led"></span><span class="led amber"></span><span class="led red"></span><span class="led cyan"></span>
+          </div>
+          <div class="progress" style="margin-top:8px"><i style="width:72%"></i></div>
+          <div class="progress warn" style="margin-top:6px"><i style="width:48%"></i></div>
+          <div class="progress danger" style="margin-top:6px"><i style="width:92%"></i></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="sec-head">
+        <div class="sec-index">05 — TERMINAL & ALERTS</div>
+        <div class="sec-title">Terminal · Log · Alerts</div>
+        <div class="sec-desc">CLI output styling และ notification states</div>
+      </div>
+      <div class="grid">
+        <div class="demo">
+          <div class="demo-label">Terminal</div>
+          <div class="terminal">
+            <div class="bar"><i></i><i></i><i></i></div>
+            <div><span class="prompt">$</span> collage.sh build --output=line</div>
+            <div><span class="ok">[ok]</span> 7 photos indexed</div>
+            <div><span class="ok">[ok]</span> layout 2x2 · canvas 1080x1080</div>
+            <div><span class="warn">[..]</span> awaiting deploy signal</div>
+            <div><span class="prompt">$</span> <span class="dim">█</span></div>
+          </div>
+        </div>
+        <div class="demo">
+          <div class="demo-label">Alerts</div>
+          <div class="alert info"><span class="at">Info</span>BGP route established</div>
+          <div class="alert success"><span class="at">Success</span>Delivered · 0 drops</div>
+          <div class="alert warn"><span class="at">Warning</span>Temp above threshold</div>
+          <div class="alert danger"><span class="at">Error</span>Access token expired — retrying</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- COLORS -->
+    <section class="section" id="colors">
+      <div class="sec-head">
+        <div class="sec-index">06 — COLORS</div>
+        <div class="sec-title">Current Palette</div>
+        <div class="sec-desc">สีของธีมที่เลือกอยู่ตอนนี้ — ทุก token มาจาก manifest ของ design นั้น</div>
+      </div>
+      <div class="palette" data-palette></div>
+    </section>
+
+    <!-- REVIEWS CTA -->
+    <section class="section">
+      <div class="sec-head" style="text-align:center">
+        <div class="sec-index">07 — DESIGN REVIEWS</div>
+        <div class="sec-title">เลือก design ให้ตรงงาน</div>
+        <div class="sec-desc" style="margin:0 auto">Concept, strengths, weaknesses, best-for, ratings — ดูรีวิวเชิงลึกของทั้ง 4 design</div>
+      </div>
+      <div style="display:flex;justify-content:center;gap:10px;flex-wrap:wrap">
+        <a class="btn btn-primary" href="review.html">Open Review Gallery</a>
+        <a class="btn btn-outline" href="preview-themes.html">Theme Lab Preview</a>
+      </div>
+    </section>
+
     <footer class="foot">
-      <div>collage · homelab_edition · 2026-07-30</div>
-      <div>5 files · 0 lines of index.html touched <span class="blink">_</span></div>
+      <span>design-gallery · central design library</span>
+      <span><a href="https://github.com/ktypez/design-gallery" target="_blank">github ↗</a> · <a href="review.html">reviews</a></span>
     </footer>
   </div>
+
+  <script>
+    /* ============================================================
+       THEME SWITCHER — [data-theme] on <html>
+       ============================================================ */
+    const THEMES = ['rack', 'crt', 'noc', 'min'];
+    let current = localStorage.getItem('dg_theme') || 'min';
+
+    function setTheme(t) {
+      current = t;
+      document.documentElement.setAttribute('data-theme', t);
+      localStorage.setItem('dg_theme', t);
+      document.querySelectorAll('[data-theme-btn]').forEach(b =>
+        b.classList.toggle('active', b.dataset.themeBtn === t));
+      renderPalette();
+    }
+    document.querySelectorAll('[data-theme-btn]').forEach(btn => {
+      btn.addEventListener('click', () => setTheme(btn.dataset.themeBtn));
+    });
+
+    /* ============================================================
+       PALETTE — colors of the current theme
+       ============================================================ */
+    const PALETTES = {
+      rack: [
+        ['bg', '#0a0a0c'], ['bg-2', '#111114'], ['surface', '#16161a'], ['border', '#2a2a32'],
+        ['primary', '#ffb000'], ['primary-2', '#cc8800'], ['success', '#00ff66'], ['danger', '#ff3b30'], ['info', '#00d4ff'],
+      ],
+      crt: [
+        ['bg', '#050505'], ['bg-2', '#0a0a0a'], ['surface', '#001a0c'], ['border', '#003318'],
+        ['primary', '#ffb000'], ['fg', '#00ff66'], ['primary-2', '#ffd34d'], ['danger', '#ff3b30'], ['info', '#00ff66'],
+      ],
+      noc: [
+        ['bg', '#0a0e14'], ['bg-2', '#0f1419'], ['surface', '#161c25'], ['border', '#1f2733'],
+        ['primary', '#00d4ff'], ['primary-2', '#0099cc'], ['success', '#00ff9c'], ['warn', '#ffb000'], ['danger', '#ff3b5c'],
+      ],
+      min: [
+        ['bg', '#fafafa'], ['bg-2', '#f0f0f2'], ['surface', '#ffffff'], ['border', '#e5e5e8'],
+        ['primary', '#c8ff00'], ['primary-2', '#84cc16'], ['success', '#16a34a'], ['warn', '#f59e0b'], ['danger', '#ef4444'],
+      ],
+    };
+    function renderPalette() {
+      const el = document.querySelector('[data-palette]');
+      el.innerHTML = '';
+      (PALETTES[current] || PALETTES.min).forEach(([name, hex]) => {
+        const chip = document.createElement('div');
+        chip.className = 'pchip';
+        chip.innerHTML = `<div class="sw" style="background:${hex}"></div><div class="pn"><div class="name">${name}</div><div class="hex">${hex}</div></div>`;
+        el.appendChild(chip);
+      });
+    }
+
+    setTheme(current);
+  </script>
 </body>
 </html>
