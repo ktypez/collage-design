@@ -1,17 +1,13 @@
 {
   "name": "collage-design",
   "version": "1.0.0",
-  "description": "Collage Maker brand refresh design lab \u2014 4 themed concepts",
+  "description": "Design Gallery \u2014 central design library (themes, design system, review)",
   "private": true,
   "type": "module",
   "scripts": {
     "build": "node build.js",
-    "build:watch": "node build.js --watch",
-    "preview": "node build.js --serve",
-    "serve": "node build.js --serve",
-    "clean": "node build.js --clean",
-    "copy:backend": "node build.js --copy",
-    "size": "node build.js --size"
+    "copy:backend": "node build.js",
+    "check": "node build.js --check"
   },
   "devDependencies": {
     "esbuild": "^0.28.1",

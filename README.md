@@ -1,160 +1,126 @@
-# Collage Design
+# Design Gallery
 
-Brand refresh exploration for the **Collage Maker** LINE LIFF app.
+**Central design library** ของโปรเจกต์ — ที่รวม visual identity, design system,
+และ theme engine ที่ทุกคนในทีมหยิบไปใช้ได้
 
-This is a **standalone design project** — separate from the production codebase.
-The goal: explore 4 visual directions (rack / CRT / NOC / minimal), iterate freely,
-and pick the best one for re-skinning the production app.
+> สร้างจากงาน redesign แอป Collage Maker (LINE LIFF) แต่ตอนนี้เป็น
+> **คลัง design กลาง** — ไม่ผูกกับ app ตัวเดียว
 
 ## Live URLs (LAN)
 
 | Page | URL | Notes |
 |---|---|---|
-| Gallery (4 concepts) | https://192.168.1.47/design/preview.html | Landing |
-| Theme switcher (interactive) | https://192.168.1.47/design/preview-themes.html | Try all 4 themes live |
-| Collage maker (working app) | https://192.168.1.47/design/app.html | Real upload → canvas → PNG download |
+| **Gallery Index** (landing) | https://192.168.1.47/design/preview.html | เข้าเริ่มต้นที่นี่ |
+| **Review Gallery** | https://192.168.1.47/design/review.html | รีวิวเชิงลึกของแต่ละ design |
+| Theme Switcher | https://192.168.1.47/design/preview-themes.html | ลอง 4 ธีมสลับสด |
+| Concept RACK | https://192.168.1.47/design/preview-rack.html | standalone |
+| Concept CRT | https://192.168.1.47/design/preview-crt.html | standalone |
+| Concept NOC | https://192.168.1.47/design/preview-noc.html | standalone |
+| Concept MIN | https://192.168.1.47/design/preview-minimal.html | standalone |
 
-## Concepts
+## 4 Designs ในคลัง
 
-| # | Name | Brand | Vibe |
-|---|---|---|---|
-| 1 | `STACK//FRAME` | rack | Server rack, brushed metal, amber LEDs |
-| 2 | `PIXSH v1.0` | crt | Retro CRT terminal, phosphor green, scanlines |
-| 3 | `PACKETGRID` | noc | NOC dashboard, dark slate, cyan + green |
-| 4 | `collage.sh` | min | Minimal geek, lime accent, monospace details |
+| # | Name | id | Vibe | Production |
+|---|---|---|---|---|
+| 1 | `STACK//FRAME` | rack | Server rack, brushed metal, amber LEDs | `/status` (device-status) |
+| 2 | `PIXSH v1.0` | crt | Retro CRT, phosphor green, scanlines | Glance dashboard |
+| 3 | `PACKETGRID` | noc | NOC dashboard, dark slate, cyan + green | design reference |
+| 4 | `collage.sh` | min | Minimal geek, lime accent | default (7-days output) |
 
-## Where each theme is used
+ดูรีวิวเต็ม (concept, strengths, weaknesses, best-for, specs, ratings) ได้ที่
+**Review Gallery** — `review.html`
 
-| Theme | Service | URL |
-|---|---|---|
-| STACK//FRAME | `/status` (device-status) | https://192.168.1.47/status/ |
-| PIXSH CRT | Glance (root dashboard) | https://192.168.1.47/ |
-| PACKETGRID | LIFF collage production | https://report.mcky.space/liff (Vercel) · https://192.168.1.47/collage/ (LAN) |
-| collage.sh | _(not deployed, gallery only)_ | — |
+## Architecture: Design = Plugin
 
-## File structure
-
-```
-collage-design/
-├── README.md                  ← you are here
-├── app.html                   ← ★ BUILT single-file collage maker (served by nginx)
-├── src/                       ← ★ SOURCE OF TRUTH (modular)
-│   ├── index.html             ← HTML shell (theme picker + day presets)
-│   ├── css/
-│   │   ├── base.css           ← shared components (uses CSS vars)
-│   │   ├── main.css           ← CSS entry (@imports base + themes)
-│   │   └── themes/*/ui.css    ← per-theme UI chrome ([data-theme="X"])
-│   └── js/
-│       ├── main.js            ← entry point
-│       ├── engine/            ← theme-agnostic core
-│       │   ├── layout.js      ← layouts + cover-fit + day presets
-│       │   ├── photo.js       ← file → image loading
-│       │   └── export.js      ← PNG download + clipboard
-│       ├── core/
-│       │   ├── canvas-renderer.js ← generic theme-aware renderer
-│       │   ├── overlays.js    ← scanline/vignette/grid/connectors lib
-│       │   └── app.js         ← app wiring (theme switch, upload, generate)
-│       └── themes/
-│           ├── index.js       ← registry (add theme here)
-│           ├── rack/{manifest.js, canvas.js}   ← STACK//FRAME
-│           ├── crt/{manifest.js, canvas.js}    ← PIXSH
-│           ├── noc/{manifest.js, canvas.js}    ← PACKETGRID
-│           └── min/{manifest.js, canvas.js}    ← collage.sh (DEFAULT)
-├── preview.html               ← gallery index (4 concept cards)
-├── preview-rack.html          ← standalone STACK//FRAME concept
-├── preview-crt.html           ← standalone PIXSH concept
-├── preview-noc.html           ← standalone PACKETGRID concept
-├── preview-minimal.html       ← standalone collage.sh concept
-├── preview-themes.html        ← interactive theme switcher (all 4 in one)
-```
-
-## Architecture: Theme as Plugin
-
-**Engine is theme-agnostic.** Each theme is a self-contained plugin:
+Engine เป็น theme-agnostic. แต่ละ design เป็น plugin เต็มตัว:
 
 ```
-themes/<id>/
-├── manifest.js   ← 🎨 DECLARATIVE spec (bg, cells, header, overlay, photoFx, hooks)
-├── canvas.js     ← custom draw hooks (rails, bezel, accent strip...)
-└── ui.css        ← UI chrome for the app shell
+src/
+├── engine/            ← theme-agnostic core (layout, photo, export)
+├── core/              ← canvas-renderer + sharp-renderer + overlays lib
+├── themes/
+│   ├── rack/{manifest.js, canvas.js, ui.css}
+│   ├── crt/ ...
+│   ├── noc/ ...
+│   └── min/ ...
+└── index.html         ← app shell (source)
 ```
 
-**`manifest.js` = single source of truth** — drives the canvas renderer.
-Adding a new theme = drop a folder + register in `themes/index.js`. Engine untouched.
+### `manifest.js` = single source of truth
 
 ```js
 // themes/rack/manifest.js (example)
 export const manifest = {
   id: 'rack', name: 'STACK//FRAME',
-  ui: { heroMeta, genReady, outputTitle, ... },   // copy
+  ui: { heroMeta, genReady, outputTitle, ... },      // copy
   canvas: {
     bg: { gradient: ['#2a2a30', '#1c1c20', '#2a2a30'] },
     cell: { border: '#3a3a42', width: 3, label: 'UNIT {n}', ... },
     overlay: 'none', photoFx: 'none',
-    presetAccent: false,                            // ← only min = true
+    chrome: { rails: {...}, leds: {...} },           // declarative chrome
   },
-  hooks: { preDraw: drawRackRails, postDraw: drawRackLeds },
+  hooks: { preDraw: drawRackRails, postDraw: drawRackLeds },  // client-only hooks
 };
 ```
 
-**Canvas rendering pipeline** (generic, in `core/canvas-renderer.js`):
-1. `hooks.preDraw` (rails/grid/connectors behind)
+- **client canvas** (`core/canvas-renderer.js`) อ่าน manifest → วาด
+- **production backend** (`core/sharp-renderer.js`) อ่าน manifest ตัวเดียวกัน → sharp
+- เพิ่ม design ใหม่ = ใส่โฟลเดอร์ใน `themes/` + ลงทะเบียนใน `themes/index.js` — engine ไม่แตะ
+
+### Render pipeline (ทั้ง client + sharp)
+1. `hooks.preDraw` / chrome rails (behind)
 2. background (manifest)
-3. header text (manifest + glow/LED)
+3. header (name/date)
 4. photo cells (cover-fit + border + label + photoFx)
-5. `hooks.postDraw` (LEDs/bezel/accent)
-6. generic overlays (scanline / vignette / ...)
+5. `hooks.postDraw` / chrome LEDs/bezel (on top)
+6. generic overlays (scanline / vignette / grid / connectors)
 
-## Day presets (7 colors)
+## วิธีหยิบไปใช้
 
-The 7 day-of-week gradients (`sun`..`sat`) belong **only to the default theme**
-(`collage.sh` / min) via `presetAccent: true`. When min is active the day picker
-appears and the chosen gradient renders as an accent strip on the exported PNG.
-Other themes ignore day presets.
-
-## Tech
-
-- Vanilla HTML/CSS/JS modules — esbuild bundles to single-file app.html
-- GSAP via CDN for theme transitions
-- Canvas API for collage composition (theme-aware, manifest-driven)
-- No backend, no LINE LIFF (app.html is offline-capable)
-
-## Setup
-
-This project is **served via nginx** (location `/design/`) from
-`/home/admin/collage-design/`. The built `app.html` needs no build at serve time.
-
-To preview locally without nginx:
-
+### 1. เป็น design ที่ใช้กับ backend (sharp rendering)
 ```bash
-python3 -m http.server 8000
-# then open http://localhost:8000/preview.html
+npm run copy:backend   # sync themes + sharp-renderer + fonts → /home/admin/collage/backend/design-system/
 ```
+แล้ว backend เรียก `theme=rack|crt|noc|min` ใน API — ภาพ collage ออกตาม design
 
-## Build
+### 2. เป็น standalone หน้า UI
+เปิด `preview-<id>.html` หรือคัดลอก CSS จาก `src/css/themes/<id>/ui.css` +
+`base.css` ไปใช้กับหน้าโปรเจกต์คุณ (`<html data-theme="<id>">`)
 
-The build bundles `src/` (ES modules + CSS) into the single-file `app.html`
-via esbuild, then minifies HTML/CSS/JS and optimizes inline SVGs.
+### 3. เป็น reference ในโค้ด
+manifest = แหล่งข้อมูลสี/type/motion ต่อ design — อ่านจาก `themes/<id>/manifest.js`
+
+## Build / Tooling
 
 ```bash
 npm install            # one-time (esbuild, html-minifier-terser, svgo)
-npm run build         # bundle src/ → app.html
-npm run build:watch   # rebuild on change
-npm run preview       # serve app.html on :8000
-npm run copy:backend  # (Method A) copy design-system → production backend
-npm run clean         # remove .tmp/ + app.html
+npm run build          # = copy:backend (sync design-system → production)
+npm run check          # syntax-check ทุก source module
 ```
 
-`app.html` is committed so nginx serves it even without node installed.
-During development, edit files under `src/` then `npm run build`.
+`build.js` ถูกตัดเหลือเป็น **design-system sync tool** แล้ว (ไม่มี app bundling —
+local collage maker ถูกถอดออกจากคลังแล้ว)
 
-Typical savings: **~28% smaller files** (~61KB saved across 7 files).
+## Adding a new design
 
-The `dist/` output is gitignored — only source files are tracked.
+```
+1. mkdir src/js/themes/<id>
+2. เขียน manifest.js (canvas spec + ui copy)
+3. เขียน canvas.js (hooks เฉพาะถ้ามี) + ui.css (ถ้ามี UI)
+4. register ใน src/js/themes/index.js
+5. npm run check && npm run copy:backend
+6. push → production ใช้ได้ทันที
+```
 
-## Reverting
+## Tech
 
-The production app (LIFF collage) is **not** in this folder.
-The actual production code is at `/home/admin/collage/frontend/index.html`.
-If you want to revert that to a previous theme, restore from
-`/home/admin/collage/frontend/_archive/`.
+- Vanilla ES modules — esbuild bundle (ถ้าต้องการ)
+- GSAP via CDN (theme transitions)
+- Canvas API (client) + sharp (production backend)
+- Manifest-driven — design เปลี่ยน = แก้ manifest ไม่แตะ logic
+
+## Repo
+
+- GitHub: https://github.com/ktypez/collage-design
+- Served: nginx `/design/` → `/home/admin/design-gallery/`
+- Source of truth: production backend syncs from here (`npm run copy:backend`)
