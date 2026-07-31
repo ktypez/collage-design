@@ -91,6 +91,14 @@
       display: flex; align-items: center; justify-content: space-between;
       height: 56px; gap: 16px;
     }
+    /* rack chrome — mirrors /status (LEDs + RACK_01) */
+    .nav-leds { display: none; gap: 4px; align-items: center; margin-right: auto; }
+    .nav-leds i { width: 7px; height: 7px; border-radius: 50%; background: var(--success); box-shadow: 0 0 5px var(--success); }
+    .nav-leds i:nth-child(2) { background: var(--warn); box-shadow: 0 0 5px var(--warn); }
+    .nav-leds i:nth-child(3) { background: var(--info); box-shadow: 0 0 5px var(--info); }
+    .nav-leds i:nth-child(4) { background: var(--success); }
+    [data-theme="rack"] .nav-leds { display: flex; }
+    .nav-leds span { font-size: 10px; color: var(--fg-dim); letter-spacing: 0.08em; margin-left: 2px; }
     .nav-logo { display: flex; align-items: center; gap: 8px; font-weight: 700; font-size: 15px; text-decoration: none; color: var(--fg); }
     .nav-logo .lg { width: 20px; height: 20px; border-radius: 5px; background: var(--primary); display: inline-flex; align-items: center; justify-content: center; font-size: 11px; color: var(--primary-fg); font-family: var(--font-mono); font-weight: 700; }
     .nav-links { display: flex; gap: 4px; font-size: 13px; }
@@ -162,7 +170,21 @@
       border-radius: 10px;
       padding: 20px;
       display: flex; flex-direction: column; gap: 10px; align-items: flex-start;
+      position: relative;
     }
+    /* rack chrome — demo cards get unit LEDs + amber rail (mirrors /status) */
+    [data-theme="rack"] .demo { border-left: 3px solid var(--primary); background: linear-gradient(180deg, #16161a, #0e0e10); }
+    [data-theme="rack"] .demo::before {
+      content: ''; position: absolute; top: 10px; right: 12px;
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--success); box-shadow: 0 0 5px var(--success);
+    }
+    [data-theme="rack"] .demo::after {
+      content: ''; position: absolute; top: 10px; right: 22px;
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--warn); box-shadow: 0 0 5px var(--warn);
+    }
+    [data-theme="rack"] .demo .demo-label { color: var(--primary); }
     .demo-label {
       font-family: var(--font-mono); font-size: 10px;
       color: var(--fg-dim); letter-spacing: 0.1em; text-transform: uppercase;
@@ -389,6 +411,7 @@
   <nav class="nav">
     <div class="nav-in">
       <a class="nav-logo" href="#top"><span class="lg">D</span>Design Gallery</a>
+      <div class="nav-leds" data-rack-leds><i></i><i></i><i></i><i></i><span>RACK_01</span></div>
       <div class="nav-links">
         <a href="#components">Components</a>
         <a href="#colors">Colors</a>
