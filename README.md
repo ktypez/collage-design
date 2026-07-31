@@ -6,6 +6,19 @@
 > สร้างจากงาน redesign แอป Collage Maker (LINE LIFF) แต่ตอนนี้เป็น
 > **คลัง design กลาง** — ไม่ผูกกับ app ตัวเดียว
 
+## Docs & Reference
+
+| File | ที่อยู่ | คืออะไร |
+|---|---|---|
+| **PLAN.md** | `PLAN.md` | จุดเริ่มต้นของโปรเจกต์ — แผน/README เดิม (collage-design brand refresh) กู้คืนจาก git history |
+| **README.md** | `README.md` | เอกสารคลัง design กลาง (ฉบับปัจจุบัน) |
+| Core | `src/js/core/` | design-system core — `canvas-renderer.js` (client), `sharp-renderer.js` (production), `overlays.js`, `app.js` |
+| Engine | `src/js/engine/` | theme-agnostic core — layout, photo, export |
+| Themes | `src/js/themes/<id>/` | 1 โฟลเดอร์ต่อ design — manifest.js + canvas.js |
+
+> **STACK//FRAME เต็มรูปแบบ** (rack units + LEDs + brushed metal) ดูได้ที่
+> `https://192.168.1.47/status/` (device-status) และ `preview-rack.html` ในคลัง
+
 ## Live URLs (LAN)
 
 | Page | URL | Notes |
