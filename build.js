@@ -169,6 +169,7 @@ async function copyToBackend() {
   }
   fs.mkdirSync(BACKEND_DESIGN_DIR, { recursive: true });
   fs.mkdirSync(path.join(BACKEND_DESIGN_DIR, 'themes'), { recursive: true });
+  fs.mkdirSync(path.join(BACKEND_DESIGN_DIR, 'fonts'), { recursive: true });
 
   // copy theme manifests + canvas hooks
   const themeIds = ['rack', 'crt', 'noc', 'min'];
@@ -183,14 +184,23 @@ async function copyToBackend() {
     }
     console.log(`  │ themes/${id}/  ✓`);
   }
-  // copy engine + overlays (shared)
-  for (const rel of ['engine/layout.js', 'core/overlays.js', 'core/canvas-renderer.js']) {
+  // copy engine + core (incl. sharp-renderer)
+  for (const rel of ['engine/layout.js', 'core/overlays.js', 'core/canvas-renderer.js', 'core/sharp-renderer.js']) {
     const s = path.join(SRC, 'js', rel);
     const d = path.join(BACKEND_DESIGN_DIR, rel);
-    fs.mkdirSync(path.dirname(d), { recursive: true });
-    fs.copyFileSync(s, d);
+    if (fs.existsSync(s)) {
+      fs.mkdirSync(path.dirname(d), { recursive: true });
+      fs.copyFileSync(s, d);
+    }
   }
   console.log('  │ engine + core shared modules ✓');
+  // copy fonts (mono + display for sharp text rendering)
+  for (const f of ['JetBrainsMono-Regular.ttf', 'VT323-Regular.ttf']) {
+    const s = path.join(SRC, 'assets', 'fonts', f);
+    const d = path.join(BACKEND_DESIGN_DIR, 'fonts', f);
+    if (fs.existsSync(s)) fs.copyFileSync(s, d);
+  }
+  console.log('  │ fonts (JetBrainsMono + VT323) ✓');
   console.log(`  └─ ✓ copied → ${BACKEND_DESIGN_DIR}`);
   console.log();
 }
