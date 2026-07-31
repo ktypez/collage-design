@@ -279,6 +279,62 @@
     .alert.danger { border-left-color: var(--danger); } .alert.danger .at { color: var(--danger); }
 
     /* ============================================================
+       SEARCH · TOGGLE SWITCH · DROPDOWN
+       ============================================================ */
+    .search-wrap { position: relative; width: 100%; }
+    .search-wrap svg { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); width: 15px; height: 15px; color: var(--fg-dim); pointer-events: none; }
+    .search-wrap .input { padding-left: 36px; }
+    .toggle-row { display: flex; align-items: center; justify-content: space-between; width: 100%; font-size: 14px; color: var(--fg); }
+    .switch { position: relative; display: inline-block; width: 40px; height: 22px; flex-shrink: 0; }
+    .switch input { opacity: 0; width: 0; height: 0; }
+    .switch .slider { position: absolute; inset: 0; background: var(--bg-2); border: 1px solid var(--border-strong); border-radius: 999px; cursor: pointer; transition: all 0.25s; }
+    .switch .slider::before { content: ''; position: absolute; width: 16px; height: 16px; left: 2px; top: 2px; background: var(--fg-dim); border-radius: 50%; transition: transform 0.25s cubic-bezier(0.22,1,0.36,1); }
+    .switch input:checked + .slider { background: var(--primary); border-color: var(--primary); }
+    .switch input:checked + .slider::before { transform: translateX(18px); background: var(--primary-fg); }
+    .dropdown { position: relative; width: 100%; }
+    .dropdown-btn {
+      width: 100%; padding: 10px 12px; text-align: left;
+      background: var(--bg); color: var(--fg);
+      border: 1px solid var(--border-strong); border-radius: 8px;
+      font-family: var(--font-mono); font-size: 13px; cursor: pointer;
+      display: flex; justify-content: space-between; align-items: center;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .dropdown-btn:hover { border-color: var(--primary); }
+    .dropdown.open .dropdown-btn { border-color: var(--primary); box-shadow: 0 0 0 2px var(--glow); }
+    .caret { color: var(--fg-dim); transition: transform 0.2s; }
+    .dropdown.open .caret { transform: rotate(180deg); }
+    .dropdown-menu {
+      display: none; position: absolute; top: calc(100% + 4px); left: 0; right: 0;
+      background: var(--surface); border: 1px solid var(--border); border-radius: 8px;
+      z-index: 10; overflow: hidden; box-shadow: 0 8px 24px rgba(0,0,0,0.25);
+    }
+    .dropdown.open .dropdown-menu { display: block; }
+    .dropdown-item {
+      padding: 9px 12px; font-family: var(--font-mono); font-size: 13px;
+      color: var(--fg-muted); cursor: pointer; transition: background-color 0.15s, color 0.15s;
+    }
+    .dropdown-item:hover { background: var(--bg-2); color: var(--fg); }
+    .dropdown-item.active { color: var(--primary); background: color-mix(in srgb, var(--primary) 8%, transparent); }
+
+    /* ============================================================
+       TYPOGRAPHY SCALE
+       ============================================================ */
+    .typo-row { display: flex; align-items: baseline; gap: 20px; padding: 12px 0; border-bottom: 1px solid var(--border); }
+    .typo-name { font-family: var(--font-mono); font-size: 11px; color: var(--fg-dim); width: 90px; flex-shrink: 0; text-transform: uppercase; letter-spacing: 0.08em; }
+    .typo-sample { color: var(--fg); line-height: 1.05; letter-spacing: -0.01em; }
+    .typo-token { font-family: var(--font-mono); font-size: 11px; color: var(--fg-dim); margin-left: auto; white-space: nowrap; }
+
+    /* ============================================================
+       SPACING SCALE
+       ============================================================ */
+    .spacing-row { display: flex; align-items: center; gap: 16px; padding: 9px 0; border-bottom: 1px solid var(--border); }
+    .sp-name { font-family: var(--font-mono); font-size: 11px; color: var(--fg-dim); width: 100px; flex-shrink: 0; }
+    .sp-box { display: block; height: 18px; flex: 1; min-width: 20px; }
+    .sp-box i { display: block; height: 100%; background: var(--primary); border-radius: 2px; box-shadow: 0 0 6px var(--glow); max-width: 100%; }
+    .sp-val { font-family: var(--font-mono); font-size: 11px; color: var(--fg-dim); width: 56px; text-align: right; }
+
+    /* ============================================================
        THEME SWITCHER
        ============================================================ */
     .theme-switch { display: flex; gap: 6px; justify-content: center; flex-wrap: wrap; margin-bottom: 8px; }
@@ -336,8 +392,8 @@
       <div class="nav-links">
         <a href="#components">Components</a>
         <a href="#colors">Colors</a>
-        <a href="review.html">Reviews</a>
-        <a href="preview-themes.html">Theme Lab</a>
+        <a href="#typography">Type</a>
+        <a href="#spacing">Spacing</a>
         <a href="preview.html" style="color:var(--primary)">/design</a>
       </div>
     </div>
@@ -356,7 +412,7 @@
       </p>
       <div class="hero-cta">
         <a class="btn btn-primary" href="#components">Explore Components</a>
-        <a class="btn btn-outline" href="review.html">Read Design Reviews</a>
+        <a class="btn btn-outline" href="https://github.com/ktypez/design-gallery" target="_blank">GitHub ↗</a>
       </div>
     </section>
 
@@ -424,6 +480,33 @@
           <div class="check-row"><input class="checkbox" type="checkbox" checked> enable uplink</div>
           <div class="check-row"><input class="radio" type="radio" name="r" checked> option A</div>
           <div class="check-row"><input class="radio" type="radio" name="r"> option B</div>
+        </div>
+        <div class="demo">
+          <div class="demo-label">Search · Toggle Switch</div>
+          <div class="search-wrap">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            <input class="input" placeholder="search components...">
+          </div>
+          <div class="toggle-row">
+            <span>Enable uplink</span>
+            <label class="switch"><input type="checkbox" checked><span class="slider"></span></label>
+          </div>
+          <div class="toggle-row">
+            <span>Notifications</span>
+            <label class="switch"><input type="checkbox"><span class="slider"></span></label>
+          </div>
+        </div>
+        <div class="demo">
+          <div class="demo-label">Dropdown · Custom Select</div>
+          <div class="dropdown" data-dropdown>
+            <button class="dropdown-btn" data-dropdown-btn>Select a style <span class="caret">▾</span></button>
+            <div class="dropdown-menu">
+              <div class="dropdown-item" data-dd-value="STACK//FRAME">STACK//FRAME</div>
+              <div class="dropdown-item active" data-dd-value="PIXSH">PIXSH</div>
+              <div class="dropdown-item" data-dd-value="PACKETGRID">PACKETGRID</div>
+              <div class="dropdown-item" data-dd-value="collage.sh">collage.sh</div>
+            </div>
+          </div>
         </div>
       </div>
     </section>
@@ -523,22 +606,29 @@
       <div class="palette" data-palette></div>
     </section>
 
-    <!-- REVIEWS CTA -->
-    <section class="section">
-      <div class="sec-head" style="text-align:center">
-        <div class="sec-index">07 — DESIGN REVIEWS</div>
-        <div class="sec-title">เลือก design ให้ตรงงาน</div>
-        <div class="sec-desc" style="margin:0 auto">Concept, strengths, weaknesses, best-for, ratings — ดูรีวิวเชิงลึกของทั้ง 4 design</div>
+    <!-- TYPOGRAPHY -->
+    <section class="section" id="typography">
+      <div class="sec-head">
+        <div class="sec-index">07 — TYPOGRAPHY</div>
+        <div class="sec-title">Type Scale</div>
+        <div class="sec-desc">font-family: <span data-typo-font class="mono" style="color:var(--primary)">—</span> · ขนาด/น้ำหนักตามธีมปัจจุบัน</div>
       </div>
-      <div style="display:flex;justify-content:center;gap:10px;flex-wrap:wrap">
-        <a class="btn btn-primary" href="review.html">Open Review Gallery</a>
-        <a class="btn btn-outline" href="preview-themes.html">Theme Lab Preview</a>
+      <div class="typo" data-typo></div>
+    </section>
+
+    <!-- SPACING -->
+    <section class="section" id="spacing">
+      <div class="sec-head">
+        <div class="sec-index">08 — SPACING</div>
+        <div class="sec-title">Spacing Scale</div>
+        <div class="sec-desc">4px base scale — token พื้นที่ว่างที่ใช้ในธีม (padding, gap, margin)</div>
       </div>
+      <div class="spacing" data-spacing></div>
     </section>
 
     <footer class="foot">
       <span>design-gallery · central design library</span>
-      <span><a href="https://github.com/ktypez/design-gallery" target="_blank">github ↗</a> · <a href="review.html">reviews</a></span>
+      <span><a href="https://github.com/ktypez/design-gallery" target="_blank">github ↗</a></span>
     </footer>
   </div>
 
@@ -556,6 +646,8 @@
       document.querySelectorAll('[data-theme-btn]').forEach(b =>
         b.classList.toggle('active', b.dataset.themeBtn === t));
       renderPalette();
+      renderTypo();
+      renderSpacing();
     }
     document.querySelectorAll('[data-theme-btn]').forEach(btn => {
       btn.addEventListener('click', () => setTheme(btn.dataset.themeBtn));
@@ -591,6 +683,75 @@
         chip.innerHTML = `<div class="sw" style="background:${hex}"></div><div class="pn"><div class="name">${name}</div><div class="hex">${hex}</div></div>`;
         el.appendChild(chip);
       });
+    }
+
+    /* ============================================================
+       TYPOGRAPHY SCALE — tokens per theme
+       ============================================================ */
+    const TYPO = {
+      rack: { font: 'JetBrains Mono', style: "'JetBrains Mono', monospace", scale: [
+        ['display', 72, 700], ['h1', 36, 700], ['h2', 28, 700], ['h3', 22, 600], ['body', 15, 400], ['caption', 12, 400],
+      ]},
+      crt: { font: 'VT323', style: "'VT323', monospace", scale: [
+        ['display', 96, 400], ['h1', 48, 400], ['h2', 36, 400], ['h3', 28, 400], ['body', 18, 400], ['caption', 14, 400],
+      ]},
+      noc: { font: 'JetBrains Mono', style: "'JetBrains Mono', monospace", scale: [
+        ['display', 64, 700], ['h1', 32, 700], ['h2', 24, 700], ['h3', 20, 600], ['body', 14, 400], ['caption', 11, 400],
+      ]},
+      min: { font: 'Inter', style: "'Inter', sans-serif", scale: [
+        ['display', 72, 800], ['h1', 36, 700], ['h2', 28, 700], ['h3', 22, 600], ['body', 15, 400], ['caption', 12, 400],
+      ]},
+    };
+    function renderTypo() {
+      const t = TYPO[current] || TYPO.min;
+      document.querySelector('[data-typo-font]').textContent = t.font;
+      const el = document.querySelector('[data-typo]');
+      el.innerHTML = '';
+      t.scale.forEach(([name, size, weight]) => {
+        const row = document.createElement('div');
+        row.className = 'typo-row';
+        row.innerHTML =
+          `<span class="typo-name">${name}</span>` +
+          `<span class="typo-sample" style="font-size:${size}px;font-weight:${weight};font-family:${t.style}">Aa ตัวอักษร</span>` +
+          `<span class="typo-token">${size}px / ${weight}</span>`;
+        el.appendChild(row);
+      });
+    }
+
+    /* ============================================================
+       SPACING SCALE
+       ============================================================ */
+    const SPACING = [4, 8, 12, 16, 24, 32, 48, 64];
+    function renderSpacing() {
+      const el = document.querySelector('[data-spacing]');
+      el.innerHTML = '';
+      SPACING.forEach((s) => {
+        const row = document.createElement('div');
+        row.className = 'spacing-row';
+        row.innerHTML = `<span class="sp-name">space-${s}</span><span class="sp-box"><i style="width:${s}px"></i></span><span class="sp-val">${s}px</span>`;
+        el.appendChild(row);
+      });
+    }
+
+    /* ============================================================
+       DROPDOWN (demo)
+       ============================================================ */
+    const dd = document.querySelector('[data-dropdown]');
+    const ddBtn = dd && dd.querySelector('[data-dropdown-btn]');
+    if (dd && ddBtn) {
+      ddBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        dd.classList.toggle('open');
+      });
+      dd.querySelectorAll('.dropdown-item').forEach((item) => {
+        item.addEventListener('click', () => {
+          dd.querySelectorAll('.dropdown-item').forEach((i) => i.classList.remove('active'));
+          item.classList.add('active');
+          ddBtn.childNodes[0].textContent = item.dataset.ddValue + ' ';
+          dd.classList.remove('open');
+        });
+      });
+      document.addEventListener('click', () => dd.classList.remove('open'));
     }
 
     setTheme(current);
