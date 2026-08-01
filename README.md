@@ -12,7 +12,7 @@
 |---|---|---|
 | **PLAN.md** | `PLAN.md` | Project plan — live URLs, structure ปัจจุบัน, workflow, roadmap |
 | **README.md** | `README.md` | เอกสารคลัง design กลาง (ฉบับปัจจุบัน) |
-| **index.html** | `index.html` | Landing page (card list — 6 designs) |
+| **index.html** | `index.html` | Landing page (card list — 8 designs) |
 | Core | `src/js/core/` | design-system core — `canvas-renderer.js` (client), `sharp-renderer.js` (production), `overlays.js`, `app.js` |
 | Engine | `src/js/engine/` | theme-agnostic core — layout, photo, export |
 | Themes | `src/js/themes/<id>/` | 1 โฟลเดอร์ต่อ design — manifest.js (+ optional canvas.js) |
@@ -31,13 +31,15 @@
 | Concept MIN | https://192.168.1.47/design/concepts/min.html | **full components** — minimal, lime accent, Inter |
 | **Concept GLITCHPAGE** | https://192.168.1.47/design/concepts/glitchpage.html | **full components** — error page, neon pink + glitch |
 | **Concept CLAUDE PAPER** | https://192.168.1.47/design/concepts/claude.html | **full components** — warm editorial, clay accent, **dual light/dark mode** |
+| **Concept MOSS** | https://192.168.1.47/design/concepts/moss.html | **full components** — organic, earth tone, blob shapes, Fraunces |
+| **Concept BRUT** | https://192.168.1.47/design/concepts/brut.html | **full components** — brutalist, black/white/red, 0px radius, Anton |
 
 ## Component Coverage (per concept)
 
 แต่ละ concept page แสดง component **15+ แบบ** ในสไตล์ของธีมนั้น:
 button (variants, sizes) · input/textarea/select · checkbox/radio/switch · card · status pill · badge (filled/outline/muted) · kbd · alert · tabs · progress · pagination · spinner · table · terminal · breadcrumb
 
-## 6 Designs ในคลัง
+## 8 Designs ในคลัง
 
 | # | Name | id | Vibe | Production |
 |---|---|---|---|---|
@@ -47,6 +49,8 @@ button (variants, sizes) · input/textarea/select · checkbox/radio/switch · ca
 | 4 | `collage.sh` | min | Minimal geek, lime accent | default theme |
 | 5 | `GLITCHPAGE` | glitchpage | Error-page DNA — dark navy, drift grid, glitch number, terminal, Thai copy | nginx error pages (design source — deploy pending) |
 | 6 | `CLAUDE PAPER` | claude | Warm editorial — clay accent, paper surfaces, bilingual serif, **dual light/dark mode** | Obsidian theme (unofficial, from law-of-cycles/claude-paper-obsidian) |
+| 7 | `MOSS` | moss | Organic — earth palette (moss green + terracotta + sand), blob shapes, Fraunces serif | design reference |
+| 8 | `BRUT` | brut | Brutalist — raw black/white/red, 0px radius, 2px border, Anton display | design reference |
 
 ## Architecture: Design = Plugin
 
@@ -126,7 +130,7 @@ npm run check   # syntax-check ทุก source module (zero dependency — ไ�
 - GSAP via CDN (theme transitions ใน preview pages)
 - Canvas API (client) + sharp (production backend renderer)
 - Manifest-driven — design เปลี่ยน = แก้ manifest ไม่แตะ logic
-- Fonts: Inter + JetBrains Mono (gallery), Source Serif 4 / Source Han Serif (CLAUDE PAPER)
+- Fonts: Inter + JetBrains Mono (gallery), Source Serif 4 / Source Han Serif (CLAUDE PAPER), Fraunces (MOSS), Anton + IBM Plex Mono (BRUT)
 
 ## Repo
 

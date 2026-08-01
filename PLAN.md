@@ -19,8 +19,10 @@
 | Concept MIN | https://192.168.1.47/design/concepts/min.html | **full components** (collage.sh minimal) |
 | Concept GLITCHPAGE | https://192.168.1.47/design/concepts/glitchpage.html | **full components** (error page neon) |
 | Concept CLAUDE PAPER | https://192.168.1.47/design/concepts/claude.html | **full components** (warm editorial, **dual light/dark toggle**) |
+| Concept MOSS | https://192.168.1.47/design/concepts/moss.html | **full components** (organic, earth tone, blob shapes) |
+| Concept BRUT | https://192.168.1.47/design/concepts/brut.html | **full components** (brutalist, 0px radius, Anton) |
 
-## 6 Designs ในคลัง
+## 8 Designs ในคลัง
 
 | # | Name | id | Vibe | Production |
 |---|---|---|---|---|
@@ -30,6 +32,8 @@
 | 4 | `collage.sh` | min | Minimal geek, lime accent | default theme |
 | 5 | `GLITCHPAGE` | glitchpage | Error-page DNA — dark navy, drift grid, glitch number, terminal, Thai copy | nginx error pages (design source — deploy pending) |
 | 6 | `CLAUDE PAPER` | claude | Warm editorial — clay accent, paper surfaces, bilingual serif, **dual light/dark mode** | Obsidian theme (unofficial — law-of-cycles/claude-paper-obsidian) |
+| 7 | `MOSS` | moss | Organic — earth palette, blob shapes, Fraunces serif | design reference |
+| 8 | `BRUT` | brut | Brutalist — raw black/white/red, 0px radius, Anton display | design reference |
 
 ## File structure (current)
 
@@ -46,7 +50,9 @@ design-gallery/
 │   ├── noc.html                ← standalone PACKETGRID concept
 │   ├── min.html                ← standalone collage.sh concept
 │   ├── glitchpage.html         ← standalone GLITCHPAGE (error page) concept
-│   └── claude.html             ← standalone CLAUDE PAPER (warm editorial, dual mode) concept
+│   ├── claude.html             ← standalone CLAUDE PAPER (warm editorial, dual mode) concept
+│   ├── moss.html               ← standalone MOSS (organic) concept
+│   └── brut.html               ← standalone BRUT (brutalist) concept
 └── src/
     ├── assets/fonts/           ← JetBrainsMono, VT323
     ├── css/
@@ -93,7 +99,7 @@ engine (theme-agnostic)   ← layout / photo / export
 - Canvas API (client) + sharp (production backend)
 - GSAP via CDN (theme transitions ใน preview pages)
 - Manifest-driven — design เปลี่ยน = แก้ manifest ไม่แตะ logic
-- Fonts: JetBrains Mono (mono), VT323 (CRT), Kanit + Sarabun (GLITCHPAGE), Source Serif 4 + Source Han Serif SC (CLAUDE PAPER)
+- Fonts: JetBrains Mono (mono), VT323 (CRT), Kanit + Sarabun (GLITCHPAGE), Source Serif 4 + Source Han Serif SC (CLAUDE PAPER), Fraunces (MOSS), Anton + IBM Plex Mono (BRUT)
 - Tooling: ไม่มี devDependencies — `build.js` ใช้ node builtins ล้วนๆ
 
 ## Build / Check
@@ -123,6 +129,7 @@ npm run check   # syntax-check ทุก source module ใน src/js (zero depen
 - [x] Per-theme ui.css (UI tokens + chrome)
 - [x] 5 designs: rack / crt / noc / min / glitchpage
 - [x] **6 designs: + claude (CLAUDE PAPER)** — ธีมแรกในคลังที่มี dual light/dark mode
+- [x] **8 designs: + moss (MOSS, organic) + brut (BRUT, brutalist)** — ขยายสเปกตรัมสาย soft/raw
 - [ ] **Deploy GLITCHPAGE** → generate 403/404/500/502/503.html จาก manifest
   แล้ว deploy ไปที่ `/var/www/localhost/htdocs/`
 - [ ] Design tokens sync (CSS variables) — ปัจจุบันฝังใน ui.css แต่ละ theme

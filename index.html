@@ -3,11 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Design Gallery — 6 Visual Identities</title>
+  <title>Design Gallery — 8 Visual Identities</title>
   <link rel="icon" type="image/svg+xml" href="/favicons/lab.svg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&family=Kanit:wght@700;900&family=Sarabun:wght@400;700&family=VT323&family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,500;0,8..60,600;0,8..60,700;1,8..60,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&family=Kanit:wght@700;900&family=Sarabun:wght@400;700&family=VT323&family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,500;0,8..60,600;0,8..60,700;1,8..60,400&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,400&family=Anton&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -275,6 +275,63 @@
       font-size: 9.5px; color: #141413;
     }
 
+    /* preview: MOSS — organic earth + blob */
+    .card[data-id="moss"] .preview {
+      background: #f5f1e8;
+    }
+    .card[data-id="moss"] .preview::after {
+      content: ''; position: absolute; inset: 0;
+      background-image:
+        radial-gradient(circle at 20% 80%, rgba(106,140,63,0.1) 0, transparent 45%),
+        radial-gradient(circle at 85% 15%, rgba(196,113,74,0.12) 0, transparent 45%);
+    }
+    .ms-mock {
+      position: relative; z-index: 1;
+      width: 82%; height: 76%;
+      background: #fdfbf5;
+      border: 1px solid rgba(46,42,36,0.16);
+      border-radius: 42% 58% 55% 45% / 52% 38% 62% 48%;
+      box-shadow: 0 4px 12px rgba(46,42,36,0.1);
+      display: flex; align-items: center; justify-content: center;
+      animation: ms-drift 14s ease-in-out infinite;
+    }
+    @keyframes ms-drift {
+      0%, 100% { border-radius: 42% 58% 55% 45% / 52% 38% 62% 48%; }
+      33%      { border-radius: 58% 42% 38% 62% / 45% 61% 39% 55%; }
+      66%      { border-radius: 38% 62% 58% 42% / 58% 42% 58% 42%; }
+    }
+    .ms-mock .inner { text-align: left; width: 72%; }
+    .ms-mock .t { font-family: 'Source Serif 4', Georgia, serif; font-size: 16px; font-weight: 600; color: #2e2a24; margin-bottom: 3px; }
+    .ms-mock .s { font-family: 'Source Serif 4', Georgia, serif; font-size: 9.5px; line-height: 1.5; color: #6b645a; }
+    .ms-mock .gr { color: #6a8c3f; }
+
+    /* preview: BRUT — raw brutalist */
+    .card[data-id="brut"] .preview {
+      background: #e8e4da;
+    }
+    .card[data-id="brut"] .preview::before {
+      content: ''; position: absolute; inset: 0;
+      background-image:
+        repeating-linear-gradient(90deg, transparent 0 39px, rgba(13,13,13,0.06) 39px 40px),
+        repeating-linear-gradient(0deg, transparent 0 39px, rgba(13,13,13,0.06) 39px 40px);
+    }
+    .br-mock {
+      position: relative; z-index: 1;
+      width: 78%;
+      background: #ffffff;
+      border: 3px solid #0d0d0d;
+      padding: 14px 16px;
+      text-align: left;
+    }
+    .br-mock .bar { height: 10px; background: #ff2e00; margin-bottom: 10px; }
+    .br-mock .t {
+      font-family: 'Anton', Impact, sans-serif;
+      font-size: 22px; line-height: 1; text-transform: uppercase;
+      color: #0d0d0d; margin-bottom: 6px;
+    }
+    .br-mock .t .ac { color: #ff2e00; }
+    .br-mock .s { font-family: 'JetBrains Mono', monospace; font-size: 8.5px; color: #3d3d3a; }
+
     /* ============== card body ============== */
     .card-body { padding: 18px 20px 20px; flex: 1; display: flex; flex-direction: column; }
     .card-num {
@@ -335,7 +392,7 @@
 
     <!-- topbar -->
     <div class="topbar">
-      <span><span class="dot"></span>design-gallery · 06 designs</span>
+      <span><span class="dot"></span>design-gallery · 08 designs</span>
       <span>
         <a href="concepts/rack.html">concepts →</a>
       </span>
@@ -346,7 +403,7 @@
       <div class="badge">CENTRAL DESIGN LIBRARY · v1.0</div>
       <h1>Design <span class="accent">Gallery</span></h1>
       <p>
-        คลัง design กลาง — 6 visual identity ที่ใช้ร่วมกันได้
+        คลัง design กลาง — 8 visual identity ที่ใช้ร่วมกันได้
         theme-agnostic engine + design = plugin เพิ่ม design ใหม่โดยไม่แตะ logic
       </p>
       <div class="meta">// PICK A DESIGN → เปิด standalone ดูเต็ม หรือสลับธีมใน components view</div>
@@ -369,7 +426,7 @@
           </div>
         </div>
         <div class="card-body">
-          <div class="card-num">// 01 / 05</div>
+          <div class="card-num">// 01 / 08</div>
           <div class="card-name">STACK//FRAME</div>
           <div class="card-id">id: rack · server rack</div>
           <p class="card-desc">
@@ -393,7 +450,7 @@
           </div>
         </div>
         <div class="card-body">
-          <div class="card-num">// 02 / 05</div>
+          <div class="card-num">// 02 / 08</div>
           <div class="card-name">PIXSH v1.0</div>
           <div class="card-id">id: crt · retro terminal</div>
           <p class="card-desc">
@@ -418,7 +475,7 @@
           </div>
         </div>
         <div class="card-body">
-          <div class="card-num">// 03 / 05</div>
+          <div class="card-num">// 03 / 08</div>
           <div class="card-name">PACKETGRID</div>
           <div class="card-id">id: noc · NOC dashboard</div>
           <p class="card-desc">
@@ -443,7 +500,7 @@
           </div>
         </div>
         <div class="card-body">
-          <div class="card-num">// 04 / 05</div>
+          <div class="card-num">// 04 / 08</div>
           <div class="card-name">collage.sh</div>
           <div class="card-id">id: min · minimal geek</div>
           <p class="card-desc">
@@ -464,7 +521,7 @@
           <div class="gp-mock">404</div>
         </div>
         <div class="card-body">
-          <div class="card-num">// 05 / 05</div>
+          <div class="card-num">// 05 / 08</div>
           <div class="card-name">GLITCHPAGE</div>
           <div class="card-id">id: glitchpage · error page</div>
           <p class="card-desc">
@@ -490,7 +547,7 @@
           </div>
         </div>
         <div class="card-body">
-          <div class="card-num">// 06 / 06</div>
+          <div class="card-num">// 06 / 08</div>
           <div class="card-name">CLAUDE PAPER</div>
           <div class="card-id">id: claude · warm editorial</div>
           <p class="card-desc">
@@ -503,6 +560,57 @@
             <span><b>Use</b> Obsidian</span>
           </div>
           <a class="card-cta" href="concepts/claude.html">standalone preview →</a>
+        </div>
+      </article>
+
+      <article class="card" data-id="moss">
+        <div class="preview">
+          <div class="ms-mock">
+            <div class="inner">
+              <div class="t">the garden <span class="gr">grows itself</span></div>
+              <div class="s">7 seeds · 6 weeks of sun · 0 pesticides. organic collage ที่ไม่รีบร้อน</div>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="card-num">// 07 / 08</div>
+          <div class="card-name">MOSS</div>
+          <div class="card-id">id: moss · organic</div>
+          <p class="card-desc">
+            Organic aesthetic — earth palette (moss green + terracotta + sand) + blob shapes + Fraunces serif
+            ตรงข้าม dark techno ตัวอื่นในคลัง เหมาะกับอะไรที่ "โตช้า ๆ"
+          </p>
+          <div class="card-specs">
+            <span><b>Shape</b> blob 16s</span>
+            <span><b>Font</b> Fraunces</span>
+            <span><b>Vibe</b> organic</span>
+          </div>
+          <a class="card-cta" href="concepts/moss.html">standalone preview →</a>
+        </div>
+      </article>
+
+      <article class="card" data-id="brut">
+        <div class="preview">
+          <div class="br-mock">
+            <div class="bar"></div>
+            <div class="t">beauty is not <span class="ac">requested.</span></div>
+            <div class="s">1px border · 0px radius · 100% attitude</div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="card-num">// 08 / 08</div>
+          <div class="card-name">BRUT</div>
+          <div class="card-id">id: brut · brutalist</div>
+          <p class="card-desc">
+            Brutalist — ไม่ขออนุญาตสวย raw palette (black/white/red) + Anton display + IBM Plex Mono
+            0px radius, 2px border, ไม่มี shadow, hover = invert ฉับพลัน
+          </p>
+          <div class="card-specs">
+            <span><b>Radius</b> 0px</span>
+            <span><b>Font</b> Anton</span>
+            <span><b>Vibe</b> no mercy</span>
+          </div>
+          <a class="card-cta" href="concepts/brut.html">standalone preview →</a>
         </div>
       </article>
 

@@ -1,16 +1,23 @@
 <!DOCTYPE html>
-<html lang="th" data-theme="noc">
+<html lang="th" data-theme="brut">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>PACKETGRID — Components</title>
+  <title>BRUT — Components</title>
   <link rel="icon" type="image/svg+xml" href="/favicons/lab.svg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="noc.css">
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="brut.css">
 </head>
 <body>
+  <div class="marquee" aria-hidden="true">
+    <div class="track">
+      <span>BRUT — NO MERCY · 0PX RADIUS · 2PX BORDERS · NO SHADOW · IMPACT ONLY ·</span>
+      <span>BRUT — NO MERCY · 0PX RADIUS · 2PX BORDERS · NO SHADOW · IMPACT ONLY ·</span>
+    </div>
+  </div>
+
   <button class="mob-toggle" id="mobToggle" aria-label="Toggle sidebar">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
       <line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>
@@ -33,7 +40,7 @@
         <a class="sb-item" href="glitchpage.html"><span class="num">05</span><span class="dot" style="background:#ff3366"></span><span class="name">GLITCHPAGE</span><span class="id">glitch</span></a>
         <a class="sb-item" href="claude.html"><span class="num">06</span><span class="dot" style="background:#d97757"></span><span class="name">CLAUDE PAPER</span><span class="id">claude</span></a>
         <a class="sb-item" href="moss.html"><span class="num">07</span><span class="dot" style="background:#6a8c3f"></span><span class="name">MOSS</span><span class="id">moss</span></a>
-        <a class="sb-item" href="brut.html"><span class="num">08</span><span class="dot" style="background:#ff2e00"></span><span class="name">BRUT</span><span class="id">brut</span></a>
+        <a class="sb-item active" href="brut.html"><span class="num">08</span><span class="dot" style="background:#ff2e00"></span><span class="name">BRUT</span><span class="id">brut</span></a>
       </div>
       <div class="sb-section">
         <div class="sb-label">MORE</div>
@@ -43,41 +50,48 @@
     </aside>
 
     <main class="main">
-      <div class="crumb">// CONCEPT 03 / 08 · <a href="../index.html">gallery</a></div>
+      <div class="crumb">// CONCEPT 08 / 08 · <a href="../index.html">gallery</a></div>
       <div class="head">
-        <h1>PACKET<span style="color:var(--accent)">GRID</span></h1>
-        <span class="id-pill">id: noc</span>
-        <p>Network Operations Center — dark slate + cyan accent + blueprint grid. เหมาะกับ monitoring, stat tiles, real-time data</p>
+        <h1>BRUT<span class="ext">.</span></h1>
+        <span class="id-pill">id: brut · brutalist</span>
+        <p>Brutalist — ไม่ขออนุญาตสวย raw palette (black/white/red) + Anton display + IBM Plex Mono. 0px radius, 2px border, ไม่มี shadow, hover = invert ฉับพลัน</p>
       </div>
 
       <div class="hero">
-        <div class="hero-head">// MOCKUP · NOC_01</div>
+        <div class="hero-head">// MANIFESTO · ~/brut</div>
         <div class="hero-body">
-          <div class="noc-mock">
-            <div class="noc-tile"><div class="l">CPU</div><div class="v">42%</div><div class="u">▲ stable</div></div>
-            <div class="noc-tile"><div class="l">MEM</div><div class="v">68%</div><div class="u">▲ normal</div></div>
-            <div class="noc-tile"><div class="l">NET</div><div class="v">12M</div><div class="u">▲ live</div></div>
+          <div class="br-stage">
+            <div class="br-manifesto">
+              <div class="bar"></div>
+              <div class="kicker">// manifesto · v1.0</div>
+              <h3>BEauty is not <span class="ac">requested.</span></h3>
+              <p>1px border · 0px radius · 100% attitude. design ที่ไม่ขออนุญาตใคร และไม่ต้องขอโทษด้วย</p>
+              <div class="cta-row">
+                <button class="x-btn primary">BUILD RAW</button>
+                <button class="x-btn">REJECT</button>
+              </div>
+            </div>
           </div>
         </div>
       </div>
 
       <div class="tokens">
-        <div class="tok"><span class="lbl">// ACCENT</span><span class="val"><span class="sw" style="background:#00d4ff"></span>#00d4ff</span></div>
-        <div class="tok"><span class="lbl">// BG</span><span class="val">#0a0e14</span></div>
-        <div class="tok"><span class="lbl">// FG</span><span class="val">#e6e9ef</span></div>
-        <div class="tok"><span class="lbl">// FONT</span><span class="val">JetBrains Mono</span></div>
-        <div class="tok"><span class="lbl">// MOTION</span><span class="val">grid 20px · pulse</span></div>
-        <div class="tok"><span class="lbl">// BORDER</span><span class="val">top 1px cyan</span></div>
+        <div class="tok"><span class="lbl">// ACCENT</span><span class="val"><span class="sw" style="background:#ff2e00"></span>#ff2e00</span></div>
+        <div class="tok"><span class="lbl">// BG</span><span class="val">#e8e4da</span></div>
+        <div class="tok"><span class="lbl">// FG</span><span class="val">#0d0d0d</span></div>
+        <div class="tok"><span class="lbl">// FONT</span><span class="val">Anton + Mono</span></div>
+        <div class="tok"><span class="lbl">// MOTION</span><span class="val">instant · 0.05s</span></div>
+        <div class="tok"><span class="lbl">// RADIUS</span><span class="val">0px · square</span></div>
       </div>
 
       <div class="sec">
         <div class="sec-h"><span class="num">// 01</span><h2>Buttons</h2><span class="of">/ 07</span></div>
         <div class="grid-2">
           <div class="c"><div class="lbl">// VARIANTS</div><div class="c-row">
-            <button class="x-btn primary">▶ ACK</button>
-            <button class="x-btn">ESCALATE</button>
-            <button class="x-btn danger">MUTE</button>
-            <button class="x-btn ghost">EXPORT</button>
+            <button class="x-btn primary">GO</button>
+            <button class="x-btn">HOLD</button>
+            <button class="x-btn danger">ABORT</button>
+            <button class="x-btn ghost">LOG</button>
           </div></div>
           <div class="c"><div class="lbl">// SIZES</div><div class="c-row">
             <button class="x-btn primary sm">SM</button>
@@ -91,14 +105,18 @@
         <div class="sec-h"><span class="num">// 02</span><h2>Inputs</h2><span class="of">/ 07</span></div>
         <div class="grid-2">
           <div class="c"><div class="lbl">// TEXT</div>
-            <input class="x-input" placeholder="filter: error" value="severity:critical">
+            <input class="x-input" placeholder="grep the whole thing..." value="find / -type f">
             <input class="x-input" type="date" value="2026-07-31" style="margin-top:8px">
             <div style="margin-top:8px"><label class="lbl" style="display:block;margin-bottom:4px">// SELECT</label>
-              <select class="x-select"><option>all nodes</option><option>node-04.dc1</option><option>node-05.dc1</option></select>
+              <select class="x-select"><option>ALL</option><option>RAW</option><option>UNPOLISHED</option></select>
             </div>
           </div>
           <div class="c"><div class="lbl">// TEXTAREA</div>
-            <textarea class="x-textarea" placeholder="incident notes...">P2 incident · node-04 latency spike 800ms → 12ms after BGP route refresh · MTTR 4m 22s</textarea>
+            <textarea class="x-textarea" placeholder="type here. it's fine.">## NO RULES
+
+brutalist = ไม่มีกฎ ไม่มี radius
+ไม่มี gradient ไม่มีขี้เกียจ.
+แค่ border หนา + attitude</textarea>
           </div>
         </div>
       </div>
@@ -107,21 +125,21 @@
         <div class="sec-h"><span class="num">// 03</span><h2>Controls</h2><span class="of">/ 07</span></div>
         <div class="grid-3">
           <div class="c"><div class="lbl">// CHECKBOX</div>
-            <label class="x-check"><input type="checkbox" checked> auto-page</label><br>
-            <label class="x-check"><input type="checkbox"> dedupe</label><br>
-            <label class="x-check"><input type="checkbox" checked> alert on breach</label>
+            <label class="x-check"><input type="checkbox" checked> raw output</label><br>
+            <label class="x-check"><input type="checkbox" checked> no shadow</label><br>
+            <label class="x-check"><input type="checkbox"> square corners</label>
           </div>
           <div class="c"><div class="lbl">// RADIO</div>
-            <label class="x-radio"><input type="radio" name="r" checked> 1m</label><br>
-            <label class="x-radio"><input type="radio" name="r"> 5m</label><br>
-            <label class="x-radio"><input type="radio" name="r"> 1h</label>
+            <label class="x-radio"><input type="radio" name="r" checked> 1px</label><br>
+            <label class="x-radio"><input type="radio" name="r"> 2px</label><br>
+            <label class="x-radio"><input type="radio" name="r"> 4px</label>
           </div>
           <div class="c"><div class="lbl">// SWITCH</div>
             <label class="x-switch"><input type="checkbox" checked><span class="sl"></span></label>
-            <span style="margin-left:8px">stream metrics</span>
+            <span style="margin-left:8px">mercy mode</span>
             <div style="margin-top:10px">
               <label class="x-switch"><input type="checkbox"><span class="sl"></span></label>
-              <span style="margin-left:8px">pager rotation</span>
+              <span style="margin-left:8px">shadows</span>
             </div>
           </div>
         </div>
@@ -131,46 +149,46 @@
         <div class="sec-h"><span class="num">// 04</span><h2>Cards, status, badges</h2><span class="of">/ 07</span></div>
         <div class="grid-3">
           <div class="c"><div class="lbl">// CARD</div>
-            <div class="x-card"><div class="ct">node-04.dc1</div><div class="cm">latency 12ms · packet loss 0.01%</div></div>
-            <div class="x-card" style="margin-top:8px"><div class="ct">edge-router-01</div><div class="cm">throughput 4.2Gbps · 2 sessions</div></div>
+            <div class="x-card"><div class="ct">BUILD #31</div><div class="cm">shipped raw · 2 minutes flat</div></div>
+            <div class="x-card" style="margin-top:8px"><div class="ct">BUILD #30</div><div class="cm">shipped raw · no review</div></div>
           </div>
           <div class="c"><div class="lbl">// STATUS</div>
             <div class="c-row">
-              <span class="x-status ok">HEALTHY</span>
-              <span class="x-status warn">DEGRADED</span>
-              <span class="x-status bad">DOWN</span>
+              <span class="x-status ok">DONE</span>
+              <span class="x-status warn">WIP</span>
+              <span class="x-status bad">ABORT</span>
             </div>
             <div class="lbl" style="margin-top:14px">// KBD</div>
-            <div>Press <span class="x-kbd">⌘</span> + <span class="x-kbd">Enter</span> to ack</div>
+            <div>Press <span class="x-kbd">⌘</span> + <span class="x-kbd">K</span> to nuke</div>
           </div>
           <div class="c"><div class="lbl">// BADGES</div>
             <div class="c-row">
-              <span class="x-badge">P1</span>
-              <span class="x-badge outline">P2</span>
-              <span class="x-badge muted">P3</span>
+              <span class="x-badge">RAW</span>
+              <span class="x-badge outline">BETA</span>
+              <span class="x-badge muted">LEGACY</span>
             </div>
             <div class="lbl" style="margin-top:14px">// ALERT</div>
-            <div class="x-alert warn"><span class="icon">!</span><div class="txt"><strong>latency > 200ms</strong><span>3 nodes affected · since 14:22</span></div></div>
+            <div class="x-alert warn"><span class="icon">!</span><div class="txt"><strong>NO MERCY</strong><span>this theme does not apologize for existing</span></div></div>
           </div>
         </div>
       </div>
 
       <div class="sec">
-        <div class="sec-h"><span class="num">// 06</span><h2>Tabs, progress, breadcrumb, pagination</h2><span class="of">/ 07</span></div>
+        <div class="sec-h"><span class="num">// 05</span><h2>Tabs, progress, breadcrumb, pagination</h2><span class="of">/ 07</span></div>
         <div class="grid-2">
           <div class="c"><div class="lbl">// TABS</div>
-            <div class="x-tabs"><div class="t active">NODES</div><div class="t">ALERTS</div><div class="t">LOGS</div><div class="t">TOPO</div></div>
-            <div style="padding:14px 0;font-size:12px;color:#8b95a7">// 14 nodes · 1 alert</div>
+            <div class="x-tabs"><div class="t active">RAW</div><div class="t">RARE</div><div class="t">WELL-DONE</div></div>
+            <div style="padding:14px 0;font-size:13px;color:var(--fg-muted)">// 3 tabs · 0 options</div>
             <div class="lbl" style="margin-top:14px">// BREADCRUMB</div>
-            <div class="x-crumb"><a href="#">dc1</a><span class="sep">/</span><a href="#">rack-04</a><span class="sep">/</span><span>node-04</span></div>
+            <div class="x-crumb"><a href="#">/</a><span class="sep">/</span><a href="#">etc</a><span class="sep">/</span><span>brut.conf</span></div>
           </div>
           <div class="c"><div class="lbl">// PROGRESS</div>
-            <div class="x-progress"><div style="width:78%"></div></div>
-            <div style="font-size:11px;color:#8b95a7;margin-top:4px">throughput 78% · 4.2/5.4Gbps</div>
+            <div class="x-progress"><div style="width:55%"></div></div>
+            <div style="font-size:12px;color:var(--fg-dim);margin-top:4px">deleting 4/7 files</div>
             <div class="lbl" style="margin-top:14px">// PAGINATION</div>
             <div class="x-page"><div class="p">‹</div><div class="p active">1</div><div class="p">2</div><div class="p">3</div><div class="p">›</div></div>
             <div class="lbl" style="margin-top:14px">// SPINNER</div>
-            <div class="c-row"><div class="x-spinner"></div><span style="font-size:12px;color:#8b95a7">querying nodes...</span></div>
+            <div class="c-row"><div class="x-spinner"></div><span style="font-size:13px;color:var(--fg-muted)">compiling raw...</span></div>
           </div>
         </div>
       </div>
@@ -179,12 +197,12 @@
         <div class="sec-h"><span class="num">// 06</span><h2>Table</h2><span class="of">/ 07</span></div>
         <div class="c">
           <table class="x-table">
-            <thead><tr><th>NODE</th><th>DC</th><th>LATENCY</th><th>LOSS</th><th>STATUS</th></tr></thead>
+            <thead><tr><th>BUILD</th><th>STATUS</th><th>RADIUS</th><th>SHADOW</th><th>OUTPUT</th></tr></thead>
             <tbody>
-              <tr><td>node-01</td><td>dc1</td><td class="mono">8ms</td><td class="mono">0%</td><td><span class="x-status ok">HEALTHY</span></td></tr>
-              <tr><td>node-04</td><td>dc1</td><td class="mono">12ms</td><td class="mono">0.01%</td><td><span class="x-status ok">HEALTHY</span></td></tr>
-              <tr><td>node-07</td><td>dc1</td><td class="mono">210ms</td><td class="mono">0.5%</td><td><span class="x-status warn">DEGRADED</span></td></tr>
-              <tr><td>node-12</td><td>dc2</td><td class="mono">—</td><td class="mono">—</td><td><span class="x-status bad">DOWN</span></td></tr>
+              <tr><td>#31</td><td><span class="x-status ok">DONE</span></td><td>0px</td><td>none</td><td class="mono">/raw/31.bin</td></tr>
+              <tr><td>#30</td><td><span class="x-status ok">DONE</span></td><td>0px</td><td>none</td><td class="mono">/raw/30.bin</td></tr>
+              <tr><td>#29</td><td><span class="x-status warn">WIP</span></td><td>1px</td><td>none</td><td class="mono">/raw/29.bin</td></tr>
+              <tr><td>#28</td><td><span class="x-status bad">ABORT</span></td><td>4px</td><td>soft</td><td class="mono">/trash/28.bin</td></tr>
             </tbody>
           </table>
         </div>
@@ -192,13 +210,14 @@
 
       <div class="sec">
         <div class="sec-h"><span class="num">// 07</span><h2>Terminal</h2><span class="of">/ 07</span></div>
-        <div class="c"><div class="lbl">// OUTPUT</div>
-          <div class="x-term">$ noc status
-→ 14 nodes online · 1 degraded
-→ 23 alerts (last 1h) · 0 critical
-→ 1 pager rotation active
-$ noc ack alert-7842
-✓ acknowledged · assigned to: pong</div>
+        <div class="c"><div class="lbl">// RAW OUTPUT</div>
+          <div class="x-term">$ brut build --no-design
+$ merging 7 photos... merged
+$ applying theme: brut (0px radius, no mercy)
+$ removing all shadows... done
+$ rendering 1024x1024 RAW
+$ done. saved to /raw/output.png (1MB of attitude)
+$ ✓ beauty is not requested.</div>
         </div>
       </div>
 

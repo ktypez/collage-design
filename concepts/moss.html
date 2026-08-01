@@ -1,14 +1,14 @@
 <!DOCTYPE html>
-<html lang="th" data-theme="noc">
+<html lang="th" data-theme="moss">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>PACKETGRID — Components</title>
+  <title>MOSS — Components</title>
   <link rel="icon" type="image/svg+xml" href="/favicons/lab.svg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="noc.css">
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="moss.css">
 </head>
 <body>
   <button class="mob-toggle" id="mobToggle" aria-label="Toggle sidebar">
@@ -32,7 +32,7 @@
         <a class="sb-item" href="min.html"><span class="num">04</span><span class="dot" style="background:#c8ff00"></span><span class="name">collage.sh</span><span class="id">min</span></a>
         <a class="sb-item" href="glitchpage.html"><span class="num">05</span><span class="dot" style="background:#ff3366"></span><span class="name">GLITCHPAGE</span><span class="id">glitch</span></a>
         <a class="sb-item" href="claude.html"><span class="num">06</span><span class="dot" style="background:#d97757"></span><span class="name">CLAUDE PAPER</span><span class="id">claude</span></a>
-        <a class="sb-item" href="moss.html"><span class="num">07</span><span class="dot" style="background:#6a8c3f"></span><span class="name">MOSS</span><span class="id">moss</span></a>
+        <a class="sb-item active" href="moss.html"><span class="num">07</span><span class="dot" style="background:#6a8c3f"></span><span class="name">MOSS</span><span class="id">moss</span></a>
         <a class="sb-item" href="brut.html"><span class="num">08</span><span class="dot" style="background:#ff2e00"></span><span class="name">BRUT</span><span class="id">brut</span></a>
       </div>
       <div class="sb-section">
@@ -43,41 +43,48 @@
     </aside>
 
     <main class="main">
-      <div class="crumb">// CONCEPT 03 / 08 · <a href="../index.html">gallery</a></div>
+      <div class="crumb">// CONCEPT 07 / 08 · <a href="../index.html">gallery</a></div>
       <div class="head">
-        <h1>PACKET<span style="color:var(--accent)">GRID</span></h1>
-        <span class="id-pill">id: noc</span>
-        <p>Network Operations Center — dark slate + cyan accent + blueprint grid. เหมาะกับ monitoring, stat tiles, real-time data</p>
+        <h1>MOSS<span style="color:var(--accent)">.</span></h1>
+        <span class="id-pill">id: moss · organic</span>
+        <p>Organic aesthetic — earth palette (moss green + terracotta + sand) + blob shapes + Fraunces serif. ตรงข้าม dark techno ตัวอื่นในคลังชัดเจน เหมาะกับอะไรที่ "โตช้า ๆ"</p>
       </div>
 
       <div class="hero">
-        <div class="hero-head">// MOCKUP · NOC_01</div>
+        <div class="hero-head">// MOCKUP · ~/garden</div>
         <div class="hero-body">
-          <div class="noc-mock">
-            <div class="noc-tile"><div class="l">CPU</div><div class="v">42%</div><div class="u">▲ stable</div></div>
-            <div class="noc-tile"><div class="l">MEM</div><div class="v">68%</div><div class="u">▲ normal</div></div>
-            <div class="noc-tile"><div class="l">NET</div><div class="v">12M</div><div class="u">▲ live</div></div>
+          <div class="ms-stage">
+            <div class="ms-sun blob"></div>
+            <div class="ms-sprout blob">
+              <div class="inner">
+                <div class="lbl">// season 2026 · week 31</div>
+                <h3>the garden <span class="gr">grows itself</span></h3>
+                <p>7 seeds planted · 6 weeks of sun · 0 pesticides. earth tone collage ที่ไม่รีบร้อน.</p>
+              </div>
+            </div>
+            <div class="ms-berry blob"></div>
+            <div class="ms-leaf"></div>
           </div>
         </div>
       </div>
 
       <div class="tokens">
-        <div class="tok"><span class="lbl">// ACCENT</span><span class="val"><span class="sw" style="background:#00d4ff"></span>#00d4ff</span></div>
-        <div class="tok"><span class="lbl">// BG</span><span class="val">#0a0e14</span></div>
-        <div class="tok"><span class="lbl">// FG</span><span class="val">#e6e9ef</span></div>
-        <div class="tok"><span class="lbl">// FONT</span><span class="val">JetBrains Mono</span></div>
-        <div class="tok"><span class="lbl">// MOTION</span><span class="val">grid 20px · pulse</span></div>
-        <div class="tok"><span class="lbl">// BORDER</span><span class="val">top 1px cyan</span></div>
+        <div class="tok"><span class="lbl">// ACCENT</span><span class="val"><span class="sw" style="background:#6a8c3f"></span>#6a8c3f</span></div>
+        <div class="tok"><span class="lbl">// BG</span><span class="val">#f5f1e8</span></div>
+        <div class="tok"><span class="lbl">// FG</span><span class="val">#2e2a24</span></div>
+        <div class="tok"><span class="lbl">// FONT</span><span class="val">Fraunces serif</span></div>
+        <div class="tok"><span class="lbl">// MOTION</span><span class="val">spring · blob 16s</span></div>
+        <div class="tok"><span class="lbl">// RADIUS</span><span class="val">organic · wonky</span></div>
       </div>
 
       <div class="sec">
         <div class="sec-h"><span class="num">// 01</span><h2>Buttons</h2><span class="of">/ 07</span></div>
         <div class="grid-2">
           <div class="c"><div class="lbl">// VARIANTS</div><div class="c-row">
-            <button class="x-btn primary">▶ ACK</button>
-            <button class="x-btn">ESCALATE</button>
-            <button class="x-btn danger">MUTE</button>
-            <button class="x-btn ghost">EXPORT</button>
+            <button class="x-btn primary">🌱 plant</button>
+            <button class="x-btn">water</button>
+            <button class="x-btn danger">uproot</button>
+            <button class="x-btn ghost">share seeds</button>
           </div></div>
           <div class="c"><div class="lbl">// SIZES</div><div class="c-row">
             <button class="x-btn primary sm">SM</button>
@@ -91,14 +98,18 @@
         <div class="sec-h"><span class="num">// 02</span><h2>Inputs</h2><span class="of">/ 07</span></div>
         <div class="grid-2">
           <div class="c"><div class="lbl">// TEXT</div>
-            <input class="x-input" placeholder="filter: error" value="severity:critical">
+            <input class="x-input" placeholder="search the garden..." value="tomato seedlings">
             <input class="x-input" type="date" value="2026-07-31" style="margin-top:8px">
             <div style="margin-top:8px"><label class="lbl" style="display:block;margin-bottom:4px">// SELECT</label>
-              <select class="x-select"><option>all nodes</option><option>node-04.dc1</option><option>node-05.dc1</option></select>
+              <select class="x-select"><option>full sun</option><option>partial shade</option><option>shade</option></select>
             </div>
           </div>
           <div class="c"><div class="lbl">// TEXTAREA</div>
-            <textarea class="x-textarea" placeholder="incident notes...">P2 incident · node-04 latency spike 800ms → 12ms after BGP route refresh · MTTR 4m 22s</textarea>
+            <textarea class="x-textarea" placeholder="journal entry...">## Week 31
+
+MOSS เติบโตแบบช้า ๆ ไม่มีใครเร่ง
+moss green + terracotta + sand + blob
+motion แบบ spring — ไม่ snap เดี๋ยวๆ</textarea>
           </div>
         </div>
       </div>
@@ -107,21 +118,21 @@
         <div class="sec-h"><span class="num">// 03</span><h2>Controls</h2><span class="of">/ 07</span></div>
         <div class="grid-3">
           <div class="c"><div class="lbl">// CHECKBOX</div>
-            <label class="x-check"><input type="checkbox" checked> auto-page</label><br>
-            <label class="x-check"><input type="checkbox"> dedupe</label><br>
-            <label class="x-check"><input type="checkbox" checked> alert on breach</label>
+            <label class="x-check"><input type="checkbox" checked> compost</label><br>
+            <label class="x-check"><input type="checkbox" checked> rotate crops</label><br>
+            <label class="x-check"><input type="checkbox"> moonlight</label>
           </div>
           <div class="c"><div class="lbl">// RADIO</div>
-            <label class="x-radio"><input type="radio" name="r" checked> 1m</label><br>
-            <label class="x-radio"><input type="radio" name="r"> 5m</label><br>
-            <label class="x-radio"><input type="radio" name="r"> 1h</label>
+            <label class="x-radio"><input type="radio" name="r" checked> seed</label><br>
+            <label class="x-radio"><input type="radio" name="r"> cutting</label><br>
+            <label class="x-radio"><input type="radio" name="r"> bulb</label>
           </div>
           <div class="c"><div class="lbl">// SWITCH</div>
             <label class="x-switch"><input type="checkbox" checked><span class="sl"></span></label>
-            <span style="margin-left:8px">stream metrics</span>
+            <span style="margin-left:8px">drip irrigation</span>
             <div style="margin-top:10px">
               <label class="x-switch"><input type="checkbox"><span class="sl"></span></label>
-              <span style="margin-left:8px">pager rotation</span>
+              <span style="margin-left:8px">pollinator mode</span>
             </div>
           </div>
         </div>
@@ -131,46 +142,46 @@
         <div class="sec-h"><span class="num">// 04</span><h2>Cards, status, badges</h2><span class="of">/ 07</span></div>
         <div class="grid-3">
           <div class="c"><div class="lbl">// CARD</div>
-            <div class="x-card"><div class="ct">node-04.dc1</div><div class="cm">latency 12ms · packet loss 0.01%</div></div>
-            <div class="x-card" style="margin-top:8px"><div class="ct">edge-router-01</div><div class="cm">throughput 4.2Gbps · 2 sessions</div></div>
+            <div class="x-card"><div class="ct">plot 7 · tomatoes</div><div class="cm">6 seedlings · last watered today</div></div>
+            <div class="x-card" style="margin-top:8px"><div class="ct">herb spiral</div><div class="cm">basil, mint, thyme · #edible</div></div>
           </div>
           <div class="c"><div class="lbl">// STATUS</div>
             <div class="c-row">
-              <span class="x-status ok">HEALTHY</span>
-              <span class="x-status warn">DEGRADED</span>
-              <span class="x-status bad">DOWN</span>
+              <span class="x-status ok">BLOOMED</span>
+              <span class="x-status warn">SPROUTING</span>
+              <span class="x-status bad">FROST</span>
             </div>
             <div class="lbl" style="margin-top:14px">// KBD</div>
-            <div>Press <span class="x-kbd">⌘</span> + <span class="x-kbd">Enter</span> to ack</div>
+            <div>Press <span class="x-kbd">⌘</span> + <span class="x-kbd">S</span> to save soil</div>
           </div>
           <div class="c"><div class="lbl">// BADGES</div>
             <div class="c-row">
-              <span class="x-badge">P1</span>
-              <span class="x-badge outline">P2</span>
-              <span class="x-badge muted">P3</span>
+              <span class="x-badge">USDA 7b</span>
+              <span class="x-badge outline">ORGANIC</span>
+              <span class="x-badge muted">DORMANT</span>
             </div>
-            <div class="lbl" style="margin-top:14px">// ALERT</div>
-            <div class="x-alert warn"><span class="icon">!</span><div class="txt"><strong>latency > 200ms</strong><span>3 nodes affected · since 14:22</span></div></div>
+            <div class="lbl" style="margin-top:14px">// CALLOUT</div>
+            <div class="x-alert warn"><span class="icon">🍂</span><div class="txt"><strong>first frost warning</strong><span>cover the tender greens before nightfall</span></div></div>
           </div>
         </div>
       </div>
 
       <div class="sec">
-        <div class="sec-h"><span class="num">// 06</span><h2>Tabs, progress, breadcrumb, pagination</h2><span class="of">/ 07</span></div>
+        <div class="sec-h"><span class="num">// 05</span><h2>Tabs, progress, breadcrumb, pagination</h2><span class="of">/ 07</span></div>
         <div class="grid-2">
           <div class="c"><div class="lbl">// TABS</div>
-            <div class="x-tabs"><div class="t active">NODES</div><div class="t">ALERTS</div><div class="t">LOGS</div><div class="t">TOPO</div></div>
-            <div style="padding:14px 0;font-size:12px;color:#8b95a7">// 14 nodes · 1 alert</div>
+            <div class="x-tabs"><div class="t active">GARDEN</div><div class="t">COMPOST</div><div class="t">SEEDS</div><div class="t">HARVEST</div></div>
+            <div style="padding:14px 0;font-size:14px;color:var(--fg-muted)">// 7 plots · 0 pesticides</div>
             <div class="lbl" style="margin-top:14px">// BREADCRUMB</div>
-            <div class="x-crumb"><a href="#">dc1</a><span class="sep">/</span><a href="#">rack-04</a><span class="sep">/</span><span>node-04</span></div>
+            <div class="x-crumb"><a href="#">home</a><span class="sep">·</span><a href="#">garden</a><span class="sep">·</span><span>plot-7</span></div>
           </div>
           <div class="c"><div class="lbl">// PROGRESS</div>
-            <div class="x-progress"><div style="width:78%"></div></div>
-            <div style="font-size:11px;color:#8b95a7;margin-top:4px">throughput 78% · 4.2/5.4Gbps</div>
+            <div class="x-progress"><div style="width:55%"></div></div>
+            <div style="font-size:12px;color:var(--fg-dim);margin-top:4px">ripening 4/7 tomatoes</div>
             <div class="lbl" style="margin-top:14px">// PAGINATION</div>
             <div class="x-page"><div class="p">‹</div><div class="p active">1</div><div class="p">2</div><div class="p">3</div><div class="p">›</div></div>
             <div class="lbl" style="margin-top:14px">// SPINNER</div>
-            <div class="c-row"><div class="x-spinner"></div><span style="font-size:12px;color:#8b95a7">querying nodes...</span></div>
+            <div class="c-row"><div class="x-spinner"></div><span style="font-size:13px;color:var(--fg-muted)">photosynthesizing...</span></div>
           </div>
         </div>
       </div>
@@ -179,26 +190,26 @@
         <div class="sec-h"><span class="num">// 06</span><h2>Table</h2><span class="of">/ 07</span></div>
         <div class="c">
           <table class="x-table">
-            <thead><tr><th>NODE</th><th>DC</th><th>LATENCY</th><th>LOSS</th><th>STATUS</th></tr></thead>
+            <thead><tr><th>CROP</th><th>PLOT</th><th>DAYS</th><th>STATUS</th><th>NOTES</th></tr></thead>
             <tbody>
-              <tr><td>node-01</td><td>dc1</td><td class="mono">8ms</td><td class="mono">0%</td><td><span class="x-status ok">HEALTHY</span></td></tr>
-              <tr><td>node-04</td><td>dc1</td><td class="mono">12ms</td><td class="mono">0.01%</td><td><span class="x-status ok">HEALTHY</span></td></tr>
-              <tr><td>node-07</td><td>dc1</td><td class="mono">210ms</td><td class="mono">0.5%</td><td><span class="x-status warn">DEGRADED</span></td></tr>
-              <tr><td>node-12</td><td>dc2</td><td class="mono">—</td><td class="mono">—</td><td><span class="x-status bad">DOWN</span></td></tr>
+              <tr><td>tomato · cherry</td><td>7</td><td>62</td><td><span class="x-status ok">BLOOMED</span></td><td class="mono">sunny corner</td></tr>
+              <tr><td>basil · genovese</td><td>spiral</td><td>31</td><td><span class="x-status ok">BLOOMED</span></td><td class="mono">cut-and-come-again</td></tr>
+              <tr><td>carrot · nantes</td><td>3</td><td>45</td><td><span class="x-status warn">SPROUTING</span></td><td class="mono">thin to 2cm</td></tr>
+              <tr><td>pepper · jalapeño</td><td>2</td><td>—</td><td><span class="x-status bad">FROST</span></td><td class="mono">replant after freeze</td></tr>
             </tbody>
           </table>
         </div>
       </div>
 
       <div class="sec">
-        <div class="sec-h"><span class="num">// 07</span><h2>Terminal</h2><span class="of">/ 07</span></div>
-        <div class="c"><div class="lbl">// OUTPUT</div>
-          <div class="x-term">$ noc status
-→ 14 nodes online · 1 degraded
-→ 23 alerts (last 1h) · 0 critical
-→ 1 pager rotation active
-$ noc ack alert-7842
-✓ acknowledged · assigned to: pong</div>
+        <div class="sec-h"><span class="num">// 07</span><h2>Log</h2><span class="of">/ 07</span></div>
+        <div class="c"><div class="lbl">// GARDEN LOG</div>
+          <div class="x-term">$ moss grow --south-facing
+$ planting 7 seeds... 7 germinated
+$ waiting. no fertilizer, no rush.
+$ 6 weeks of sun later:
+$ 4 blooms · 2 spouts · 1 mystery squash
+$ ✓ grow slow, seed plenty.</div>
         </div>
       </div>
 

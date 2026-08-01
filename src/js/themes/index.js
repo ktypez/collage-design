@@ -9,8 +9,10 @@ import { manifest as noc } from './noc/manifest.js';
 import { manifest as min } from './min/manifest.js';
 import { manifest as glitchpage } from './glitchpage/manifest.js';
 import { manifest as claude } from './claude/manifest.js';
+import { manifest as moss } from './moss/manifest.js';
+import { manifest as brut } from './brut/manifest.js';
 
-export const THEMES = { rack, crt, noc, min, glitchpage, claude };
+export const THEMES = { rack, crt, noc, min, glitchpage, claude, moss, brut };
 export const THEME_IDS = Object.keys(THEMES);
 
 /** Default theme = collage.sh (min) */
