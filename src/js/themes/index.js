@@ -11,8 +11,9 @@ import { manifest as glitchpage } from './glitchpage/manifest.js';
 import { manifest as claude } from './claude/manifest.js';
 import { manifest as moss } from './moss/manifest.js';
 import { manifest as brut } from './brut/manifest.js';
+import { manifest as mcky } from './mcky/manifest.js';
 
-export const THEMES = { rack, crt, noc, min, glitchpage, claude, moss, brut };
+export const THEMES = { rack, crt, noc, min, glitchpage, claude, moss, brut, mcky };
 export const THEME_IDS = Object.keys(THEMES);
 
 /** Default theme = collage.sh (min) */

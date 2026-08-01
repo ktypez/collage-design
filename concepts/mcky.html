@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="th" data-theme="mcky" data-mode="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>mcky.space — Components</title>
+  <link rel="icon" type="image/svg+xml" href="/favicons/lab.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="mcky.css">
+</head>
+<body>
+  <button class="mob-toggle" id="mobToggle" aria-label="Toggle sidebar">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+      <line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>
+    </svg>
+  </button>
+  <div class="mob-backdrop" id="mobBackdrop"></div>
+
+  <div class="layout">
+    <aside class="sb">
+      <div class="sb-brand">
+        <div class="mark"><span class="lg">D</span>Design Gallery</div>
+        <div class="sub">// CONCEPT · v1.0</div>
+      </div>
+      <div class="sb-section">
+        <div class="sb-label">CONCEPTS</div>
+        <a class="sb-item" href="rack.html"><span class="num">01</span><span class="dot" style="background:#ffb000"></span><span class="name">STACK//FRAME</span><span class="id">rack</span></a>
+        <a class="sb-item" href="crt.html"><span class="num">02</span><span class="dot" style="background:#00ff66"></span><span class="name">PIXSH v1.0</span><span class="id">crt</span></a>
+        <a class="sb-item" href="noc.html"><span class="num">03</span><span class="dot" style="background:#00d4ff"></span><span class="name">PACKETGRID</span><span class="id">noc</span></a>
+        <a class="sb-item" href="min.html"><span class="num">04</span><span class="dot" style="background:#c8ff00"></span><span class="name">collage.sh</span><span class="id">min</span></a>
+        <a class="sb-item" href="glitchpage.html"><span class="num">05</span><span class="dot" style="background:#ff3366"></span><span class="name">GLITCHPAGE</span><span class="id">glitch</span></a>
+        <a class="sb-item" href="claude.html"><span class="num">06</span><span class="dot" style="background:#d97757"></span><span class="name">CLAUDE PAPER</span><span class="id">claude</span></a>
+        <a class="sb-item" href="moss.html"><span class="num">07</span><span class="dot" style="background:#6a8c3f"></span><span class="name">MOSS</span><span class="id">moss</span></a>
+        <a class="sb-item" href="brut.html"><span class="num">08</span><span class="dot" style="background:#ff2e00"></span><span class="name">BRUT</span><span class="id">brut</span></a>
+        <a class="sb-item active" href="mcky.html"><span class="num">09</span><span class="dot" style="background:#ffe066"></span><span class="name">mcky.space</span><span class="id">mcky</span></a>
+      </div>
+      <div class="sb-section">
+        <div class="sb-label">MORE</div>
+        <a class="sb-item" href="../index.html"><span class="num">←</span><span class="dot" style="background:#888"></span><span class="name">Gallery</span><span class="id">/</span></a>
+      </div>
+      <div class="sb-foot">// 2026 · ktypez · <a href="https://github.com/ktypez/design-gallery" target="_blank" rel="noopener">github ↗</a></div>
+    </aside>
+
+    <main class="main">
+      <div class="crumb">
+        <span>// CONCEPT 09 / 09 · <a href="../index.html">gallery</a></span>
+        <div class="mode-toggle" id="modeToggle" role="group" aria-label="Color mode">
+          <span class="opt on" data-mode="light">light</span>
+          <span class="opt" data-mode="dark">dark</span>
+        </div>
+      </div>
+      <div class="head">
+        <h1>mcky<span class="ext">.space</span></h1>
+        <span class="id-pill">id: mcky · neobrutalism · dual mode</span>
+        <p>Design system ของ <a href="https://mcky.space" target="_blank" rel="noopener">mcky.space ↗</a> — neobrutalism ที่อยู่ในเว็บจริง: border 3px ดำ + hard shadow + amber hover + mono 100% (JetBrains Mono self-hosted) + accent สด 8 สี. จาก <a href="https://github.com/ktypez/mcky.space" target="_blank" rel="noopener">ktypez/mcky.space ↗</a></p>
+      </div>
+
+      <div class="hero">
+        <div class="hero-head">// MOCKUP · ~/mcky.space</div>
+        <div class="hero-body">
+          <div class="mk-app">
+            <div class="mk-topnav"><span>TODOS</span><span class="on">STATS</span><span>LISTS</span></div>
+            <div class="mk-title">today <span class="mk-count">3 / 5 done</span></div>
+            <div class="mk-row on"><span class="mk-chk"></span><span class="mk-prio high"></span><span class="mk-txt">ship neobrutalism theme</span><span class="mk-tag">build</span></div>
+            <div class="mk-row on"><span class="mk-chk"></span><span class="mk-prio med"></span><span class="mk-txt">write blog #th</span><span class="mk-when">07:30</span></div>
+            <div class="mk-row"><span class="mk-chk"></span><span class="mk-prio low"></span><span class="mk-txt">water the plants</span><span class="mk-when">18:00</span></div>
+            <div class="mk-row"><span class="mk-chk"></span><span class="mk-prio med"></span><span class="mk-txt">3px border, no mercy</span><span class="mk-tag">rules</span></div>
+            <div class="mk-status"><span>// sync ok</span><b>5 todos</b></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tokens">
+        <div class="tok"><span class="lbl">// ACCENT</span><span class="val"><span class="sw" style="background:#ffe066"></span>#ffe066</span></div>
+        <div class="tok"><span class="lbl">// BG</span><span class="val">#f5f5f0 / #0a0a0a</span></div>
+        <div class="tok"><span class="lbl">// FG</span><span class="val">#000000 / #e0e0e0</span></div>
+        <div class="tok"><span class="lbl">// BORDER</span><span class="val">3px · #000</span></div>
+        <div class="tok"><span class="lbl">// SHADOW</span><span class="val">4px 4px 0 #000</span></div>
+        <div class="tok"><span class="lbl">// FONT</span><span class="val">JetBrains Mono</span></div>
+        <div class="tok"><span class="lbl">// RADIUS</span><span class="val">6px</span></div>
+        <div class="tok"><span class="lbl">// MOTION</span><span class="val">snappy · reduced ok</span></div>
+      </div>
+
+      <div class="sec">
+        <div class="sec-h"><span class="num">// 01</span><h2>Buttons</h2><span class="of">/ 15</span></div>
+        <div class="grid-2">
+          <div class="c"><div class="lbl">// VARIANTS</div><div class="c-row">
+            <button class="x-btn primary">new todo</button>
+            <button class="x-btn">archive</button>
+            <button class="x-btn danger">delete</button>
+            <button class="x-btn success">done</button>
+            <button class="x-btn ghost">share</button>
+          </div></div>
+          <div class="c"><div class="lbl">// SIZES</div><div class="c-row">
+            <button class="x-btn primary sm">SM</button>
+            <button class="x-btn primary">DEFAULT</button>
+            <button class="x-btn primary lg">LARGE</button>
+          </div></div>
+        </div>
+      </div>
+
+      <div class="sec">
+        <div class="sec-h"><span class="num">// 02</span><h2>Inputs</h2><span class="of">/ 15</span></div>
+        <div class="grid-2">
+          <div class="c"><div class="lbl">// TEXT</div>
+            <input class="x-input" placeholder="add a todo..." value="ship mcky theme">
+            <input class="x-input" type="date" value="2026-08-02" style="margin-top:10px">
+            <div style="margin-top:10px"><label class="lbl" style="display:block;margin-bottom:4px">// SELECT</label>
+              <select class="x-select"><option>all lists</option><option>today</option><option>week</option><option>archive</option></select>
+            </div>
+          </div>
+          <div class="c"><div class="lbl">// TEXTAREA</div>
+            <textarea class="x-textarea" placeholder="start typing...">## Week 31
+
+Neobrutalism บน Astro 7 static —
+amber hover + hard shadow + mono 100%, ไม่มี React ไม่มี Tailwind.</textarea>
+          </div>
+        </div>
+      </div>
+
+      <div class="sec">
+        <div class="sec-h"><span class="num">// 03</span><h2>Controls</h2><span class="of">/ 15</span></div>
+        <div class="grid-3">
+          <div class="c"><div class="lbl">// CHECKBOX</div>
+            <label class="x-check"><input type="checkbox" checked> deploy today</label><br>
+            <label class="x-check"><input type="checkbox" checked> sync notes</label><br>
+            <label class="x-check"><input type="checkbox"> review blog</label>
+          </div>
+          <div class="c"><div class="lbl">// RADIO</div>
+            <label class="x-radio"><input type="radio" name="r" checked> light</label><br>
+            <label class="x-radio"><input type="radio" name="r"> dark</label><br>
+            <label class="x-radio"><input type="radio" name="r"> system</label>
+          </div>
+          <div class="c"><div class="lbl">// SWITCH</div>
+            <label class="x-switch"><input type="checkbox" checked><span class="sl"></span></label>
+            <span style="margin-left:8px">hard shadow</span>
+            <div style="margin-top:10px">
+              <label class="x-switch"><input type="checkbox"><span class="sl"></span></label>
+              <span style="margin-left:8px">prefers-motion</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="sec">
+        <div class="sec-h"><span class="num">// 04</span><h2>Cards, tags, badges</h2><span class="of">/ 15</span></div>
+        <div class="grid-3">
+          <div class="c"><div class="lbl">// NEO CARD</div>
+            <div class="x-card"><div class="ct">week 31 · review</div><div class="cm">7 todos · 2,400 words · exported</div></div>
+            <div class="x-card" style="margin-top:10px"><div class="ct">reading list</div><div class="cm">4 papers · tagged #later</div></div>
+          </div>
+          <div class="c"><div class="lbl">// STATUS + TAG</div>
+            <div class="c-row">
+              <span class="x-status">PUBLISHED</span>
+              <span class="x-status warn">DRAFT</span>
+              <span class="x-status bad">FAILED</span>
+            </div>
+            <div class="lbl" style="margin-top:14px">// NEO TAG</div>
+            <div class="c-row">
+              <span class="x-badge">mint</span>
+              <span class="x-badge red">hot</span>
+              <span class="x-badge outline">v1.0</span>
+              <span class="x-badge muted">ARCHIVED</span>
+            </div>
+          </div>
+          <div class="c"><div class="lbl">// KBD + CALLOUT</div>
+            <div>Press <span class="x-kbd">⌘</span> + <span class="x-kbd">K</span> to toggle</div>
+            <div class="lbl" style="margin-top:14px">// CALLOUT</div>
+            <div class="x-alert warn"><span class="icon">!</span><div class="txt"><strong>npm install? no.</strong><span>arm64 binding — node_modules stays put.</span></div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="sec">
+        <div class="sec-h"><span class="num">// 05</span><h2>Tabs, progress, breadcrumb, pagination</h2><span class="of">/ 15</span></div>
+        <div class="grid-2">
+          <div class="c"><div class="lbl">// TABS</div>
+            <div class="x-tabs"><div class="t active">TODOS</div><div class="t">STATS</div><div class="t">LISTS</div><div class="t">ARCHIVE</div></div>
+            <div style="padding:14px 0;font-size:12px;color:var(--fg-muted)">// 3 / 5 done · 2 pending</div>
+            <div class="lbl" style="margin-top:14px">// BREADCRUMB</div>
+            <div class="x-crumb"><a href="#">~/</a><span class="sep">/</span><a href="#">projects</a><span class="sep">/</span><span>mcky.space</span></div>
+          </div>
+          <div class="c"><div class="lbl">// PROGRESS</div>
+            <div class="x-progress"><div style="width:60%"></div></div>
+            <div style="font-size:11px;color:var(--fg-dim);margin-top:6px">3/5 todos complete</div>
+            <div class="lbl" style="margin-top:14px">// PAGINATION</div>
+            <div class="x-page"><div class="p">‹</div><div class="p active">1</div><div class="p">2</div><div class="p">3</div><div class="p">›</div></div>
+            <div class="lbl" style="margin-top:14px">// SPINNER</div>
+            <div class="c-row"><div class="x-spinner"></div><span style="font-size:12px;color:var(--fg-muted)">syncing todos...</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="sec">
+        <div class="sec-h"><span class="num">// 06</span><h2>Table</h2><span class="of">/ 15</span></div>
+        <div class="c">
+          <table class="x-table">
+            <thead><tr><th>TODO</th><th>LIST</th><th>PRIO</th><th>STATUS</th><th>WHEN</th></tr></thead>
+            <tbody>
+              <tr><td>ship mcky theme</td><td>design</td><td><span class="x-badge red">HIGH</span></td><td><span class="x-status">DONE</span></td><td class="mono">07:00</td></tr>
+              <tr><td>write blog #th</td><td>writing</td><td><span class="x-badge">MED</span></td><td><span class="x-status">DONE</span></td><td class="mono">07:30</td></tr>
+              <tr><td>update AGENTS.md</td><td>ops</td><td><span class="x-badge">MED</span></td><td><span class="x-status warn">TODO</span></td><td class="mono">09:00</td></tr>
+              <tr><td>water the plants</td><td>life</td><td><span class="x-badge muted">LOW</span></td><td><span class="x-status warn">TODO</span></td><td class="mono">18:00</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="sec">
+        <div class="sec-h"><span class="num">// 07</span><h2>Todo row · bar · code</h2><span class="of">/ 15</span></div>
+        <div class="grid-2">
+          <div class="c"><div class="lbl">// TODO ROW (contenteditable)</div>
+            <div class="c-row" style="flex-direction:column;align-items:stretch;gap:8px">
+              <div class="mk-row on" style="border:2px solid var(--border);border-radius:6px"><span class="mk-chk"></span><span class="mk-prio high"></span><span class="mk-txt">ship neobrutalism</span><span class="mk-when">07:00</span></div>
+              <div class="mk-row" style="border:2px solid var(--border);border-radius:6px"><span class="mk-chk"></span><span class="mk-prio low"></span><span class="mk-txt">water the plants</span><span class="mk-when">18:00</span></div>
+            </div>
+            <div class="lbl" style="margin-top:14px">// BAR ROW</div>
+            <div class="c-row" style="flex-direction:column;align-items:stretch;gap:8px">
+              <div style="display:flex;align-items:center;gap:10px;font-size:12px">
+                <span style="width:52px;font-weight:700">done</span>
+                <div class="x-progress" style="flex:1"><div style="width:72%"></div></div>
+                <span style="width:34px;text-align:right;color:var(--fg-muted)">72%</span>
+              </div>
+            </div>
+          </div>
+          <div class="c"><div class="lbl">// SOURCE BLOCK</div>
+            <div class="x-term">$ astro build --static
+$ generating static pages... 6 routes
+$ theme: mcky.space (neobrutalism)
+$ fonts: JetBrains Mono (self-hosted, no google)
+$ border: 3px · shadow: 4px 4px 0 #000
+$ done. zero React. zero Tailwind.
+$ ✓ hard shadows only.</div>
+          </div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <script>
+    const sidebar = document.querySelector('.sb');
+    const toggle = document.getElementById('mobToggle');
+    const backdrop = document.getElementById('mobBackdrop');
+    const isMobile = () => window.matchMedia('(max-width: 900px)').matches;
+    const open = () => { if (!isMobile()) return; sidebar.classList.add('open'); backdrop.classList.add('open'); };
+    const close = () => { sidebar.classList.remove('open'); backdrop.classList.remove('open'); };
+    toggle.addEventListener('click', () => sidebar.classList.contains('open') ? close() : open());
+    backdrop.addEventListener('click', close);
+    document.querySelectorAll('.sb-item').forEach(i => i.addEventListener('click', close));
+    window.addEventListener('resize', () => { if (!isMobile()) close(); });
+
+    /* light/dark mode toggle */
+    const root = document.documentElement;
+    const opts = document.querySelectorAll('.mode-toggle .opt');
+    const setMode = (m) => {
+      root.dataset.mode = m;
+      opts.forEach(o => o.classList.toggle('on', o.dataset.mode === m));
+    };
+    opts.forEach(o => o.addEventListener('click', () => setMode(o.dataset.mode)));
+  </script>
+</body>
+</html>

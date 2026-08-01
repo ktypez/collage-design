@@ -33,13 +33,14 @@
 | **Concept CLAUDE PAPER** | https://192.168.1.47/design/concepts/claude.html | **full components** — warm editorial, clay accent, **dual light/dark mode** |
 | **Concept MOSS** | https://192.168.1.47/design/concepts/moss.html | **full components** — organic, earth tone, blob shapes, Fraunces |
 | **Concept BRUT** | https://192.168.1.47/design/concepts/brut.html | **full components** — brutalist, black/white/red, 0px radius, Anton |
+| **Concept mcky.space** | https://192.168.1.47/design/concepts/mcky.html | **full components** — neobrutalism, 3px border + hard shadow, amber, **dual light/dark mode** |
 
 ## Component Coverage (per concept)
 
 แต่ละ concept page แสดง component **15+ แบบ** ในสไตล์ของธีมนั้น:
 button (variants, sizes) · input/textarea/select · checkbox/radio/switch · card · status pill · badge (filled/outline/muted) · kbd · alert · tabs · progress · pagination · spinner · table · terminal · breadcrumb
 
-## 8 Designs ในคลัง
+## 9 Designs ในคลัง
 
 | # | Name | id | Vibe | Production |
 |---|---|---|---|---|
@@ -51,6 +52,7 @@ button (variants, sizes) · input/textarea/select · checkbox/radio/switch · ca
 | 6 | `CLAUDE PAPER` | claude | Warm editorial — clay accent, paper surfaces, bilingual serif, **dual light/dark mode** | Obsidian theme (unofficial, from law-of-cycles/claude-paper-obsidian) |
 | 7 | `MOSS` | moss | Organic — earth palette (moss green + terracotta + sand), blob shapes, Fraunces serif | design reference |
 | 8 | `BRUT` | brut | Brutalist — raw black/white/red, 0px radius, 2px border, Anton display | design reference |
+| 9 | `mcky.space` | mcky | Neobrutalism — 3px black border, hard shadow (4px 4px 0), amber hover, 100% mono, **dual light/dark mode** | [mcky.space](https://mcky.space) (live site) |
 
 ## Architecture: Design = Plugin
 
@@ -130,7 +132,7 @@ npm run check   # syntax-check ทุก source module (zero dependency — ไ�
 - GSAP via CDN (theme transitions ใน preview pages)
 - Canvas API (client) + sharp (production backend renderer)
 - Manifest-driven — design เปลี่ยน = แก้ manifest ไม่แตะ logic
-- Fonts: Inter + JetBrains Mono (gallery), Source Serif 4 / Source Han Serif (CLAUDE PAPER), Fraunces (MOSS), Anton + IBM Plex Mono (BRUT)
+- Fonts: Inter + JetBrains Mono (gallery), Source Serif 4 / Source Han Serif (CLAUDE PAPER), Fraunces (MOSS), Anton + IBM Plex Mono (BRUT), JetBrains Mono (mcky.space)
 
 ## Repo
 

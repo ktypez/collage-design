@@ -21,8 +21,9 @@
 | Concept CLAUDE PAPER | https://192.168.1.47/design/concepts/claude.html | **full components** (warm editorial, **dual light/dark toggle**) |
 | Concept MOSS | https://192.168.1.47/design/concepts/moss.html | **full components** (organic, earth tone, blob shapes) |
 | Concept BRUT | https://192.168.1.47/design/concepts/brut.html | **full components** (brutalist, 0px radius, Anton) |
+| Concept mcky.space | https://192.168.1.47/design/concepts/mcky.html | **full components** (neobrutalism, 3px border + hard shadow, **dual light/dark toggle**) |
 
-## 8 Designs ในคลัง
+## 9 Designs ในคลัง
 
 | # | Name | id | Vibe | Production |
 |---|---|---|---|---|
@@ -34,6 +35,7 @@
 | 6 | `CLAUDE PAPER` | claude | Warm editorial — clay accent, paper surfaces, bilingual serif, **dual light/dark mode** | Obsidian theme (unofficial — law-of-cycles/claude-paper-obsidian) |
 | 7 | `MOSS` | moss | Organic — earth palette, blob shapes, Fraunces serif | design reference |
 | 8 | `BRUT` | brut | Brutalist — raw black/white/red, 0px radius, Anton display | design reference |
+| 9 | `mcky.space` | mcky | Neobrutalism — 3px black border, hard shadow (4px 4px 0), amber hover, 100% mono, **dual light/dark mode** | [mcky.space](https://mcky.space) (live site) |
 
 ## File structure (current)
 
@@ -52,7 +54,8 @@ design-gallery/
 │   ├── glitchpage.html         ← standalone GLITCHPAGE (error page) concept
 │   ├── claude.html             ← standalone CLAUDE PAPER (warm editorial, dual mode) concept
 │   ├── moss.html               ← standalone MOSS (organic) concept
-│   └── brut.html               ← standalone BRUT (brutalist) concept
+│   ├── brut.html               ← standalone BRUT (brutalist) concept
+│   └── mcky.html               ← standalone mcky.space (neobrutalism) concept
 └── src/
     ├── assets/fonts/           ← JetBrainsMono, VT323
     ├── css/
@@ -99,7 +102,7 @@ engine (theme-agnostic)   ← layout / photo / export
 - Canvas API (client) + sharp (production backend)
 - GSAP via CDN (theme transitions ใน preview pages)
 - Manifest-driven — design เปลี่ยน = แก้ manifest ไม่แตะ logic
-- Fonts: JetBrains Mono (mono), VT323 (CRT), Kanit + Sarabun (GLITCHPAGE), Source Serif 4 + Source Han Serif SC (CLAUDE PAPER), Fraunces (MOSS), Anton + IBM Plex Mono (BRUT)
+- Fonts: JetBrains Mono (mono), VT323 (CRT), Kanit + Sarabun (GLITCHPAGE), Source Serif 4 + Source Han Serif SC (CLAUDE PAPER), Fraunces (MOSS), Anton + IBM Plex Mono (BRUT), JetBrains Mono (mcky.space)
 - Tooling: ไม่มี devDependencies — `build.js` ใช้ node builtins ล้วนๆ
 
 ## Build / Check
@@ -130,6 +133,7 @@ npm run check   # syntax-check ทุก source module ใน src/js (zero depen
 - [x] 5 designs: rack / crt / noc / min / glitchpage
 - [x] **6 designs: + claude (CLAUDE PAPER)** — ธีมแรกในคลังที่มี dual light/dark mode
 - [x] **8 designs: + moss (MOSS, organic) + brut (BRUT, brutalist)** — ขยายสเปกตรัมสาย soft/raw
+- [x] **9 designs: + mcky (mcky.space, neobrutalism)** — แกะ design system จากเว็บจริง (3px border + hard shadow + dual mode)
 - [ ] **Deploy GLITCHPAGE** → generate 403/404/500/502/503.html จาก manifest
   แล้ว deploy ไปที่ `/var/www/localhost/htdocs/`
 - [ ] Design tokens sync (CSS variables) — ปัจจุบันฝังใน ui.css แต่ละ theme

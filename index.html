@@ -332,6 +332,50 @@
     .br-mock .t .ac { color: #ff2e00; }
     .br-mock .s { font-family: 'JetBrains Mono', monospace; font-size: 8.5px; color: #3d3d3a; }
 
+    /* preview: mcky.space — neobrutalism todo app */
+    .card[data-id="mcky"] .preview {
+      background: #f5f5f0;
+    }
+    .card[data-id="mcky"] .preview::before {
+      content: ''; position: absolute; inset: 0;
+      background-image:
+        linear-gradient(rgba(0,0,0,0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,0,0,0.05) 1px, transparent 1px);
+      background-size: 20px 20px, 20px 20px;
+    }
+    .mk-mock {
+      position: relative; z-index: 1;
+      width: 78%;
+      background: #ffffff;
+      border: 3px solid #000000;
+      box-shadow: 4px 4px 0 #000000;
+      font-family: 'JetBrains Mono', monospace;
+      text-align: left;
+    }
+    .mk-mock .bar { height: 6px; background: #ffe066; border-bottom: 2px solid #000000; }
+    .mk-mock .row {
+      display: flex; align-items: center; gap: 5px;
+      padding: 5px 8px;
+      border-bottom: 1.5px solid #000000;
+      font-size: 8px; color: #000000;
+    }
+    .mk-mock .row:last-child { border-bottom: none; }
+    .mk-mock .chk {
+      width: 8px; height: 8px; flex-shrink: 0;
+      border: 1.5px solid #000000; border-radius: 2px;
+    }
+    .mk-mock .row.done .chk { background: #000000; }
+    .mk-mock .row.done .txt { color: #777777; text-decoration: line-through; }
+    .mk-mock .prio { width: 5px; height: 5px; border-radius: 50%; flex-shrink: 0; background: #06d6a0; }
+    .mk-mock .prio.med { background: #ff9f43; }
+    .mk-mock .prio.low { background: #4361ee; }
+    .mk-mock .txt { flex: 1; }
+    .mk-mock .tag {
+      font-size: 6px; font-weight: 700; color: #000000;
+      border: 1px solid #000000; border-radius: 2px;
+      padding: 0 3px; text-transform: uppercase;
+    }
+
     /* ============== card body ============== */
     .card-body { padding: 18px 20px 20px; flex: 1; display: flex; flex-direction: column; }
     .card-num {
@@ -392,7 +436,7 @@
 
     <!-- topbar -->
     <div class="topbar">
-      <span><span class="dot"></span>design-gallery · 08 designs</span>
+      <span><span class="dot"></span>design-gallery · 09 designs</span>
       <span>
         <a href="concepts/rack.html">concepts →</a>
       </span>
@@ -403,7 +447,7 @@
       <div class="badge">CENTRAL DESIGN LIBRARY · v1.0</div>
       <h1>Design <span class="accent">Gallery</span></h1>
       <p>
-        คลัง design กลาง — 8 visual identity ที่ใช้ร่วมกันได้
+        คลัง design กลาง — 9 visual identity ที่ใช้ร่วมกันได้
         theme-agnostic engine + design = plugin เพิ่ม design ใหม่โดยไม่แตะ logic
       </p>
       <div class="meta">// PICK A DESIGN → เปิด standalone ดูเต็ม หรือสลับธีมใน components view</div>
@@ -426,7 +470,7 @@
           </div>
         </div>
         <div class="card-body">
-          <div class="card-num">// 01 / 08</div>
+          <div class="card-num">// 01 / 09</div>
           <div class="card-name">STACK//FRAME</div>
           <div class="card-id">id: rack · server rack</div>
           <p class="card-desc">
@@ -450,7 +494,7 @@
           </div>
         </div>
         <div class="card-body">
-          <div class="card-num">// 02 / 08</div>
+          <div class="card-num">// 02 / 09</div>
           <div class="card-name">PIXSH v1.0</div>
           <div class="card-id">id: crt · retro terminal</div>
           <p class="card-desc">
@@ -475,7 +519,7 @@
           </div>
         </div>
         <div class="card-body">
-          <div class="card-num">// 03 / 08</div>
+          <div class="card-num">// 03 / 09</div>
           <div class="card-name">PACKETGRID</div>
           <div class="card-id">id: noc · NOC dashboard</div>
           <p class="card-desc">
@@ -500,7 +544,7 @@
           </div>
         </div>
         <div class="card-body">
-          <div class="card-num">// 04 / 08</div>
+          <div class="card-num">// 04 / 09</div>
           <div class="card-name">collage.sh</div>
           <div class="card-id">id: min · minimal geek</div>
           <p class="card-desc">
@@ -521,7 +565,7 @@
           <div class="gp-mock">404</div>
         </div>
         <div class="card-body">
-          <div class="card-num">// 05 / 08</div>
+          <div class="card-num">// 05 / 09</div>
           <div class="card-name">GLITCHPAGE</div>
           <div class="card-id">id: glitchpage · error page</div>
           <p class="card-desc">
@@ -547,7 +591,7 @@
           </div>
         </div>
         <div class="card-body">
-          <div class="card-num">// 06 / 08</div>
+          <div class="card-num">// 06 / 09</div>
           <div class="card-name">CLAUDE PAPER</div>
           <div class="card-id">id: claude · warm editorial</div>
           <p class="card-desc">
@@ -573,7 +617,7 @@
           </div>
         </div>
         <div class="card-body">
-          <div class="card-num">// 07 / 08</div>
+          <div class="card-num">// 07 / 09</div>
           <div class="card-name">MOSS</div>
           <div class="card-id">id: moss · organic</div>
           <p class="card-desc">
@@ -598,7 +642,7 @@
           </div>
         </div>
         <div class="card-body">
-          <div class="card-num">// 08 / 08</div>
+          <div class="card-num">// 08 / 09</div>
           <div class="card-name">BRUT</div>
           <div class="card-id">id: brut · brutalist</div>
           <p class="card-desc">
@@ -611,6 +655,32 @@
             <span><b>Vibe</b> no mercy</span>
           </div>
           <a class="card-cta" href="concepts/brut.html">standalone preview →</a>
+        </div>
+      </article>
+
+      <article class="card" data-id="mcky">
+        <div class="preview">
+          <div class="mk-mock">
+            <div class="bar"></div>
+            <div class="row done"><span class="chk"></span><span class="prio"></span><span class="txt">ship neobrutalism</span><span class="tag">build</span></div>
+            <div class="row done"><span class="chk"></span><span class="prio"></span><span class="txt">write blog #th</span><span class="tag">blog</span></div>
+            <div class="row"><span class="chk"></span><span class="prio med"></span><span class="txt">water the plants</span><span class="tag">life</span></div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="card-num">// 09 / 09</div>
+          <div class="card-name">mcky.space</div>
+          <div class="card-id">id: mcky · neobrutalism</div>
+          <p class="card-desc">
+            Design system ของเว็บจริง — 3px border ดำ + hard shadow (4px 4px 0) + amber hover
+            + mono 100% (JetBrains Mono) + accent สด 8 สี, dual light/dark
+          </p>
+          <div class="card-specs">
+            <span><b>Border</b> 3px #000</span>
+            <span><b>Font</b> JetBrains</span>
+            <span><b>Live</b> mcky.space</span>
+          </div>
+          <a class="card-cta" href="concepts/mcky.html">standalone preview →</a>
         </div>
       </article>
 
