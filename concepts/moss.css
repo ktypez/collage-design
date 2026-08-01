@@ -191,23 +191,31 @@ svg { display: block; }
 }
 
 /* mock = blob garden composition */
-.ms-stage { position: relative; width: min(88%, 520px); height: 200px; }
+.ms-stage {
+  position: relative;
+  width: min(88%, 520px);
+  min-width: 0;
+  height: auto;
+  padding: 14px 0;
+}
 .ms-sun {
-  position: absolute; top: 8px; right: 12px;
+  position: absolute; top: 0; right: 12px;
   width: 44px; height: 44px;
   background: var(--clay);
   opacity: 0.35;
 }
 .ms-sprout {
-  position: absolute; bottom: 6px; left: 50%; transform: translateX(-50%);
-  width: 92%; height: 150px;
+  position: relative;
+  margin: 0 auto;
+  width: 92%; min-width: 0;
+  min-height: 150px;
   background: var(--surface);
   border: 1px solid var(--border-bright);
   box-shadow: var(--shadow);
   display: flex; align-items: center; justify-content: center;
 }
 .ms-sprout .inner {
-  text-align: left; width: 82%;
+  text-align: left; width: 82%; min-width: 0;
 }
 .ms-sprout .lbl {
   font-family: var(--font-mono); font-size: 9px;
@@ -435,6 +443,7 @@ svg { display: block; }
 .x-alert.warn  { border-left-color: var(--warn); }
 .x-alert.info  { border-left-color: var(--info); }
 .x-alert .icon { font-family: var(--font-mono); font-weight: 600; flex-shrink: 0; color: var(--accent); }
+.x-alert .txt { min-width: 0; }
 .x-alert .txt strong { display: block; margin-bottom: 2px; }
 .x-alert .txt span { color: var(--fg-muted); font-size: 13px; }
 
@@ -510,7 +519,7 @@ svg { display: block; }
 .x-table tr:hover td { background: var(--accent-soft); }
 .x-table td.mono { font-family: var(--font-mono); color: var(--accent-deep); font-size: 12px; }
 
-.x-crumb { display: flex; align-items: center; gap: 6px; font-size: 14px; color: var(--fg-muted); }
+.x-crumb { display: flex; align-items: center; flex-wrap: wrap; gap: 6px; font-size: 14px; color: var(--fg-muted); }
 .x-crumb a { color: var(--fg-muted); }
 .x-crumb a:hover { color: var(--accent); }
 .x-crumb .sep { color: var(--fg-dim); }
@@ -599,6 +608,8 @@ svg { display: block; }
   .head { margin-bottom: 20px; }
   .head h1 { font-size: 30px; }
   .x-term { overflow-x: auto; }
+  /* iOS กัน auto-zoom ตอน focus input */
+  .x-input, .x-textarea, .x-select { font-size: 16px; }
 }
 
 @media (max-width: 480px) {
@@ -608,4 +619,14 @@ svg { display: block; }
   .head h1 { font-size: 26px; }
   .tokens { grid-template-columns: 1fr; }
   .sec-h h2 { font-size: 18px; }
+  /* mock เล็กลง ไม่ล้น */
+  .ms-stage { width: 100%; padding: 10px 0; }
+  .ms-sun { width: 32px; height: 32px; right: 8px; }
+  .ms-sprout { width: 94%; min-height: 130px; }
+  .ms-sprout .inner { width: 84%; }
+  .ms-sprout h3 { font-size: 17px; }
+  .ms-sprout p { font-size: 12px; }
+  .ms-berry { width: 20px; height: 20px; top: 14px; left: 10px; }
+  .ms-leaf { width: 26px; height: 15px; bottom: 20px; right: 14px; }
+  .x-page .p { width: 28px; height: 28px; }
 }

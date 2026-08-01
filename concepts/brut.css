@@ -62,8 +62,8 @@ svg { display: block; }
   overflow: hidden;
   white-space: nowrap;
 }
-.marquee .track { display: inline-flex; gap: 40px; padding-left: 0; animation: br-mq 22s linear infinite; }
-.marquee .track span { display: inline-flex; align-items: center; gap: 40px; }
+.marquee .track { display: inline-flex; padding-left: 0; animation: br-mq 22s linear infinite; }
+.marquee .track span { display: inline-flex; align-items: center; padding-right: 40px; }
 @keyframes br-mq { to { transform: translateX(-50%); } }
 
 /* ---- layout ---- */
@@ -408,6 +408,7 @@ svg { display: block; }
 .x-alert.danger { border-left-color: var(--accent); }
 .x-alert.warn  { border-left-color: var(--fg); }
 .x-alert .icon { font-family: var(--font-mono); font-weight: 700; flex-shrink: 0; color: var(--accent); }
+.x-alert .txt { min-width: 0; }
 .x-alert .txt strong { display: block; margin-bottom: 2px; }
 .x-alert .txt span { color: var(--fg-muted); font-size: 12px; }
 
@@ -476,7 +477,7 @@ svg { display: block; }
 .x-table tr:hover td { background: var(--accent-soft); }
 .x-table td.mono { font-family: var(--font-mono); color: var(--accent-deep); font-size: 12px; font-weight: 700; }
 
-.x-crumb { display: flex; align-items: center; gap: 6px; font-size: 13px; color: var(--fg-muted); font-weight: 600; }
+.x-crumb { display: flex; align-items: center; flex-wrap: wrap; gap: 6px; font-size: 13px; color: var(--fg-muted); font-weight: 600; }
 .x-crumb a { color: var(--fg-muted); }
 .x-crumb a:hover { color: var(--accent); }
 .x-crumb .sep { color: var(--fg-dim); }
@@ -560,6 +561,8 @@ svg { display: block; }
   .head h1 { font-size: 44px; }
   .x-term { overflow-x: auto; }
   .marquee .track { animation-duration: 14s; }
+  /* iOS กัน auto-zoom ตอน focus input */
+  .x-input, .x-textarea, .x-select { font-size: 16px; }
 }
 
 @media (max-width: 480px) {
@@ -569,4 +572,11 @@ svg { display: block; }
   .head h1 { font-size: 36px; }
   .tokens { grid-template-columns: 1fr; }
   .sec-h h2 { font-size: 21px; }
+  /* manifesto ลดขนาด + เผื่อ 2 บรรทัด */
+  .br-manifesto { padding: 18px 16px; }
+  .br-manifesto h3 { font-size: 24px; line-height: 1.1; }
+  .br-manifesto p { font-size: 11.5px; }
+  .br-manifesto .cta-row { gap: 8px; }
+  .br-manifesto .x-btn { padding: 8px 13px; font-size: 12px; }
+  .x-page .p { width: 28px; height: 28px; }
 }
