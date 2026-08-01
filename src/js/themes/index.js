@@ -8,8 +8,9 @@ import { manifest as crt } from './crt/manifest.js';
 import { manifest as noc } from './noc/manifest.js';
 import { manifest as min } from './min/manifest.js';
 import { manifest as glitchpage } from './glitchpage/manifest.js';
+import { manifest as claude } from './claude/manifest.js';
 
-export const THEMES = { rack, crt, noc, min, glitchpage };
+export const THEMES = { rack, crt, noc, min, glitchpage, claude };
 export const THEME_IDS = Object.keys(THEMES);
 
 /** Default theme = collage.sh (min) */

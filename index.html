@@ -3,11 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Design Gallery — 5 Visual Identities</title>
+  <title>Design Gallery — 6 Visual Identities</title>
   <link rel="icon" type="image/svg+xml" href="/favicons/lab.svg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&family=Kanit:wght@700;900&family=Sarabun:wght@400;700&family=VT323&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&family=Kanit:wght@700;900&family=Sarabun:wght@400;700&family=VT323&family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,500;0,8..60,600;0,8..60,700;1,8..60,400&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -240,6 +240,41 @@
     .gp-mock::before { color: #00ffff; clip-path: inset(20% 0 60% 0); transform: translate(-2px, 1px); }
     .gp-mock::after  { color: #ffff00; clip-path: inset(60% 0 10% 0); transform: translate(2px, -1px); }
 
+    /* preview: CLAUDE PAPER — warm editorial + clay */
+    .card[data-id="claude"] .preview {
+      background: #faf9f5;
+    }
+    .card[data-id="claude"] .preview::after {
+      content: ''; position: absolute; inset: 0;
+      background-image:
+        linear-gradient(rgba(20,20,19,0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(20,20,19,0.05) 1px, transparent 1px);
+      background-size: 40px 40px;
+    }
+    .cp-mock {
+      position: relative; z-index: 1;
+      width: 78%; text-align: left;
+      background: #faf9f5;
+      border: 1px solid rgba(20,20,19,0.14);
+      border-radius: 8px;
+      padding: 14px 16px;
+      box-shadow: 0 2px 8px rgba(20,20,19,0.06);
+      font-family: 'Source Serif 4', Georgia, serif;
+    }
+    .cp-mock .tags { margin-bottom: 8px; }
+    .cp-mock .tag {
+      font-family: 'JetBrains Mono', monospace; font-size: 8px;
+      color: #b85c3f; background: rgba(217,119,87,0.12);
+      padding: 1px 6px; border-radius: 999px; margin-right: 4px;
+    }
+    .cp-mock .t { font-size: 15px; font-weight: 600; color: #141413; margin-bottom: 4px; }
+    .cp-mock .s { font-size: 10px; line-height: 1.5; color: #3d3d3a; margin-bottom: 8px; }
+    .cp-mock .call {
+      border-left: 3px solid #d97757; border-radius: 4px;
+      background: rgba(217,119,87,0.1); padding: 6px 8px;
+      font-size: 9.5px; color: #141413;
+    }
+
     /* ============== card body ============== */
     .card-body { padding: 18px 20px 20px; flex: 1; display: flex; flex-direction: column; }
     .card-num {
@@ -300,7 +335,7 @@
 
     <!-- topbar -->
     <div class="topbar">
-      <span><span class="dot"></span>design-gallery · 05 designs</span>
+      <span><span class="dot"></span>design-gallery · 06 designs</span>
       <span>
         <a href="concepts/rack.html">concepts →</a>
       </span>
@@ -311,7 +346,7 @@
       <div class="badge">CENTRAL DESIGN LIBRARY · v1.0</div>
       <h1>Design <span class="accent">Gallery</span></h1>
       <p>
-        คลัง design กลาง — 5 visual identity ที่ใช้ร่วมกันได้
+        คลัง design กลาง — 6 visual identity ที่ใช้ร่วมกันได้
         theme-agnostic engine + design = plugin เพิ่ม design ใหม่โดยไม่แตะ logic
       </p>
       <div class="meta">// PICK A DESIGN → เปิด standalone ดูเต็ม หรือสลับธีมใน components view</div>
@@ -442,6 +477,32 @@
             <span><b>Use</b> nginx err</span>
           </div>
           <a class="card-cta" href="concepts/glitchpage.html">standalone preview →</a>
+        </div>
+      </article>
+
+      <article class="card" data-id="claude">
+        <div class="preview">
+          <div class="cp-mock">
+            <div class="tags"><span class="tag">#warm</span><span class="tag">#editorial</span><span class="tag">#dual-mode</span></div>
+            <div class="t">Why paper still wins</div>
+            <div class="s">Quiet surfaces, clay accents, serif ที่อ่านได้ทั้งอังกฤษ-จีน light/dark ใจเย็นเท่ากัน</div>
+            <div class="call">❝ Reading stays at 17px / 1.72 leading.</div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="card-num">// 06 / 06</div>
+          <div class="card-name">CLAUDE PAPER</div>
+          <div class="card-id">id: claude · warm editorial</div>
+          <p class="card-desc">
+            Obsidian theme สาย editorial — clay accent (#d97757) + paper surfaces + bilingual serif + SF Mono
+            ธีมแรกในคลังที่มี dual mode (light/dark บน hierarchy เดียวกัน)
+          </p>
+          <div class="card-specs">
+            <span><b>Mode</b> light/dark</span>
+            <span><b>Font</b> Source Serif</span>
+            <span><b>Use</b> Obsidian</span>
+          </div>
+          <a class="card-cta" href="concepts/claude.html">standalone preview →</a>
         </div>
       </article>
 

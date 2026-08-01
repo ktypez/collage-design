@@ -18,8 +18,9 @@
 | Concept NOC | https://192.168.1.47/design/concepts/noc.html | **full components** (PACKETGRID cyan) |
 | Concept MIN | https://192.168.1.47/design/concepts/min.html | **full components** (collage.sh minimal) |
 | Concept GLITCHPAGE | https://192.168.1.47/design/concepts/glitchpage.html | **full components** (error page neon) |
+| Concept CLAUDE PAPER | https://192.168.1.47/design/concepts/claude.html | **full components** (warm editorial, **dual light/dark toggle**) |
 
-## 5 Designs ในคลัง
+## 6 Designs ในคลัง
 
 | # | Name | id | Vibe | Production |
 |---|---|---|---|---|
@@ -28,6 +29,7 @@
 | 3 | `PACKETGRID` | noc | NOC dashboard, dark slate, cyan + green | design reference |
 | 4 | `collage.sh` | min | Minimal geek, lime accent | default theme |
 | 5 | `GLITCHPAGE` | glitchpage | Error-page DNA — dark navy, drift grid, glitch number, terminal, Thai copy | nginx error pages (design source — deploy pending) |
+| 6 | `CLAUDE PAPER` | claude | Warm editorial — clay accent, paper surfaces, bilingual serif, **dual light/dark mode** | Obsidian theme (unofficial — law-of-cycles/claude-paper-obsidian) |
 
 ## File structure (current)
 
@@ -43,7 +45,8 @@ design-gallery/
 │   ├── crt.html                ← standalone PIXSH v1.0 concept
 │   ├── noc.html                ← standalone PACKETGRID concept
 │   ├── min.html                ← standalone collage.sh concept
-│   └── glitchpage.html         ← standalone GLITCHPAGE (error page) concept
+│   ├── glitchpage.html         ← standalone GLITCHPAGE (error page) concept
+│   └── claude.html             ← standalone CLAUDE PAPER (warm editorial, dual mode) concept
 └── src/
     ├── assets/fonts/           ← JetBrainsMono, VT323
     ├── css/
@@ -90,7 +93,7 @@ engine (theme-agnostic)   ← layout / photo / export
 - Canvas API (client) + sharp (production backend)
 - GSAP via CDN (theme transitions ใน preview pages)
 - Manifest-driven — design เปลี่ยน = แก้ manifest ไม่แตะ logic
-- Fonts: JetBrains Mono (mono), VT323 (CRT), Kanit + Sarabun (GLITCHPAGE)
+- Fonts: JetBrains Mono (mono), VT323 (CRT), Kanit + Sarabun (GLITCHPAGE), Source Serif 4 + Source Han Serif SC (CLAUDE PAPER)
 - Tooling: ไม่มี devDependencies — `build.js` ใช้ node builtins ล้วนๆ
 
 ## Build / Check
@@ -119,6 +122,7 @@ npm run check   # syntax-check ทุก source module ใน src/js (zero depen
 - [x] sharp-renderer (production backend) — ใช้ manifest เดียวกับ client
 - [x] Per-theme ui.css (UI tokens + chrome)
 - [x] 5 designs: rack / crt / noc / min / glitchpage
+- [x] **6 designs: + claude (CLAUDE PAPER)** — ธีมแรกในคลังที่มี dual light/dark mode
 - [ ] **Deploy GLITCHPAGE** → generate 403/404/500/502/503.html จาก manifest
   แล้ว deploy ไปที่ `/var/www/localhost/htdocs/`
 - [ ] Design tokens sync (CSS variables) — ปัจจุบันฝังใน ui.css แต่ละ theme

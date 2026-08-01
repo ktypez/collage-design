@@ -1,14 +1,14 @@
 <!DOCTYPE html>
-<html lang="th" data-theme="min">
+<html lang="th" data-theme="claude" data-mode="light">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>collage.sh — Components</title>
+  <title>CLAUDE PAPER — Components</title>
   <link rel="icon" type="image/svg+xml" href="/favicons/lab.svg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,500;0,8..60,600;0,8..60,700;1,8..60,400&family=Source+Han+Serif+SC:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="claude.css">
 </head>
 <body>
   <button class="mob-toggle" id="mobToggle" aria-label="Toggle sidebar">
@@ -31,7 +31,7 @@
         <a class="sb-item" href="noc.html"><span class="num">03</span><span class="dot" style="background:#00d4ff"></span><span class="name">PACKETGRID</span><span class="id">noc</span></a>
         <a class="sb-item" href="min.html"><span class="num">04</span><span class="dot" style="background:#c8ff00"></span><span class="name">collage.sh</span><span class="id">min</span></a>
         <a class="sb-item" href="glitchpage.html"><span class="num">05</span><span class="dot" style="background:#ff3366"></span><span class="name">GLITCHPAGE</span><span class="id">glitch</span></a>
-        <a class="sb-item" href="claude.html"><span class="num">06</span><span class="dot" style="background:#d97757"></span><span class="name">CLAUDE PAPER</span><span class="id">claude</span></a>
+        <a class="sb-item active" href="claude.html"><span class="num">06</span><span class="dot" style="background:#d97757"></span><span class="name">CLAUDE PAPER</span><span class="id">claude</span></a>
       </div>
       <div class="sb-section">
         <div class="sb-label">MORE</div>
@@ -41,39 +41,47 @@
     </aside>
 
     <main class="main">
-      <div class="crumb">// CONCEPT 04 / 06 · <a href="../index.html">gallery</a></div>
+      <div class="crumb">
+        <span>// CONCEPT 06 / 06 · <a href="../index.html">gallery</a></span>
+        <div class="mode-toggle" id="modeToggle" role="group" aria-label="Color mode">
+          <span class="opt on" data-mode="light">light</span>
+          <span class="opt" data-mode="dark">dark</span>
+        </div>
+      </div>
       <div class="head">
-        <h1>collage<span style="background:var(--accent);color:#0e0e10;padding:0 4px;border-radius:4px">.sh</span></h1>
-        <span class="id-pill">id: min</span>
-        <p>Minimal geek aesthetic — lime accent (#c8ff00) + Inter sans + JetBrains Mono. Default สำหรับ 7-days collage output ใน production</p>
+        <h1>Claude <span class="ext">Paper</span></h1>
+        <span class="id-pill">id: claude · dual mode</span>
+        <p>Warm editorial Obsidian theme — clay accent + paper surfaces + bilingual serif (Source Han Serif / Source Serif 4) + SF Mono code. จาก <a href="https://github.com/law-of-cycles/claude-paper-obsidian" target="_blank" rel="noopener" style="color:var(--accent-deep)">law-of-cycles/claude-paper-obsidian ↗</a></p>
       </div>
 
       <div class="hero">
-        <div class="hero-head">// MOCKUP · ~/collage</div>
+        <div class="hero-head">// MOCKUP · ~/notes</div>
         <div class="hero-body">
-          <div class="min-mock">
-            <div class="title">collage<span class="ext">.sh</span></div>
-            <div class="cmd">$ build --output=png --theme=min</div>
-            <div class="btn">▶ render</div>
+          <div class="cp-note">
+            <div class="tags"><span class="tag">#warm</span><span class="tag">#editorial</span><span class="tag">#dual-mode</span></div>
+            <h3>Why paper still wins</h3>
+            <p>Quiet surfaces, clay accents, and a serif that doesn't shout. Light and dark built on the same hierarchy — calm either way.</p>
+            <div class="cp-callout"><span class="ic">❝</span><span>Reading stays at 17px with 1.72 line height. Your eyes will thank you.</span></div>
+            <div class="meta">// obsidian · 2026-07-31 · vault: notes</div>
           </div>
         </div>
       </div>
 
       <div class="tokens">
-        <div class="tok"><span class="lbl">// ACCENT</span><span class="val"><span class="sw" style="background:#c8ff00"></span>#c8ff00</span></div>
-        <div class="tok"><span class="lbl">// BG</span><span class="val">#fafafa</span></div>
-        <div class="tok"><span class="lbl">// FG</span><span class="val">#0e0e10</span></div>
-        <div class="tok"><span class="lbl">// FONT</span><span class="val">Inter + Mono</span></div>
-        <div class="tok"><span class="lbl">// MOTION</span><span class="val">none · minimal</span></div>
-        <div class="tok"><span class="lbl">// RADIUS</span><span class="val">8px · soft</span></div>
+        <div class="tok"><span class="lbl">// ACCENT</span><span class="val"><span class="sw" style="background:#d97757"></span>#d97757</span></div>
+        <div class="tok"><span class="lbl">// BG</span><span class="val">#faf9f5 / #30302e</span></div>
+        <div class="tok"><span class="lbl">// FG</span><span class="val">#141413 / #faf9f5</span></div>
+        <div class="tok"><span class="lbl">// FONT</span><span class="val">Source Serif + Mono</span></div>
+        <div class="tok"><span class="lbl">// MOTION</span><span class="val">calm · reduced ok</span></div>
+        <div class="tok"><span class="lbl">// RADIUS</span><span class="val">4–12px · soft</span></div>
       </div>
 
       <div class="sec">
         <div class="sec-h"><span class="num">// 01</span><h2>Buttons</h2><span class="of">/ 07</span></div>
         <div class="grid-2">
           <div class="c"><div class="lbl">// VARIANTS</div><div class="c-row">
-            <button class="x-btn primary">▶ ./build</button>
-            <button class="x-btn">cancel</button>
+            <button class="x-btn primary">new note</button>
+            <button class="x-btn">archive</button>
             <button class="x-btn danger">delete</button>
             <button class="x-btn ghost">share</button>
           </div></div>
@@ -89,14 +97,17 @@
         <div class="sec-h"><span class="num">// 02</span><h2>Inputs</h2><span class="of">/ 07</span></div>
         <div class="grid-2">
           <div class="c"><div class="lbl">// TEXT</div>
-            <input class="x-input" placeholder="add caption..." value="trip with you 2026">
+            <input class="x-input" placeholder="search your vault..." value="weekly review">
             <input class="x-input" type="date" value="2026-07-31" style="margin-top:8px">
             <div style="margin-top:8px"><label class="lbl" style="display:block;margin-bottom:4px">// SELECT</label>
-              <select class="x-select"><option>last 7 days</option><option>last 30 days</option><option>custom range</option></select>
+              <select class="x-select"><option>all notes</option><option>daily</option><option>weekly</option><option>archive</option></select>
             </div>
           </div>
           <div class="c"><div class="lbl">// TEXTAREA</div>
-            <textarea class="x-textarea" placeholder="add note...">week 31 was wild · 7 photos selected · auto-layout applied · 1024×1024 output</textarea>
+            <textarea class="x-textarea" placeholder="start typing...">## Week 31
+
+Claude Paper จับ Obsidian ให้เป็นลุค editorial —
+clay accent + serif bilingual + dual mode light/dark.</textarea>
           </div>
         </div>
       </div>
@@ -105,21 +116,21 @@
         <div class="sec-h"><span class="num">// 03</span><h2>Controls</h2><span class="of">/ 07</span></div>
         <div class="grid-3">
           <div class="c"><div class="lbl">// CHECKBOX</div>
-            <label class="x-check"><input type="checkbox" checked> auto layout</label><br>
-            <label class="x-check"><input type="checkbox" checked> add date</label><br>
-            <label class="x-check"><input type="checkbox"> share to group</label>
+            <label class="x-check"><input type="checkbox" checked> daily note</label><br>
+            <label class="x-check"><input type="checkbox" checked> sync vault</label><br>
+            <label class="x-check"><input type="checkbox"> publish site</label>
           </div>
           <div class="c"><div class="lbl">// RADIO</div>
-            <label class="x-radio"><input type="radio" name="r" checked> 7 days</label><br>
-            <label class="x-radio"><input type="radio" name="r"> 14 days</label><br>
-            <label class="x-radio"><input type="radio" name="r"> 30 days</label>
+            <label class="x-radio"><input type="radio" name="r" checked> light</label><br>
+            <label class="x-radio"><input type="radio" name="r"> dark</label><br>
+            <label class="x-radio"><input type="radio" name="r"> system</label>
           </div>
           <div class="c"><div class="lbl">// SWITCH</div>
             <label class="x-switch"><input type="checkbox" checked><span class="sl"></span></label>
-            <span style="margin-left:8px">public share</span>
+            <span style="margin-left:8px">spellcheck</span>
             <div style="margin-top:10px">
               <label class="x-switch"><input type="checkbox"><span class="sl"></span></label>
-              <span style="margin-left:8px">watermark</span>
+              <span style="margin-left:8px">footnotes</span>
             </div>
           </div>
         </div>
@@ -129,46 +140,46 @@
         <div class="sec-h"><span class="num">// 04</span><h2>Cards, status, badges</h2><span class="of">/ 07</span></div>
         <div class="grid-3">
           <div class="c"><div class="lbl">// CARD</div>
-            <div class="x-card"><div class="ct">week 31 · 7 photos</div><div class="cm">it works on your machine.</div></div>
-            <div class="x-card" style="margin-top:8px"><div class="ct">week 30 · 5 photos</div><div class="cm">auto-rendered with collage.sh</div></div>
+            <div class="x-card"><div class="ct">week 31 · review</div><div class="cm">7 notes · 2,400 words · exported</div></div>
+            <div class="x-card" style="margin-top:8px"><div class="ct">reading list</div><div class="cm">4 papers · tagged #later</div></div>
           </div>
           <div class="c"><div class="lbl">// STATUS</div>
             <div class="c-row">
-              <span class="x-status ok">DONE</span>
+              <span class="x-status ok">PUBLISHED</span>
               <span class="x-status warn">DRAFT</span>
               <span class="x-status bad">FAILED</span>
             </div>
             <div class="lbl" style="margin-top:14px">// KBD</div>
-            <div>Press <span class="x-kbd">⌘</span> + <span class="x-kbd">Enter</span> to render</div>
+            <div>Press <span class="x-kbd">⌘</span> + <span class="x-kbd">N</span> for new note</div>
           </div>
           <div class="c"><div class="lbl">// BADGES</div>
             <div class="c-row">
               <span class="x-badge">v1.0</span>
               <span class="x-badge outline">BETA</span>
-              <span class="x-badge muted">DRAFT</span>
+              <span class="x-badge muted">ARCHIVED</span>
             </div>
-            <div class="lbl" style="margin-top:14px">// ALERT</div>
-            <div class="x-alert warn"><span class="icon">!</span><div class="txt"><strong>not enough photos</strong><span>need at least 3 for collage</span></div></div>
+            <div class="lbl" style="margin-top:14px">// CALLOUT</div>
+            <div class="x-alert warn"><span class="icon">!</span><div class="txt"><strong>merge conflict</strong><span>note edited in two vaults — keep local?</span></div></div>
           </div>
         </div>
       </div>
 
       <div class="sec">
-        <div class="sec-h"><span class="num">// 06</span><h2>Tabs, progress, breadcrumb, pagination</h2><span class="of">/ 07</span></div>
+        <div class="sec-h"><span class="num">// 05</span><h2>Tabs, progress, breadcrumb, pagination</h2><span class="of">/ 07</span></div>
         <div class="grid-2">
           <div class="c"><div class="lbl">// TABS</div>
-            <div class="x-tabs"><div class="t active">PHOTOS</div><div class="t">CAPTION</div><div class="t">LAYOUT</div><div class="t">EXPORT</div></div>
-            <div style="padding:14px 0;font-size:13px;color:#5a5a63">// 7 photos selected</div>
+            <div class="x-tabs"><div class="t active">EDITOR</div><div class="t">READING</div><div class="t">SOURCE</div><div class="t">PREVIEW</div></div>
+            <div style="padding:14px 0;font-size:14px;color:var(--fg-muted)">// 2,400 words · 7 headings</div>
             <div class="lbl" style="margin-top:14px">// BREADCRUMB</div>
-            <div class="x-crumb"><a href="#">home</a><span class="sep">/</span><a href="#">collage</a><span class="sep">/</span><span>week-31</span></div>
+            <div class="x-crumb"><a href="#">vault</a><span class="sep">/</span><a href="#">weekly</a><span class="sep">/</span><span>week-31</span></div>
           </div>
           <div class="c"><div class="lbl">// PROGRESS</div>
             <div class="x-progress"><div style="width:55%"></div></div>
-            <div style="font-size:11px;color:#5a5a63;margin-top:4px">uploading 4/7 photos</div>
+            <div style="font-size:12px;color:var(--fg-dim);margin-top:4px">syncing 4/7 notes</div>
             <div class="lbl" style="margin-top:14px">// PAGINATION</div>
             <div class="x-page"><div class="p">‹</div><div class="p active">1</div><div class="p">2</div><div class="p">3</div><div class="p">›</div></div>
             <div class="lbl" style="margin-top:14px">// SPINNER</div>
-            <div class="c-row"><div class="x-spinner"></div><span style="font-size:13px;color:#5a5a63">composing...</span></div>
+            <div class="c-row"><div class="x-spinner"></div><span style="font-size:13px;color:var(--fg-muted)">indexing graph...</span></div>
           </div>
         </div>
       </div>
@@ -177,26 +188,26 @@
         <div class="sec-h"><span class="num">// 06</span><h2>Table</h2><span class="of">/ 07</span></div>
         <div class="c">
           <table class="x-table">
-            <thead><tr><th>WEEK</th><th>PHOTOS</th><th>LAYOUT</th><th>STATUS</th><th>OUTPUT</th></tr></thead>
+            <thead><tr><th>NOTE</th><th>TAGS</th><th>WORDS</th><th>STATUS</th><th>PATH</th></tr></thead>
             <tbody>
-              <tr><td>week 31</td><td>7</td><td>auto</td><td><span class="x-status ok">DONE</span></td><td class="mono">output/week-31.png</td></tr>
-              <tr><td>week 30</td><td>5</td><td>auto</td><td><span class="x-status ok">DONE</span></td><td class="mono">output/week-30.png</td></tr>
-              <tr><td>week 29</td><td>3</td><td>manual</td><td><span class="x-status warn">DRAFT</span></td><td class="mono">output/week-29.png</td></tr>
-              <tr><td>week 28</td><td>0</td><td>—</td><td><span class="x-status bad">FAILED</span></td><td class="mono">output/week-28.png</td></tr>
+              <tr><td>weekly-31</td><td>#review</td><td>2,400</td><td><span class="x-status ok">PUBLISHED</span></td><td class="mono">notes/weekly/31.md</td></tr>
+              <tr><td>paper-notes</td><td>#reading</td><td>1,150</td><td><span class="x-status ok">PUBLISHED</span></td><td class="mono">notes/inbox/paper.md</td></tr>
+              <tr><td>claude-paper</td><td>#design</td><td>860</td><td><span class="x-status warn">DRAFT</span></td><td class="mono">notes/design/claude.md</td></tr>
+              <tr><td>old-plan</td><td>#archive</td><td>—</td><td><span class="x-status bad">FAILED</span></td><td class="mono">notes/archive/plan.md</td></tr>
             </tbody>
           </table>
         </div>
       </div>
 
       <div class="sec">
-        <div class="sec-h"><span class="num">// 07</span><h2>Terminal</h2><span class="of">/ 07</span></div>
-        <div class="c"><div class="lbl">// OUTPUT</div>
-          <div class="x-term">$ ./build --output=png
-$ selecting photos from last 7 days... 7 found
-$ applying auto-layout (min theme)
-$ rendering 1024x1024 PNG
-$ done. saved to output/week-31.png (487KB)
-$ ✓ it works on your machine.</div>
+        <div class="sec-h"><span class="num">// 07</span><h2>Code</h2><span class="of">/ 07</span></div>
+        <div class="c"><div class="lbl">// SOURCE BLOCK</div>
+          <div class="x-term">$ obsidian --vault notes
+$ opening vault... 7 notes indexed
+$ theme: Claude Paper (dual mode)
+$ serif: Source Han Serif SC · code: SF Mono fallback
+$ done. 780px wide, 17px body, 1.72 leading.
+$ ✓ paper over pixels.</div>
         </div>
       </div>
 
@@ -214,6 +225,15 @@ $ ✓ it works on your machine.</div>
     backdrop.addEventListener('click', close);
     document.querySelectorAll('.sb-item').forEach(i => i.addEventListener('click', close));
     window.addEventListener('resize', () => { if (!isMobile()) close(); });
+
+    /* light/dark mode toggle */
+    const root = document.documentElement;
+    const opts = document.querySelectorAll('.mode-toggle .opt');
+    const setMode = (m) => {
+      root.dataset.mode = m;
+      opts.forEach(o => o.classList.toggle('on', o.dataset.mode === m));
+    };
+    opts.forEach(o => o.addEventListener('click', () => setMode(o.dataset.mode)));
   </script>
 </body>
 </html>
