@@ -22,6 +22,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { THEMES } from './codegen.mjs';
+import { extractHex } from './hex-source.mjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, '..');
@@ -33,14 +34,6 @@ const OUT = path.join(ROOT, 'themes', 'shadcn');
 //   "60 7% 7% / 0.12"       → "hsl(60 7% 7% / 0.12)"
 // =============================================================================
 const HSL_RE = /^\d+(\.\d+)?\s+\d+(\.\d+)?%\s+\d+(\.\d+)?%(\s*\/\s*[\d.]+)?$/;
-
-function toShadcnValue(value) {
-  let v = String(value).trim();
-  // If a color var is already wrapped as hsl(), references like
-  // `hsl(var(--border))` become `hsl(hsl(...))` (invalid) → use var(--x) directly.
-  v = v.replace(/hsl\(\s*var\((--[\w-]+)\)\s*\)/g, 'var($1)');
-  return HSL_RE.test(v) ? `hsl(${v})` : v; // pass through fonts/shadows/calc/var
-}
 
 // =============================================================================
 // @theme inline block (shared, one-time setup)
@@ -93,7 +86,7 @@ const THEME_INLINE = `/* =======================================================
 // =============================================================================
 // Generator
 // =============================================================================
-const CORE = [
+const COLOR_TOKENS = new Set([
   '--background', '--foreground', '--card', '--card-foreground',
   '--popover', '--popover-foreground',
   '--primary', '--primary-foreground',
@@ -102,18 +95,47 @@ const CORE = [
   '--accent', '--accent-foreground',
   '--destructive', '--destructive-foreground',
   '--success', '--warning', '--info',
-  '--border', '--input', '--ring', '--radius',
+  '--border', '--input', '--ring',
   '--accent-2', '--accent-deep', '--accent-dim',
   '--terracotta', '--terracotta-foreground', '--clay',
-  '--border-width', '--shadow', '--shadow-md', '--shadow-lg',
-  '--ease-spring',
-  '--font-sans', '--font-mono', '--font-serif', '--font-display',
-];
+]);
 
-function formatBlock(tokens, filter = null) {
+// hex map: { slot: '#rrggbb' } — exact brand colors from concepts/<id>.css
+const HEX = extractHex;
+const hexCache = {};
+
+function getHex(themeId, mode) {
+  const key = `${themeId}:${mode}`;
+  if (!(key in hexCache)) {
+    const h = extractHex(themeId);
+    hexCache[key] = h ? h[mode] : null;
+  }
+  return hexCache[key];
+}
+
+/**
+ * Emit a token value for shadcn:
+ * - color tokens: prefer EXACT original hex (precision fix), fallback hsl()
+ * - non-colors (radius/border-width/fonts/shadows): pass through
+ */
+function toShadcnValue(token, value, themeId, mode) {
+  if (COLOR_TOKENS.has(token)) {
+    const hexMap = getHex(themeId, mode);
+    const hex = hexMap && hexMap[token];
+    if (hex) return hex; // exact brand color — no rounding loss
+    let v = String(value).trim();
+    v = v.replace(/hsl\(\s*var\((--[\w-]+)\)\s*\)/g, 'var($1)');
+    return HSL_RE.test(v) ? `hsl(${v})` : v;
+  }
+  return String(value).trim(); // non-colors pass through
+}
+
+function formatBlock(tokens, filter = null, themeId = null, mode = 'light') {
   const keys = Object.keys(tokens).filter((k) => !filter || filter.includes(k));
   keys.sort();
-  return keys.map((k) => `  ${k.padEnd(28, ' ')}: ${toShadcnValue(tokens[k])};`).join('\n');
+  return keys
+    .map((k) => `  ${k.padEnd(28, ' ')}: ${toShadcnValue(k, tokens[k], themeId, mode)};`)
+    .join('\n');
 }
 
 function generateShadcn(themeId) {
@@ -140,16 +162,16 @@ function generateShadcn(themeId) {
   let body;
 
   if (single === 'dark' || single === 'light') {
-    // single mode: same values everywhere
-    body = `:root, .dark {\n${formatBlock(light)}\n}`;
+    // single mode: same values everywhere (hex from light map)
+    body = `:root, .dark {\n${formatBlock(light, null, themeId, 'light')}\n}`;
     if (single === 'light') {
       body += `\n\n/* light-only theme — .dark inherits :root (stays light) */`;
     }
   } else if (dark) {
-    // dual mode: light in :root, dark in .dark
-    body = `:root {\n${formatBlock(light)}\n}\n\n.dark {\n${formatBlock(dark)}\n}`;
+    // dual mode: light in :root (hex light), dark in .dark (hex dark)
+    body = `:root {\n${formatBlock(light, null, themeId, 'light')}\n}\n\n.dark {\n${formatBlock(dark, null, themeId, 'dark')}\n}`;
   } else {
-    body = `:root {\n${formatBlock(light)}\n}`;
+    body = `:root {\n${formatBlock(light, null, themeId, 'light')}\n}`;
   }
 
   return header + body + '\n';

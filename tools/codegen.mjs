@@ -504,6 +504,10 @@ function list() {
 // =============================================================================
 // Main
 // =============================================================================
+const isDirectRun = process.argv[1] && import.meta.url === new URL('file://' + process.argv[1]).href;
+if (!isDirectRun) {
+  // imported (e.g. by shadcn-adapter.mjs) — only expose THEMES, don't run main
+} else {
 const targets = process.argv.slice(2);
 const validIds = Object.keys(THEMES);
 
@@ -526,3 +530,4 @@ console.log('  └─ ✓ done\n');
 
 // print index
 list();
+}

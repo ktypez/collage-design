@@ -14,25 +14,25 @@
 
 :root, .dark {
   --accent                    : hsl(10 100% 50%);
-  --accent-deep               : hsl(8 100% 39%);
+  --accent-deep               : #c91f00;
   --accent-foreground         : hsl(0 0% 100%);
-  --background                : hsl(43 24% 89%);
-  --border                    : hsl(0 0% 5%);
+  --background                : #e8e4da;
+  --border                    : #0d0d0d;
   --border-width              : 2px;
-  --card                      : hsl(0 0% 100%);
+  --card                      : #ffffff;
   --card-foreground           : hsl(0 0% 5%);
   --destructive               : hsl(10 100% 50%);
   --destructive-foreground    : hsl(0 0% 100%);
   --font-display              : 'Anton', 'Impact', sans-serif;
   --font-mono                 : 'IBM Plex Mono', ui-monospace, monospace;
   --font-sans                 : 'IBM Plex Mono', 'JetBrains Mono', ui-monospace, monospace;
-  --foreground                : hsl(0 0% 5%);
+  --foreground                : #0d0d0d;
   --input                     : hsl(0 0% 5%);
-  --muted                     : hsl(43 19% 81%);
-  --muted-foreground          : hsl(60 4% 23%);
+  --muted                     : #efebe2;
+  --muted-foreground          : #3d3d3a;
   --popover                   : hsl(0 0% 100%);
   --popover-foreground        : hsl(0 0% 5%);
-  --primary                   : hsl(10 100% 50%);
+  --primary                   : #ff2e00;
   --primary-foreground        : hsl(0 0% 100%);
   --radius                    : 0;
   --ring                      : hsl(10 100% 50%);

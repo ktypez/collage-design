@@ -1,6 +1,16 @@
 /* =============================================================================
    base.css — Design Gallery Framework Components
    -----------------------------------------------------------------------------
+   ⚠️ DEPRECATED (2026-08-04) — DO NOT use for new work.
+   Frozen vanilla component layer. Known accessibility gaps + hand-rolled
+   primitives. Use shadcn theme presets instead (React + Radix + Tailwind v4):
+
+     themes/shadcn/<id>.css   ← 9 design concepts as shadcn v4 themes
+     npx dg add theme <id> --shadcn   ← install into a shadcn project
+
+   Kept only for legacy concept gallery (app/*.html).
+   See src/components/DEPRECATED.md
+   -----------------------------------------------------------------------------
    50+ shadcn-equivalent components, theme-agnostic.
    All colors use var(--*) tokens from src/tokens/schema.css.
    No hardcoded values, no framework dependencies.

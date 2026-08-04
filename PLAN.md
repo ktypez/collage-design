@@ -147,29 +147,33 @@ npx dg check
 
 ## Roadmap (2026 Q3-Q4)
 
-### Done (Phase 0-7)
+### Done (Phase 0-7 + Pivot Tracks)
 - [x] Token schema (25+9 slots, HSL space-separated)
-- [x] 54+ shadcn-equivalent components (CSS + JS)
+- [x] 54+ vanilla components (CSS + JS) — now DEPRECATED
 - [x] 9 generated themes with metadata
 - [x] CLI: init/add/theme/list/check/codegen/help
 - [x] Showcase, playground, theme-builder, registry
 - [x] 4 example pages dogfooding the framework
 - [x] Token validator (HSL format, contrast, contract)
-- [x] README rewrite
+- [x] **PIVOT → shadcn**: 9 concepts เป็น shadcn v4 theme presets
+- [x] **Track A**: shadcn-adapter.mjs + themes/shadcn/*.css + `dg shadcn`
+- [x] **Track B**: `dg add theme <id> --shadcn` เขียน globals.css ตรง
+- [x] **Track C**: examples/shadcn-demo (React 19 + Radix drop-in proof)
+- [x] **Track D**: deprecate vanilla + precision fix (exact hex)
+- [x] Dialog/sheet/drawer bounce-back bug fix (vanilla, frozen after)
 
 ### Next
-- [ ] **Audit-first redesign** of legacy concept pages — migrate each `concepts/<id>.html` to use new framework (would remove ~5400 lines of duplicated CSS)
-- [ ] **Per-theme "components.css variant"** — each theme could ship with custom component styles (e.g., mcky's hard-shadow on buttons)
-- [ ] **`dg extract <url>`** — auto-generate theme from a public website (uses extract-design-system skill)
-- [ ] **Component playground** — per-component playground (like shadcn's per-component docs)
-- [ ] **JSON theme spec** — load themes from JSON (for non-CSS use cases like React Native)
-- [ ] **Animation presets** — `--ease-spring` is in moss, expand to motion library
-- [ ] **Astro/Vue/React adapters** — thin wrappers that consume same tokens
+- [ ] **`dg extract <url>`** — auto-generate shadcn theme จากเว็บจริง
+- [ ] **oklch variant** — themes/shadcn/ emit oklch (shadcn native default)
+- [ ] **JSON theme spec** — load themes จาก JSON (React Native-ready)
+- [ ] **Animation presets** — `--ease-spring` (moss) ขยายเป็น motion tokens
+- [ ] **shadcn registry integration** — themes เป็น shadcn registry item (`npx shadcn add theme`)
 
 ### Maybe
-- [ ] Public npm publish (`@design-gallery/framework`) — but private for now per user
-- [ ] Online playground (GitHub Pages deploy)
+- [ ] Public npm publish (`@design-gallery/themes`) — private for now
+- [ ] Online gallery (GitHub Pages deploy)
 - [ ] More themes (CRT-scanline variant, morandi palettes, etc)
+- [ ] Delete legacy vanilla components (หลัง concept gallery ไม่ใช้แล้ว)
 
 ---
 

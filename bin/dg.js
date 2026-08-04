@@ -965,6 +965,8 @@ function cmdCheck() {
     }
   }
   log(bad === 0 ? paint('green', `  └─ ✓ all ${files.length} modules OK`) : paint('red', `  └─ ✗ ${bad} broken`));
+  warn('vanilla components (base.css/components.js) are DEPRECATED — use shadcn themes');
+  dim('  → npx dg add theme <id> --shadcn   (see src/components/DEPRECATED.md)');
 
   // also run theme validator
   log('');

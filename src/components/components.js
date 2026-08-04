@@ -1,6 +1,18 @@
 /* =============================================================================
    components.js — Design Gallery Framework · vanilla JS controllers
    -----------------------------------------------------------------------------
+   ⚠️ DEPRECATED (2026-08-04) — DO NOT use for new work.
+   The vanilla component layer (base.css + components.js) is frozen. It has
+   known accessibility gaps and hand-rolled primitives that we no longer
+   maintain. The framework now ships as shadcn theme presets (React + Radix
+   UI + Tailwind v4):
+
+     themes/shadcn/<id>.css   ← design concepts as shadcn v4 themes
+     npx dg add theme <id> --shadcn   ← install into a shadcn project
+
+   This file is kept ONLY for the legacy concept gallery (app/*.html).
+   Migration path: see src/components/DEPRECATED.md
+   -----------------------------------------------------------------------------
    Interactive behavior for components in base.css.
    No dependencies · framework-agnostic · auto-init + MutationObserver.
    Loaded as <script type="module"> or via <script defer>.
