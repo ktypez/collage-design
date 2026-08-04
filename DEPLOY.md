@@ -93,6 +93,100 @@ for p in app app/showcase.html themes/mcky/theme.css; do
 done
 ```
 
+## Sudo wrapper — `🐈`
+
+Sudo password บน lab server ต้องใช้รหัสลับ **`🐈` (= meow)** เพื่อหลีกเลี่ยงการเขียน password ตรงๆ ใน command/shell history.
+
+### Setup
+
+```bash
+# secret stored in 600 file (admin:admin)
+ls -la ~/.brain-sudo
+-rw-rwx---  1 admin  admin  4  Aug  1 11:16  /home/admin/.brain-sudo
+
+# wrapper script (admin-owned, mode 770)
+ls -la ~/.opencode/bin/🐈
+-rwxrwx---  1 admin  admin  251 Aug  1 11:16  /home/admin/.opencode/bin/🐈
+```
+
+`🐈` is just a thin wrapper around `sudo -S` that reads the password from `~/.brain-sudo` via stdin. Behavior is identical to `sudo` — same `NOPASSWD` allowlist (rc-service for caddy/cloudflared/etc, caddy validate/reload) applies, password needed for everything else.
+
+### Usage
+
+```bash
+# assign to variable (tilde + emoji need to be in double quotes)
+SUDO="$HOME/.opencode/bin/🐈"
+
+# verify
+"$SUDO" whoami
+# → root
+
+# with quoted args (emoji in path requires careful quoting)
+"$SUDO" cp /etc/caddy/Caddyfile /etc/caddy/Caddyfile.bak
+"$SUDO" sed -i 's|old|new|g' /etc/caddy/Caddyfile
+"$SUDO" systemctl restart caddy
+```
+
+### Common commands for design-gallery deploy
+
+```bash
+SUDO="$HOME/.opencode/bin/🐈"
+
+# 1. patch the Caddyfile (make try_files fix persistent)
+"$SUDO" sed -i 's|try_files {path} =404|try_files {path} {path}/index.html =404|g' /etc/caddy/Caddyfile
+"$SUDO" /usr/sbin/caddy validate --config /etc/caddy/Caddyfile --adapter caddyfile
+"$SUDO" /usr/sbin/caddy reload  --config /etc/caddy/Caddyfile --adapter caddyfile
+
+# 2. restart caddy (full process kill + start)
+"$SUDO" /usr/sbin/rc-service caddy restart
+
+# 3. read /etc/caddy/Caddyfile (uses sudo since caddy dir is root-owned 755)
+"$SUDO" cat /etc/caddy/Caddyfile
+"$SUDO" sed -n '142,160p' /etc/caddy/Caddyfile   # show design.mcky.space block
+
+# 4. backup before edit
+"$SUDO" cp /etc/caddy/Caddyfile /etc/caddy/Caddyfile.bak.$(date +%Y%m%d-%H%M%S)
+
+# 5. other services on lab (cloudflared, dufs, glance, gatus, etc.)
+"$SUDO" /usr/sbin/rc-service cloudflared restart
+"$SUDO" /usr/sbin/rc-service glances   restart
+```
+
+### Limitations — what 🐈 CANNOT do
+
+Anything not in the `NOPASSWD` allowlist will prompt for password (which you don't have interactively in scripts). Common gotchas:
+
+| command | result | workaround |
+|---|---|---|
+| `🐈 sed -i ...` | works (password from stdin) | OK in scripts |
+| `🐈 vim /etc/caddy/Caddyfile` | ✗ requires TTY | edit in `/tmp` then `cp` |
+| `🐈 apt install` | ✗ requires TTY | use NOPASSWD-allowed tools |
+| `🐈 systemctl daemon-reload` | works | OK in scripts |
+
+For interactive editor sessions over SSH: log in with password manually first, then use `sudo` directly.
+
+### Why emoji wrapper?
+
+1. **Search-resistant** — `grep 🐈` in shell history / log files returns nothing
+2. **Mental model** — 🐈 = "need elevated privilege here"
+3. **No accidental password in history** — never types literal password
+4. **Easy to remember** — visual mnemonic, easier than `SUDO_PASSWORD=$(cat ~/.brain-sudo)` every time
+
+### Adding new sudoers rules
+
+To allow a new command without password:
+
+```bash
+# 1. add to /etc/sudoers.d/<name>
+echo "admin ALL=(ALL) NOPASSWD: <command>" | sudo tee /etc/sudoers.d/<name> >/dev/null
+sudo chmod 440 /etc/sudoers.d/<name>
+
+# 2. test
+"$SUDO" <command>
+```
+
+Existing rules live in `/etc/sudoers.d/lab-ops` (440, root:root) — see existing NOPASSWD list for allowed services.
+
 ## Workflow after deploy
 
 1. `cd /home/admin/design-gallery`
