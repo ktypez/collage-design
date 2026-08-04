@@ -33,11 +33,7 @@ const TOKEN_MAP: Record<string, string[]> = {
 
 function hexToRgb(hex: string) {
   const h = hex.replace("#", "")
-  return [
-    parseInt(h.slice(0, 2), 16),
-    parseInt(h.slice(2, 4), 16),
-    parseInt(h.slice(4, 6), 16),
-  ]
+  return [parseInt(h.slice(0, 2), 16), parseInt(h.slice(2, 4), 16), parseInt(h.slice(4, 6), 16)]
 }
 
 function rgbToHsl(r: number, g: number, b: number): [number, number, number] {
@@ -59,35 +55,24 @@ function rgbToHsl(r: number, g: number, b: number): [number, number, number] {
 function analyzeCss(css: string): ExtractedTheme {
   const tokens: Record<string, string> = {}
   const cssVars = new Map<string, string>()
-
-  // Extract CSS custom properties
   const re = /--([\w-]+)\s*:\s*([^;]+)/g
   let m
-  while ((m = re.exec(css)) !== null) {
-    cssVars.set(`--${m[1]}`, m[2].trim())
-  }
+  while ((m = re.exec(css)) !== null) cssVars.set(`--${m[1]}`, m[2].trim())
 
-  // Map to shadcn slots
   for (const [slot, patterns] of Object.entries(TOKEN_MAP)) {
     for (const pattern of patterns) {
       if (cssVars.has(pattern)) {
         const val = cssVars.get(pattern)!
         if (val.startsWith("#")) {
           const [r, g, b] = hexToRgb(val)
-          const [h, s, l] = rgbToHsl(r, g, b)
-          tokens[slot] = `${h} ${s}% ${l}%`
-        } else {
-          tokens[slot] = val
-        }
+          tokens[slot] = rgbToHsl(r, g, b).join(" ")
+        } else { tokens[slot] = val }
         break
       }
     }
   }
 
-  // Extract all colors from the CSS
   const allColors = [...css.matchAll(/(?:^|\s)(#[0-9a-fA-F]{3,8})\b/g)].map(m => m[1])
-
-  // Fallback: if few tokens mapped, use frequency-based heuristic
   if (Object.keys(tokens).length < 3 && allColors.length > 0) {
     if (!tokens["--background"]) {
       const [r, g, b] = hexToRgb(allColors[0])
@@ -100,15 +85,11 @@ function analyzeCss(css: string): ExtractedTheme {
     }
   }
 
-  // Extract radius
   const radiusMatch = css.match(/--radius\s*:\s*([^;]+)/)
   if (radiusMatch) tokens["--radius"] = radiusMatch[1].trim()
 
-  // Extract font
   const fontMatch = css.match(/font-family\s*:\s*([^;]+)/)
   const fontFamily = fontMatch ? fontMatch[1].split(",")[0].trim().replace(/["']/g, "") : undefined
-
-  // Detect mode from dark/light values
   const hasBg = tokens["--background"]
   const bgLightness = hasBg ? parseInt(hasBg.split(" ")[2]) : 50
   const mode = bgLightness < 30 ? "dark" : "light"
@@ -116,10 +97,43 @@ function analyzeCss(css: string): ExtractedTheme {
   return { tokens, fontFamily, mode, colorsFound: allColors.length }
 }
 
+function generateThemeJson(name: string, result: ExtractedTheme) {
+  return {
+    $schema: "dg-theme-v1",
+    id: name.toLowerCase().replace(/\s+/g, "-"),
+    name,
+    vibe: `extracted from CSS`,
+    dot: result.tokens["--primary"] ? `#${result.tokens["--primary"].split(" ").map((v, i) => i < 3 ? v : "0").join(",")}` : "#71717a",
+    mode: result.mode,
+    tokens: { ...result.tokens },
+    meta: { generated: new Date().toISOString(), generator: "dg-ui extract" },
+  }
+}
+
+function generateThemeCss(name: string, result: ExtractedTheme) {
+  return `/* ${name} — extracted by DG extract */
+/* Generated: ${new Date().toISOString()} */
+
+:root {
+${Object.entries(result.tokens).map(([k, v]) => `  ${k.padEnd(24)}: ${v};`).join("\n")}
+}
+`
+}
+
+function downloadFile(filename: string, content: string, mime: string) {
+  const blob = new Blob([content], { type: mime })
+  const url = URL.createObjectURL(blob)
+  const a = document.createElement("a")
+  a.href = url; a.download = filename; a.click()
+  URL.revokeObjectURL(url)
+}
+
 export default function Extract() {
   const [input, setInput] = useState(SAMPLE_CSS)
   const [result, setResult] = useState<ExtractedTheme | null>(null)
+  const [themeName, setThemeName] = useState("extracted-theme")
   const [error, setError] = useState<string | null>(null)
+  const [copied, setCopied] = useState(false)
 
   const handleAnalyze = () => {
     try {
@@ -132,19 +146,27 @@ export default function Extract() {
     }
   }
 
+  const handleCopy = async () => {
+    if (!result) return
+    const json = JSON.stringify(generateThemeJson(themeName, result), null, 2)
+    await navigator.clipboard.writeText(json)
+    setCopied(true)
+    setTimeout(() => setCopied(false), 2000)
+  }
+
   return (
     <div className="p-6 max-w-5xl">
       <div className="mb-6">
         <h1 className="text-3xl font-bold tracking-tight mb-1">Extract Theme</h1>
         <p className="text-muted-foreground">
-          Paste CSS from any website or design file → auto-generate a shadcn v4 theme preset.
+          Paste CSS → auto-generate shadcn v4 theme preset → save as JSON or CSS.
         </p>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <Card>
           <CardHeader className="pb-3">
-            <CardTitle className="text-sm flex items-center gap-2">Input CSS</CardTitle>
+            <CardTitle className="text-sm">Input CSS</CardTitle>
           </CardHeader>
           <CardContent>
             <textarea
@@ -157,7 +179,7 @@ export default function Extract() {
               <button onClick={handleAnalyze} className="px-4 py-2 bg-primary text-primary-foreground rounded-md text-sm font-medium">
                 Analyze & Extract
               </button>
-              <button onClick={() => { setInput(SAMPLE_CSS); setResult(null); setError(null); }} className="px-4 py-2 border border-border rounded-md text-sm">
+              <button onClick={() => { setInput(SAMPLE_CSS); setResult(null); setError(null) }} className="px-4 py-2 border border-border rounded-md text-sm">
                 Reset
               </button>
             </div>
@@ -185,6 +207,18 @@ export default function Extract() {
                   <Badge variant="muted">{Object.keys(result.tokens).length} tokens</Badge>
                 </div>
 
+                {/* Theme name input */}
+                <div className="flex items-center gap-2">
+                  <label className="text-xs text-muted-foreground w-20">Theme name</label>
+                  <input
+                    type="text"
+                    value={themeName}
+                    onChange={e => setThemeName(e.target.value)}
+                    className="flex-1 text-sm px-2 py-1 rounded border border-border bg-background font-mono"
+                    placeholder="my-theme"
+                  />
+                </div>
+
                 <div className="space-y-2">
                   {Object.entries(result.tokens).map(([key, value]) => (
                     <div key={key} className="flex items-center gap-3">
@@ -198,6 +232,26 @@ export default function Extract() {
                   ))}
                 </div>
 
+                {/* Save buttons */}
+                <div className="mt-4 flex gap-2">
+                  <button onClick={handleCopy} className="px-4 py-2 bg-primary text-primary-foreground rounded-md text-sm font-medium">
+                    {copied ? "Copied!" : "Copy JSON"}
+                  </button>
+                  <button
+                    onClick={() => downloadFile(`${themeName}.json`, JSON.stringify(generateThemeJson(themeName, result), null, 2), "application/json")}
+                    className="px-4 py-2 border border-border rounded-md text-sm"
+                  >
+                    Download JSON
+                  </button>
+                  <button
+                    onClick={() => downloadFile(`${themeName}.css`, generateThemeCss(themeName, result), "text/css")}
+                    className="px-4 py-2 border border-border rounded-md text-sm"
+                  >
+                    Download CSS
+                  </button>
+                </div>
+
+                {/* CSS preview */}
                 <div className="mt-4">
                   <h4 className="text-sm font-semibold mb-2">Generated CSS</h4>
                   <pre className="p-3 bg-muted rounded-lg border border-border text-[11px] font-mono overflow-auto max-h-64">
@@ -205,6 +259,14 @@ export default function Extract() {
   --radius: ${result.tokens["--radius"] || "0.5rem"};
 ${Object.entries(result.tokens).filter(([k]) => !k.includes("radius")).map(([k, v]) => `  ${k.padEnd(24)}: ${v};`).join("\n")}
 }`}
+                  </pre>
+                </div>
+
+                {/* JSON preview */}
+                <div className="mt-4">
+                  <h4 className="text-sm font-semibold mb-2">Generated JSON</h4>
+                  <pre className="p-3 bg-muted rounded-lg border border-border text-[11px] font-mono overflow-auto max-h-64">
+{JSON.stringify(generateThemeJson(themeName, result), null, 2)}
                   </pre>
                 </div>
               </div>
