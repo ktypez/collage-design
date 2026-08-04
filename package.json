@@ -1,11 +1,15 @@
 {
   "name": "design-gallery",
   "version": "1.0.0",
-  "description": "Design Gallery — central design library (themes, design system)",
+  "description": "Design Gallery — central design library (themes, design system, framework)",
   "private": true,
   "type": "module",
+  "bin": {
+    "dg": "./bin/dg.js"
+  },
   "scripts": {
-    "check": "node build.js --check"
+    "check": "node build.js --check",
+    "dg": "node bin/dg.js"
   },
   "engines": {
     "node": ">=18"
