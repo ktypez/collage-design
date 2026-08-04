@@ -30,7 +30,7 @@ const THEMES_DIR = path.join(ROOT, 'themes');
 // - If `single: 'light'`, same values applied in :root and [data-mode="dark"]
 // =============================================================================
 
-const THEMES = {
+export const THEMES = {
 
   mcky: {
     meta: {

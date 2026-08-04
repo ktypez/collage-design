@@ -294,6 +294,17 @@ function help(cmd) {
 
   Generate themes/<id>/theme.css from concepts/<id>.css using tools/map.md.`,
 
+    shadcn: `shadcn [theme-id...]
+
+  Convert DG themes to shadcn v4 format (themes/shadcn/<id>.css).
+  Emits :root/.dark blocks with hsl() values + shared _base.css
+  (@theme inline mapping for Tailwind v4).
+
+  Examples:
+    npx dg shadcn            # all 9 themes
+    npx dg shadcn mcky       # one theme
+    npx dg shadcn --check    # verify only (no write)`,
+
     help: `help [command]
 
   Show help for a command.`,
@@ -306,7 +317,7 @@ function help(cmd) {
     log('  ' + paint('bold', 'Usage:') + ' npx dg <command> [args]');
     log('');
     log('  ' + paint('bold', 'Commands:'));
-    for (const c of ['init', 'add', 'theme', 'list', 'serve', 'check', 'codegen', 'help']) {
+    for (const c of ['init', 'add', 'theme', 'list', 'serve', 'check', 'codegen', 'shadcn', 'help']) {
       log(`    ${paint('cyan', c.padEnd(10))} ${paint('dim', cmds[c].split('\n')[0])}`);
     }
     log('');
@@ -874,6 +885,18 @@ function cmdCodegen(args) {
   }
 }
 
+// ----- shadcn (adapter) -----
+function cmdShadcn(args) {
+  const args2 = args.filter((a) => !a.startsWith('--'));
+  if (args.includes('--help') || args.includes('-h')) return help('shadcn');
+  try {
+    execFileSync(process.execPath, [path.join(ROOT, 'tools', 'shadcn-adapter.mjs'), ...args2], { stdio: 'inherit' });
+  } catch (e) {
+    err('shadcn adapter failed');
+    if (process.env.DG_DEBUG) console.error(e);
+  }
+}
+
 // =============================================================================
 // Main
 // =============================================================================
@@ -887,6 +910,7 @@ const handlers = {
   serve:   cmdServe,
   check:   cmdCheck,
   codegen: cmdCodegen,
+  shadcn:  cmdShadcn,
   help:    (a) => help(a[0]),
   '--help':() => help(),
   '-h':    () => help(),
