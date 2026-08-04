@@ -1,147 +1,192 @@
 # Design Gallery — Project Plan
 
-คลัง design กลาง — รวม visual identity, design system, และ theme engine
-ที่ทุกคนในทีมหยิบไปใช้ได้ (theme-agnostic engine + design = plugin)
+> **Origin:** เริ่มจาก brand refresh ของแอป Collage Maker (LINE LIFF) ในปี 2026 — 9 concept designs ส่วนตัว
+> **Now:** Shadcn-inspired vanilla framework — design system เปล่าๆ + 9 starter themes + tooling ครบ
 
-> **Origin:** เริ่มจาก brand refresh ของแอป Collage Maker (LINE LIFF) ในปี 2026
-> ตอนนี้ขยายเป็น central design library — แต่ละ design เป็น plugin เต็มตัว
+---
 
 ## Live URLs (LAN)
 
-> nginx `/design/` → `/home/admin/design-gallery/`
+nginx `/design/` → `/home/admin/design-gallery/`
 
-| Page | URL | Notes |
-|---|---|---|
-| **Gallery Index** (landing) | https://192.168.1.47/design/ | card list — เลือก design ได้ |
-| Concept RACK | https://192.168.1.47/design/concepts/rack.html | **full components** (17+ components in STACK//FRAME style) |
-| Concept CRT | https://192.168.1.47/design/concepts/crt.html | **full components** (PIXSH phosphor style) |
-| Concept NOC | https://192.168.1.47/design/concepts/noc.html | **full components** (PACKETGRID cyan) |
-| Concept MIN | https://192.168.1.47/design/concepts/min.html | **full components** (collage.sh minimal) |
-| Concept GLITCHPAGE | https://192.168.1.47/design/concepts/glitchpage.html | **full components** (error page neon) |
-| Concept CLAUDE PAPER | https://192.168.1.47/design/concepts/claude.html | **full components** (warm editorial, **dual light/dark toggle**) |
-| Concept MOSS | https://192.168.1.47/design/concepts/moss.html | **full components** (organic, earth tone, blob shapes) |
-| Concept BRUT | https://192.168.1.47/design/concepts/brut.html | **full components** (brutalist, 0px radius, Anton) |
-| Concept mcky.space | https://192.168.1.47/design/concepts/mcky.html | **full components** (neobrutalism, 3px border + hard shadow, **dual light/dark toggle**) |
+| Page | URL |
+|---|---|
+| **Gallery Index** (legacy) | https://192.168.1.47/design/ |
+| **App landing** | https://192.168.1.47/design/app/ |
+| **Showcase** (component catalog) | https://192.168.1.47/design/app/showcase.html |
+| **Playground** (live HSL editor) | https://192.168.1.47/design/app/playground.html |
+| **Theme Builder** (wizard) | https://192.168.1.47/design/app/theme-builder.html |
+| **Registry** (browse themes/components) | https://192.168.1.47/design/app/registry.html |
+| **Theme test** (smoke test) | https://192.168.1.47/design/app/theme-test.html |
+| **Examples: dashboard** (rack theme) | https://192.168.1.47/design/app/examples/dashboard.html |
+| **Examples: blog** (claude theme) | https://192.168.1.47/design/app/examples/blog.html |
+| **Examples: landing** (mcky theme) | https://192.168.1.47/design/app/examples/landing.html |
+| **Examples: settings** (min theme) | https://192.168.1.47/design/app/examples/settings.html |
 
-## 9 Designs ในคลัง
+---
 
-| # | Name | id | Vibe | Production |
-|---|---|---|---|---|
-| 1 | `STACK//FRAME` | rack | Server rack, brushed metal, amber LEDs | `/status` (device-status) |
-| 2 | `PIXSH v1.0` | crt | Retro CRT, phosphor green, scanlines | Glance dashboard |
-| 3 | `PACKETGRID` | noc | NOC dashboard, dark slate, cyan + green | design reference |
-| 4 | `collage.sh` | min | Minimal geek, lime accent | default theme |
-| 5 | `GLITCHPAGE` | glitchpage | Error-page DNA — dark navy, drift grid, glitch number, terminal, Thai copy | nginx error pages (design source — deploy pending) |
-| 6 | `CLAUDE PAPER` | claude | Warm editorial — clay accent, paper surfaces, bilingual serif, **dual light/dark mode** | Obsidian theme (unofficial — law-of-cycles/claude-paper-obsidian) |
-| 7 | `MOSS` | moss | Organic — earth palette, blob shapes, Fraunces serif | design reference |
-| 8 | `BRUT` | brut | Brutalist — raw black/white/red, 0px radius, Anton display | design reference |
-| 9 | `mcky.space` | mcky | Neobrutalism — 3px black border, hard shadow (4px 4px 0), amber hover, 100% mono, **dual light/dark mode** | [mcky.space](https://mcky.space) (live site) |
+## Status: Phase 7 complete ✓
 
-## File structure (current)
+| # | Phase | Status | Output |
+|---|---|---|---|
+| 0 | Token schema + mapping | ✓ | `src/tokens/schema.css` (25+9 slots), `schema.md`, `tools/map.md` (9-concept mapping) |
+| 1 | Component layer | ✓ | `src/components/base.css` (54 components, 1767 lines), `components.js` (796 lines) |
+| 2 | Showcase + playground | ✓ | `app/showcase.html` (892), `app/playground.html` (887) |
+| 3 | CLI (`dg`) | ✓ | `bin/dg.js` (888 lines, 8 commands) |
+| 4 | Codegen + 9 themes | ✓ | `tools/codegen.mjs` + 9 generated `themes/<id>/` |
+| 5 | App tooling UI | ✓ | `app/index.html`, `registry.html`, `theme-builder.html` |
+| 6 | 4 example pages | ✓ | `app/examples/{dashboard,blog,landing,settings}.html` |
+| 7 | Docs + validate | ✓ | `README.md` rewrite, `tools/validate.mjs` (contrast/HL format) |
+
+---
+
+## Current Architecture
 
 ```
 design-gallery/
-├── README.md                   ← main docs (current)
-├── PLAN.md                     ← you are here
-├── build.js                    ← zero-dep tooling (npm run check)
-├── package.json
-├── index.html                  ← gallery index (landing, card list)
-├── concepts/
-│   ├── rack.html               ← standalone STACK//FRAME concept
-│   ├── crt.html                ← standalone PIXSH v1.0 concept
-│   ├── noc.html                ← standalone PACKETGRID concept
-│   ├── min.html                ← standalone collage.sh concept
-│   ├── glitchpage.html         ← standalone GLITCHPAGE (error page) concept
-│   ├── claude.html             ← standalone CLAUDE PAPER (warm editorial, dual mode) concept
-│   ├── moss.html               ← standalone MOSS (organic) concept
-│   ├── brut.html               ← standalone BRUT (brutalist) concept
-│   └── mcky.html               ← standalone mcky.space (neobrutalism) concept
-└── src/
-    ├── assets/fonts/           ← JetBrainsMono, VT323
-    ├── css/
-    │   ├── base.css
-    │   ├── main.css
-    │   └── themes/<id>/ui.css  ← per-theme UI tokens + chrome
-    └── js/
-        ├── main.js
-        ├── core/               ← canvas-renderer, sharp-renderer, overlays, app
-        ├── engine/             ← layout, photo, export (theme-agnostic)
-        └── themes/<id>/        ← manifest.js + (optional) canvas.js
+├── README.md                       # main docs (Phase 7 rewrite)
+├── PLAN.md                         # this file
+├── package.json                    # bin: dg, scripts: check
+├── build.js                        # node --check wrapper
+├── bin/
+│   └── dg.js                       # CLI: init/add/theme/list/serve/check/codegen/help
+├── src/
+│   ├── tokens/
+│   │   ├── schema.css              # default neutral + light/dark + extended slots
+│   │   ├── schema.md               # slot reference
+│   │   └── README.md               # how-to use + create theme
+│   ├── components/
+│   │   ├── base.css                # 54+ theme-agnostic components
+│   │   ├── components.js           # vanilla JS controllers
+│   │   └── (README planned)
+│   ├── engine/                     # legacy canvas engine (kept for concepts)
+│   ├── core/                       # canvas-renderer, sharp-renderer
+│   ├── assets/                     # fonts
+│   └── js/themes/                  # 9 legacy concept manifests
+├── themes/                         # 9 generated themes
+│   ├── mcky/{theme.css, theme.json}     # dual mode
+│   ├── rack/                              # dark only
+│   ├── crt/                               # dark only
+│   ├── noc/                               # dark only
+│   ├── min/                               # light only
+│   ├── glitchpage/                        # dark only
+│   ├── claude/{theme.css, theme.json}     # dual mode
+│   ├── moss/                              # light only
+│   └── brut/                              # light only
+├── tools/
+│   ├── codegen.mjs                 # generate theme.css from canonical map
+│   ├── validate.mjs                # token contract + HSL format + contrast
+│   └── map.md                      # 9-concept → standard slot mapping
+├── concepts/                       # 9 legacy concept pages (kept as reference)
+│   └── {rack,crt,noc,min,glitchpage,claude,moss,brut,mcky}.{html,css}
+└── app/
+    ├── index.html                  # landing
+    ├── showcase.html               # component catalog
+    ├── playground.html             # live HSL editor (10 presets)
+    ├── theme-builder.html          # 3-step wizard (pick → tweak → export)
+    ├── registry.html               # browse themes + components
+    ├── theme-test.html             # smoke test (live theme switcher)
+    └── examples/
+        ├── dashboard.html          # rack theme · server-rack dashboard
+        ├── blog.html               # claude theme · editorial article
+        ├── landing.html            # mcky theme · neobrutalist marketing
+        └── settings.html           # min theme · settings app
 ```
 
-> **App shell (LIFF collage) ถูกถอดออกจากคลังแล้ว** — ไม่มี `app.html` ในรีโปนี้
-> production code อยู่ที่ `/home/admin/collage/frontend/index.html` แยกต่างหาก
+---
 
-## Architecture: Design = Plugin
+## 9 Themes
 
+| id | name | DNA | mode |
+|---|---|---|---|
+| `mcky` | mcky.space | neobrutalism, 3px border, hard shadow, mono 100% | dual |
+| `rack` | STACK//FRAME | server rack, amber LED, Inter+mono | dark |
+| `crt` | PIXSH v1.0 | phosphor green, scanlines, VT323 | dark |
+| `noc` | PACKETGRID | NOC dashboard, cyan+green | dark |
+| `min` | collage.sh | minimal, olive lime accent | light |
+| `glitchpage` | GLITCHPAGE | error page, neon pink, Thai | dark |
+| `claude` | CLAUDE PAPER | warm editorial, clay, Source Serif | dual |
+| `moss` | MOSS | organic, earth + terracotta, Fraunces | light |
+| `brut` | BRUT | brutalist, red+black, Anton | light |
+
+**Coverage**: 9/9 concepts map ได้ครบ — ไม่มี concept ไหนตกหล่น
+
+---
+
+## Workflow
+
+```bash
+# 1. explore
+python3 -m http.server 3000
+# เปิด http://localhost:3000/app/showcase.html
+
+# 2. integrate
+npx dg init my-app && cd my-app
+
+# 3. เพิ่มธีม
+npx dg add theme mcky
+
+# 4. เพิ่ม component
+npx dg add component dialog
+
+# 5. validate
+npx dg check
 ```
-engine (theme-agnostic)   ← layout / photo / export
-       ↑
-   renderers (core)        ← canvas-renderer (client) + sharp-renderer (production)
-       ↑
-   overlays (generic)      ← scanline / vignette / grid / connectors
-       ↑
-   design = plugin         ← src/js/themes/<id>/{manifest.js, canvas.js, ui.css}
-```
 
-1 เพิ่ม design ใหม่ = ใส่โฟลเดอร์ + register ใน `themes/index.js` — engine ไม่แตะ
-
-### `manifest.js` = single source of truth
-
-- `ui` → copy (heroMeta, genReady, outputTitle, ...)
-- `canvas` → bg, cell, header, overlay, photoFx, chrome
-- `tokens` → design tokens (colors, type, motion)
-- `statuses` → optional: per-code copy (เช่น GLITCHPAGE ใช้กับ nginx 403/404/...)
-- `hooks` → preDraw / postDraw (client-only custom draw)
-
-ทั้ง client canvas และ production backend อ่าน manifest เดียวกัน
+---
 
 ## Tech
 
-- Vanilla ES modules (ESM) — ไม่มี bundler
-- Canvas API (client) + sharp (production backend)
-- GSAP via CDN (theme transitions ใน preview pages)
-- Manifest-driven — design เปลี่ยน = แก้ manifest ไม่แตะ logic
-- Fonts: JetBrains Mono (mono), VT323 (CRT), Kanit + Sarabun (GLITCHPAGE), Source Serif 4 + Source Han Serif SC (CLAUDE PAPER), Fraunces (MOSS), Anton + IBM Plex Mono (BRUT), JetBrains Mono (mcky.space)
-- Tooling: ไม่มี devDependencies — `build.js` ใช้ node builtins ล้วนๆ
+- **HTML5** semantic markup
+- **CSS3** — custom properties, HSL space-separated, grid, flexbox
+- **Vanilla JS** (ES2017+, zero deps)
+- **Zero build step** — copy files, link, done
+- **~25KB** gzipped (CSS + JS combined)
 
-## Build / Check
+---
 
-```bash
-npm run check   # syntax-check ทุก source module ใน src/js (zero dependency)
-```
+## Roadmap (2026 Q3-Q4)
 
-## Workflow การเพิ่ม design ใหม่
+### Done (Phase 0-7)
+- [x] Token schema (25+9 slots, HSL space-separated)
+- [x] 54+ shadcn-equivalent components (CSS + JS)
+- [x] 9 generated themes with metadata
+- [x] CLI: init/add/theme/list/check/codegen/help
+- [x] Showcase, playground, theme-builder, registry
+- [x] 4 example pages dogfooding the framework
+- [x] Token validator (HSL format, contrast, contract)
+- [x] README rewrite
 
-```
-1. mkdir src/js/themes/<id>
-2. เขียน manifest.js (canvas spec + ui copy + tokens)
-3. เขียน canvas.js (hooks เฉพาะถ้ามี)
-4. เขียน src/css/themes/<id>/ui.css (vars + chrome — ถ้ามี UI)
-5. register ใน src/js/themes/index.js
-6. สร้าง concepts/<id>.html (standalone demo)
-7. อัปเดต explore.html (var block + theme chip) — ไม่ต้องแล้ว ถ้าใช้ concepts/<id>.html เป็น standalone
-8. อัปเดต README.md + PLAN.md
-9. npm run check
-```
+### Next
+- [ ] **Audit-first redesign** of legacy concept pages — migrate each `concepts/<id>.html` to use new framework (would remove ~5400 lines of duplicated CSS)
+- [ ] **Per-theme "components.css variant"** — each theme could ship with custom component styles (e.g., mcky's hard-shadow on buttons)
+- [ ] **`dg extract <url>`** — auto-generate theme from a public website (uses extract-design-system skill)
+- [ ] **Component playground** — per-component playground (like shadcn's per-component docs)
+- [ ] **JSON theme spec** — load themes from JSON (for non-CSS use cases like React Native)
+- [ ] **Animation presets** — `--ease-spring` is in moss, expand to motion library
+- [ ] **Astro/Vue/React adapters** — thin wrappers that consume same tokens
 
-## Roadmap (2026 Q3)
+### Maybe
+- [ ] Public npm publish (`@design-gallery/framework`) — but private for now per user
+- [ ] Online playground (GitHub Pages deploy)
+- [ ] More themes (CRT-scanline variant, morandi palettes, etc)
 
-- [x] Plugin architecture (engine + design = plugin)
-- [x] sharp-renderer (production backend) — ใช้ manifest เดียวกับ client
-- [x] Per-theme ui.css (UI tokens + chrome)
-- [x] 5 designs: rack / crt / noc / min / glitchpage
-- [x] **6 designs: + claude (CLAUDE PAPER)** — ธีมแรกในคลังที่มี dual light/dark mode
-- [x] **8 designs: + moss (MOSS, organic) + brut (BRUT, brutalist)** — ขยายสเปกตรัมสาย soft/raw
-- [x] **9 designs: + mcky (mcky.space, neobrutalism)** — แกะ design system จากเว็บจริง (3px border + hard shadow + dual mode)
-- [ ] **Deploy GLITCHPAGE** → generate 403/404/500/502/503.html จาก manifest
-  แล้ว deploy ไปที่ `/var/www/localhost/htdocs/`
-- [ ] Design tokens sync (CSS variables) — ปัจจุบันฝังใน ui.css แต่ละ theme
-- [ ] review.html — รีวิวเชิงลึกต่อ design (ถูกลบไปก่อนหน้าใน commit `0ced6b4`)
+---
 
-## Archive
+## Conventions
 
-- `review.html` / `preview-themes.html` / `app.html` — ถูกลบไปแล้วใน commit `0ced6b4`
-  (ถ้าต้องการกู้คืน ดู git history)
-- PLAN.md ฉบับก่อนหน้าเป็น "Collage Design" brand refresh exploration doc
-  (เก่ามาก ไม่ตรงกับปัจจุบัน — เขียนใหม่หมด 2026-07-31)
+- **Token names** — kebab-case, `--*` prefix, semantic (not visual): `--primary` not `--blue`
+- **Values** — HSL space-separated for colors (`H S% L%`), rem/px for sizes
+- **No hardcoded colors** in components — only `hsl(var(--*))`
+- **Class prefix** — `.x-*` (avoids collision with Tailwind/Bootstrap)
+- **State attributes** — `[data-state="open"]` for open/closed, `[aria-checked]` for toggles
+- **Mode** — `[data-mode="light|dark"]` on `<html>`, falls back to `prefers-color-scheme`
+
+---
+
+## See also
+
+- [README.md](README.md) — full docs
+- [tools/map.md](tools/map.md) — 9-concept → standard slot mapping
+- [src/tokens/schema.md](src/tokens/schema.md) — full token reference
+- [app/showcase.html](app/showcase.html) — interactive component catalog

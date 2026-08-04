@@ -849,7 +849,16 @@ function cmdCheck() {
     }
   }
   log(bad === 0 ? paint('green', `  └─ ✓ all ${files.length} modules OK`) : paint('red', `  └─ ✗ ${bad} broken`));
+
+  // also run theme validator
   log('');
+  try {
+    execFileSync(process.execPath, [path.join(ROOT, 'tools', 'validate.mjs'), '--schema'], { stdio: 'inherit' });
+  } catch (e) {
+    bad += 1; // validate exits 1 on failures
+  }
+  log('');
+  process.exit(bad > 0 ? 1 : 0);
 }
 
 // ----- codegen -----

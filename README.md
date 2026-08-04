@@ -1,140 +1,322 @@
-# Design Gallery
+# Design Gallery Framework
 
-**Central design library** ของโปรเจกต์ — ที่รวม visual identity, design system,
-และ theme engine ที่ทุกคนในทีมหยิบไปใช้ได้
+> **Shadcn-inspired vanilla framework** — 54 theme-able components, 9 starter themes, zero dependencies, zero build step.
 
-> สร้างจากงาน redesign แอป Collage Maker (LINE LIFF) แต่ตอนนี้เป็น
-> **คลัง design กลาง** — ไม่ผูกกับ app ตัวเดียว
+Design Gallery คือ framework เปล่าๆ ที่ให้ component primitives + token system + themes โดยไม่ผูกกับ framework ไหนเลย. ใช้ HTML ตรงๆ + CSS variables + vanilla JS — copy 3 files, link ใน `<head>`, เปลี่ยนธีมได้ด้วยการ override `:root`.
 
-## Docs & Reference
+```
+┌─────────────────────────────────────────────┐
+│  <link rel="stylesheet" href="tokens.css"> │  ← design tokens
+│  <link rel="stylesheet" href="theme.css">  │  ← your theme (optional)
+│  <link rel="stylesheet" href="base.css">   │  ← 54 components
+│  <script src="components.js"></script>     │  ← interactive behavior
+└─────────────────────────────────────────────┘
+```
 
-| File | ที่อยู่ | คืออะไร |
-|---|---|---|
-| **PLAN.md** | `PLAN.md` | Project plan — live URLs, structure ปัจจุบัน, workflow, roadmap |
-| **README.md** | `README.md` | เอกสารคลัง design กลาง (ฉบับปัจจุบัน) |
-| **index.html** | `index.html` | Landing page (card list — 8 designs) |
-| Core | `src/js/core/` | design-system core — `canvas-renderer.js` (client), `sharp-renderer.js` (production), `overlays.js`, `app.js` |
-| Engine | `src/js/engine/` | theme-agnostic core — layout, photo, export |
-| Themes | `src/js/themes/<id>/` | 1 โฟลเดอร์ต่อ design — manifest.js (+ optional canvas.js) |
+## Why?
 
-> **STACK//FRAME เต็มรูปแบบ** (rack units + LEDs + brushed metal) ดูได้ที่
-> `https://192.168.1.47/status/` (device-status) และ `concepts/rack.html` ในคลัง
+| Problem | Solution |
+|---|---|
+| Component library ใหญ่ เพิ่ม deps เยอะ | ~25KB รวม CSS+JS, **0 dependencies** |
+| Theme แต่ละอัน fork library ใหม่ | เปลี่ยนธีม = override 1 file ไม่แตะ component |
+| ใช้ React/Tailwind ต้อง build step | Vanilla HTML+CSS+JS — เปิดใน browser ตรงๆ |
+| HSL space-separated ช่วย opacity | ทุก color เป็น `H S% L%` → `hsl(var(--*) / 0.5)` ได้เลย |
+| ไม่อยากเริ่ม design system ใหม่ทุก project | 54 components + 9 themes พร้อมใช้ |
 
-## Live URLs (LAN)
+## Quick start
 
-| Page | URL | Notes |
-|---|---|---|
-| **Gallery Index** (landing) | https://192.168.1.47/design/ | card list — เลือก design ได้ |
-| Concept RACK | https://192.168.1.47/design/concepts/rack.html | **full components** — buttons, inputs, controls, table, terminal |
-| Concept CRT | https://192.168.1.47/design/concepts/crt.html | **full components** — phosphor green, scanlines, mono |
-| Concept NOC | https://192.168.1.47/design/concepts/noc.html | **full components** — cyan + grid, monitoring-style |
-| Concept MIN | https://192.168.1.47/design/concepts/min.html | **full components** — minimal, lime accent, Inter |
-| **Concept GLITCHPAGE** | https://192.168.1.47/design/concepts/glitchpage.html | **full components** — error page, neon pink + glitch |
-| **Concept CLAUDE PAPER** | https://192.168.1.47/design/concepts/claude.html | **full components** — warm editorial, clay accent, **dual light/dark mode** |
-| **Concept MOSS** | https://192.168.1.47/design/concepts/moss.html | **full components** — organic, earth tone, blob shapes, Fraunces |
-| **Concept BRUT** | https://192.168.1.47/design/concepts/brut.html | **full components** — brutalist, black/white/red, 0px radius, Anton |
-| **Concept mcky.space** | https://192.168.1.47/design/concepts/mcky.html | **full components** — neobrutalism, 3px border + hard shadow, amber, **dual light/dark mode** |
+### ทาง CLI (แนะนำ)
 
-## Component Coverage (per concept)
+```bash
+# scaffold โปรเจกต์ใหม่
+npx dg init my-app
+cd my-app
+python3 -m http.server 3000   # เปิด index.html
+```
 
-แต่ละ concept page แสดง component **15+ แบบ** ในสไตล์ของธีมนั้น:
-button (variants, sizes) · input/textarea/select · checkbox/radio/switch · card · status pill · badge (filled/outline/muted) · kbd · alert · tabs · progress · pagination · spinner · table · terminal · breadcrumb
+### ทาง manual
 
-## 9 Designs ในคลัง
+```bash
+# copy 3 files
+cp src/tokens/schema.css   tokens.css
+cp src/components/base.css  components.css
+cp src/components/components.js components.js
+```
 
-| # | Name | id | Vibe | Production |
-|---|---|---|---|---|
-| 1 | `STACK//FRAME` | rack | Server rack, brushed metal, amber LEDs | `/status` (device-status) |
-| 2 | `PIXSH v1.0` | crt | Retro CRT, phosphor green, scanlines | Glance dashboard |
-| 3 | `PACKETGRID` | noc | NOC dashboard, dark slate, cyan + green | design reference |
-| 4 | `collage.sh` | min | Minimal geek, lime accent | default theme |
-| 5 | `GLITCHPAGE` | glitchpage | Error-page DNA — dark navy, drift grid, glitch number, terminal, Thai copy | nginx error pages (design source — deploy pending) |
-| 6 | `CLAUDE PAPER` | claude | Warm editorial — clay accent, paper surfaces, bilingual serif, **dual light/dark mode** | Obsidian theme (unofficial, from law-of-cycles/claude-paper-obsidian) |
-| 7 | `MOSS` | moss | Organic — earth palette (moss green + terracotta + sand), blob shapes, Fraunces serif | design reference |
-| 8 | `BRUT` | brut | Brutalist — raw black/white/red, 0px radius, 2px border, Anton display | design reference |
-| 9 | `mcky.space` | mcky | Neobrutalism — 3px black border, hard shadow (4px 4px 0), amber hover, 100% mono, **dual light/dark mode** | [mcky.space](https://mcky.space) (live site) |
+แล้ว link ใน HTML:
 
-## Architecture: Design = Plugin
+```html
+<link rel="stylesheet" href="tokens.css">
+<link rel="stylesheet" href="themes/mcky/theme.css">  <!-- optional override -->
+<link rel="stylesheet" href="components.css">
+<script src="components.js" defer></script>
+```
 
-Engine เป็น theme-agnostic. แต่ละ design เป็น plugin เต็มตัว:
+## CLI (`dg`)
+
+```bash
+npx dg init [dir]              # scaffold ใน target dir
+npx dg add component <name>    # copy component เดียว + JS deps
+npx dg add theme <id|file>     # copy theme file
+npx dg theme <id>              # show link snippet
+npx dg list [themes|c]         # list 9 themes / 53 components
+npx dg codegen [id...]         # regenerate theme.css from canonical map
+npx dg check                   # syntax check + token contract
+npx dg help [cmd]              # contextual help
+```
+
+ตัวอย่าง:
+
+```bash
+npx dg add component dialog    # ได้ .x-dialog + bindOverlay + 4 helpers
+npx dg add theme mcky          # copy themes/mcky/theme.css เข้าโปรเจกต์
+npx dg theme brut --show        # print brut/theme.css เนื้อหาเต็ม
+```
+
+## Components (54+)
+
+**Foundations (12):** button, input, textarea, select, checkbox, radio, switch, label, separator, skeleton, kbd, toggle
+
+**Surfaces (10):** card, alert, badge, status-pill, blockquote, code, terminal, empty, avatar, aspect-ratio
+
+**Data (8):** table, tabs, accordion, progress, pagination, breadcrumb, scroll-area, spinner
+
+**Forms (7):** form, field, item, slider, toggle-group, combobox, command-palette
+
+**Overlays (11):** dialog, sheet (4 directions), drawer, popover, tooltip, hover-card, dropdown-menu, context-menu, menubar, navigation-menu (mega), toast
+
+**Advanced (6):** resizable, collapsible, calendar, date-picker, carousel
+
+```html
+<button class="x-btn primary sm">click</button>
+<input class="x-input" placeholder="email">
+<div class="x-card"><div class="x-card-title">title</div></div>
+<button data-dialog-open="my">open</button>
+<div class="x-dialog" id="my">…</div>
+```
+
+ดูทั้งหมดพร้อม variants ใน [showcase](app/showcase.html) (รัน `python3 -m http.server` แล้วเปิด)
+
+## Themes (9 + custom)
+
+ธีมทั้งหมด override schema tokens — components ไม่รู้จักธีม ใช้แค่ `var(--*)`
+
+| id | name | DNA | mode |
+|---|---|---|---|
+| `mcky` | mcky.space | neobrutalism, 3px border, hard shadow, mono 100% | dual |
+| `rack` | STACK//FRAME | server rack, amber LED, Inter+mono | dark |
+| `crt` | PIXSH v1.0 | phosphor green, scanlines, VT323 | dark |
+| `noc` | PACKETGRID | NOC dashboard, cyan+green | dark |
+| `min` | collage.sh | minimal, olive lime accent | light |
+| `glitchpage` | GLITCHPAGE | error page, neon pink, Thai | dark |
+| `claude` | CLAUDE PAPER | warm editorial, clay, Source Serif | dual |
+| `moss` | MOSS | organic, earth + terracotta, Fraunces | light |
+| `brut` | BRUT | brutalist, red+black, Anton | light |
+
+### ใช้ธีม
+
+```html
+<link rel="stylesheet" href="tokens.css">
+<link rel="stylesheet" href="themes/mcky/theme.css">  <!-- override -->
+<link rel="stylesheet" href="components.css">
+```
+
+### สร้างธีมใหม่
+
+**ทางเร็ว** — เปิด [theme-builder.html](app/theme-builder.html), เลือก preset → tweak → download
+
+**ทาง code** — เขียน `theme.css` เอง:
+
+```css
+:root {
+  --background: 60 17% 95%;
+  --foreground: 0 0% 0%;
+  --primary: 50 100% 71%;
+  --radius: 0.375rem;
+  --border-width: 3px;
+  --shadow: 4px 4px 0 hsl(var(--border));
+  --font-sans: 'JetBrains Mono', ui-monospace, monospace;
+}
+
+[data-mode="dark"] {
+  --background: 0 0% 4%;
+  --foreground: 0 0% 88%;
+}
+```
+
+HSL format = `H S% L%` (space-separated, ไม่มี function wrap) เพื่อให้ใช้ `/ 0.5` ทำ opacity ได้
+
+ดู schema เต็มที่ [src/tokens/schema.md](src/tokens/schema.md)
+
+## Token system
+
+25 standard slots + 9 extended slots (optional). ทุก color = HSL space-separated.
+
+```css
+/* core */
+--background --foreground --card --card-foreground
+--primary --primary-foreground --secondary --secondary-foreground
+--muted --muted-foreground --accent --accent-foreground
+--destructive --success --warning --info
+--border --input --ring --radius
+--shadow --shadow-md --shadow-lg --border-width
+--font-sans --font-mono --font-serif --font-display
+
+/* extended (ใช้เมื่อต้องการ) */
+--accent-2 --accent-2-foreground --accent-deep --accent-dim
+--terracotta --terracotta-foreground --clay
+--ease-spring
+```
+
+## Architecture
 
 ```
 src/
-├── engine/            ← theme-agnostic core (layout, photo, export)
-├── core/              ← canvas-renderer + sharp-renderer + overlays lib
-└── themes/            ← 1 โฟลเดอร์ต่อ design — manifest.js (+ optional canvas.js)
+├── tokens/
+│   ├── schema.css        # default neutral (light + dark + manual [data-mode])
+│   ├── schema.md         # slot reference
+│   └── README.md         # how-to use tokens
+├── components/
+│   ├── base.css          # 54+ components · uses var(--*) only · ~1767 lines
+│   ├── components.js     # vanilla JS controllers · ~796 lines
+│   └── README.md         # component catalog
+themes/                   # 9 themes · generated by tools/codegen.mjs
+tools/
+├── codegen.mjs           # generate theme.css from canonical map
+├── map.md                # 9-concept → standard slot mapping
+└── validate.mjs          # token contract + HSL format + contrast
+bin/
+└── dg.js                 # CLI · 8 commands · zero-dep
+app/                      # 10 HTML pages (showcase, playground, registry, examples, …)
 ```
 
-> **Concept pages เป็น standalone เต็มตัว** — `concepts/<id>.html` โยง CSS ของตัวเอง
-> (`concepts/<id>.css`) ไม่ได้แชร์ template กลาง เพราะแต่ละ concept คือ brand identity
-> ที่แยกกันชัดเจน เปลี่ยนอะไรในหน้าเดียวไม่กระทบหน้าอื่น
+### design = plugin
 
-### `manifest.js` = single source of truth
+ธีมแต่ละตัวเป็น plugin เต็มตัว — แค่ override token, ไม่ต้องแตะ component. เพิ่มธีมใหม่ = เพิ่ม folder + register ใน `tools/codegen.mjs` (ดู THEMES constant)
 
-```js
-// themes/rack/manifest.js (example)
-export const manifest = {
-  id: 'rack', name: 'STACK//FRAME',
-  ui: { heroMeta, genReady, outputTitle, ... },      // copy
-  canvas: {
-    bg: { gradient: ['#2a2a30', '#1c1c20', '#2a2a30'] },
-    cell: { border: '#3a3a42', width: 3, label: 'UNIT {n}', ... },
-    overlay: 'none', photoFx: 'none',
-    chrome: { rails: {...}, leds: {...} },           // declarative chrome
-  },
-  hooks: { preDraw: drawRackRails, postDraw: drawRackLeds },  // client-only hooks
-};
-```
+## Examples
 
-- **client canvas** (`core/canvas-renderer.js`) อ่าน manifest → วาด
-- **production backend** (`core/sharp-renderer.js`) อ่าน manifest ตัวเดียวกัน → sharp
-- เพิ่ม design ใหม่ = ใส่โฟลเดอร์ใน `themes/` + ลงทะเบียนใน `themes/index.js` — engine ไม่แตะ
+หน้าจริง 4 หน้า — แต่ละหน้า themed ต่างกัน ใช้ components จริง:
 
-### Render pipeline (ทั้ง client + sharp)
-1. `hooks.preDraw` / chrome rails (behind)
-2. background (manifest)
-3. header (name/date)
-4. photo cells (cover-fit + border + label + photoFx)
-5. `hooks.postDraw` / chrome LEDs/bezel (on top)
-6. generic overlays (scanline / vignette / grid / connectors)
+| page | theme | features |
+|---|---|---|
+| [dashboard](app/examples/dashboard.html) | rack | server-rack dashboard, LED status, live log |
+| [blog](app/examples/blog.html) | claude | editorial article, TOC sidebar, related posts |
+| [landing](app/examples/landing.html) | mcky | bold neobrutalism marketing page |
+| [settings](app/examples/settings.html) | min | settings app with tabs + form |
 
-## วิธีหยิบไปใช้
+## Tools (in `app/`)
 
-### 1. เป็น standalone หน้า UI
-แต่ละ concept อยู่ใน `concepts/<id>.html` + `concepts/<id>.css` — คัดลอกทั้งคู่ไปใช้กับหน้าโปรเจกต์คุณ
-(fonts ต้องโหลดตาม `<head>` ของ concept นั้น — ดู Google Fonts link ในหน้า)
+| page | purpose |
+|---|---|
+| [index.html](app/index.html) | landing — overview + 9 theme cards + 4 tool cards |
+| [showcase.html](app/showcase.html) | component catalog — ทุก component × variants |
+| [playground.html](app/playground.html) | live HSL picker — แก้ token เห็นทันที, 10 presets |
+| [theme-builder.html](app/theme-builder.html) | wizard — pick preset → tweak → export |
+| [registry.html](app/registry.html) | browse 9 themes + 53 components, copy install cmd |
+| [theme-test.html](app/theme-test.html) | smoke test — switch theme live, see rendered |
 
-### 2. เป็น reference ในโค้ด
-manifest = แหล่งข้อมูลสี/type/motion ต่อ design — อ่านจาก `themes/<id>/manifest.js`
-
-## Build / Tooling
+## Workflow
 
 ```bash
-npm run check   # syntax-check ทุก source module (zero dependency — ไม่ต้อง npm install)
+# 1. explore
+python3 -m http.server 3000
+# เปิด http://localhost:3000/app/showcase.html
+
+# 2. เลือกธีม
+npx dg theme mcky    # ดู link snippet
+# หรือไป app/playground.html เพื่อทดลอง
+
+# 3. integrate
+npx dg init my-app
+cp themes/mcky/theme.css my-app/theme.css
+# เพิ่ม link ใน my-app/index.html
+
+# 4. extend
+npx dg add component datepicker
+# copy component CSS + JS เข้า my-app/
+
+# 5. ship
+# my-app/ = HTML + 3 CSS files + 1 JS file · พร้อม deploy
 ```
 
-`build.js` ใช้ node builtins ล้วนๆ — ไม่มี bundler, ไม่มี devDependencies.
+## Customization
 
-## Adding a new design
+### เปลี่ยนสีเฉพาะ component
 
+```css
+/* override scoped to a section */
+.sidebar {
+  --primary: 200 80% 50%;       /* แค่ใน .sidebar */
+  --radius: 0;
+}
 ```
-1. mkdir src/js/themes/<id>
-2. เขียน manifest.js (canvas spec + ui copy)
-3. เขียน canvas.js (hooks เฉพาะถ้ามี)
-4. register ใน src/js/themes/index.js
-5. (ถ้าต้องการหน้า components แสดงสไตล์) สร้าง concepts/<id>.html + concepts/<id>.css standalone
-6. npm run check && push
+
+### เพิ่ม component ใหม่
+
+```css
+/* components.css */
+.x-my-widget {
+  background: hsl(var(--card));
+  border: var(--border-width) solid hsl(var(--border));
+  border-radius: var(--radius);
+  padding: 1rem;
+}
 ```
+
+```html
+<div class="x-my-widget">hello</div>
+```
+
+### เพิ่มธีมใหม่
+
+1. สร้าง `themes/<id>/{theme.css, theme.json}`
+2. เพิ่ม entry ใน `tools/codegen.mjs` (ดู THEMES constant)
+3. รัน `npx dg codegen <id>` เพื่อ verify
+4. รัน `npx dg check` เพื่อ validate
+
+## Validation
+
+```bash
+npx dg check
+```
+
+ตรวจ:
+- JS syntax ทุก module
+- HSL format ของทุก color token
+- Required tokens ครบ (`--background`, `--foreground`, `--primary`, `--border`, `--radius`)
+- WCAG AA contrast ratio (≥ 4.5:1 สำหรับ text)
 
 ## Tech
 
-- Vanilla ES modules (ESM) — zero dependency, ไม่ต้อง npm install
-- GSAP via CDN (theme transitions ใน preview pages)
-- Canvas API (client) + sharp (production backend renderer)
-- Manifest-driven — design เปลี่ยน = แก้ manifest ไม่แตะ logic
-- Fonts: Inter + JetBrains Mono (gallery), Source Serif 4 / Source Han Serif (CLAUDE PAPER), Fraunces (MOSS), Anton + IBM Plex Mono (BRUT), JetBrains Mono (mcky.space)
+- **HTML5** semantic markup
+- **CSS3** (custom properties, HSL, calc, grid, flexbox)
+- **Vanilla JS** (ES2017+, ไม่มี dependencies)
+- **Zero build step** — copy files, link, done
+- **Zero runtime** — components.js 796 lines uncompressed, ไม่ tree-shake ไม่ dynamic import
 
-## Repo
+## Browser support
 
-- GitHub: https://github.com/ktypez/design-gallery
-- Served: nginx `/design/` → `/home/admin/design-gallery/`
+ทุก browser ที่รองรับ:
+- CSS custom properties (IE 11+ ไม่รองรับ — แนะนำ evergreen browsers)
+- CSS grid + flexbox
+- ES2017 (async/await, optional chaining)
+
+ไม่ใช้: Web Components, Shadow DOM, IntersectionObserver, MutationObserver (มี fallback)
+
+## License
+
+MIT — ใช้ได้ทั้ง personal และ commercial ไม่ต้อง attribution
+
+## Credits
+
+Built by [ktypez](https://github.com/ktypez). Inspired by [shadcn/ui](https://ui.shadcn.com/), [Radix Colors](https://www.radix-ui.com/colors), and the open-source design system community.
+
+9 starter themes แกะ DNA จาก: STACK//FRAME (server UI), PIXSH v1.0, PACKETGRID, collage.sh, GLITCHPAGE, CLAUDE PAPER, MOSS, BRUT, mcky.space — ทั้งหมดเป็น private concepts ของ repo นี้ (ดู `concepts/`).
+
+## See also
+
+- [PLAN.md](PLAN.md) — project plan, architecture, roadmap
+- [tools/map.md](tools/map.md) — 9-concept → standard slot mapping
+- [src/tokens/schema.md](src/tokens/schema.md) — full slot reference
+- [app/showcase.html](app/showcase.html) — interactive component catalog
