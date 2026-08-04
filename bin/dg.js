@@ -312,6 +312,17 @@ function help(cmd) {
     npx dg shadcn mcky       # one theme
     npx dg shadcn --check    # verify only (no write)`,
 
+    extract: `extract <url|css> [--name <id>]
+
+  Auto-generate a shadcn theme from any URL or CSS file.
+  Best-effort heuristic: token detection + color frequency.
+
+  Examples:
+    npx dg extract https://example.com        # fetch + parse HTML
+    npx dg extract --file ./my-theme.css      # parse local CSS
+    npx dg extract https://example.com --name mybrand
+    npx dg extract ... --light-only  --dark-only`,
+
     help: `help [command]
 
   Show help for a command.`,
@@ -324,7 +335,7 @@ function help(cmd) {
     log('  ' + paint('bold', 'Usage:') + ' npx dg <command> [args]');
     log('');
     log('  ' + paint('bold', 'Commands:'));
-    for (const c of ['init', 'add', 'theme', 'list', 'serve', 'check', 'codegen', 'shadcn', 'help']) {
+    for (const c of ['init', 'add', 'theme', 'list', 'serve', 'check', 'codegen', 'shadcn', 'extract', 'help']) {
       log(`    ${paint('cyan', c.padEnd(10))} ${paint('dim', cmds[c].split('\n')[0])}`);
     }
     log('');
@@ -740,10 +751,15 @@ function addTheme(args) {
   if (exists(arg) && arg.endsWith('.css')) {
     src = path.resolve(arg);
   } else {
-    // shadcn mode reads from themes/shadcn/, vanilla from themes/<id>/theme.css
-    src = path.join(ROOT, 'themes', isShadcn ? 'shadcn' : '', isShadcn ? `${arg}.css` : path.join(arg, 'theme.css'));
-    if (!exists(src)) {
-      if (isShadcn) { err(`shadcn theme not found: ${arg} — run 'dg shadcn ${arg}' first`); }
+    // search shadcn themes then extracted themes
+    const candidates = [
+      path.join(ROOT, 'themes', 'shadcn', `${arg}.css`),
+      path.join(ROOT, 'themes', 'extracted', `${arg}.css`),
+    ];
+    if (!isShadcn) candidates.push(path.join(ROOT, 'themes', arg, 'theme.css'));
+    src = candidates.find((p) => exists(p));
+    if (!src) {
+      if (isShadcn) { err(`theme not found: ${arg} — search: themes/shadcn/, themes/extracted/`); }
       else err(`theme not found: ${arg}`);
       return;
     }
@@ -1004,6 +1020,36 @@ function cmdShadcn(args) {
   }
 }
 
+// ----- extract -----
+function cmdExtract(args) {
+  if (args.includes('--help') || args.includes('-h')) {
+    log('');
+    log('  dg extract — auto-generate a shadcn theme from any URL or CSS file');
+    log('');
+    log('  Usage:');
+    log('    dg extract <url>             fetch HTML, parse CSS, extract tokens');
+    log('    dg extract --file <css>      parse a local CSS file');
+    log('    dg extract <url> --name <id> custom theme id');
+    log('    dg extract ... --light-only  force light mode');
+    log('    dg extract ... --dark-only   force dark mode');
+    log('');
+    log('  Output: themes/extracted/<id>.css (shadcn v4 :root + .dark)');
+    log('          themes/extracted/<id>.json (metadata + extracted tokens)');
+    log('');
+    log('  Heuristics (best-effort):');
+    log('    1. Look for CSS custom properties that match shadcn token names');
+    log('    2. Count color frequency + classify (light/dark, gray/saturated)');
+    log('    3. Pick most-frequent gray → --background, etc.');
+    return;
+  }
+  try {
+    execFileSync(process.execPath, [path.join(ROOT, 'tools', 'extract.mjs'), ...args], { stdio: 'inherit' });
+  } catch (e) {
+    err('extract failed');
+    if (process.env.DG_DEBUG) console.error(e);
+  }
+}
+
 // =============================================================================
 // Main
 // =============================================================================
@@ -1018,13 +1064,16 @@ const handlers = {
   check:   cmdCheck,
   codegen: cmdCodegen,
   shadcn:  cmdShadcn,
+  extract: cmdExtract,
   help:    (a) => help(a[0]),
   '--help':() => help(),
   '-h':    () => help(),
 };
 
-if (!cmd || cmd === 'help' || cmd === '--help' || cmd === '-h') {
+if (!cmd || cmd === '--help' || cmd === '-h') {
   help();
+} else if (cmd === 'help') {
+  help(rest[0] || '');
 } else if (handlers[cmd]) {
   try { handlers[cmd](rest); }
   catch (e) { err(e.message); if (process.env.DG_DEBUG) console.error(e); process.exit(1); }

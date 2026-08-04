@@ -24,3 +24,6 @@ dist/
 /components.js
 /theme.css
 /.tokens.css
+
+# extracted themes (user-generated, regenerable)
+themes/extracted/
