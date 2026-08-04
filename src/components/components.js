@@ -245,39 +245,61 @@
   }
 
   function createOverlay() {
-    let o = $('.x-dialog-backdrop:not([data-state]), .x-sheet-backdrop:not([data-state]), .x-drawer-backdrop:not([data-state])');
-    if (!o) {
-      o = document.createElement('div');
-      o.className = 'x-dialog-backdrop';
-      o.dataset.state = 'open';
-    }
+    const o = document.createElement('div');
+    o.className = 'x-dialog-backdrop';
+    o.dataset.state = 'closed';
     return o;
   }
 
   function bindOverlay(content, overlay, overlayClass) {
     overlay.className = overlayClass;
-    overlay.dataset.state = 'open';
+    overlay.dataset.state = 'closed';
     const id = content.id || `x-over-${Math.random().toString(36).slice(2, 8)}`;
     content.id = id;
+    content.dataset.state = 'closed';
     const triggerSel = `[data-dialog-open="${id}"], [data-sheet-open="${id}"], [data-drawer-open="${id}"]`;
     const closeSel   = `[data-dialog-close], [data-sheet-close], [data-drawer-close], .x-dialog-close`;
 
+    // remember where the dialog lived so we can put it back on close
+    let homeParent = null, homeNext = null;
+
     const open = () => {
       if (content.dataset.state === 'open') return;
+      clearTimeout(content._xTimer);
       content.dataset.state = 'open';
-      document.body.appendChild(overlay);
-      document.body.appendChild(content);
+      overlay.dataset.state = 'open';
+      if (homeParent === null && content.parentNode) {
+        homeParent = content.parentNode;
+        homeNext = content.nextSibling;
+      }
+      if (!overlay.isConnected) document.body.appendChild(overlay);
+      if (!content.isConnected) document.body.appendChild(content);
       document.body.style.overflow = 'hidden';
       const focusable = $(focusableSel, content);
       if (focusable) focusable.focus();
       fire(content, 'overlay:open');
     };
+
     const close = () => {
-      if (content.dataset.state === 'closed') return;
-      content.dataset.state = 'closed';
-      overlay.dataset.state = 'closed';
-      setTimeout(() => { overlay.remove(); content.dataset.state = ''; }, 200);
+      if (content.dataset.state === 'closed' || content.dataset.state === 'closing') return;
+      content.dataset.state = 'closing';
+      overlay.dataset.state = 'closing';
       document.body.style.overflow = '';
+      clearTimeout(content._xTimer);
+      // after fade-out, fully hide + detach overlay + move dialog back home
+      content._xTimer = setTimeout(() => {
+        content.dataset.state = 'closed';
+        overlay.dataset.state = 'closed';
+        overlay.remove();
+        if (content.isConnected) {
+          if (homeParent) {
+            if (homeNext && homeNext.parentNode === homeParent) homeParent.insertBefore(content, homeNext);
+            else homeParent.appendChild(content);
+          } else {
+            content.remove();
+          }
+        }
+      }, 200);
       fire(content, 'overlay:close');
     };
 
@@ -285,11 +307,14 @@
     content.open = open;
     $$(triggerSel).forEach((t) => t.addEventListener('click', open));
     $$(closeSel, content).forEach((c) => c.addEventListener('click', close));
-    overlay.addEventListener('click', close);
+    // no-close variant: disable backdrop + ESC dismissal
+    if (!content.classList.contains('no-close')) {
+      overlay.addEventListener('click', close);
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && content.dataset.state === 'open') close();
+      });
+    }
     content.addEventListener('keydown', trapTab);
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape' && content.dataset.state === 'open') close();
-    });
   }
 
   function trapTab(e) {

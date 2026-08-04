@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>dialog minimal</title>
+  <link rel="stylesheet" href="src/tokens/schema.css">
+  <link rel="stylesheet" href="src/components/base.css">
+</head>
+<body>
+  <button class="x-btn primary" data-dialog-open="d1">open</button>
+  <button class="x-btn outline" data-dialog-open="d2">open2</button>
+  <div class="x-dialog" id="d1">
+    <div class="x-dialog-header"><div><div class="x-dialog-title">D1</div></div>
+      <button class="x-dialog-close">✕</button></div>
+    <div class="x-dialog-body">body</div>
+  </div>
+  <div class="x-dialog" id="d2">
+    <div class="x-dialog-header"><div><div class="x-dialog-title">D2</div></div></div>
+    <div class="x-dialog-body">body2</div>
+  </div>
+  <script src="src/components/components.js"></script>
+</body>
+</html>
