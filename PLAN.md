@@ -164,18 +164,19 @@ npx dg check
 - [x] **`dg extract <url>`** — auto-generate shadcn theme จาก URL/CSS
 - [x] **oklch variant** — shadcn adapter + extract support `--oklch`
 - [x] **Unit tests** — 99 tests (53 extract + 46 adapter) + 2 bug fixes
+- [x] **`dg serve`** — local dev server with SPA fallback
+- [x] **Animation presets** — motion tokens (14 tokens: duration, easing, spring, bounce)
+- [x] **JSON theme spec** — themes as JSON (React Native / cross-platform compatible)
+- [x] **Shadcn registry** — registry.json format for shadcn CLI
+- [x] **Web UI prototype** — React 19 + shadcn + 5 pages (Home/Themes/Builder/Components/Extract)
 
-### Next
-- [ ] **`dg serve`** — local preview server (dev mode)
-- [ ] **shadcn registry integration** — themes เป็น shadcn registry item (`npx shadcn add theme`)
-- [ ] **JSON theme spec** — load themes จาก JSON (React Native-ready)
-- [ ] **Animation presets** — `--ease-spring` (moss) ขยายเป็น motion tokens
+### Maybe (done)
+- [x] **Online gallery** — web UI replaces static HTML gallery
 
-### Maybe
-- [ ] Public npm publish (`@design-gallery/themes`) — private for now
-- [ ] Online gallery (GitHub Pages deploy)
-- [ ] More themes (CRT-scanline variant, morandi palettes, etc)
-- [ ] Delete legacy vanilla components (หลัง concept gallery ไม่ใช้แล้ว)
+### Maybe (not done — too niche / over-engineering)
+- [ ] Public npm — requires npm account + publish workflow
+- [ ] More themes — can use `dg extract` from any reference site
+- [ ] Delete legacy vanilla — concept gallery still references it
 
 ---
 

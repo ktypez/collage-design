@@ -286,8 +286,8 @@ function help(cmd) {
 
     serve: `serve [--port N]
 
-  Start a local preview server (default port 3000).
-  Serves from current directory, opens app/showcase.html.
+  Start a local dev server (default port 3000).
+  Serves design-gallery repo + app/ pages with SPA fallback.
 
   Examples:
     npx dg serve
@@ -957,9 +957,12 @@ function cmdList(args) {
 function cmdServe(args) {
   const portIdx = args.indexOf('--port');
   const port = portIdx > -1 ? parseInt(args[portIdx + 1], 10) : 3000;
-  // delegate to build.js for now
-  warn('serve is implemented in build.js (npm run serve) — coming in next phase');
-  info(`for now use: npx dg check or python3 -m http.server ${port}`);
+  try {
+    execFileSync(process.execPath, [path.join(ROOT, 'tools', 'serve.mjs'), String(port)], { stdio: 'inherit' });
+  } catch (e) {
+    err('serve failed');
+    if (process.env.DG_DEBUG) console.error(e);
+  }
 }
 
 // ----- check -----
