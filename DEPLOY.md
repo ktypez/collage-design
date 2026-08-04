@@ -109,7 +109,7 @@ ls -la ~/.opencode/bin/🐈
 -rwxrwx---  1 admin  admin  251 Aug  1 11:16  /home/admin/.opencode/bin/🐈
 ```
 
-`🐈` is just a thin wrapper around `sudo -S` that reads the password from `~/.brain-sudo` via stdin. Behavior is identical to `sudo` — same `NOPASSWD` allowlist (rc-service for caddy/cloudflared/etc, caddy validate/reload) applies, password needed for everything else.
+`🐈` is a thin wrapper around `sudo -S` that reads the password from `~/.brain-sudo` and **forwards stdin to the command** (v2026-08-04: replaced `<<<` heredoc with `$(cat)` + `cat` passthrough so piped data works). Behavior is identical to `sudo` — same `NOPASSWD` allowlist (rc-service for caddy/cloudflared/etc, caddy validate/reload) applies, password needed for everything else.
 
 ### Usage
 
@@ -125,6 +125,11 @@ SUDO="$HOME/.opencode/bin/🐈"
 "$SUDO" cp /etc/caddy/Caddyfile /etc/caddy/Caddyfile.bak
 "$SUDO" sed -i 's|old|new|g' /etc/caddy/Caddyfile
 "$SUDO" systemctl restart caddy
+
+# ⭐ stdin passthrough (FIXED 2026-08-04)
+# password goes on line 1, the REST of stdin reaches the command:
+echo "data" | "$SUDO" tee /tmp/test      # file contains "data", NOT the password
+printf 'a\nb\n' | "$SUDO" tee /tmp/x     # multi-line stdin forwards fully
 ```
 
 ### Common commands for design-gallery deploy
