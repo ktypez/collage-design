@@ -1,0 +1,10 @@
+{
+  "id": "claude",
+  "name": "CLAUDE PAPER",
+  "vibe": "warm editorial — clay accent, paper surfaces, serif",
+  "dot": "#d97757",
+  "modes": "dual",
+  "single": null,
+  "generated": "2026-08-04T05:31:45.886Z",
+  "source": "tools/codegen.mjs"
+}

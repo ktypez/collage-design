@@ -1,0 +1,10 @@
+{
+  "id": "glitchpage",
+  "name": "GLITCHPAGE",
+  "vibe": "error page — dark navy, neon pink, Thai copy",
+  "dot": "#ff3d8f",
+  "modes": "dark",
+  "single": "dark",
+  "generated": "2026-08-04T05:31:45.883Z",
+  "source": "tools/codegen.mjs"
+}

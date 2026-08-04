@@ -1,0 +1,10 @@
+{
+  "id": "crt",
+  "name": "PIXSH v1.0",
+  "vibe": "retro CRT, phosphor green, scanlines",
+  "dot": "#4af626",
+  "modes": "dark",
+  "single": "dark",
+  "generated": "2026-08-04T05:31:45.879Z",
+  "source": "tools/codegen.mjs"
+}

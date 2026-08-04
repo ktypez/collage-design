@@ -1,0 +1,10 @@
+{
+  "id": "mcky",
+  "name": "mcky.space",
+  "vibe": "neobrutalism — 3px border, hard shadow, mono 100%",
+  "dot": "#ffe066",
+  "modes": "dual",
+  "single": null,
+  "generated": "2026-08-04T05:31:45.877Z",
+  "source": "tools/codegen.mjs"
+}

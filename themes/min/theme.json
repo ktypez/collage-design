@@ -1,0 +1,10 @@
+{
+  "id": "min",
+  "name": "collage.sh",
+  "vibe": "minimal geek, lime accent",
+  "dot": "#7a9a01",
+  "modes": "light",
+  "single": "light",
+  "generated": "2026-08-04T05:31:45.882Z",
+  "source": "tools/codegen.mjs"
+}

@@ -852,11 +852,17 @@ function cmdCheck() {
   log('');
 }
 
-// ----- codegen (placeholder) -----
+// ----- codegen -----
 function cmdCodegen(args) {
-  if (args.length === 0) { err('concept id required'); dim('e.g. npx dg codegen mcky'); return; }
-  warn('codegen will be implemented in Phase 5 — uses tools/map.md mapping table');
-  dim('for now, copy concepts/<id>.css manually and convert hex → HSL');
+  const args2 = args.filter((a) => !a.startsWith('--'));
+  if (args.includes('--help') || args.includes('-h')) return help('codegen');
+  const target = args2.length ? args2.join(' ') : '';
+  try {
+    execFileSync(process.execPath, [path.join(ROOT, 'tools', 'codegen.mjs'), ...args2], { stdio: 'inherit' });
+  } catch (e) {
+    err('codegen failed');
+    if (process.env.DG_DEBUG) console.error(e);
+  }
 }
 
 // =============================================================================

@@ -1,0 +1,10 @@
+{
+  "id": "brut",
+  "name": "BRUT",
+  "vibe": "brutalist — raw black/white/red, 0px radius, Anton",
+  "dot": "#ff2e00",
+  "modes": "light",
+  "single": "light",
+  "generated": "2026-08-04T05:31:45.887Z",
+  "source": "tools/codegen.mjs"
+}
