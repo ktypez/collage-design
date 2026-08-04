@@ -252,12 +252,19 @@ function help(cmd) {
   Subcommands:
     component <name>    copy CSS block + JS init for one component
     theme <id|file>     copy a theme file
+    theme <id> --shadcn write theme into a shadcn project's globals.css
+
+  --shadcn options:
+    --dir <dir>        target project root (auto-finds src/globals.css)
+    --globals <path>   explicit path to globals.css
 
   Examples:
     npx dg add component button
     npx dg add component dialog --dir ./my-app
     npx dg add theme mcky
-    npx dg add theme ./my-theme.css`,
+    npx dg add theme ./my-theme.css
+    npx dg add theme rack --shadcn --dir ./my-app
+    npx dg add theme claude --shadcn --globals ./app/globals.css`,
 
     theme: `theme <id>
 
@@ -725,16 +732,28 @@ function addTheme(args) {
   const arg = args[0];
   const dirIdx = args.indexOf('--dir');
   const dir = path.resolve(dirIdx > -1 ? args[dirIdx + 1] : '.');
-  const dst = path.join(dir, 'theme.css');
+  const isShadcn = args.includes('--shadcn');
+  const globalsIdx = args.indexOf('--globals');
+  const globalsPath = globalsIdx > -1 ? path.resolve(args[globalsIdx + 1]) : null;
 
   let src;
   if (exists(arg) && arg.endsWith('.css')) {
     src = path.resolve(arg);
   } else {
-    src = path.join(ROOT, 'themes', arg, 'theme.css');
-    if (!exists(src)) { err(`theme not found: ${arg}`); return; }
+    // shadcn mode reads from themes/shadcn/, vanilla from themes/<id>/theme.css
+    src = path.join(ROOT, 'themes', isShadcn ? 'shadcn' : '', isShadcn ? `${arg}.css` : path.join(arg, 'theme.css'));
+    if (!exists(src)) {
+      if (isShadcn) { err(`shadcn theme not found: ${arg} — run 'dg shadcn ${arg}' first`); }
+      else err(`theme not found: ${arg}`);
+      return;
+    }
   }
 
+  if (isShadcn) {
+    return addShadcnTheme(arg, src, dir, globalsPath);
+  }
+
+  const dst = path.join(dir, 'theme.css');
   log('');
   log(paint('bold', `  dg add theme ${arg}`) + paint('dim', ` → ${dst}`));
   log('');
@@ -744,6 +763,92 @@ function addTheme(args) {
   log(paint('bold', '  Link in HTML (after tokens.css, before components.css):'));
   dim('<link rel="stylesheet" href="theme.css">');
   log('');
+}
+
+// ----- shadcn: write theme :root/.dark blocks into a project's globals.css -----
+function addShadcnTheme(themeId, src, dir, globalsPath) {
+  const themeCss = readFile(src);
+
+  // 1. locate globals.css — explicit --globals, or auto-detect in dir
+  let globals = globalsPath;
+  if (!globals) {
+    const candidates = [
+      path.join(dir, 'src/globals.css'),
+      path.join(dir, 'app/globals.css'),
+      path.join(dir, 'globals.css'),
+    ];
+    globals = candidates.find((p) => exists(p));
+  }
+  if (!globals) {
+    err(`could not find globals.css in ${dir}`);
+    dim('pass explicit path: dg add theme <id> --shadcn --globals ./path/to/globals.css');
+    return;
+  }
+  const backup = globals + '.bak.' + Date.now();
+
+  log('');
+  log(paint('bold', `  dg add theme ${themeId} --shadcn`) + paint('dim', ` → ${globals}`));
+  log('');
+
+  // 2. extract just the :root / .dark variable blocks from the theme css
+  //    (blocks that define --background are theme variable definitions)
+  const blockRe = /((?::root|\.dark)(?:\s*,\s*(?::root|\.dark))?)\s*\{([\s\S]*?)\n\}/g;
+  const blocks = [];
+  let m;
+  while ((m = blockRe.exec(themeCss)) !== null) {
+    if (m[2].includes('--background')) blocks.push(`${m[1]} {${m[2]}\n}`);
+  }
+  if (!blocks.length) { err(`no :root/.dark blocks found in ${src}`); return; }
+
+  // 3. read existing globals.css
+  let css = readFile(globals);
+  fs.copyFileSync(globals, backup);
+  ok(`backup → ${path.basename(backup)}`);
+
+  // 4. ensure @theme inline mapping (from _base.css) is present once
+  const basePath = path.join(ROOT, 'themes', 'shadcn', '_base.css');
+  if (exists(basePath)) {
+    const baseCss = readFile(basePath);
+    const themeInline = baseCss.match(/@theme inline \{[\s\S]*?\n\}/)?.[0];
+    if (themeInline && !css.includes('@theme inline')) {
+      const importEnd = css.lastIndexOf('@import');
+      const nl = css.indexOf('\n', importEnd);
+      const insertAt = nl > -1 ? nl + 1 : 0;
+      css = css.slice(0, insertAt) + themeInline + '\n\n' + css.slice(insertAt);
+      ok('added @theme inline mapping (from _base.css)');
+    } else if (themeInline) {
+      dim('@theme inline already present — keep existing');
+    }
+  }
+
+  // 5. strip EXISTING theme variable blocks (:root/.dark that define --background),
+  //    so we don't leave shadcn defaults overriding our theme
+  const stripRe = /(?:(?::root|\.dark)(?:\s*,\s*(?::root|\.dark))?)\s*\{[^{}]*--background[^{}]*\n\}/g;
+  let stripped = 0;
+  css = css.replace(stripRe, () => { stripped++; return ''; });
+  if (stripped) ok(`removed ${stripped} existing theme block(s)`);
+
+  // 6. insert our theme blocks before @layer base (or append at end)
+  const insert = blocks.join('\n');
+  const baseIdx = css.indexOf('@layer base');
+  if (baseIdx > -1) css = css.slice(0, baseIdx) + insert + '\n\n' + css.slice(baseIdx);
+  else css = css.replace(/\s*$/, '') + '\n\n' + insert + '\n';
+  ok(`inserted ${blocks.length} theme block(s)`);
+
+  // 7. write
+  writeFile(globals, css);
+  ok(`theme ${themeId} applied → ${path.relative(dir, globals) || globals}`);
+
+  log('');
+  log(paint('bold', '  Next:'));
+  dim('1. open the app — colors/radius/fonts now follow the theme');
+  dim('2. dark-only themes force .dark; dual themes toggle <html class="dark">');
+  dim(`3. rollback: cp ${path.basename(backup)} ${path.basename(globals)}`);
+  log('');
+}
+
+function regexEscape(s) {
+  return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 }
 
 // ----- theme -----
