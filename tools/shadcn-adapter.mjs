@@ -142,7 +142,7 @@ function getHex(themeId, mode) {
  * - color tokens: prefer EXACT original hex (precision fix), fallback hsl()
  * - non-colors (radius/border-width/fonts/shadows): pass through
  */
-function toShadcnValue(token, value, themeId, mode, useOklch) {
+export function toShadcnValue(token, value, themeId, mode, useOklch) {
   if (COLOR_TOKENS.has(token)) {
     let hexMap = getHex(themeId, mode);
     let hex = hexMap && hexMap[token];
@@ -156,7 +156,7 @@ function toShadcnValue(token, value, themeId, mode, useOklch) {
   return String(value).trim(); // non-colors pass through
 }
 
-function formatBlock(tokens, filter = null, themeId = null, mode = 'light', useOklch = false) {
+export function formatBlock(tokens, filter = null, themeId = null, mode = 'light', useOklch = false) {
   const keys = Object.keys(tokens).filter((k) => !filter || filter.includes(k));
   keys.sort();
   return keys
@@ -164,7 +164,7 @@ function formatBlock(tokens, filter = null, themeId = null, mode = 'light', useO
     .join('\n');
 }
 
-function generateShadcn(themeId, useOklch = false) {
+export function generateShadcn(themeId, useOklch = false) {
   const theme = THEMES[themeId];
   if (!theme) throw new Error(`unknown theme: ${themeId}`);
   const { meta, light, dark, single } = theme;
@@ -203,8 +203,9 @@ function generateShadcn(themeId, useOklch = false) {
 }
 
 // =============================================================================
-// Main
+// Main (only runs when invoked directly)
 // =============================================================================
+if (process.argv[1] && (process.argv[1].endsWith('shadcn-adapter.mjs') || process.argv[1].endsWith('shadcn-adapter.js'))) {
 const args = process.argv.slice(2);
 const checkOnly = args.includes('--check');
 const useOklch = args.includes('--oklch');
@@ -231,3 +232,4 @@ if (!checkOnly) {
   fs.writeFileSync(path.join(OUT, '_base.css'), THEME_INLINE);
   console.log('  ✓ _base.css (shared @theme inline mapping)');
 }
+} // end if (directRun)
