@@ -1,0 +1,166 @@
+/* =============================================================================
+   src/tokens/schema.css — DEFAULT NEUTRAL TOKEN SCHEMA (shadcn-style)
+   -----------------------------------------------------------------------------
+   นี่ไม่ใช่ธีม — เป็น BASE SCHEMA ที่ framework ทุก component ใช้อ้างอิง
+   ใช้ HSL (space-separated) เพื่อให้ component ปรับ alpha ได้
+   เช่น hsl(var(--primary) / 0.5) เพื่อทำ opacity 50%
+
+   Pattern (อิง shadcn):
+   - :root = light (default)
+   - @media (prefers-color-scheme: dark) = dark auto
+   - [data-mode="dark"] = manual override (priority สูงกว่า)
+   - [data-mode="light"] = manual light (cancel dark system)
+
+   Theme files override เฉพาะ slot ที่ต้องการ — ไม่ต้อง define ครบทั้งหมด
+   ============================================================================= */
+
+:root {
+  /* ---------- surface stack ---------- */
+  --background: 0 0% 100%;
+  --foreground: 240 10% 3.9%;
+
+  --card: 0 0% 100%;
+  --card-foreground: 240 10% 3.9%;
+
+  --popover: 0 0% 100%;
+  --popover-foreground: 240 10% 3.9%;
+
+  /* ---------- brand ---------- */
+  --primary: 240 5.9% 10%;
+  --primary-foreground: 0 0% 98%;
+
+  --secondary: 240 4.8% 95.9%;
+  --secondary-foreground: 240 5.9% 10%;
+
+  /* ---------- state ---------- */
+  --muted: 240 4.8% 95.9%;
+  --muted-foreground: 240 3.8% 46.1%;
+
+  --accent: 240 4.8% 95.9%;
+  --accent-foreground: 240 5.9% 10%;
+
+  --destructive: 0 84.2% 60.2%;
+  --destructive-foreground: 0 0% 98%;
+
+  --success: 142 71% 45%;
+  --warning: 38 92% 50%;
+  --info: 221 83% 53%;
+
+  /* ---------- lines & shape ---------- */
+  --border: 240 5.9% 90%;
+  --input: 240 5.9% 90%;
+  --ring: 240 5.9% 10%;
+
+  --radius: 0.5rem;
+  --border-width: 1px;
+
+  --shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+
+  /* ---------- type ---------- */
+  --font-sans: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+  --font-serif: ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
+  --font-display: var(--font-sans);
+
+  --letter-spacing-tight: -0.025em;
+  --letter-spacing-wide: 0.025em;
+
+  /* =============================================================================
+     EXTENDED SLOTS (optional — ใช้เฉพาะ theme ที่ต้องการ)
+     ไม่ต้อง override ถ้าไม่ใช้ — default neutral พอ
+     ============================================================================= */
+
+  /* secondary accent — ใช้กับ rack (green LED), noc (cyan), glitchpage (cyan), moss (terracotta) */
+  --accent-2: 190 100% 50%;
+  --accent-2-foreground: 240 5.9% 10%;
+
+  /* accent variations — ใช้กับ mcky, claude, moss, brut */
+  --accent-deep: 240 5.9% 10%;
+  --accent-dim: 240 4.8% 95.9%;
+
+  /* earth palette — ใช้กับ moss */
+  --terracotta: 18 49% 53%;
+  --terracotta-foreground: 0 0% 98%;
+  --clay: 30 63% 60%;
+
+  /* spring motion — ใช้กับ moss (organic feel) */
+  --ease-spring: cubic-bezier(0.34, 1.4, 0.5, 1);
+
+  /* mode indicator */
+  --mode: "light";
+}
+
+/* =============================================================================
+   DARK MODE — auto by system, overridable via [data-mode]
+   ============================================================================= */
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-mode="light"]) {
+    --background: 240 10% 3.9%;
+    --foreground: 0 0% 98%;
+
+    --card: 240 10% 3.9%;
+    --card-foreground: 0 0% 98%;
+
+    --popover: 240 10% 3.9%;
+    --popover-foreground: 0 0% 98%;
+
+    --primary: 0 0% 98%;
+    --primary-foreground: 240 5.9% 10%;
+
+    --secondary: 240 3.7% 15.9%;
+    --secondary-foreground: 0 0% 98%;
+
+    --muted: 240 3.7% 15.9%;
+    --muted-foreground: 240 5% 64.9%;
+
+    --accent: 240 3.7% 15.9%;
+    --accent-foreground: 0 0% 98%;
+
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
+
+    --border: 240 3.7% 15.9%;
+    --input: 240 3.7% 15.9%;
+    --ring: 240 4.9% 83.9%;
+
+    --shadow: 0 1px 2px 0 rgb(0 0 0 / 0.5);
+    --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.5), 0 2px 4px -2px rgb(0 0 0 / 0.5);
+    --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.5), 0 4px 6px -4px rgb(0 0 0 / 0.5);
+
+    --mode: "dark";
+  }
+}
+
+/* manual override — priority สูงกว่า system */
+[data-mode="dark"] {
+  --background: 240 10% 3.9%;
+  --foreground: 0 0% 98%;
+  --card: 240 10% 3.9%;
+  --card-foreground: 0 0% 98%;
+  --popover: 240 10% 3.9%;
+  --popover-foreground: 0 0% 98%;
+  --primary: 0 0% 98%;
+  --primary-foreground: 240 5.9% 10%;
+  --secondary: 240 3.7% 15.9%;
+  --secondary-foreground: 0 0% 98%;
+  --muted: 240 3.7% 15.9%;
+  --muted-foreground: 240 5% 64.9%;
+  --accent: 240 3.7% 15.9%;
+  --accent-foreground: 0 0% 98%;
+  --destructive: 0 62.8% 30.6%;
+  --destructive-foreground: 0 0% 98%;
+  --border: 240 3.7% 15.9%;
+  --input: 240 3.7% 15.9%;
+  --ring: 240 4.9% 83.9%;
+  --shadow: 0 1px 2px 0 rgb(0 0 0 / 0.5);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.5), 0 2px 4px -2px rgb(0 0 0 / 0.5);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.5), 0 4px 6px -4px rgb(0 0 0 / 0.5);
+  --mode: "dark";
+}
+
+[data-mode="light"] {
+  --mode: "light";
+}
