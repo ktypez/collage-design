@@ -15,8 +15,28 @@
     .ok { color: hsl(var(--success)); }
     .err { color: hsl(var(--destructive)); }
   </style>
+  <style>
+    .topbar { display: flex; align-items: center; justify-content: space-between; padding: 0.875rem 1.5rem; border-bottom: 1px solid hsl(var(--border)); margin: -2rem -1.5rem 2rem; }
+    .topbar .brand { display: flex; align-items: center; gap: 0.5rem; font-weight: 700; font-size: 14px; }
+    .topbar .brand .dot { width: 10px; height: 10px; border-radius: 50%; background: hsl(var(--primary)); box-shadow: 0 0 8px hsl(var(--primary) / 0.4); }
+    .topbar nav { display: flex; gap: 1rem; font-size: 13px; }
+    .topbar nav a { color: hsl(var(--muted-foreground)); }
+    .topbar nav a:hover, .topbar nav a.on { color: hsl(var(--foreground)); }
+  </style>
 </head>
 <body>
+  <div class="topbar">
+    <div class="brand"><span class="dot"></span>Theme Test</div>
+    <nav>
+      <a href="index.html">home</a>
+      <a href="showcase.html">showcase</a>
+      <a href="playground.html">playground</a>
+      <a href="theme-builder.html">builder</a>
+      <a href="registry.html">registry</a>
+      <a href="theme-test.html" class="on">test</a>
+    </nav>
+  </div>
+
   <h1 id="title">theme: mcky</h1>
   <div class="meta" id="meta">-- testing --</div>
 

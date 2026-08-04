@@ -19,7 +19,8 @@ dist/
 .tmp/
 
 # DG framework scaffold (created by `dg add` or `dg init` in this repo)
-components.css
-components.js
-theme.css
-.tokens.css
+# (only ignore at root, not themes/*/theme.css)
+/components.css
+/components.js
+/theme.css
+/.tokens.css

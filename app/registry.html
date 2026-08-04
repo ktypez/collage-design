@@ -1,0 +1,391 @@
+<!doctype html>
+<html lang="th" data-mode="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>DG — Registry</title>
+  <link rel="icon" type="image/svg+xml" href="/favicons/lab.svg">
+  <link rel="stylesheet" href="../src/tokens/schema.css">
+  <link rel="stylesheet" href="../src/components/base.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; }
+    body {
+      font-family: 'Inter', var(--font-sans);
+      color: hsl(var(--foreground));
+      background: hsl(var(--background));
+      margin: 0; line-height: 1.5;
+    }
+    .topbar {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0.875rem 1.5rem; border-bottom: 1px solid hsl(var(--border));
+    }
+    .topbar .brand { display: flex; align-items: center; gap: 0.5rem; font-weight: 700; font-size: 14px; }
+    .topbar .brand .dot { width: 10px; height: 10px; border-radius: 50%; background: hsl(var(--primary)); box-shadow: 0 0 8px hsl(var(--primary) / 0.4); }
+    .topbar nav { display: flex; gap: 1rem; font-size: 13px; }
+    .topbar nav a { color: hsl(var(--muted-foreground)); }
+    .topbar nav a:hover, .topbar nav a.on { color: hsl(var(--foreground)); }
+
+    .wrap { max-width: 1100px; margin: 0 auto; padding: 2rem 1.5rem 5rem; }
+
+    .hero { margin-bottom: 2.5rem; }
+    .hero h1 { font-size: 32px; font-weight: 700; letter-spacing: -0.02em; margin: 0 0 0.5rem; }
+    .hero p { color: hsl(var(--muted-foreground)); margin: 0 0 1.5rem; max-width: 720px; }
+
+    .search-bar {
+      display: flex; align-items: center; gap: 0.5rem;
+      max-width: 480px;
+      padding: 0.5rem 0.875rem;
+      background: hsl(var(--card));
+      border: 1px solid hsl(var(--border));
+      border-radius: var(--radius);
+    }
+    .search-bar:focus-within { border-color: hsl(var(--ring)); box-shadow: 0 0 0 3px hsl(var(--ring) / 0.15); }
+    .search-bar input {
+      flex: 1; border: 0; outline: 0; background: transparent;
+      font: inherit; color: inherit;
+    }
+    .search-bar input::placeholder { color: hsl(var(--muted-foreground)); }
+    .search-bar .icon { color: hsl(var(--muted-foreground)); }
+
+    .tabs {
+      display: inline-flex; padding: 0.25rem;
+      background: hsl(var(--muted));
+      border-radius: var(--radius);
+      margin-bottom: 1.5rem;
+    }
+    .tabs button {
+      padding: 0.375rem 0.875rem; font-size: 13px;
+      background: transparent; border: 0; border-radius: calc(var(--radius) - 2px);
+      color: hsl(var(--muted-foreground)); cursor: pointer;
+      font: inherit; font-weight: 500;
+    }
+    .tabs button[data-on="true"] { background: hsl(var(--background)); color: hsl(var(--foreground)); box-shadow: 0 1px 2px rgb(0 0 0 / 0.05); }
+
+    section { margin-bottom: 3rem; }
+    .sec-h {
+      display: flex; align-items: baseline; justify-content: space-between;
+      margin-bottom: 1rem;
+    }
+    .sec-h h2 { font-size: 18px; font-weight: 600; margin: 0; }
+    .sec-h .count { font-size: 12px; color: hsl(var(--muted-foreground)); font-family: var(--font-mono); }
+
+    .theme-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.75rem;
+    }
+    @media (max-width: 900px) { .theme-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 500px) { .theme-grid { grid-template-columns: 1fr; } }
+
+    .theme-card {
+      padding: 1rem; background: hsl(var(--card));
+      border: 1px solid hsl(var(--border));
+      border-radius: var(--radius);
+      transition: border-color 0.15s, transform 0.15s;
+      scroll-margin-top: 80px;
+    }
+    .theme-card:hover { border-color: hsl(var(--primary)); }
+    .theme-card .preview {
+      height: 64px; border-radius: calc(var(--radius) - 2px);
+      margin-bottom: 0.75rem;
+      background: linear-gradient(135deg, var(--c1, hsl(var(--primary))) 0%, var(--c2, hsl(var(--background))) 100%);
+      position: relative; overflow: hidden;
+    }
+    .theme-card .preview::after {
+      content: ""; position: absolute; inset: 0;
+      background: repeating-linear-gradient(0deg, transparent 0 10px, rgb(0 0 0 / 0.04) 10px 11px);
+    }
+    .theme-card .preview .pip {
+      position: absolute; top: 6px; right: 6px;
+      width: 6px; height: 6px; border-radius: 50%;
+      background: hsl(var(--success));
+      box-shadow: 0 0 6px hsl(var(--success));
+    }
+    .theme-card h3 { font-size: 14px; font-weight: 600; margin: 0 0 0.125rem; font-family: var(--font-mono); }
+    .theme-card .name { font-size: 13px; font-weight: 500; margin-bottom: 0.25rem; }
+    .theme-card .vibe { font-size: 12px; color: hsl(var(--muted-foreground)); margin-bottom: 0.625rem; }
+    .theme-card .meta {
+      display: flex; gap: 0.375rem; flex-wrap: wrap;
+      margin-bottom: 0.625rem;
+    }
+    .theme-card .meta .chip {
+      font-family: var(--font-mono); font-size: 10px;
+      padding: 0.125rem 0.375rem;
+      background: hsl(var(--muted));
+      color: hsl(var(--muted-foreground));
+      border-radius: calc(var(--radius) - 4px);
+    }
+    .theme-card .install {
+      display: flex; align-items: center; gap: 0.375rem;
+      padding: 0.375rem 0.5rem;
+      font-family: var(--font-mono); font-size: 11px;
+      background: hsl(var(--muted));
+      border: 1px solid hsl(var(--border));
+      border-radius: calc(var(--radius) - 2px);
+    }
+    .theme-card .install code { flex: 1; background: transparent; border: 0; padding: 0; }
+    .theme-card .install button {
+      background: transparent; border: 0;
+      color: hsl(var(--muted-foreground)); cursor: pointer;
+      padding: 0.125rem 0.25rem; border-radius: 2px;
+      font: inherit;
+    }
+    .theme-card .install button:hover { color: hsl(var(--primary)); background: hsl(var(--background)); }
+
+    .loading {
+      padding: 2rem; text-align: center;
+      color: hsl(var(--muted-foreground));
+      font-family: var(--font-mono); font-size: 13px;
+    }
+
+    /* components grid */
+    .cat-section { margin-bottom: 1.5rem; }
+    .cat-h { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: hsl(var(--muted-foreground)); margin-bottom: 0.5rem; }
+    .comp-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.375rem; }
+    @media (max-width: 900px) { .comp-grid { grid-template-columns: repeat(3, 1fr); } }
+    @media (max-width: 500px) { .comp-grid { grid-template-columns: repeat(2, 1fr); } }
+    .comp {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0.5rem 0.625rem;
+      background: hsl(var(--card));
+      border: 1px solid hsl(var(--border));
+      border-radius: var(--radius);
+      font-size: 12px;
+      transition: border-color 0.15s;
+    }
+    .comp:hover { border-color: hsl(var(--primary)); }
+    .comp .name { font-family: var(--font-mono); font-weight: 500; }
+    .comp .tag {
+      font-family: var(--font-mono); font-size: 9px;
+      padding: 1px 5px;
+      background: hsl(var(--muted));
+      color: hsl(var(--muted-foreground));
+      border-radius: 999px;
+    }
+    .comp .tag.js { background: hsl(var(--primary) / 0.15); color: hsl(var(--primary)); }
+  </style>
+</head>
+<body>
+
+  <div class="topbar">
+    <div class="brand"><span class="dot"></span>Registry</div>
+    <nav>
+      <a href="index.html">home</a>
+      <a href="showcase.html">showcase</a>
+      <a href="playground.html">playground</a>
+      <a href="theme-builder.html">builder</a>
+      <a href="registry.html" class="on">registry</a>
+      <a href="theme-test.html">test</a>
+    </nav>
+  </div>
+
+  <div class="wrap">
+    <header class="hero">
+      <h1>Registry</h1>
+      <p>Browse themes และ components ทั้งหมด. กดปุ่ม copy เพื่อเอา install command. ใช้กับ <code style="font-family:'JetBrains Mono',monospace;font-size:13px;background:hsl(var(--muted));padding:1px 5px;border-radius:3px">dg</code> CLI ในโปรเจกต์ของคุณ.</p>
+
+      <div class="search-bar">
+        <span class="icon">🔍</span>
+        <input type="text" id="search" placeholder="filter themes, components…">
+      </div>
+    </header>
+
+    <div class="tabs" id="tabs">
+      <button data-tab="themes" data-on="true">themes</button>
+      <button data-tab="components">components</button>
+    </div>
+
+    <section id="themesSection">
+      <div class="sec-h">
+        <h2>Themes</h2>
+        <span class="count" id="themeCount">loading…</span>
+      </div>
+      <div class="theme-grid" id="themeGrid">
+        <div class="loading">// fetching themes/</div>
+      </div>
+    </section>
+
+    <section id="componentsSection" hidden>
+      <div class="sec-h">
+        <h2>Components</h2>
+        <span class="count">53 total · 22 with JS</span>
+      </div>
+      <div id="componentGrid">
+        <div class="cat-section">
+          <div class="cat-h">// foundations</div>
+          <div class="comp-grid">
+            <div class="comp"><span class="name">btn</span><span class="tag">css</span></div>
+            <div class="comp"><span class="name">input</span><span class="tag">css</span></div>
+            <div class="comp"><span class="name">textarea</span><span class="tag">css</span></div>
+            <div class="comp"><span class="name">select</span><span class="tag">css</span></div>
+            <div class="comp"><span class="name">checkbox</span><span class="tag">css</span></div>
+            <div class="comp"><span class="name">radio</span><span class="tag">css</span></div>
+            <div class="comp"><span class="name">switch</span><span class="tag">css</span></div>
+            <div class="comp"><span class="name">label</span><span class="tag">css</span></div>
+            <div class="comp"><span class="name">separator</span><span class="tag">css</span></div>
+            <div class="comp"><span class="name">skeleton</span><span class="tag">css</span></div>
+            <div class="comp"><span class="name">kbd</span><span class="tag">css</span></div>
+            <div class="comp"><span class="name">toggle</span><span class="tag js">js</span></div>
+          </div>
+        </div>
+
+        <div class="cat-section">
+          <div class="cat-h">// surfaces</div>
+          <div class="comp-grid">
+            <div class="comp"><span class="name">card</span><span class="tag">css</span></div>
+            <div class="comp"><span class="name">alert</span><span class="tag">css</span></div>
+            <div class="comp"><span class="name">badge</span><span class="tag">css</span></div>
+            <div class="comp"><span class="name">status</span><span class="tag">css</span></div>
+            <div class="comp"><span class="name">blockquote</span><span class="tag">css</span></div>
+            <div class="comp"><span class="name">code</span><span class="tag">css</span></div>
+            <div class="comp"><span class="name">terminal</span><span class="tag">css</span></div>
+            <div class="comp"><span class="name">empty</span><span class="tag">css</span></div>
+            <div class="comp"><span class="name">avatar</span><span class="tag">css</span></div>
+            <div class="comp"><span class="name">aspect</span><span class="tag">css</span></div>
+          </div>
+        </div>
+
+        <div class="cat-section">
+          <div class="cat-h">// data</div>
+          <div class="comp-grid">
+            <div class="comp"><span class="name">table</span><span class="tag">css</span></div>
+            <div class="comp"><span class="name">tabs</span><span class="tag js">js</span></div>
+            <div class="comp"><span class="name">accordion</span><span class="tag js">js</span></div>
+            <div class="comp"><span class="name">progress</span><span class="tag">css</span></div>
+            <div class="comp"><span class="name">pagination</span><span class="tag">css</span></div>
+            <div class="comp"><span class="name">breadcrumb</span><span class="tag">css</span></div>
+            <div class="comp"><span class="name">scroll</span><span class="tag">css</span></div>
+            <div class="comp"><span class="name">spinner</span><span class="tag">css</span></div>
+          </div>
+        </div>
+
+        <div class="cat-section">
+          <div class="cat-h">// forms</div>
+          <div class="comp-grid">
+            <div class="comp"><span class="name">form</span><span class="tag">css</span></div>
+            <div class="comp"><span class="name">field</span><span class="tag">css</span></div>
+            <div class="comp"><span class="name">item</span><span class="tag">css</span></div>
+            <div class="comp"><span class="name">slider</span><span class="tag js">js</span></div>
+            <div class="comp"><span class="name">togglegroup</span><span class="tag js">js</span></div>
+            <div class="comp"><span class="name">combobox</span><span class="tag js">js</span></div>
+            <div class="comp"><span class="name">command</span><span class="tag js">js</span></div>
+          </div>
+        </div>
+
+        <div class="cat-section">
+          <div class="cat-h">// overlays</div>
+          <div class="comp-grid">
+            <div class="comp"><span class="name">dialog</span><span class="tag js">js</span></div>
+            <div class="comp"><span class="name">sheet</span><span class="tag js">js</span></div>
+            <div class="comp"><span class="name">drawer</span><span class="tag js">js</span></div>
+            <div class="comp"><span class="name">popover</span><span class="tag js">js</span></div>
+            <div class="comp"><span class="name">tooltip</span><span class="tag js">js</span></div>
+            <div class="comp"><span class="name">hovercard</span><span class="tag js">js</span></div>
+            <div class="comp"><span class="name">menu</span><span class="tag js">js</span></div>
+            <div class="comp"><span class="name">contextmenu</span><span class="tag js">js</span></div>
+            <div class="comp"><span class="name">menubar</span><span class="tag js">js</span></div>
+            <div class="comp"><span class="name">navmenu</span><span class="tag js">js</span></div>
+            <div class="comp"><span class="name">toast</span><span class="tag js">js</span></div>
+          </div>
+        </div>
+
+        <div class="cat-section">
+          <div class="cat-h">// advanced</div>
+          <div class="comp-grid">
+            <div class="comp"><span class="name">resizable</span><span class="tag js">js</span></div>
+            <div class="comp"><span class="name">collapsible</span><span class="tag js">js</span></div>
+            <div class="comp"><span class="name">calendar</span><span class="tag js">js</span></div>
+            <div class="comp"><span class="name">datepicker</span><span class="tag js">js</span></div>
+            <div class="comp"><span class="name">carousel</span><span class="tag js">js</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <script>
+    // ========================================================================
+    // Tabs
+    // ========================================================================
+    const tabs = document.querySelectorAll('#tabs button');
+    const themesSection = document.getElementById('themesSection');
+    const componentsSection = document.getElementById('componentsSection');
+    tabs.forEach((t) => {
+      t.addEventListener('click', () => {
+        tabs.forEach((o) => o.dataset.on = (o === t));
+        themesSection.hidden = t.dataset.tab !== 'themes';
+        componentsSection.hidden = t.dataset.tab !== 'components';
+      });
+    });
+
+    // ========================================================================
+    // Themes — fetch from themes/<id>/theme.json
+    // ========================================================================
+    const KNOWN = ['mcky', 'rack', 'crt', 'noc', 'min', 'glitchpage', 'claude', 'moss', 'brut'];
+    const grid = document.getElementById('themeGrid');
+    const countEl = document.getElementById('themeCount');
+    const search = document.getElementById('search');
+
+    const fmt = (n) => {
+      if (n === 0) return 'light only';
+      if (n === 1) return 'dark only';
+      return 'dual';
+    };
+
+    (async () => {
+      const themes = await Promise.all(KNOWN.map(async (id) => {
+        try {
+          const r = await fetch(`../themes/${id}/theme.json`);
+          return await r.json();
+        } catch (e) { return null; }
+      }));
+      const valid = themes.filter(Boolean);
+      countEl.textContent = `${valid.length} total`;
+      grid.innerHTML = '';
+      valid.forEach((t) => {
+        const card = document.createElement('div');
+        card.className = 'theme-card';
+        card.id = `theme-${t.id}`;
+        card.style.setProperty('--c1', t.dot);
+        card.style.setProperty('--c2', t.dot);
+        card.innerHTML = `
+          <div class="preview"><div class="pip"></div></div>
+          <div class="name">${t.name}</div>
+          <div class="vibe">${t.vibe}</div>
+          <div class="meta">
+            <span class="chip">${fmt(t.modes === 'dual' ? 2 : (t.modes === 'dark' ? 1 : 0))}</span>
+            <span class="chip">id: ${t.id}</span>
+          </div>
+          <div class="install">
+            <code>npx dg add theme ${t.id}</code>
+            <button data-cmd="npx dg add theme ${t.id}" title="Copy">📋</button>
+          </div>
+        `;
+        grid.appendChild(card);
+      });
+      // copy buttons
+      grid.querySelectorAll('button[data-cmd]').forEach((b) => {
+        b.addEventListener('click', () => {
+          navigator.clipboard.writeText(b.dataset.cmd);
+          b.textContent = '✓';
+          setTimeout(() => (b.textContent = '📋'), 1200);
+        });
+      });
+    })();
+
+    // search filter
+    search.addEventListener('input', () => {
+      const q = search.value.toLowerCase();
+      document.querySelectorAll('.theme-card').forEach((c) => {
+        const txt = c.textContent.toLowerCase();
+        c.style.display = (!q || txt.includes(q)) ? '' : 'none';
+      });
+      document.querySelectorAll('.comp').forEach((c) => {
+        const txt = c.textContent.toLowerCase();
+        c.style.display = (!q || txt.includes(q)) ? '' : 'none';
+      });
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,359 @@
+<!doctype html>
+<html lang="th" data-mode="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>DG — Design Gallery Framework</title>
+  <link rel="icon" type="image/svg+xml" href="/favicons/lab.svg">
+  <link rel="stylesheet" href="../src/tokens/schema.css">
+  <link rel="stylesheet" href="../src/components/base.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; }
+    body {
+      font-family: 'Inter', var(--font-sans);
+      color: hsl(var(--foreground));
+      background: hsl(var(--background));
+      margin: 0; line-height: 1.5;
+    }
+
+    .topbar {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0.875rem 1.5rem;
+      border-bottom: 1px solid hsl(var(--border));
+    }
+    .topbar .brand { display: flex; align-items: center; gap: 0.5rem; font-weight: 700; font-size: 14px; letter-spacing: -0.01em; }
+    .topbar .brand .dot { width: 10px; height: 10px; border-radius: 50%; background: hsl(var(--primary)); box-shadow: 0 0 8px hsl(var(--primary) / 0.4); }
+    .topbar nav { display: flex; gap: 1rem; font-size: 13px; }
+    .topbar nav a { color: hsl(var(--muted-foreground)); transition: color 0.15s; }
+    .topbar nav a:hover, .topbar nav a.on { color: hsl(var(--foreground)); }
+    .topbar .actions { display: flex; align-items: center; gap: 0.5rem; }
+
+    .wrap { max-width: 1100px; margin: 0 auto; padding: 3rem 1.5rem 5rem; }
+
+    .hero { margin-bottom: 4rem; }
+    .hero .badge {
+      display: inline-block; font-family: var(--font-mono); font-size: 11px;
+      color: hsl(var(--muted-foreground)); letter-spacing: 0.12em;
+      padding: 6px 12px; border: 1px solid hsl(var(--border));
+      border-radius: 999px; margin-bottom: 1.5rem;
+    }
+    .hero h1 {
+      font-size: clamp(36px, 6vw, 56px); font-weight: 800;
+      letter-spacing: -0.03em; line-height: 1.05; margin: 0 0 1rem;
+    }
+    .hero h1 .accent { color: hsl(var(--primary)); }
+    .hero p {
+      color: hsl(var(--muted-foreground)); font-size: 17px; line-height: 1.6;
+      max-width: 720px; margin: 0 0 1.5rem;
+    }
+    .hero .install {
+      display: inline-flex; align-items: center; gap: 0.75rem;
+      padding: 0.625rem 1rem; margin-right: 0.5rem; margin-bottom: 0.5rem;
+      font-family: var(--font-mono); font-size: 13px;
+      background: hsl(var(--card));
+      color: hsl(var(--foreground));
+      border: 1px solid hsl(var(--border));
+      border-radius: var(--radius);
+    }
+    .hero .install .lbl { color: hsl(var(--muted-foreground)); }
+
+    .stats {
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.75rem;
+      margin-top: 2.5rem;
+    }
+    .stat {
+      padding: 1rem 1.25rem;
+      background: hsl(var(--card));
+      border: 1px solid hsl(var(--border));
+      border-radius: var(--radius);
+    }
+    .stat .num {
+      font-family: var(--font-mono); font-size: 28px; font-weight: 700;
+      color: hsl(var(--primary)); letter-spacing: -0.02em;
+    }
+    .stat .lbl { font-size: 12px; color: hsl(var(--muted-foreground)); text-transform: uppercase; letter-spacing: 0.08em; }
+
+    .section-h {
+      display: flex; align-items: center; justify-content: space-between;
+      margin: 0 0 1.25rem;
+    }
+    .section-h h2 { font-size: 22px; font-weight: 600; letter-spacing: -0.02em; margin: 0; }
+    .section-h .meta { font-size: 12px; color: hsl(var(--muted-foreground)); font-family: var(--font-mono); }
+    .section-h a { font-size: 13px; color: hsl(var(--primary)); }
+
+    section { margin-bottom: 4rem; }
+
+    .grid-4 {
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.75rem;
+    }
+    @media (max-width: 900px) { .grid-4 { grid-template-columns: repeat(2, 1fr); } .stats { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 500px) { .grid-4 { grid-template-columns: 1fr; } }
+
+    .tool {
+      display: block; padding: 1.25rem;
+      background: hsl(var(--card));
+      border: 1px solid hsl(var(--border));
+      border-radius: var(--radius);
+      text-decoration: none; color: inherit;
+      transition: border-color 0.15s, transform 0.15s;
+    }
+    .tool:hover { border-color: hsl(var(--primary)); transform: translateY(-1px); }
+    .tool .icon {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 36px; height: 36px;
+      background: hsl(var(--muted));
+      border-radius: var(--radius);
+      font-size: 18px; margin-bottom: 0.75rem;
+    }
+    .tool h3 { font-size: 15px; font-weight: 600; margin: 0 0 0.25rem; }
+    .tool p { font-size: 13px; color: hsl(var(--muted-foreground)); margin: 0; line-height: 1.4; }
+
+    .theme-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.75rem;
+    }
+    @media (max-width: 900px) { .theme-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 500px) { .theme-grid { grid-template-columns: 1fr; } }
+
+    .theme-card {
+      display: block; padding: 1rem;
+      background: hsl(var(--card));
+      border: 1px solid hsl(var(--border));
+      border-radius: var(--radius);
+      text-decoration: none; color: inherit;
+      transition: border-color 0.15s, transform 0.15s;
+      position: relative; overflow: hidden;
+    }
+    .theme-card:hover { border-color: hsl(var(--primary)); transform: translateY(-1px); }
+    .theme-card .swatch {
+      display: block; height: 60px; border-radius: calc(var(--radius) - 2px);
+      margin-bottom: 0.75rem;
+      background: linear-gradient(135deg, var(--c1), var(--c2));
+      position: relative; overflow: hidden;
+    }
+    .theme-card .swatch::after {
+      content: ""; position: absolute; inset: 0;
+      background: repeating-linear-gradient(0deg, transparent 0 8px, rgb(0 0 0 / 0.04) 8px 9px);
+    }
+    .theme-card h3 { font-size: 14px; font-weight: 600; margin: 0 0 0.125rem; font-family: var(--font-mono); }
+    .theme-card .vibe { font-size: 12px; color: hsl(var(--muted-foreground)); }
+    .theme-card .mode-tag {
+      position: absolute; top: 0.625rem; right: 0.625rem;
+      padding: 0.125rem 0.375rem;
+      font-family: var(--font-mono); font-size: 9px; font-weight: 600;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      background: hsl(var(--background) / 0.9);
+      color: hsl(var(--foreground));
+      border-radius: calc(var(--radius) - 4px);
+    }
+
+    .footer {
+      margin-top: 5rem; padding-top: 2rem;
+      border-top: 1px solid hsl(var(--border));
+      font-size: 12px; color: hsl(var(--muted-foreground));
+      display: flex; justify-content: space-between; flex-wrap: wrap; gap: 1rem;
+      font-family: var(--font-mono);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="topbar">
+    <div class="brand"><span class="dot"></span>Design Gallery Framework</div>
+    <nav>
+      <a href="index.html" class="on">home</a>
+      <a href="showcase.html">showcase</a>
+      <a href="playground.html">playground</a>
+      <a href="theme-builder.html">builder</a>
+      <a href="registry.html">registry</a>
+      <a href="theme-test.html">test</a>
+    </nav>
+    <div class="actions">
+      <a href="https://github.com/ktypez/design-gallery" class="x-btn outline sm" target="_blank" rel="noopener">github ↗</a>
+    </div>
+  </div>
+
+  <div class="wrap">
+
+    <header class="hero">
+      <div class="badge">// SHADCN-INSPIRED · VANILLA · ZERO-DEPS</div>
+      <h1>Build theme-able UIs<br>with <span class="accent">54 components</span><br>and zero dependencies.</h1>
+      <p>Design Gallery เป็น framework เปล่าๆ — ทุก component ใช้ <code style="font-family:'JetBrains Mono',monospace;font-size:14px;background:hsl(var(--muted));padding:2px 6px;border-radius:3px">hsl(var(--*))</code> tokens ล้วน. สลับธีมได้ด้วยการ override <code style="font-family:'JetBrains Mono',monospace;font-size:14px;background:hsl(var(--muted));padding:2px 6px;border-radius:3px">:root</code>. ไม่มี React, ไม่มี Tailwind, ไม่มี build step.</p>
+
+      <div>
+        <div class="install">
+          <span class="lbl">$</span>
+          <span>npx dg init</span>
+        </div>
+        <div class="install">
+          <span class="lbl">$</span>
+          <span>npx dg add component dialog</span>
+        </div>
+        <div class="install">
+          <span class="lbl">$</span>
+          <span>npx dg add theme mcky</span>
+        </div>
+      </div>
+
+      <div class="stats">
+        <div class="stat"><div class="num" id="statComponents">—</div><div class="lbl">components</div></div>
+        <div class="stat"><div class="num" id="statThemes">—</div><div class="lbl">themes</div></div>
+        <div class="stat"><div class="num">0</div><div class="lbl">dependencies</div></div>
+        <div class="stat"><div class="num">~25KB</div><div class="lbl">css+js minified</div></div>
+      </div>
+    </header>
+
+    <!-- ============== TOOLS ============== -->
+    <section>
+      <div class="section-h">
+        <h2>Tools</h2>
+        <div class="meta">// interactive pages</div>
+      </div>
+
+      <div class="grid-4">
+        <a href="showcase.html" class="tool">
+          <div class="icon">📦</div>
+          <h3>Showcase</h3>
+          <p>Component catalog — 54 components พร้อม example จริงทุกตัว</p>
+        </a>
+        <a href="playground.html" class="tool">
+          <div class="icon">🎨</div>
+          <h3>Playground</h3>
+          <p>Live theme editor — HSL picker, แก้ token เห็นทันที + export CSS</p>
+        </a>
+        <a href="theme-builder.html" class="tool">
+          <div class="icon">🛠️</div>
+          <h3>Theme Builder</h3>
+          <p>Wizard สร้างธีมใหม่ — pick preset → tweak → export</p>
+        </a>
+        <a href="registry.html" class="tool">
+          <div class="icon">📚</div>
+          <h3>Registry</h3>
+          <p>Browse themes + components — copy install command</p>
+        </a>
+      </div>
+    </section>
+
+    <!-- ============== THEMES ============== -->
+    <section>
+      <div class="section-h">
+        <h2>Themes</h2>
+        <a href="registry.html">view all →</a>
+      </div>
+
+      <div class="theme-grid" id="themeGrid">
+        <div class="theme-card" style="--c1:#ffe066;--c2:#000">
+          <div class="swatch"></div>
+          <span class="mode-tag">dual</span>
+          <h3>mcky</h3>
+          <div class="vibe">mcky.space — neobrutalism, 3px border, hard shadow</div>
+        </div>
+        <div class="theme-card" style="--c1:#ffb000;--c2:#0a0a0c">
+          <div class="swatch"></div>
+          <span class="mode-tag">dark</span>
+          <h3>rack</h3>
+          <div class="vibe">STACK//FRAME — server rack, amber LED, mono</div>
+        </div>
+        <div class="theme-card" style="--c1:#4af626;--c2:#060605">
+          <div class="swatch"></div>
+          <span class="mode-tag">dark</span>
+          <h3>crt</h3>
+          <div class="vibe">PIXSH v1.0 — phosphor green, scanlines, VT323</div>
+        </div>
+        <div class="theme-card" style="--c1:#35f0c8;--c2:#0a0f14">
+          <div class="swatch"></div>
+          <span class="mode-tag">dark</span>
+          <h3>noc</h3>
+          <div class="vibe">PACKETGRID — NOC dashboard, cyan + green</div>
+        </div>
+        <div class="theme-card" style="--c1:#7a9a01;--c2:#f6f7f4">
+          <div class="swatch"></div>
+          <span class="mode-tag">light</span>
+          <h3>min</h3>
+          <div class="vibe">collage.sh — minimal, olive lime accent</div>
+        </div>
+        <div class="theme-card" style="--c1:#ff3d8f;--c2:#0b0f2a">
+          <div class="swatch"></div>
+          <span class="mode-tag">dark</span>
+          <h3>glitchpage</h3>
+          <div class="vibe">GLITCHPAGE — error page, neon pink, Thai</div>
+        </div>
+        <div class="theme-card" style="--c1:#d97757;--c2:#faf9f5">
+          <div class="swatch"></div>
+          <span class="mode-tag">dual</span>
+          <h3>claude</h3>
+          <div class="vibe">CLAUDE PAPER — warm editorial, clay, serif</div>
+        </div>
+        <div class="theme-card" style="--c1:#6a8c3f;--c2:#f5f1e8">
+          <div class="swatch"></div>
+          <span class="mode-tag">light</span>
+          <h3>moss</h3>
+          <div class="vibe">MOSS — organic, earth + terracotta, Fraunces</div>
+        </div>
+        <div class="theme-card" style="--c1:#ff2e00;--c2:#e8e4da">
+          <div class="swatch"></div>
+          <span class="mode-tag">light</span>
+          <h3>brut</h3>
+          <div class="vibe">BRUT — brutalist, red+black, 0 radius, Anton</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============== WORKFLOW ============== -->
+    <section>
+      <div class="section-h">
+        <h2>Workflow</h2>
+        <div class="meta">// 3 steps</div>
+      </div>
+      <div class="grid-4">
+        <div class="tool" style="cursor:default">
+          <div class="icon">1️⃣</div>
+          <h3>Pick a theme</h3>
+          <p>9 themes พร้อมใช้ — copy <code style="font-family:'JetBrains Mono',monospace;font-size:11px">npx dg add theme &lt;id&gt;</code></p>
+        </div>
+        <div class="tool" style="cursor:default">
+          <div class="icon">2️⃣</div>
+          <h3>Add components</h3>
+          <p>เพิ่มเฉพาะที่ใช้ — <code style="font-family:'JetBrains Mono',monospace;font-size:11px">npx dg add component &lt;name&gt;</code></p>
+        </div>
+        <div class="tool" style="cursor:default">
+          <div class="icon">3️⃣</div>
+          <h3>Override tokens</h3>
+          <p>ธีมของคุณเอง = CSS file ที่ override <code style="font-family:'JetBrains Mono',monospace;font-size:11px">:root</code> tokens</p>
+        </div>
+        <div class="tool" style="cursor:default">
+          <div class="icon">🚀</div>
+          <h3>Ship</h3>
+          <p>Zero deps · zero build · works กับ HTML เปล่าๆ</p>
+        </div>
+      </div>
+    </section>
+
+    <div class="footer">
+      <span>// 2026 · ktypez · DG framework v0.5.0</span>
+      <span><a href="https://github.com/ktypez/design-gallery" style="color:inherit" target="_blank" rel="noopener">github.com/ktypez/design-gallery ↗</a></span>
+    </div>
+
+  </div>
+
+  <script>
+    // fetch theme count + populate stats
+    fetch('../themes/').then((r) => r.text()).then((html) => {
+      const matches = html.match(/href="[^"]+\/theme\.json"/g) || [];
+      document.getElementById('statThemes').textContent = matches.length;
+    }).catch(() => {
+      // fallback: hardcoded count
+      document.getElementById('statThemes').textContent = '9';
+    });
+    document.getElementById('statComponents').textContent = '54';
+
+    // link theme cards to registry
+    document.querySelectorAll('.theme-card').forEach((card) => {
+      const id = card.querySelector('h3').textContent;
+      card.href = `registry.html#theme-${id}`;
+    });
+  </script>
+</body>
+</html>
