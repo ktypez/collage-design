@@ -107,6 +107,54 @@ function hexToRgb(hex) {
   return [parseInt(h.slice(0, 2), 16), parseInt(h.slice(2, 4), 16), parseInt(h.slice(4, 6), 16)];
 }
 
+// ---- hex/rgb → oklch (shadcn v4 native format) ----
+// Conversion chain: sRGB [0-255] → linear RGB → XYZ(D65) → OKLab → OKLCH
+// Reference: Björn Ottosson (oklab.com), W3C CSS Color Level 4
+
+function srgbToLinear(c) {
+  c = c / 255;
+  return c <= 0.04045 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4);
+}
+
+function rgbToOklch(r, g, b) {
+  // 1. sRGB → linear RGB [0,1]
+  const rl = srgbToLinear(r);
+  const gl = srgbToLinear(g);
+  const bl = srgbToLinear(b);
+
+  // 2. linear RGB → XYZ (D65, sRGB)
+  const x = 0.4124564 * rl + 0.3575761 * gl + 0.1804375 * bl;
+  const y = 0.2126729 * rl + 0.7151522 * gl + 0.0721750 * bl;
+  const z = 0.0193339 * rl + 0.1191920 * gl + 0.9503041 * bl;
+
+  // 3. XYZ → OKLab (Björn Ottosson)
+  const l1 = 0.4122214708 * x + 0.5363325363 * y + 0.0514459929 * z;
+  const m1 = 0.2119034982 * x + 0.6806995451 * y + 0.1073969566 * z;
+  const s1 = 0.0883024619 * x + 0.2817188376 * y + 0.6299787005 * z;
+  const l_ = Math.cbrt(l1);
+  const m_ = Math.cbrt(m1);
+  const s_ = Math.cbrt(s1);
+  const L = 0.2104542553 * l_ + 0.7936177850 * m_ - 0.0040720468 * s_;
+  const a = 1.9779984951 * l_ - 2.4285922050 * m_ + 0.4505937099 * s_;
+  const b_ = 0.0259040371 * l_ + 0.7827717662 * m_ - 0.8086757660 * s_;
+
+  // 4. OKLab → oklch (polar form)
+  const C = Math.sqrt(a * a + b_ * b_);
+  let h = Math.atan2(b_, a) * (180 / Math.PI);
+  if (h < 0) h += 360;
+
+  return { L, C, h };
+}
+
+function hexToOklchStr(hex) {
+  // normalize to 6-digit hex first (handles #000, #777, etc.)
+  let h = hex.replace('#', '');
+  if (h.length === 3) h = h[0]+h[0]+h[1]+h[1]+h[2]+h[2];
+  const [r, g, b] = hexToRgb('#' + h);
+  const { L, C, h: hue } = rgbToOklch(r, g, b);
+  return `oklch(${L.toFixed(3)} ${C.toFixed(3)} ${hue.toFixed(1)})`;
+}
+
 function hexToHslSpace(hex) {
   const [r, g, b] = hexToRgb(hex);
   const [h, s, l] = rgbToHsl(r, g, b);
@@ -297,12 +345,17 @@ async function extractFromUrl(rawUrl, opts = {}) {
 // Emit shadcn theme
 // =============================================================================
 function emitShadcn(themeId, data) {
-  const { tokens, fontFamily, radius, mode, stats } = data;
+  const { tokens, fontFamily, radius, mode, stats, useOklch } = data;
   const lines = [];
 
-  // emit colors as hsl() — preserves theme's existing color format
-  // (precision fix from concepts is irrelevant here since this is auto-generated)
+  // emit colors as hsl() or oklch() — converts hex to chosen format
   const fmt = (k) => `  ${k.padEnd(28, ' ')}: ${tokens[k]};`;
+  const fmtColor = (k) => {
+    const v = tokens[k];
+    if (!v) return null;
+    if (useOklch && v.startsWith('#')) return `  ${k.padEnd(28, ' ')}: ${hexToOklchStr(v)};`;
+    return `  ${k.padEnd(28, ' ')}: ${v};`;
+  };
   const colorKeys = [
     '--background', '--foreground', '--card', '--card-foreground',
     '--popover', '--popover-foreground',
@@ -315,7 +368,8 @@ function emitShadcn(themeId, data) {
     '--border', '--input', '--ring',
   ];
   for (const k of colorKeys) {
-    if (tokens[k]) lines.push(fmt(k));
+    const line = fmtColor(k);
+    if (line) lines.push(line);
   }
   if (data.radius) lines.push(`  ${('--radius').padEnd(28, ' ')}: ${data.radius};`);
   if (data.fontFamily) {
@@ -351,9 +405,10 @@ const nameIdx = args.indexOf('--name');
 const nameArg = nameIdx > -1 ? args[nameIdx + 1] : null;
 const isLightOnly = args.includes('--light-only');
 const isDarkOnly = args.includes('--dark-only');
+const useOklch = args.includes('--oklch');
 
 if (!input) {
-  console.error('usage: dg extract <url> [--name <id>] [--light-only|--dark-only]');
+  console.error('usage: dg extract <url> [--name <id>] [--oklch] [--light-only|--dark-only]');
   console.error('       dg extract --file ./local.html');
   process.exit(1);
 }
@@ -367,13 +422,14 @@ if (!input) {
     if (isDarkOnly) data.mode = 'dark';
 
     fs.mkdirSync(OUT, { recursive: true });
-    const css = emitShadcn(id, data);
+    const css = emitShadcn(id, { ...data, useOklch });
     fs.writeFileSync(path.join(OUT, `${id}.css`), css);
     fs.writeFileSync(
       path.join(OUT, `${id}.json`),
       JSON.stringify({ id, source: input, mode: data.mode, ...data.stats, extracted: data.tokens }, null, 2) + '\n',
     );
     console.log(`  │ mode:   ${data.mode}`);
+  console.log(`  │ format: ${useOklch ? 'oklch (shadcn native)' : 'hex (exact brand color)'}`);
     console.log(`  │ tokens: ${data.stats.tokensMatched} matched, ${data.stats.colorsFound} unique colors`);
     console.log(`  │ radius: ${data.radius}${data.fontFamily ? `, font: ${data.fontFamily}` : ''}`);
     console.log(`  │ → themes/extracted/${id}.css + .json`);

@@ -312,16 +312,22 @@ function help(cmd) {
     npx dg shadcn mcky       # one theme
     npx dg shadcn --check    # verify only (no write)`,
 
-    extract: `extract <url|css> [--name <id>]
+    extract: `extract <url|css> [--name <id>] [--oklch]
 
   Auto-generate a shadcn theme from any URL or CSS file.
   Best-effort heuristic: token detection + color frequency.
 
+  Options:
+    --oklch         emit oklch() format (shadcn native default)
+    --name <id>     custom theme id
+    --light-only    force light mode
+    --dark-only     force dark mode
+
   Examples:
-    npx dg extract https://example.com        # fetch + parse HTML
-    npx dg extract --file ./my-theme.css      # parse local CSS
-    npx dg extract https://example.com --name mybrand
-    npx dg extract ... --light-only  --dark-only`,
+    npx dg extract https://example.com                    # hex (exact brand colors)
+    npx dg extract https://example.com --oklch            # oklch (shadcn native)
+    npx dg extract --file ./my-theme.css                  # parse local CSS
+    npx dg extract https://example.com --name mybrand     # custom id`,
 
     help: `help [command]
 
