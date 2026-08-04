@@ -55,8 +55,8 @@ const TOKEN_PATTERNS = {
 };
 
 // Sanitize extracted value — strip trailing junk, trim
-function sanitizeValue(v) {
-  return v.trim().split(/\s+/).slice(0, 1)[0].replace(/[;}]+$/, '');
+export function sanitizeValue(v) {
+  return v.trim().split(/[;}]/)[0].trim() || v.trim().split(/\s+/)[0] || '';
 }
 
 // =============================================================================
@@ -66,14 +66,15 @@ const HEX_RE = /#(?:[0-9a-fA-F]{3,8})\b/g;
 const RGB_RE = /rgba?\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)\s*(?:,\s*([\d.]+)\s*)?\)/g;
 const HSL_RE = /hsla?\(\s*(\d+)\s*,\s*(\d+)%\s*,\s*(\d+)%\s*(?:,\s*([\d.]+)\s*)?\)/g;
 
-function normalizeHex(h) {
-  if (h.length === 4) return '#' + h[1] + h[1] + h[2] + h[2] + h[3] + h[3];
-  if (h.length === 5) return '#' + h[1] + h[1] + h[2] + h[2] + h[3] + h[3] + h[4] + h[4];
-  if (h.length === 9) return h.slice(0, 7); // strip alpha from #rrggbbaa
-  return h.toLowerCase();
+export function normalizeHex(h) {
+  let val = h.startsWith('#') ? h.slice(1) : h;
+  if (val.length === 3) val = val[0]+val[0]+val[1]+val[1]+val[2]+val[2];
+  if (val.length === 4) val = val[0]+val[0]+val[1]+val[1]+val[2]+val[2]+val[3]+val[3];
+  if (val.length >= 6) return '#' + val.slice(0, 6).toLowerCase();
+  return '#' + val.toLowerCase(); // fallback
 }
 
-function extractHexValues(text) {
+export function extractHexValues(text) {
   const out = [];
   let m;
   while ((m = HEX_RE.exec(text)) !== null) out.push(normalizeHex(m[0]));
@@ -84,7 +85,7 @@ function extractHexValues(text) {
   return out;
 }
 
-function rgbToHsl(r, g, b) {
+export function rgbToHsl(r, g, b) {
   r /= 255; g /= 255; b /= 255;
   const max = Math.max(r, g, b), min = Math.min(r, g, b);
   let h, s, l = (max + min) / 2;
@@ -102,7 +103,7 @@ function rgbToHsl(r, g, b) {
   return [Math.round(h * 360), Math.round(s * 100), Math.round(l * 100)];
 }
 
-function hexToRgb(hex) {
+export function hexToRgb(hex) {
   const h = hex.replace('#', '');
   return [parseInt(h.slice(0, 2), 16), parseInt(h.slice(2, 4), 16), parseInt(h.slice(4, 6), 16)];
 }
@@ -111,12 +112,12 @@ function hexToRgb(hex) {
 // Conversion chain: sRGB [0-255] → linear RGB → XYZ(D65) → OKLab → OKLCH
 // Reference: Björn Ottosson (oklab.com), W3C CSS Color Level 4
 
-function srgbToLinear(c) {
+export function srgbToLinear(c) {
   c = c / 255;
   return c <= 0.04045 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4);
 }
 
-function rgbToOklch(r, g, b) {
+export function rgbToOklch(r, g, b) {
   // 1. sRGB → linear RGB [0,1]
   const rl = srgbToLinear(r);
   const gl = srgbToLinear(g);
@@ -146,7 +147,7 @@ function rgbToOklch(r, g, b) {
   return { L, C, h };
 }
 
-function hexToOklchStr(hex) {
+export function hexToOklchStr(hex) {
   // normalize to 6-digit hex first (handles #000, #777, etc.)
   let h = hex.replace('#', '');
   if (h.length === 3) h = h[0]+h[0]+h[1]+h[1]+h[2]+h[2];
@@ -155,13 +156,15 @@ function hexToOklchStr(hex) {
   return `oklch(${L.toFixed(3)} ${C.toFixed(3)} ${hue.toFixed(1)})`;
 }
 
-function hexToHslSpace(hex) {
-  const [r, g, b] = hexToRgb(hex);
-  const [h, s, l] = rgbToHsl(r, g, b);
-  return `${h} ${s}% ${l}%`;
+export function hexToHslSpace(hex) {
+  let h = hex.replace('#', '');
+  if (h.length === 3) h = h[0]+h[0]+h[1]+h[1]+h[2]+h[2];
+  const [r, g, b] = hexToRgb('#' + h.slice(0, 6));
+  const [H, S, L] = rgbToHsl(r, g, b);
+  return `${H} ${S}% ${L}%`;
 }
 
-function relativeLuminance(hex) {
+export function relativeLuminance(hex) {
   const [r, g, b] = hexToRgb(hex);
   const lin = [r, g, b].map((c) => {
     const v = c / 255;
@@ -394,10 +397,14 @@ ${body}
 // =============================================================================
 // CLI
 // =============================================================================
-function slugify(s) {
+export function slugify(s) {
   return s.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '').slice(0, 40) || 'extracted';
 }
 
+// =============================================================================
+// CLI (only runs when invoked directly: node extract.mjs ...)
+// =============================================================================
+if (process.argv[1] && (process.argv[1].endsWith('extract.mjs') || process.argv[1].endsWith('extract.js'))) {
 const args = process.argv.slice(2);
 const fileArg = args.find((a) => a.startsWith('--file='));
 const input = fileArg ? fileArg.slice(7) : args.find((a) => !a.startsWith('--'));
@@ -443,3 +450,4 @@ if (!input) {
     process.exit(1);
   }
 })();
+} // end if (directRun)
