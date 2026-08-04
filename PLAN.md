@@ -161,13 +161,15 @@ npx dg check
 - [x] **Track C**: examples/shadcn-demo (React 19 + Radix drop-in proof)
 - [x] **Track D**: deprecate vanilla + precision fix (exact hex)
 - [x] Dialog/sheet/drawer bounce-back bug fix (vanilla, frozen after)
+- [x] **`dg extract <url>`** — auto-generate shadcn theme จาก URL/CSS
+- [x] **oklch variant** — shadcn adapter + extract support `--oklch`
+- [x] **Unit tests** — 99 tests (53 extract + 46 adapter) + 2 bug fixes
 
 ### Next
-- [ ] **`dg extract <url>`** — auto-generate shadcn theme จากเว็บจริง
-- [ ] **oklch variant** — themes/shadcn/ emit oklch (shadcn native default)
+- [ ] **`dg serve`** — local preview server (dev mode)
+- [ ] **shadcn registry integration** — themes เป็น shadcn registry item (`npx shadcn add theme`)
 - [ ] **JSON theme spec** — load themes จาก JSON (React Native-ready)
 - [ ] **Animation presets** — `--ease-spring` (moss) ขยายเป็น motion tokens
-- [ ] **shadcn registry integration** — themes เป็น shadcn registry item (`npx shadcn add theme`)
 
 ### Maybe
 - [ ] Public npm publish (`@design-gallery/themes`) — private for now
