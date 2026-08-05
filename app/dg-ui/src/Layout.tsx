@@ -1,13 +1,15 @@
 import { NavLink, Outlet } from "react-router-dom"
 import { useTheme } from "./lib/theme"
-import { Home, Palette, Settings, Package, Search, } from "lucide-react"
+import { Home, Palette, Settings, Package, Search, BookOpen, LayoutDashboard } from "lucide-react"
 
 const nav = [
-  { to: "/", icon: Home, label: "Home" },
+  { to: "/", icon: Home, label: "Landing" },
+  { to: "/home", icon: LayoutDashboard, label: "Dashboard" },
   { to: "/themes", icon: Palette, label: "Themes" },
   { to: "/builder", icon: Settings, label: "Builder" },
   { to: "/components", icon: Package, label: "Components" },
   { to: "/extract", icon: Search, label: "Extract" },
+  { to: "/docs", icon: BookOpen, label: "Documentation" },
 ]
 
 export default function Layout() {
