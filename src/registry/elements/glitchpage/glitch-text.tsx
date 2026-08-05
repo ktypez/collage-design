@@ -1,5 +1,6 @@
 import * as React from "react"
 import { cn } from "@/lib/utils"
+import "./glitchpage-effects.css"
 
 interface GlitchTextProps extends React.HTMLAttributes<HTMLDivElement> {
   text?: string

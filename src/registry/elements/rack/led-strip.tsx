@@ -1,5 +1,6 @@
 import * as React from "react"
 import { cn } from "@/lib/utils"
+import "./rack-effects.css"
 
 interface LedStripProps extends React.HTMLAttributes<HTMLDivElement> {
   colors?: string[]

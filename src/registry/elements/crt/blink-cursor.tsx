@@ -1,5 +1,6 @@
 import * as React from "react"
 import { cn } from "@/lib/utils"
+import "./crt-effects.css"
 
 interface BlinkCursorProps extends React.HTMLAttributes<HTMLSpanElement> {}
 

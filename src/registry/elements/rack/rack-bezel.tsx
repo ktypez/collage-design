@@ -1,5 +1,6 @@
 import * as React from "react"
 import { cn } from "@/lib/utils"
+import "./rack-effects.css"
 
 interface RackBezelProps extends React.HTMLAttributes<HTMLDivElement> {
   label?: string

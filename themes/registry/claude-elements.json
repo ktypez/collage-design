@@ -18,16 +18,10 @@
       "target": "components/ui/claude-note.tsx"
     },
     {
-      "path": "effects.css",
+      "path": "claude-effects.css",
       "content": "/* Claude uses soft shadows - no animations */\n",
       "type": "registry:file",
-      "target": "app/globals.css"
-    },
-    {
-      "path": "index.ts",
-      "content": "export { ClaudeNote } from \"./claude-note\"\n",
-      "type": "registry:component",
-      "target": "components/ui/index.ts"
+      "target": "components/ui/claude-effects.css"
     }
   ],
   "meta": {

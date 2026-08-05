@@ -70,16 +70,14 @@ const CONCEPTS = {
 };
 
 // Auto-discover files in a concept dir, deterministic order:
-// .tsx/.ts component files first (alphabetical), then effects.css, then index.ts last
+// .tsx component files first (alphabetical). index.ts is EXCLUDED —
+// it would overwrite components/ui/index.ts on every install since
+// all concept packs target the same path. effects.css is shipped as
+// a per-concept file (<concept>-effects.css) that components import.
 function discoverFiles(conceptDir) {
   if (!fs.existsSync(conceptDir)) return null;
   const entries = fs.readdirSync(conceptDir).filter((f) => !f.startsWith('.'));
-  const components = entries
-    .filter((f) => /\.(tsx|ts)$/.test(f) && f !== 'index.ts')
-    .sort();
-  const css = entries.filter((f) => f.endsWith('.css')).sort();
-  const hasIndex = entries.includes('index.ts');
-  return [...components, ...css, ...(hasIndex ? ['index.ts'] : [])];
+  return entries.filter((f) => /\.tsx$/.test(f)).sort();
 }
 
 function generateElementItem(conceptId, meta) {
@@ -91,22 +89,35 @@ function generateElementItem(conceptId, meta) {
     return null;
   }
 
-  const fileItems = files
-    .map((file) => {
-      const filePath = path.join(conceptDir, file);
-      if (!fs.existsSync(filePath)) return null;
-      const content = fs.readFileSync(filePath, 'utf-8');
-      const target = file.endsWith('.css') ? 'app/globals.css' : `components/ui/${file}`;
-      return {
-        path: file,
-        content,
-        type: file.endsWith('.css') ? 'registry:file' : 'registry:component',
-        target,
-      };
-    })
-    .filter(Boolean);
+  const fileItems = files.map((file) => {
+    const filePath = path.join(conceptDir, file);
+    const content = fs.readFileSync(filePath, 'utf-8');
+    return {
+      path: file,
+      content,
+      type: 'registry:component',
+      target: `components/ui/${file}`,
+    };
+  });
 
-  return {
+  // effects.css ships as <concept>-effects.css (per-concept unique name,
+  // so multiple packs don't collide) targeting components/ui/. Components
+  // import it directly — this keeps @keyframes alive in production CSS
+  // (Tailwind v4 / LightningCSS tree-shakes keyframes referenced only via
+  // inline style; importing the css from a component marks it as used).
+  const effectsPath = path.join(conceptDir, 'effects.css');
+  if (fs.existsSync(effectsPath)) {
+    const cssContent = fs.readFileSync(effectsPath, 'utf-8');
+    const cssName = `${conceptId}-effects.css`;
+    fileItems.push({
+      path: cssName,
+      content: cssContent,
+      type: 'registry:file',
+      target: `components/ui/${cssName}`,
+    });
+  }
+
+  const item = {
     $schema: 'https://ui.shadcn.com/schema/registry-item.json',
     name: meta.name,
     type: 'registry:block',
@@ -118,6 +129,32 @@ function generateElementItem(conceptId, meta) {
       displayName: meta.displayName,
     },
   };
+
+  return item;
+}
+
+// Naive parser: convert CSS text into the nested object form the
+// shadcn registry `css` field expects. Handles @keyframes + rules.
+function parseCssToObject(cssText) {
+  const out = {};
+  const atRuleRe = /@keyframes\s+([\w-]+)\s*\{([\s\S]*?)\n\}/g;
+  let m;
+  while ((m = atRuleRe.exec(cssText)) !== null) {
+    const frames = {};
+    const frameRe = /([\d.]+%|from|to)\s*\{([\s\S]*?)\n\}/g;
+    let f;
+    while ((f = frameRe.exec(m[2])) !== null) {
+      const decls = {};
+      const declRe = /([\w-]+)\s*:\s*([^;]+);/g;
+      let d;
+      while ((d = declRe.exec(f[2])) !== null) {
+        decls[d[1].trim()] = d[2].trim();
+      }
+      frames[f[1].trim()] = decls;
+    }
+    out[`@keyframes ${m[1]}`] = frames;
+  }
+  return out;
 }
 
 function main() {

@@ -18,16 +18,10 @@
       "target": "components/ui/mcky-todo.tsx"
     },
     {
-      "path": "effects.css",
+      "path": "mcky-effects.css",
       "content": "/* MCKY uses hard shadows and 3px borders - no animations */\n",
       "type": "registry:file",
-      "target": "app/globals.css"
-    },
-    {
-      "path": "index.ts",
-      "content": "export { MckyTodo } from \"./mcky-todo\"\nexport { MckyCard } from \"./mcky-card\"\n",
-      "type": "registry:component",
-      "target": "components/ui/index.ts"
+      "target": "components/ui/mcky-effects.css"
     }
   ],
   "meta": {

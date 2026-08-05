@@ -18,16 +18,10 @@
       "target": "components/ui/brut-manifesto.tsx"
     },
     {
-      "path": "effects.css",
+      "path": "brut-effects.css",
       "content": "/* Brut uses instant invert on hover - no keyframe animations */\n",
       "type": "registry:file",
-      "target": "app/globals.css"
-    },
-    {
-      "path": "index.ts",
-      "content": "export { BrutManifesto } from \"./brut-manifesto\"\nexport { BrutButton } from \"./brut-button\"\n",
-      "type": "registry:component",
-      "target": "components/ui/index.ts"
+      "target": "components/ui/brut-effects.css"
     }
   ],
   "meta": {

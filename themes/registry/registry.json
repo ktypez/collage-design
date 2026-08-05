@@ -23,16 +23,10 @@
           "target": "components/ui/brut-manifesto.tsx"
         },
         {
-          "path": "effects.css",
+          "path": "brut-effects.css",
           "content": "/* Brut uses instant invert on hover - no keyframe animations */\n",
           "type": "registry:file",
-          "target": "app/globals.css"
-        },
-        {
-          "path": "index.ts",
-          "content": "export { BrutManifesto } from \"./brut-manifesto\"\nexport { BrutButton } from \"./brut-button\"\n",
-          "type": "registry:component",
-          "target": "components/ui/index.ts"
+          "target": "components/ui/brut-effects.css"
         }
       ],
       "meta": {
@@ -127,16 +121,10 @@
           "target": "components/ui/claude-note.tsx"
         },
         {
-          "path": "effects.css",
+          "path": "claude-effects.css",
           "content": "/* Claude uses soft shadows - no animations */\n",
           "type": "registry:file",
-          "target": "app/globals.css"
-        },
-        {
-          "path": "index.ts",
-          "content": "export { ClaudeNote } from \"./claude-note\"\n",
-          "type": "registry:component",
-          "target": "components/ui/index.ts"
+          "target": "components/ui/claude-effects.css"
         }
       ],
       "meta": {
@@ -224,13 +212,13 @@
       "files": [
         {
           "path": "blink-cursor.tsx",
-          "content": "import * as React from \"react\"\nimport { cn } from \"@/lib/utils\"\n\ninterface BlinkCursorProps extends React.HTMLAttributes<HTMLSpanElement> {}\n\nexport function BlinkCursor({ className, ...props }: BlinkCursorProps) {\n  return (\n    <span \n      className={cn(\"inline-block w-2.5 h-[1em] align-text-bottom\", className)}\n      style={{\n        background: \"var(--accent)\",\n        animation: \"crt-blink 1s steps(1) infinite\",\n      }}\n      {...props}\n    />\n  )\n}\n",
+          "content": "import * as React from \"react\"\nimport { cn } from \"@/lib/utils\"\nimport \"./crt-effects.css\"\n\ninterface BlinkCursorProps extends React.HTMLAttributes<HTMLSpanElement> {}\n\nexport function BlinkCursor({ className, ...props }: BlinkCursorProps) {\n  return (\n    <span \n      className={cn(\"inline-block w-2.5 h-[1em] align-text-bottom\", className)}\n      style={{\n        background: \"var(--accent)\",\n        animation: \"crt-blink 1s steps(1) infinite\",\n      }}\n      {...props}\n    />\n  )\n}\n",
           "type": "registry:component",
           "target": "components/ui/blink-cursor.tsx"
         },
         {
           "path": "crt-led.tsx",
-          "content": "import * as React from \"react\"\nimport { cn } from \"@/lib/utils\"\n\ninterface CrtLedProps extends React.HTMLAttributes<HTMLSpanElement> {\n  color?: string\n}\n\nexport function CrtLed({ \n  className, \n  color = \"var(--accent)\",\n  ...props \n}: CrtLedProps) {\n  return (\n    <span \n      className={cn(\"inline-block w-[9px] h-[9px] rounded-full mr-1 align-middle\", className)}\n      style={{\n        background: color,\n        boxShadow: `0 0 8px ${color}`,\n        animation: \"crt-led 1.2s ease-in-out infinite\",\n      }}\n      {...props}\n    />\n  )\n}\n",
+          "content": "import * as React from \"react\"\nimport { cn } from \"@/lib/utils\"\nimport \"./crt-effects.css\"\n\ninterface CrtLedProps extends React.HTMLAttributes<HTMLSpanElement> {\n  color?: string\n}\n\nexport function CrtLed({ \n  className, \n  color = \"var(--accent)\",\n  ...props \n}: CrtLedProps) {\n  return (\n    <span \n      className={cn(\"inline-block w-[9px] h-[9px] rounded-full mr-1 align-middle\", className)}\n      style={{\n        background: color,\n        boxShadow: `0 0 8px ${color}`,\n        animation: \"crt-led 1.2s ease-in-out infinite\",\n      }}\n      {...props}\n    />\n  )\n}\n",
           "type": "registry:component",
           "target": "components/ui/crt-led.tsx"
         },
@@ -247,16 +235,10 @@
           "target": "components/ui/scanlines.tsx"
         },
         {
-          "path": "effects.css",
+          "path": "crt-effects.css",
           "content": "/* CRT theme effects */\n@keyframes crt-blink {\n  0%, 49% { opacity: 1; }\n  50%, 100% { opacity: 0; }\n}\n\n@keyframes crt-led {\n  0%, 100% { opacity: 1; }\n  50% { opacity: 0.4; }\n}\n",
           "type": "registry:file",
-          "target": "app/globals.css"
-        },
-        {
-          "path": "index.ts",
-          "content": "export { CrtTerminal } from \"./crt-terminal\"\nexport { BlinkCursor } from \"./blink-cursor\"\nexport { Scanlines } from \"./scanlines\"\nexport { CrtLed } from \"./crt-led\"\n",
-          "type": "registry:component",
-          "target": "components/ui/index.ts"
+          "target": "components/ui/crt-effects.css"
         }
       ],
       "meta": {
@@ -351,21 +333,15 @@
         },
         {
           "path": "glitch-text.tsx",
-          "content": "import * as React from \"react\"\nimport { cn } from \"@/lib/utils\"\n\ninterface GlitchTextProps extends React.HTMLAttributes<HTMLDivElement> {\n  text?: string\n}\n\nexport function GlitchText({ \n  className, \n  text = \"404\",\n  ...props \n}: GlitchTextProps) {\n  return (\n    <div \n      className={cn(\n        \"relative font-display text-[110px] font-black leading-none\",\n        className\n      )}\n      style={{\n        color: \"var(--accent)\",\n        textShadow: \"3px 0 var(--accent-2), -3px 0 #ffff00\",\n        animation: \"gp-glitch 3s ease-in-out infinite\",\n      }}\n      {...props}\n    >\n      <span className=\"relative z-10\">{text}</span>\n      <span \n        className=\"absolute top-0 left-0 pointer-events-none\"\n        style={{\n          color: \"var(--accent-2)\",\n          clipPath: \"inset(20% 0 60% 0)\",\n          animation: \"gp-glitch-offset 2s ease-in-out infinite\",\n        }}\n        aria-hidden=\"true\"\n      >\n        {text}\n      </span>\n      <span \n        className=\"absolute top-0 left-0 pointer-events-none\"\n        style={{\n          color: \"#ffff00\",\n          clipPath: \"inset(60% 0 10% 0)\",\n          animation: \"gp-glitch-offset 3s ease-in-out infinite reverse\",\n        }}\n        aria-hidden=\"true\"\n      >\n        {text}\n      </span>\n    </div>\n  )\n}\n",
+          "content": "import * as React from \"react\"\nimport { cn } from \"@/lib/utils\"\nimport \"./glitchpage-effects.css\"\n\ninterface GlitchTextProps extends React.HTMLAttributes<HTMLDivElement> {\n  text?: string\n}\n\nexport function GlitchText({ \n  className, \n  text = \"404\",\n  ...props \n}: GlitchTextProps) {\n  return (\n    <div \n      className={cn(\n        \"relative font-display text-[110px] font-black leading-none\",\n        className\n      )}\n      style={{\n        color: \"var(--accent)\",\n        textShadow: \"3px 0 var(--accent-2), -3px 0 #ffff00\",\n        animation: \"gp-glitch 3s ease-in-out infinite\",\n      }}\n      {...props}\n    >\n      <span className=\"relative z-10\">{text}</span>\n      <span \n        className=\"absolute top-0 left-0 pointer-events-none\"\n        style={{\n          color: \"var(--accent-2)\",\n          clipPath: \"inset(20% 0 60% 0)\",\n          animation: \"gp-glitch-offset 2s ease-in-out infinite\",\n        }}\n        aria-hidden=\"true\"\n      >\n        {text}\n      </span>\n      <span \n        className=\"absolute top-0 left-0 pointer-events-none\"\n        style={{\n          color: \"#ffff00\",\n          clipPath: \"inset(60% 0 10% 0)\",\n          animation: \"gp-glitch-offset 3s ease-in-out infinite reverse\",\n        }}\n        aria-hidden=\"true\"\n      >\n        {text}\n      </span>\n    </div>\n  )\n}\n",
           "type": "registry:component",
           "target": "components/ui/glitch-text.tsx"
         },
         {
-          "path": "effects.css",
+          "path": "glitchpage-effects.css",
           "content": "/* Glitchpage theme effects */\n@keyframes gp-glitch {\n  0%, 90%, 100% { transform: translate(0); }\n  92% { transform: translate(-3px, 2px); }\n  94% { transform: translate(3px, -1px); }\n  96% { transform: translate(-2px, -2px); }\n  98% { transform: translate(1px, 1px); }\n}\n\n@keyframes gp-glitch-offset {\n  0%, 80%, 100% { transform: translate(0); }\n  85% { transform: translate(-8px, 5px); }\n  90% { transform: translate(5px, -3px); }\n  95% { transform: translate(-4px, 4px); }\n}\n",
           "type": "registry:file",
-          "target": "app/globals.css"
-        },
-        {
-          "path": "index.ts",
-          "content": "export { GlitchText } from \"./glitch-text\"\nexport { GlitchLabel } from \"./glitch-label\"\nexport { GlitchStage } from \"./glitch-stage\"\n",
-          "type": "registry:component",
-          "target": "components/ui/index.ts"
+          "target": "components/ui/glitchpage-effects.css"
         }
       ],
       "meta": {
@@ -461,16 +437,10 @@
           "target": "components/ui/mcky-todo.tsx"
         },
         {
-          "path": "effects.css",
+          "path": "mcky-effects.css",
           "content": "/* MCKY uses hard shadows and 3px borders - no animations */\n",
           "type": "registry:file",
-          "target": "app/globals.css"
-        },
-        {
-          "path": "index.ts",
-          "content": "export { MckyTodo } from \"./mcky-todo\"\nexport { MckyCard } from \"./mcky-card\"\n",
-          "type": "registry:component",
-          "target": "components/ui/index.ts"
+          "target": "components/ui/mcky-effects.css"
         }
       ],
       "meta": {
@@ -570,16 +540,10 @@
           "target": "components/ui/min-mock.tsx"
         },
         {
-          "path": "effects.css",
+          "path": "min-effects.css",
           "content": "/* Min uses soft shadows - no animations */\n",
           "type": "registry:file",
-          "target": "app/globals.css"
-        },
-        {
-          "path": "index.ts",
-          "content": "export { MinMock } from \"./min-mock\"\n",
-          "type": "registry:component",
-          "target": "components/ui/index.ts"
+          "target": "components/ui/min-effects.css"
         }
       ],
       "meta": {
@@ -662,7 +626,7 @@
       "files": [
         {
           "path": "blob.tsx",
-          "content": "import * as React from \"react\"\nimport { cn } from \"@/lib/utils\"\n\ninterface BlobProps extends React.HTMLAttributes<HTMLDivElement> {\n  size?: \"sm\" | \"md\" | \"lg\"\n  color?: string\n}\n\nexport function Blob({ \n  className, \n  size = \"md\",\n  color = \"var(--accent, #6a8c3f)\",\n  ...props \n}: BlobProps) {\n  const sizes = {\n    sm: \"w-16 h-16\",\n    md: \"w-24 h-24\",\n    lg: \"w-32 h-32\",\n  }\n  \n  return (\n    <div \n      className={cn(\n        \"rounded-full\",\n        sizes[size],\n        className\n      )}\n      style={{\n        background: color,\n        animation: \"blob-drift 16s ease-in-out infinite\",\n      }}\n      {...props}\n    />\n  )\n}\n",
+          "content": "import * as React from \"react\"\nimport { cn } from \"@/lib/utils\"\nimport \"./moss-effects.css\"\n\ninterface BlobProps extends React.HTMLAttributes<HTMLDivElement> {\n  size?: \"sm\" | \"md\" | \"lg\"\n  color?: string\n}\n\nexport function Blob({ \n  className, \n  size = \"md\",\n  color = \"var(--accent, #6a8c3f)\",\n  ...props \n}: BlobProps) {\n  const sizes = {\n    sm: \"w-16 h-16\",\n    md: \"w-24 h-24\",\n    lg: \"w-32 h-32\",\n  }\n  \n  return (\n    <div \n      className={cn(\n        \"rounded-full\",\n        sizes[size],\n        className\n      )}\n      style={{\n        background: color,\n        animation: \"blob-drift 16s ease-in-out infinite\",\n      }}\n      {...props}\n    />\n  )\n}\n",
           "type": "registry:component",
           "target": "components/ui/blob.tsx"
         },
@@ -673,16 +637,10 @@
           "target": "components/ui/moss-card.tsx"
         },
         {
-          "path": "effects.css",
+          "path": "moss-effects.css",
           "content": "@keyframes blob-drift {\n  0%, 100% { transform: translate(0, 0) scale(1); }\n  33% { transform: translate(10px, -10px) scale(1.05); }\n  66% { transform: translate(-5px, 5px) scale(0.95); }\n}\n",
           "type": "registry:file",
-          "target": "app/globals.css"
-        },
-        {
-          "path": "index.ts",
-          "content": "export { Blob } from \"./blob\"\nexport { MossCard } from \"./moss-card\"\n",
-          "type": "registry:component",
-          "target": "components/ui/index.ts"
+          "target": "components/ui/moss-effects.css"
         }
       ],
       "meta": {
@@ -780,7 +738,7 @@
         },
         {
           "path": "noc-header.tsx",
-          "content": "import * as React from \"react\"\nimport { cn } from \"@/lib/utils\"\n\ninterface NocHeaderProps extends React.HTMLAttributes<HTMLDivElement> {\n  label?: string\n}\n\nexport function NocHeader({ \n  className, \n  label = \"// MOCKUP · NOC_01\",\n  ...props \n}: NocHeaderProps) {\n  return (\n    <div \n      className={cn(\"flex items-center gap-2 px-4 py-2 border-b font-mono text-[10px] tracking-widest\", className)}\n      style={{\n        background: \"var(--surface-2, var(--muted))\",\n        borderBottomColor: \"var(--border-bright, var(--border))\",\n        color: \"var(--fg, var(--foreground))\",\n      }}\n      {...props}\n    >\n      <div \n        className=\"w-1.5 h-1.5 rounded-full\"\n        style={{\n          background: \"var(--ok, #3ddc84)\",\n          boxShadow: \"0 0 6px var(--ok, #3ddc84)\",\n          animation: \"noc-pulse 1.6s ease-in-out infinite\",\n        }}\n      />\n      {label}\n    </div>\n  )\n}\n",
+          "content": "import * as React from \"react\"\nimport { cn } from \"@/lib/utils\"\nimport \"./noc-effects.css\"\n\ninterface NocHeaderProps extends React.HTMLAttributes<HTMLDivElement> {\n  label?: string\n}\n\nexport function NocHeader({ \n  className, \n  label = \"// MOCKUP · NOC_01\",\n  ...props \n}: NocHeaderProps) {\n  return (\n    <div \n      className={cn(\"flex items-center gap-2 px-4 py-2 border-b font-mono text-[10px] tracking-widest\", className)}\n      style={{\n        background: \"var(--surface-2, var(--muted))\",\n        borderBottomColor: \"var(--border-bright, var(--border))\",\n        color: \"var(--fg, var(--foreground))\",\n      }}\n      {...props}\n    >\n      <div \n        className=\"w-1.5 h-1.5 rounded-full\"\n        style={{\n          background: \"var(--ok, #3ddc84)\",\n          boxShadow: \"0 0 6px var(--ok, #3ddc84)\",\n          animation: \"noc-pulse 1.6s ease-in-out infinite\",\n        }}\n      />\n      {label}\n    </div>\n  )\n}\n",
           "type": "registry:component",
           "target": "components/ui/noc-header.tsx"
         },
@@ -791,16 +749,10 @@
           "target": "components/ui/noc-tile.tsx"
         },
         {
-          "path": "effects.css",
+          "path": "noc-effects.css",
           "content": "@keyframes noc-pulse {\n  0%, 100% { opacity: 1; }\n  50% { opacity: 0.35; }\n}\n",
           "type": "registry:file",
-          "target": "app/globals.css"
-        },
-        {
-          "path": "index.ts",
-          "content": "export { NocTile } from \"./noc-tile\"\nexport { NocGrid } from \"./noc-grid\"\nexport { NocHeader } from \"./noc-header\"\n",
-          "type": "registry:component",
-          "target": "components/ui/index.ts"
+          "target": "components/ui/noc-effects.css"
         }
       ],
       "meta": {
@@ -886,13 +838,13 @@
       "files": [
         {
           "path": "led-strip.tsx",
-          "content": "import * as React from \"react\"\nimport { cn } from \"@/lib/utils\"\n\ninterface LedStripProps extends React.HTMLAttributes<HTMLDivElement> {\n  colors?: string[]\n  animated?: boolean\n}\n\nexport function LedStrip({ \n  className, \n  colors = [\"var(--accent-2)\", \"var(--accent)\", \"var(--led-cyan)\", \"var(--accent-2)\"],\n  animated = true,\n  ...props \n}: LedStripProps) {\n  return (\n    <div className={cn(\"flex gap-2 items-center\", className)} {...props}>\n      {colors.map((color, i) => (\n        <div\n          key={i}\n          className=\"w-2 h-2 rounded-full\"\n          style={{\n            background: color,\n            boxShadow: `0 0 8px ${color}`,\n            animation: animated ? `rk-led 1.4s ease-in-out infinite ${i * 0.3}s` : undefined,\n          }}\n        />\n      ))}\n    </div>\n  )\n}\n",
+          "content": "import * as React from \"react\"\nimport { cn } from \"@/lib/utils\"\nimport \"./rack-effects.css\"\n\ninterface LedStripProps extends React.HTMLAttributes<HTMLDivElement> {\n  colors?: string[]\n  animated?: boolean\n}\n\nexport function LedStrip({ \n  className, \n  colors = [\"var(--accent-2)\", \"var(--accent)\", \"var(--led-cyan)\", \"var(--accent-2)\"],\n  animated = true,\n  ...props \n}: LedStripProps) {\n  return (\n    <div className={cn(\"flex gap-2 items-center\", className)} {...props}>\n      {colors.map((color, i) => (\n        <div\n          key={i}\n          className=\"w-2 h-2 rounded-full\"\n          style={{\n            background: color,\n            boxShadow: `0 0 8px ${color}`,\n            animation: animated ? `rk-led 1.4s ease-in-out infinite ${i * 0.3}s` : undefined,\n          }}\n        />\n      ))}\n    </div>\n  )\n}\n",
           "type": "registry:component",
           "target": "components/ui/led-strip.tsx"
         },
         {
           "path": "rack-bezel.tsx",
-          "content": "import * as React from \"react\"\nimport { cn } from \"@/lib/utils\"\n\ninterface RackBezelProps extends React.HTMLAttributes<HTMLDivElement> {\n  label?: string\n}\n\nexport function RackBezel({ \n  className, \n  label = \"// MOCKUP · RACK_01\",\n  children,\n  ...props \n}: RackBezelProps) {\n  return (\n    <div className={cn(\"relative\", className)} {...props}>\n      <div \n        className=\"flex items-center gap-2 px-4 py-2.5 border-b font-mono text-[10px] tracking-widest\"\n        style={{\n          background: \"var(--bg-2)\",\n          borderBottomColor: \"var(--border-bright)\",\n          color: \"var(--accent)\",\n        }}\n      >\n        <div \n          className=\"w-1.5 h-1.5 rounded-full\"\n          style={{\n            background: \"var(--accent-2)\",\n            boxShadow: \"0 0 6px var(--accent-2)\",\n            animation: \"rk-pulse 1.4s ease-in-out infinite\",\n          }}\n        />\n        {label}\n      </div>\n      {children}\n    </div>\n  )\n}\n",
+          "content": "import * as React from \"react\"\nimport { cn } from \"@/lib/utils\"\nimport \"./rack-effects.css\"\n\ninterface RackBezelProps extends React.HTMLAttributes<HTMLDivElement> {\n  label?: string\n}\n\nexport function RackBezel({ \n  className, \n  label = \"// MOCKUP · RACK_01\",\n  children,\n  ...props \n}: RackBezelProps) {\n  return (\n    <div className={cn(\"relative\", className)} {...props}>\n      <div \n        className=\"flex items-center gap-2 px-4 py-2.5 border-b font-mono text-[10px] tracking-widest\"\n        style={{\n          background: \"var(--bg-2)\",\n          borderBottomColor: \"var(--border-bright)\",\n          color: \"var(--accent)\",\n        }}\n      >\n        <div \n          className=\"w-1.5 h-1.5 rounded-full\"\n          style={{\n            background: \"var(--accent-2)\",\n            boxShadow: \"0 0 6px var(--accent-2)\",\n            animation: \"rk-pulse 1.4s ease-in-out infinite\",\n          }}\n        />\n        {label}\n      </div>\n      {children}\n    </div>\n  )\n}\n",
           "type": "registry:component",
           "target": "components/ui/rack-bezel.tsx"
         },
@@ -904,21 +856,15 @@
         },
         {
           "path": "rack-unit.tsx",
-          "content": "import * as React from \"react\"\nimport { cn } from \"@/lib/utils\"\n\ninterface RackUnitProps extends React.HTMLAttributes<HTMLDivElement> {\n  label: string\n  ledColor?: string\n  showScrews?: boolean\n}\n\nexport function RackUnit({ \n  className, \n  label,\n  ledColor = \"var(--accent)\",\n  showScrews = true,\n  ...props \n}: RackUnitProps) {\n  return (\n    <div \n      className={cn(\n        \"relative flex items-center justify-between px-4 min-h-[44px] font-mono text-sm\",\n        className\n      )}\n      style={{\n        background: \"linear-gradient(180deg, #1c1c20, #0a0a0c)\",\n        border: \"1px solid var(--border)\",\n        borderRadius: \"2px\",\n        boxShadow: \"inset 0 1px 0 rgba(255, 255, 255, 0.03)\",\n      }}\n      {...props}\n    >\n      {showScrews && (\n        <>\n          <div \n            className=\"absolute left-[-8px] top-1/2 -translate-y-1/2 w-1 h-1 rounded-full\"\n            style={{\n              background: \"radial-gradient(circle at 30% 30%, #5a5a63, #1a1a20)\",\n              boxShadow: \"0 0 0 1px #0a0a0c\",\n            }}\n          />\n          <div \n            className=\"absolute right-[-8px] top-1/2 -translate-y-1/2 w-1 h-1 rounded-full\"\n            style={{\n              background: \"radial-gradient(circle at 30% 30%, #5a5a63, #1a1a20)\",\n              boxShadow: \"0 0 0 1px #0a0a0c\",\n            }}\n          />\n        </>\n      )}\n      <span>{label}</span>\n      <div \n        className=\"w-2 h-2 rounded-full\"\n        style={{\n          background: ledColor,\n          boxShadow: `0 0 8px ${ledColor}`,\n          animation: \"rk-led 1.4s ease-in-out infinite\",\n        }}\n      />\n    </div>\n  )\n}\n",
+          "content": "import * as React from \"react\"\nimport { cn } from \"@/lib/utils\"\nimport \"./rack-effects.css\"\n\ninterface RackUnitProps extends React.HTMLAttributes<HTMLDivElement> {\n  label: string\n  ledColor?: string\n  showScrews?: boolean\n}\n\nexport function RackUnit({ \n  className, \n  label,\n  ledColor = \"var(--accent)\",\n  showScrews = true,\n  ...props \n}: RackUnitProps) {\n  return (\n    <div \n      className={cn(\n        \"relative flex items-center justify-between px-4 min-h-[44px] font-mono text-sm\",\n        className\n      )}\n      style={{\n        background: \"linear-gradient(180deg, #1c1c20, #0a0a0c)\",\n        border: \"1px solid var(--border)\",\n        borderRadius: \"2px\",\n        boxShadow: \"inset 0 1px 0 rgba(255, 255, 255, 0.03)\",\n      }}\n      {...props}\n    >\n      {showScrews && (\n        <>\n          <div \n            className=\"absolute left-[-8px] top-1/2 -translate-y-1/2 w-1 h-1 rounded-full\"\n            style={{\n              background: \"radial-gradient(circle at 30% 30%, #5a5a63, #1a1a20)\",\n              boxShadow: \"0 0 0 1px #0a0a0c\",\n            }}\n          />\n          <div \n            className=\"absolute right-[-8px] top-1/2 -translate-y-1/2 w-1 h-1 rounded-full\"\n            style={{\n              background: \"radial-gradient(circle at 30% 30%, #5a5a63, #1a1a20)\",\n              boxShadow: \"0 0 0 1px #0a0a0c\",\n            }}\n          />\n        </>\n      )}\n      <span>{label}</span>\n      <div \n        className=\"w-2 h-2 rounded-full\"\n        style={{\n          background: ledColor,\n          boxShadow: `0 0 8px ${ledColor}`,\n          animation: \"rk-led 1.4s ease-in-out infinite\",\n        }}\n      />\n    </div>\n  )\n}\n",
           "type": "registry:component",
           "target": "components/ui/rack-unit.tsx"
         },
         {
-          "path": "effects.css",
+          "path": "rack-effects.css",
           "content": "/* Rack theme effects */\n@keyframes rk-led {\n  0%, 100% { opacity: 1; }\n  50% { opacity: 0.5; }\n}\n\n@keyframes rk-pulse {\n  0%, 100% { opacity: 1; transform: scale(1); }\n  50% { opacity: 0.6; transform: scale(0.95); }\n}\n",
           "type": "registry:file",
-          "target": "app/globals.css"
-        },
-        {
-          "path": "index.ts",
-          "content": "export { LedStrip } from \"./led-strip\"\nexport { RackBezel } from \"./rack-bezel\"\nexport { RackUnit } from \"./rack-unit\"\nexport { RackMock } from \"./rack-mock\"\n",
-          "type": "registry:component",
-          "target": "components/ui/index.ts"
+          "target": "components/ui/rack-effects.css"
         }
       ],
       "meta": {

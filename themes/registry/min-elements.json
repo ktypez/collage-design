@@ -18,16 +18,10 @@
       "target": "components/ui/min-mock.tsx"
     },
     {
-      "path": "effects.css",
+      "path": "min-effects.css",
       "content": "/* Min uses soft shadows - no animations */\n",
       "type": "registry:file",
-      "target": "app/globals.css"
-    },
-    {
-      "path": "index.ts",
-      "content": "export { MinMock } from \"./min-mock\"\n",
-      "type": "registry:component",
-      "target": "components/ui/index.ts"
+      "target": "components/ui/min-effects.css"
     }
   ],
   "meta": {

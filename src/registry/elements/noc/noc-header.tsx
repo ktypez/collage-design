@@ -1,5 +1,6 @@
 import * as React from "react"
 import { cn } from "@/lib/utils"
+import "./noc-effects.css"
 
 interface NocHeaderProps extends React.HTMLAttributes<HTMLDivElement> {
   label?: string

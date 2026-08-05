@@ -13,7 +13,7 @@
     },
     {
       "path": "noc-header.tsx",
-      "content": "import * as React from \"react\"\nimport { cn } from \"@/lib/utils\"\n\ninterface NocHeaderProps extends React.HTMLAttributes<HTMLDivElement> {\n  label?: string\n}\n\nexport function NocHeader({ \n  className, \n  label = \"// MOCKUP · NOC_01\",\n  ...props \n}: NocHeaderProps) {\n  return (\n    <div \n      className={cn(\"flex items-center gap-2 px-4 py-2 border-b font-mono text-[10px] tracking-widest\", className)}\n      style={{\n        background: \"var(--surface-2, var(--muted))\",\n        borderBottomColor: \"var(--border-bright, var(--border))\",\n        color: \"var(--fg, var(--foreground))\",\n      }}\n      {...props}\n    >\n      <div \n        className=\"w-1.5 h-1.5 rounded-full\"\n        style={{\n          background: \"var(--ok, #3ddc84)\",\n          boxShadow: \"0 0 6px var(--ok, #3ddc84)\",\n          animation: \"noc-pulse 1.6s ease-in-out infinite\",\n        }}\n      />\n      {label}\n    </div>\n  )\n}\n",
+      "content": "import * as React from \"react\"\nimport { cn } from \"@/lib/utils\"\nimport \"./noc-effects.css\"\n\ninterface NocHeaderProps extends React.HTMLAttributes<HTMLDivElement> {\n  label?: string\n}\n\nexport function NocHeader({ \n  className, \n  label = \"// MOCKUP · NOC_01\",\n  ...props \n}: NocHeaderProps) {\n  return (\n    <div \n      className={cn(\"flex items-center gap-2 px-4 py-2 border-b font-mono text-[10px] tracking-widest\", className)}\n      style={{\n        background: \"var(--surface-2, var(--muted))\",\n        borderBottomColor: \"var(--border-bright, var(--border))\",\n        color: \"var(--fg, var(--foreground))\",\n      }}\n      {...props}\n    >\n      <div \n        className=\"w-1.5 h-1.5 rounded-full\"\n        style={{\n          background: \"var(--ok, #3ddc84)\",\n          boxShadow: \"0 0 6px var(--ok, #3ddc84)\",\n          animation: \"noc-pulse 1.6s ease-in-out infinite\",\n        }}\n      />\n      {label}\n    </div>\n  )\n}\n",
       "type": "registry:component",
       "target": "components/ui/noc-header.tsx"
     },
@@ -24,16 +24,10 @@
       "target": "components/ui/noc-tile.tsx"
     },
     {
-      "path": "effects.css",
+      "path": "noc-effects.css",
       "content": "@keyframes noc-pulse {\n  0%, 100% { opacity: 1; }\n  50% { opacity: 0.35; }\n}\n",
       "type": "registry:file",
-      "target": "app/globals.css"
-    },
-    {
-      "path": "index.ts",
-      "content": "export { NocTile } from \"./noc-tile\"\nexport { NocGrid } from \"./noc-grid\"\nexport { NocHeader } from \"./noc-header\"\n",
-      "type": "registry:component",
-      "target": "components/ui/index.ts"
+      "target": "components/ui/noc-effects.css"
     }
   ],
   "meta": {

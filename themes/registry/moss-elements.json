@@ -7,7 +7,7 @@
   "files": [
     {
       "path": "blob.tsx",
-      "content": "import * as React from \"react\"\nimport { cn } from \"@/lib/utils\"\n\ninterface BlobProps extends React.HTMLAttributes<HTMLDivElement> {\n  size?: \"sm\" | \"md\" | \"lg\"\n  color?: string\n}\n\nexport function Blob({ \n  className, \n  size = \"md\",\n  color = \"var(--accent, #6a8c3f)\",\n  ...props \n}: BlobProps) {\n  const sizes = {\n    sm: \"w-16 h-16\",\n    md: \"w-24 h-24\",\n    lg: \"w-32 h-32\",\n  }\n  \n  return (\n    <div \n      className={cn(\n        \"rounded-full\",\n        sizes[size],\n        className\n      )}\n      style={{\n        background: color,\n        animation: \"blob-drift 16s ease-in-out infinite\",\n      }}\n      {...props}\n    />\n  )\n}\n",
+      "content": "import * as React from \"react\"\nimport { cn } from \"@/lib/utils\"\nimport \"./moss-effects.css\"\n\ninterface BlobProps extends React.HTMLAttributes<HTMLDivElement> {\n  size?: \"sm\" | \"md\" | \"lg\"\n  color?: string\n}\n\nexport function Blob({ \n  className, \n  size = \"md\",\n  color = \"var(--accent, #6a8c3f)\",\n  ...props \n}: BlobProps) {\n  const sizes = {\n    sm: \"w-16 h-16\",\n    md: \"w-24 h-24\",\n    lg: \"w-32 h-32\",\n  }\n  \n  return (\n    <div \n      className={cn(\n        \"rounded-full\",\n        sizes[size],\n        className\n      )}\n      style={{\n        background: color,\n        animation: \"blob-drift 16s ease-in-out infinite\",\n      }}\n      {...props}\n    />\n  )\n}\n",
       "type": "registry:component",
       "target": "components/ui/blob.tsx"
     },
@@ -18,16 +18,10 @@
       "target": "components/ui/moss-card.tsx"
     },
     {
-      "path": "effects.css",
+      "path": "moss-effects.css",
       "content": "@keyframes blob-drift {\n  0%, 100% { transform: translate(0, 0) scale(1); }\n  33% { transform: translate(10px, -10px) scale(1.05); }\n  66% { transform: translate(-5px, 5px) scale(0.95); }\n}\n",
       "type": "registry:file",
-      "target": "app/globals.css"
-    },
-    {
-      "path": "index.ts",
-      "content": "export { Blob } from \"./blob\"\nexport { MossCard } from \"./moss-card\"\n",
-      "type": "registry:component",
-      "target": "components/ui/index.ts"
+      "target": "components/ui/moss-effects.css"
     }
   ],
   "meta": {
