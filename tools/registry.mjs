@@ -42,7 +42,8 @@ function parseCssBlock(css, selector) {
   for (const line of lines) {
     const m = line.match(/--([a-z0-9-]+)\s*:\s*([^;]+);/);
     if (m) {
-      vars[`--${m[1]}`] = m[2].trim();
+      // Store WITHOUT -- prefix (shadcn CLI adds it automatically)
+      vars[m[1]] = m[2].trim();
     }
   }
   return vars;
@@ -78,8 +79,8 @@ function generateThemeItem(theme) {
   
   // Separate theme vars (non-color) from light/dark
   const themeVars = {};
-  const colorKeys = ['--background', '--foreground', '--card', '--popover', '--primary', '--secondary', 
-                     '--muted', '--accent', '--destructive', '--border', '--input', '--ring'];
+  const colorKeys = ['background', 'foreground', 'card', 'popover', 'primary', 'secondary', 
+                     'muted', 'accent', 'destructive', 'border', 'input', 'ring'];
   
   for (const [key, value] of Object.entries(light)) {
     if (!colorKeys.includes(key)) {
@@ -102,6 +103,14 @@ function generateThemeItem(theme) {
       theme: themeVars,
       light: light,
       dark: dark,
+    },
+    css: {
+      '@layer base': {
+        'body': {
+          'background-color': 'var(--background)',
+          'color': 'var(--foreground)',
+        }
+      }
     },
     meta: {
       name: theme.name,

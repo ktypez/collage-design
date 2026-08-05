@@ -10,55 +10,63 @@
       "description": "mcky.space — neobrutalism, 3px border, hard shadow, mono 100%",
       "cssVars": {
         "theme": {
-          "--accent-2": "#00cec9",
-          "--accent-deep": "#d9a400",
-          "--accent-foreground": "hsl(0 0% 0%)",
-          "--border-width": "3px",
-          "--card-foreground": "hsl(0 0% 0%)",
-          "--destructive-foreground": "hsl(0 0% 0%)",
-          "--font-display": "'JetBrains Mono', ui-monospace, monospace",
-          "--font-mono": "'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace",
-          "--font-sans": "'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace",
-          "--font-serif": "'JetBrains Mono', ui-monospace, monospace",
-          "--info": "#4361ee",
-          "--muted-foreground": "#333333",
-          "--popover-foreground": "hsl(0 0% 0%)",
-          "--primary-foreground": "hsl(0 0% 0%)",
-          "--radius": "0.375rem",
-          "--secondary-foreground": "hsl(0 0% 0%)",
-          "--shadow": "4px 4px 0 hsl(var(--border))",
-          "--shadow-lg": "4px 4px 0 hsl(var(--border))",
-          "--shadow-md": "4px 4px 0 hsl(var(--border))",
-          "--success": "#06d6a0",
-          "--warning": "#ff9f43"
+          "accent-2": "#00cec9",
+          "accent-deep": "#d9a400",
+          "accent-foreground": "hsl(0 0% 0%)",
+          "border-width": "3px",
+          "card-foreground": "hsl(0 0% 0%)",
+          "destructive-foreground": "hsl(0 0% 0%)",
+          "font-display": "'JetBrains Mono', ui-monospace, monospace",
+          "font-mono": "'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace",
+          "font-sans": "'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace",
+          "font-serif": "'JetBrains Mono', ui-monospace, monospace",
+          "info": "#4361ee",
+          "muted-foreground": "#333333",
+          "popover-foreground": "hsl(0 0% 0%)",
+          "primary-foreground": "hsl(0 0% 0%)",
+          "radius": "0.375rem",
+          "secondary-foreground": "hsl(0 0% 0%)",
+          "shadow": "4px 4px 0 hsl(var(--border))",
+          "shadow-lg": "4px 4px 0 hsl(var(--border))",
+          "shadow-md": "4px 4px 0 hsl(var(--border))",
+          "success": "#06d6a0",
+          "warning": "#ff9f43"
         },
         "light": {
-          "--accent": "#ffe066",
-          "--background": "#f5f5f0",
-          "--border": "#000000",
-          "--card": "#ffffff",
-          "--destructive": "#ff6b6b",
-          "--foreground": "#000000",
-          "--input": "hsl(0 0% 0%)",
-          "--muted": "#eaeae4",
-          "--popover": "hsl(0 0% 100%)",
-          "--primary": "#ffe066",
-          "--ring": "hsl(0 0% 0%)",
-          "--secondary": "hsl(60 17% 91%)"
+          "accent": "#ffe066",
+          "background": "#f5f5f0",
+          "border": "#000000",
+          "card": "#ffffff",
+          "destructive": "#ff6b6b",
+          "foreground": "#000000",
+          "input": "hsl(0 0% 0%)",
+          "muted": "#eaeae4",
+          "popover": "hsl(0 0% 100%)",
+          "primary": "#ffe066",
+          "ring": "hsl(0 0% 0%)",
+          "secondary": "hsl(60 17% 91%)"
         },
         "dark": {
-          "--accent": "#ffe066",
-          "--background": "#0a0a0a",
-          "--border": "#888888",
-          "--card": "#141414",
-          "--destructive": "hsl(0 100% 71%)",
-          "--foreground": "#e0e0e0",
-          "--input": "hsl(0 0% 53%)",
-          "--muted": "#1f1f1f",
-          "--popover": "hsl(0 0% 8%)",
-          "--primary": "#ffe066",
-          "--ring": "hsl(50 100% 71%)",
-          "--secondary": "hsl(0 0% 12%)"
+          "accent": "#ffe066",
+          "background": "#0a0a0a",
+          "border": "#888888",
+          "card": "#141414",
+          "destructive": "hsl(0 100% 71%)",
+          "foreground": "#e0e0e0",
+          "input": "hsl(0 0% 53%)",
+          "muted": "#1f1f1f",
+          "popover": "hsl(0 0% 8%)",
+          "primary": "#ffe066",
+          "ring": "hsl(50 100% 71%)",
+          "secondary": "hsl(0 0% 12%)"
+        }
+      },
+      "css": {
+        "@layer base": {
+          "body": {
+            "background-color": "var(--background)",
+            "color": "var(--foreground)"
+          }
         }
       },
       "meta": {
@@ -74,52 +82,60 @@
       "description": "STACK//FRAME — server rack, amber LED, Inter+mono",
       "cssVars": {
         "theme": {
-          "--accent-2": "#00ff66",
-          "--accent-foreground": "hsl(240 8% 4%)",
-          "--border-width": "1px",
-          "--card-foreground": "hsl(240 7% 96%)",
-          "--destructive-foreground": "hsl(240 7% 96%)",
-          "--font-mono": "'JetBrains Mono', ui-monospace, monospace",
-          "--font-sans": "'Inter', system-ui, sans-serif",
-          "--info": "#00d4ff",
-          "--muted-foreground": "#8a8a93",
-          "--popover-foreground": "hsl(240 7% 96%)",
-          "--primary-foreground": "hsl(240 8% 4%)",
-          "--radius": "0",
-          "--secondary-foreground": "hsl(240 7% 96%)",
-          "--shadow": "none",
-          "--shadow-lg": "none",
-          "--shadow-md": "none",
-          "--success": "hsl(145 100% 50%)",
-          "--warning": "hsl(40 100% 50%)"
+          "accent-2": "#00ff66",
+          "accent-foreground": "hsl(240 8% 4%)",
+          "border-width": "1px",
+          "card-foreground": "hsl(240 7% 96%)",
+          "destructive-foreground": "hsl(240 7% 96%)",
+          "font-mono": "'JetBrains Mono', ui-monospace, monospace",
+          "font-sans": "'Inter', system-ui, sans-serif",
+          "info": "#00d4ff",
+          "muted-foreground": "#8a8a93",
+          "popover-foreground": "hsl(240 7% 96%)",
+          "primary-foreground": "hsl(240 8% 4%)",
+          "radius": "0",
+          "secondary-foreground": "hsl(240 7% 96%)",
+          "shadow": "none",
+          "shadow-lg": "none",
+          "shadow-md": "none",
+          "success": "hsl(145 100% 50%)",
+          "warning": "hsl(40 100% 50%)"
         },
         "light": {
-          "--accent": "#ffb000",
-          "--background": "#0a0a0c",
-          "--border": "#2a2a32",
-          "--card": "#16161a",
-          "--destructive": "#ff3b30",
-          "--foreground": "#f5f5f7",
-          "--input": "hsl(240 8% 18%)",
-          "--muted": "hsl(240 9% 7%)",
-          "--popover": "hsl(240 9% 9%)",
-          "--primary": "#ffb000",
-          "--ring": "#3a3a42",
-          "--secondary": "hsl(240 9% 7%)"
+          "accent": "#ffb000",
+          "background": "#0a0a0c",
+          "border": "#2a2a32",
+          "card": "#16161a",
+          "destructive": "#ff3b30",
+          "foreground": "#f5f5f7",
+          "input": "hsl(240 8% 18%)",
+          "muted": "hsl(240 9% 7%)",
+          "popover": "hsl(240 9% 9%)",
+          "primary": "#ffb000",
+          "ring": "#3a3a42",
+          "secondary": "hsl(240 9% 7%)"
         },
         "dark": {
-          "--accent": "#ffb000",
-          "--background": "#0a0a0c",
-          "--border": "#2a2a32",
-          "--card": "#16161a",
-          "--destructive": "#ff3b30",
-          "--foreground": "#f5f5f7",
-          "--input": "hsl(240 8% 18%)",
-          "--muted": "hsl(240 9% 7%)",
-          "--popover": "hsl(240 9% 9%)",
-          "--primary": "#ffb000",
-          "--ring": "#3a3a42",
-          "--secondary": "hsl(240 9% 7%)"
+          "accent": "#ffb000",
+          "background": "#0a0a0c",
+          "border": "#2a2a32",
+          "card": "#16161a",
+          "destructive": "#ff3b30",
+          "foreground": "#f5f5f7",
+          "input": "hsl(240 8% 18%)",
+          "muted": "hsl(240 9% 7%)",
+          "popover": "hsl(240 9% 9%)",
+          "primary": "#ffb000",
+          "ring": "#3a3a42",
+          "secondary": "hsl(240 9% 7%)"
+        }
+      },
+      "css": {
+        "@layer base": {
+          "body": {
+            "background-color": "var(--background)",
+            "color": "var(--foreground)"
+          }
         }
       },
       "meta": {
@@ -135,49 +151,57 @@
       "description": "PIXSH v1.0 — phosphor green, scanlines, VT323",
       "cssVars": {
         "theme": {
-          "--accent-dim": "#2e9e1e",
-          "--accent-foreground": "hsl(60 17% 2%)",
-          "--border-width": "1px",
-          "--card-foreground": "hsl(105 32% 78%)",
-          "--destructive-foreground": "hsl(60 17% 2%)",
-          "--font-mono": "'VT323', 'JetBrains Mono', ui-monospace, monospace",
-          "--font-sans": "'VT323', 'Inter', sans-serif",
-          "--muted-foreground": "#7a8f74",
-          "--popover-foreground": "hsl(105 32% 78%)",
-          "--primary-foreground": "hsl(60 17% 2%)",
-          "--radius": "0",
-          "--secondary-foreground": "hsl(105 32% 78%)",
-          "--shadow": "none",
-          "--shadow-lg": "none",
-          "--shadow-md": "none"
+          "accent-dim": "#2e9e1e",
+          "accent-foreground": "hsl(60 17% 2%)",
+          "border-width": "1px",
+          "card-foreground": "hsl(105 32% 78%)",
+          "destructive-foreground": "hsl(60 17% 2%)",
+          "font-mono": "'VT323', 'JetBrains Mono', ui-monospace, monospace",
+          "font-sans": "'VT323', 'Inter', sans-serif",
+          "muted-foreground": "#7a8f74",
+          "popover-foreground": "hsl(105 32% 78%)",
+          "primary-foreground": "hsl(60 17% 2%)",
+          "radius": "0",
+          "secondary-foreground": "hsl(105 32% 78%)",
+          "shadow": "none",
+          "shadow-lg": "none",
+          "shadow-md": "none"
         },
         "light": {
-          "--accent": "#4af626",
-          "--background": "#060605",
-          "--border": "#263a26",
-          "--card": "#0d0d0b",
-          "--destructive": "#ff5c5c",
-          "--foreground": "#c5d9b7",
-          "--input": "hsl(120 21% 19%)",
-          "--muted": "#141410",
-          "--popover": "hsl(60 13% 5%)",
-          "--primary": "#4af626",
-          "--ring": "#3d5c3d",
-          "--secondary": "hsl(60 14% 7%)"
+          "accent": "#4af626",
+          "background": "#060605",
+          "border": "#263a26",
+          "card": "#0d0d0b",
+          "destructive": "#ff5c5c",
+          "foreground": "#c5d9b7",
+          "input": "hsl(120 21% 19%)",
+          "muted": "#141410",
+          "popover": "hsl(60 13% 5%)",
+          "primary": "#4af626",
+          "ring": "#3d5c3d",
+          "secondary": "hsl(60 14% 7%)"
         },
         "dark": {
-          "--accent": "#4af626",
-          "--background": "#060605",
-          "--border": "#263a26",
-          "--card": "#0d0d0b",
-          "--destructive": "#ff5c5c",
-          "--foreground": "#c5d9b7",
-          "--input": "hsl(120 21% 19%)",
-          "--muted": "#141410",
-          "--popover": "hsl(60 13% 5%)",
-          "--primary": "#4af626",
-          "--ring": "#3d5c3d",
-          "--secondary": "hsl(60 14% 7%)"
+          "accent": "#4af626",
+          "background": "#060605",
+          "border": "#263a26",
+          "card": "#0d0d0b",
+          "destructive": "#ff5c5c",
+          "foreground": "#c5d9b7",
+          "input": "hsl(120 21% 19%)",
+          "muted": "#141410",
+          "popover": "hsl(60 13% 5%)",
+          "primary": "#4af626",
+          "ring": "#3d5c3d",
+          "secondary": "hsl(60 14% 7%)"
+        }
+      },
+      "css": {
+        "@layer base": {
+          "body": {
+            "background-color": "var(--background)",
+            "color": "var(--foreground)"
+          }
         }
       },
       "meta": {
@@ -193,52 +217,60 @@
       "description": "PACKETGRID — NOC dashboard, cyan+green",
       "cssVars": {
         "theme": {
-          "--accent-2": "#00d4ff",
-          "--accent-foreground": "hsl(207 29% 5%)",
-          "--border-width": "1px",
-          "--card-foreground": "hsl(207 38% 90%)",
-          "--destructive-foreground": "hsl(207 38% 90%)",
-          "--font-mono": "'JetBrains Mono', ui-monospace, monospace",
-          "--font-sans": "'Inter', system-ui, sans-serif",
-          "--info": "hsl(190 100% 50%)",
-          "--muted-foreground": "#7d8fa1",
-          "--popover-foreground": "hsl(207 38% 90%)",
-          "--primary-foreground": "hsl(207 29% 5%)",
-          "--radius": "0",
-          "--secondary-foreground": "hsl(207 38% 90%)",
-          "--shadow": "none",
-          "--shadow-lg": "none",
-          "--shadow-md": "none",
-          "--success": "#3ddc84",
-          "--warning": "hsl(38 92% 50%)"
+          "accent-2": "#00d4ff",
+          "accent-foreground": "hsl(207 29% 5%)",
+          "border-width": "1px",
+          "card-foreground": "hsl(207 38% 90%)",
+          "destructive-foreground": "hsl(207 38% 90%)",
+          "font-mono": "'JetBrains Mono', ui-monospace, monospace",
+          "font-sans": "'Inter', system-ui, sans-serif",
+          "info": "hsl(190 100% 50%)",
+          "muted-foreground": "#7d8fa1",
+          "popover-foreground": "hsl(207 38% 90%)",
+          "primary-foreground": "hsl(207 29% 5%)",
+          "radius": "0",
+          "secondary-foreground": "hsl(207 38% 90%)",
+          "shadow": "none",
+          "shadow-lg": "none",
+          "shadow-md": "none",
+          "success": "#3ddc84",
+          "warning": "hsl(38 92% 50%)"
         },
         "light": {
-          "--accent": "#35f0c8",
-          "--background": "#0a0f14",
-          "--border": "#1c2836",
-          "--card": "#0f161d",
-          "--destructive": "#ff5c5c",
-          "--foreground": "#d9e6f2",
-          "--input": "hsl(207 27% 16%)",
-          "--muted": "#131c25",
-          "--popover": "hsl(206 28% 9%)",
-          "--primary": "#35f0c8",
-          "--ring": "#2a3b4d",
-          "--secondary": "hsl(207 28% 11%)"
+          "accent": "#35f0c8",
+          "background": "#0a0f14",
+          "border": "#1c2836",
+          "card": "#0f161d",
+          "destructive": "#ff5c5c",
+          "foreground": "#d9e6f2",
+          "input": "hsl(207 27% 16%)",
+          "muted": "#131c25",
+          "popover": "hsl(206 28% 9%)",
+          "primary": "#35f0c8",
+          "ring": "#2a3b4d",
+          "secondary": "hsl(207 28% 11%)"
         },
         "dark": {
-          "--accent": "#35f0c8",
-          "--background": "#0a0f14",
-          "--border": "#1c2836",
-          "--card": "#0f161d",
-          "--destructive": "#ff5c5c",
-          "--foreground": "#d9e6f2",
-          "--input": "hsl(207 27% 16%)",
-          "--muted": "#131c25",
-          "--popover": "hsl(206 28% 9%)",
-          "--primary": "#35f0c8",
-          "--ring": "#2a3b4d",
-          "--secondary": "hsl(207 28% 11%)"
+          "accent": "#35f0c8",
+          "background": "#0a0f14",
+          "border": "#1c2836",
+          "card": "#0f161d",
+          "destructive": "#ff5c5c",
+          "foreground": "#d9e6f2",
+          "input": "hsl(207 27% 16%)",
+          "muted": "#131c25",
+          "popover": "hsl(206 28% 9%)",
+          "primary": "#35f0c8",
+          "ring": "#2a3b4d",
+          "secondary": "hsl(207 28% 11%)"
+        }
+      },
+      "css": {
+        "@layer base": {
+          "body": {
+            "background-color": "var(--background)",
+            "color": "var(--foreground)"
+          }
         }
       },
       "meta": {
@@ -254,49 +286,57 @@
       "description": "collage.sh — minimal, olive lime accent",
       "cssVars": {
         "theme": {
-          "--accent-2": "hsl(65 65% 49%)",
-          "--accent-foreground": "hsl(60 9% 96%)",
-          "--border-width": "1px",
-          "--card-foreground": "hsl(80 13% 10%)",
-          "--destructive-foreground": "hsl(0 0% 100%)",
-          "--font-mono": "'JetBrains Mono', ui-monospace, monospace",
-          "--font-sans": "'Inter', system-ui, sans-serif",
-          "--muted-foreground": "#5d6157",
-          "--popover-foreground": "hsl(80 13% 10%)",
-          "--primary-foreground": "hsl(60 9% 96%)",
-          "--radius": "0",
-          "--secondary-foreground": "hsl(80 13% 10%)",
-          "--shadow": "none",
-          "--shadow-lg": "none",
-          "--shadow-md": "none"
+          "accent-2": "hsl(65 65% 49%)",
+          "accent-foreground": "hsl(60 9% 96%)",
+          "border-width": "1px",
+          "card-foreground": "hsl(80 13% 10%)",
+          "destructive-foreground": "hsl(0 0% 100%)",
+          "font-mono": "'JetBrains Mono', ui-monospace, monospace",
+          "font-sans": "'Inter', system-ui, sans-serif",
+          "muted-foreground": "#5d6157",
+          "popover-foreground": "hsl(80 13% 10%)",
+          "primary-foreground": "hsl(60 9% 96%)",
+          "radius": "0",
+          "secondary-foreground": "hsl(80 13% 10%)",
+          "shadow": "none",
+          "shadow-lg": "none",
+          "shadow-md": "none"
         },
         "light": {
-          "--accent": "#7a9a01",
-          "--background": "#f6f7f4",
-          "--border": "#e3e5df",
-          "--card": "#ffffff",
-          "--destructive": "#c7452f",
-          "--foreground": "#1a1c16",
-          "--input": "hsl(90 9% 88%)",
-          "--muted": "#f0f1ed",
-          "--popover": "hsl(0 0% 100%)",
-          "--primary": "#7a9a01",
-          "--ring": "#d2d5cd",
-          "--secondary": "hsl(75 8% 93%)"
+          "accent": "#7a9a01",
+          "background": "#f6f7f4",
+          "border": "#e3e5df",
+          "card": "#ffffff",
+          "destructive": "#c7452f",
+          "foreground": "#1a1c16",
+          "input": "hsl(90 9% 88%)",
+          "muted": "#f0f1ed",
+          "popover": "hsl(0 0% 100%)",
+          "primary": "#7a9a01",
+          "ring": "#d2d5cd",
+          "secondary": "hsl(75 8% 93%)"
         },
         "dark": {
-          "--accent": "#7a9a01",
-          "--background": "#f6f7f4",
-          "--border": "#e3e5df",
-          "--card": "#ffffff",
-          "--destructive": "#c7452f",
-          "--foreground": "#1a1c16",
-          "--input": "hsl(90 9% 88%)",
-          "--muted": "#f0f1ed",
-          "--popover": "hsl(0 0% 100%)",
-          "--primary": "#7a9a01",
-          "--ring": "#d2d5cd",
-          "--secondary": "hsl(75 8% 93%)"
+          "accent": "#7a9a01",
+          "background": "#f6f7f4",
+          "border": "#e3e5df",
+          "card": "#ffffff",
+          "destructive": "#c7452f",
+          "foreground": "#1a1c16",
+          "input": "hsl(90 9% 88%)",
+          "muted": "#f0f1ed",
+          "popover": "hsl(0 0% 100%)",
+          "primary": "#7a9a01",
+          "ring": "#d2d5cd",
+          "secondary": "hsl(75 8% 93%)"
+        }
+      },
+      "css": {
+        "@layer base": {
+          "body": {
+            "background-color": "var(--background)",
+            "color": "var(--foreground)"
+          }
         }
       },
       "meta": {
@@ -312,51 +352,59 @@
       "description": "GLITCHPAGE — error page, neon pink, Thai",
       "cssVars": {
         "theme": {
-          "--accent-2": "#37e6ff",
-          "--accent-foreground": "hsl(230 53% 10%)",
-          "--border-width": "1px",
-          "--card-foreground": "hsl(234 79% 95%)",
-          "--destructive-foreground": "hsl(230 53% 10%)",
-          "--font-display": "'Kanit', sans-serif",
-          "--font-mono": "'JetBrains Mono', ui-monospace, monospace",
-          "--font-sans": "'Sarabun', system-ui, sans-serif",
-          "--info": "hsl(187 100% 61%)",
-          "--muted-foreground": "#8f96c9",
-          "--popover-foreground": "hsl(234 79% 95%)",
-          "--primary-foreground": "hsl(230 53% 10%)",
-          "--radius": "0",
-          "--secondary-foreground": "hsl(234 79% 95%)",
-          "--shadow": "none",
-          "--shadow-lg": "none",
-          "--shadow-md": "none"
+          "accent-2": "#37e6ff",
+          "accent-foreground": "hsl(230 53% 10%)",
+          "border-width": "1px",
+          "card-foreground": "hsl(234 79% 95%)",
+          "destructive-foreground": "hsl(230 53% 10%)",
+          "font-display": "'Kanit', sans-serif",
+          "font-mono": "'JetBrains Mono', ui-monospace, monospace",
+          "font-sans": "'Sarabun', system-ui, sans-serif",
+          "info": "hsl(187 100% 61%)",
+          "muted-foreground": "#8f96c9",
+          "popover-foreground": "hsl(234 79% 95%)",
+          "primary-foreground": "hsl(230 53% 10%)",
+          "radius": "0",
+          "secondary-foreground": "hsl(234 79% 95%)",
+          "shadow": "none",
+          "shadow-lg": "none",
+          "shadow-md": "none"
         },
         "light": {
-          "--accent": "#ff3d8f",
-          "--background": "#0b0f2a",
-          "--border": "#232a5e",
-          "--card": "#111640",
-          "--destructive": "#ff3d5e",
-          "--foreground": "#e8eafc",
-          "--input": "hsl(232 38% 25%)",
-          "--muted": "#161c4d",
-          "--popover": "hsl(233 53% 16%)",
-          "--primary": "#ff3d8f",
-          "--ring": "#333d80",
-          "--secondary": "hsl(232 53% 20%)"
+          "accent": "#ff3d8f",
+          "background": "#0b0f2a",
+          "border": "#232a5e",
+          "card": "#111640",
+          "destructive": "#ff3d5e",
+          "foreground": "#e8eafc",
+          "input": "hsl(232 38% 25%)",
+          "muted": "#161c4d",
+          "popover": "hsl(233 53% 16%)",
+          "primary": "#ff3d8f",
+          "ring": "#333d80",
+          "secondary": "hsl(232 53% 20%)"
         },
         "dark": {
-          "--accent": "#ff3d8f",
-          "--background": "#0b0f2a",
-          "--border": "#232a5e",
-          "--card": "#111640",
-          "--destructive": "#ff3d5e",
-          "--foreground": "#e8eafc",
-          "--input": "hsl(232 38% 25%)",
-          "--muted": "#161c4d",
-          "--popover": "hsl(233 53% 16%)",
-          "--primary": "#ff3d8f",
-          "--ring": "#333d80",
-          "--secondary": "hsl(232 53% 20%)"
+          "accent": "#ff3d8f",
+          "background": "#0b0f2a",
+          "border": "#232a5e",
+          "card": "#111640",
+          "destructive": "#ff3d5e",
+          "foreground": "#e8eafc",
+          "input": "hsl(232 38% 25%)",
+          "muted": "#161c4d",
+          "popover": "hsl(233 53% 16%)",
+          "primary": "#ff3d8f",
+          "ring": "#333d80",
+          "secondary": "hsl(232 53% 20%)"
+        }
+      },
+      "css": {
+        "@layer base": {
+          "body": {
+            "background-color": "var(--background)",
+            "color": "var(--foreground)"
+          }
         }
       },
       "meta": {
@@ -372,54 +420,62 @@
       "description": "CLAUDE PAPER — warm editorial, clay, Source Serif",
       "cssVars": {
         "theme": {
-          "--accent-deep": "#b85c3f",
-          "--accent-foreground": "hsl(60 25% 98%)",
-          "--border-width": "1px",
-          "--card-foreground": "hsl(60 7% 7%)",
-          "--destructive-foreground": "hsl(60 25% 98%)",
-          "--font-display": "'Source Serif 4', Georgia, serif",
-          "--font-mono": "ui-monospace, 'SF Mono', monospace",
-          "--font-sans": "'Source Serif 4', 'Source Han Serif SC', Georgia, serif",
-          "--font-serif": "'Source Serif 4', 'Source Han Serif SC', Georgia, serif",
-          "--info": "#3a5f8a",
-          "--muted-foreground": "#3d3d3a",
-          "--popover-foreground": "hsl(60 7% 7%)",
-          "--primary-foreground": "hsl(60 25% 98%)",
-          "--radius": "0.75rem",
-          "--secondary-foreground": "hsl(60 7% 7%)",
-          "--shadow": "0 1px 2px hsl(60 7% 7% / 0.05), 0 8px 24px -18px hsl(60 7% 7% / 0.18)",
-          "--shadow-lg": "0 4px 12px hsl(60 7% 7% / 0.1), 0 24px 48px -24px hsl(60 7% 7% / 0.25)",
-          "--shadow-md": "0 1px 2px hsl(60 7% 7% / 0.05), 0 8px 24px -18px hsl(60 7% 7% / 0.18)",
-          "--success": "#3d7a4e",
-          "--warning": "#a06a00"
+          "accent-deep": "#b85c3f",
+          "accent-foreground": "hsl(60 25% 98%)",
+          "border-width": "1px",
+          "card-foreground": "hsl(60 7% 7%)",
+          "destructive-foreground": "hsl(60 25% 98%)",
+          "font-display": "'Source Serif 4', Georgia, serif",
+          "font-mono": "ui-monospace, 'SF Mono', monospace",
+          "font-sans": "'Source Serif 4', 'Source Han Serif SC', Georgia, serif",
+          "font-serif": "'Source Serif 4', 'Source Han Serif SC', Georgia, serif",
+          "info": "#3a5f8a",
+          "muted-foreground": "#3d3d3a",
+          "popover-foreground": "hsl(60 7% 7%)",
+          "primary-foreground": "hsl(60 25% 98%)",
+          "radius": "0.75rem",
+          "secondary-foreground": "hsl(60 7% 7%)",
+          "shadow": "0 1px 2px hsl(60 7% 7% / 0.05), 0 8px 24px -18px hsl(60 7% 7% / 0.18)",
+          "shadow-lg": "0 4px 12px hsl(60 7% 7% / 0.1), 0 24px 48px -24px hsl(60 7% 7% / 0.25)",
+          "shadow-md": "0 1px 2px hsl(60 7% 7% / 0.05), 0 8px 24px -18px hsl(60 7% 7% / 0.18)",
+          "success": "#3d7a4e",
+          "warning": "#a06a00"
         },
         "light": {
-          "--accent": "#d97757",
-          "--background": "#faf9f5",
-          "--border": "hsl(60 7% 7% / 0.12)",
-          "--card": "#ffffff",
-          "--destructive": "#b03a2e",
-          "--foreground": "#141413",
-          "--input": "hsl(60 7% 7% / 0.12)",
-          "--muted": "#f1efe8",
-          "--popover": "hsl(0 0% 100%)",
-          "--primary": "#d97757",
-          "--ring": "hsl(60 7% 7% / 0.22)",
-          "--secondary": "hsl(56 27% 95%)"
+          "accent": "#d97757",
+          "background": "#faf9f5",
+          "border": "hsl(60 7% 7% / 0.12)",
+          "card": "#ffffff",
+          "destructive": "#b03a2e",
+          "foreground": "#141413",
+          "input": "hsl(60 7% 7% / 0.12)",
+          "muted": "#f1efe8",
+          "popover": "hsl(0 0% 100%)",
+          "primary": "#d97757",
+          "ring": "hsl(60 7% 7% / 0.22)",
+          "secondary": "hsl(56 27% 95%)"
         },
         "dark": {
-          "--accent": "#e38b6b",
-          "--background": "#30302e",
-          "--border": "hsl(60 25% 98% / 0.14)",
-          "--card": "#383835",
-          "--destructive": "#e0806f",
-          "--foreground": "#faf9f5",
-          "--input": "hsl(60 25% 98% / 0.14)",
-          "--muted": "#242422",
-          "--popover": "hsl(60 3% 21%)",
-          "--primary": "#e38b6b",
-          "--ring": "hsl(60 25% 98% / 0.24)",
-          "--secondary": "hsl(60 4% 14%)"
+          "accent": "#e38b6b",
+          "background": "#30302e",
+          "border": "hsl(60 25% 98% / 0.14)",
+          "card": "#383835",
+          "destructive": "#e0806f",
+          "foreground": "#faf9f5",
+          "input": "hsl(60 25% 98% / 0.14)",
+          "muted": "#242422",
+          "popover": "hsl(60 3% 21%)",
+          "primary": "#e38b6b",
+          "ring": "hsl(60 25% 98% / 0.24)",
+          "secondary": "hsl(60 4% 14%)"
+        }
+      },
+      "css": {
+        "@layer base": {
+          "body": {
+            "background-color": "var(--background)",
+            "color": "var(--foreground)"
+          }
         }
       },
       "meta": {
@@ -435,58 +491,66 @@
       "description": "MOSS — organic, earth + terracotta, Fraunces",
       "cssVars": {
         "theme": {
-          "--accent-deep": "#4f6d2d",
-          "--accent-foreground": "hsl(43 38% 94%)",
-          "--border-width": "1px",
-          "--card-foreground": "hsl(38 14% 16%)",
-          "--clay": "#d9a05b",
-          "--destructive-foreground": "hsl(48 53% 98%)",
-          "--ease-spring": "cubic-bezier(0.34, 1.4, 0.5, 1)",
-          "--font-display": "'Fraunces', Georgia, serif",
-          "--font-mono": "ui-monospace, 'SF Mono', monospace",
-          "--font-sans": "'Fraunces', 'Source Serif 4', Georgia, serif",
-          "--font-serif": "'Fraunces', 'Source Serif 4', Georgia, serif",
-          "--info": "#4a6b7a",
-          "--muted-foreground": "#6b645a",
-          "--popover-foreground": "hsl(38 14% 16%)",
-          "--primary-foreground": "hsl(43 38% 94%)",
-          "--radius": "0.75rem",
-          "--secondary-foreground": "hsl(38 14% 16%)",
-          "--shadow": "0 2px 4px hsl(38 14% 16% / 0.06), 0 14px 40px -20px hsl(38 14% 16% / 0.25)",
-          "--shadow-lg": "0 8px 16px hsl(38 14% 16% / 0.1), 0 32px 80px -32px hsl(38 14% 16% / 0.35)",
-          "--shadow-md": "0 4px 8px hsl(38 14% 16% / 0.08), 0 24px 56px -24px hsl(38 14% 16% / 0.3)",
-          "--success": "#5c7a3d",
-          "--terracotta": "#c4714a",
-          "--terracotta-foreground": "hsl(43 38% 94%)",
-          "--warning": "#b0832f"
+          "accent-deep": "#4f6d2d",
+          "accent-foreground": "hsl(43 38% 94%)",
+          "border-width": "1px",
+          "card-foreground": "hsl(38 14% 16%)",
+          "clay": "#d9a05b",
+          "destructive-foreground": "hsl(48 53% 98%)",
+          "ease-spring": "cubic-bezier(0.34, 1.4, 0.5, 1)",
+          "font-display": "'Fraunces', Georgia, serif",
+          "font-mono": "ui-monospace, 'SF Mono', monospace",
+          "font-sans": "'Fraunces', 'Source Serif 4', Georgia, serif",
+          "font-serif": "'Fraunces', 'Source Serif 4', Georgia, serif",
+          "info": "#4a6b7a",
+          "muted-foreground": "#6b645a",
+          "popover-foreground": "hsl(38 14% 16%)",
+          "primary-foreground": "hsl(43 38% 94%)",
+          "radius": "0.75rem",
+          "secondary-foreground": "hsl(38 14% 16%)",
+          "shadow": "0 2px 4px hsl(38 14% 16% / 0.06), 0 14px 40px -20px hsl(38 14% 16% / 0.25)",
+          "shadow-lg": "0 8px 16px hsl(38 14% 16% / 0.1), 0 32px 80px -32px hsl(38 14% 16% / 0.35)",
+          "shadow-md": "0 4px 8px hsl(38 14% 16% / 0.08), 0 24px 56px -24px hsl(38 14% 16% / 0.3)",
+          "success": "#5c7a3d",
+          "terracotta": "#c4714a",
+          "terracotta-foreground": "hsl(43 38% 94%)",
+          "warning": "#b0832f"
         },
         "light": {
-          "--accent": "#6a8c3f",
-          "--background": "#f5f1e8",
-          "--border": "hsl(38 14% 16% / 0.14)",
-          "--card": "#fdfbf5",
-          "--destructive": "#a84d33",
-          "--foreground": "#2e2a24",
-          "--input": "hsl(38 14% 16% / 0.14)",
-          "--muted": "#eae3d3",
-          "--popover": "hsl(48 53% 98%)",
-          "--primary": "#6a8c3f",
-          "--ring": "hsl(38 14% 16% / 0.28)",
-          "--secondary": "hsl(47 38% 90%)"
+          "accent": "#6a8c3f",
+          "background": "#f5f1e8",
+          "border": "hsl(38 14% 16% / 0.14)",
+          "card": "#fdfbf5",
+          "destructive": "#a84d33",
+          "foreground": "#2e2a24",
+          "input": "hsl(38 14% 16% / 0.14)",
+          "muted": "#eae3d3",
+          "popover": "hsl(48 53% 98%)",
+          "primary": "#6a8c3f",
+          "ring": "hsl(38 14% 16% / 0.28)",
+          "secondary": "hsl(47 38% 90%)"
         },
         "dark": {
-          "--accent": "#6a8c3f",
-          "--background": "#f5f1e8",
-          "--border": "hsl(38 14% 16% / 0.14)",
-          "--card": "#fdfbf5",
-          "--destructive": "#a84d33",
-          "--foreground": "#2e2a24",
-          "--input": "hsl(38 14% 16% / 0.14)",
-          "--muted": "#eae3d3",
-          "--popover": "hsl(48 53% 98%)",
-          "--primary": "#6a8c3f",
-          "--ring": "hsl(38 14% 16% / 0.28)",
-          "--secondary": "hsl(47 38% 90%)"
+          "accent": "#6a8c3f",
+          "background": "#f5f1e8",
+          "border": "hsl(38 14% 16% / 0.14)",
+          "card": "#fdfbf5",
+          "destructive": "#a84d33",
+          "foreground": "#2e2a24",
+          "input": "hsl(38 14% 16% / 0.14)",
+          "muted": "#eae3d3",
+          "popover": "hsl(48 53% 98%)",
+          "primary": "#6a8c3f",
+          "ring": "hsl(38 14% 16% / 0.28)",
+          "secondary": "hsl(47 38% 90%)"
+        }
+      },
+      "css": {
+        "@layer base": {
+          "body": {
+            "background-color": "var(--background)",
+            "color": "var(--foreground)"
+          }
         }
       },
       "meta": {
@@ -502,194 +566,64 @@
       "description": "BRUT — brutalist, red+black, Anton",
       "cssVars": {
         "theme": {
-          "--accent-deep": "#c91f00",
-          "--accent-foreground": "hsl(0 0% 100%)",
-          "--border-width": "2px",
-          "--card-foreground": "hsl(0 0% 5%)",
-          "--destructive-foreground": "hsl(0 0% 100%)",
-          "--font-display": "'Anton', 'Impact', sans-serif",
-          "--font-mono": "'IBM Plex Mono', ui-monospace, monospace",
-          "--font-sans": "'IBM Plex Mono', 'JetBrains Mono', ui-monospace, monospace",
-          "--muted-foreground": "#3d3d3a",
-          "--popover-foreground": "hsl(0 0% 5%)",
-          "--primary-foreground": "hsl(0 0% 100%)",
-          "--radius": "0",
-          "--secondary-foreground": "hsl(0 0% 5%)",
-          "--shadow": "none",
-          "--shadow-lg": "none",
-          "--shadow-md": "none"
+          "accent-deep": "#c91f00",
+          "accent-foreground": "hsl(0 0% 100%)",
+          "border-width": "2px",
+          "card-foreground": "hsl(0 0% 5%)",
+          "destructive-foreground": "hsl(0 0% 100%)",
+          "font-display": "'Anton', 'Impact', sans-serif",
+          "font-mono": "'IBM Plex Mono', ui-monospace, monospace",
+          "font-sans": "'IBM Plex Mono', 'JetBrains Mono', ui-monospace, monospace",
+          "muted-foreground": "#3d3d3a",
+          "popover-foreground": "hsl(0 0% 5%)",
+          "primary-foreground": "hsl(0 0% 100%)",
+          "radius": "0",
+          "secondary-foreground": "hsl(0 0% 5%)",
+          "shadow": "none",
+          "shadow-lg": "none",
+          "shadow-md": "none"
         },
         "light": {
-          "--accent": "#ff2e00",
-          "--background": "#e8e4da",
-          "--border": "#0d0d0d",
-          "--card": "#ffffff",
-          "--destructive": "hsl(10 100% 50%)",
-          "--foreground": "#0d0d0d",
-          "--input": "hsl(0 0% 5%)",
-          "--muted": "#efebe2",
-          "--popover": "hsl(0 0% 100%)",
-          "--primary": "#ff2e00",
-          "--ring": "hsl(10 100% 50%)",
-          "--secondary": "hsl(43 19% 81%)"
+          "accent": "#ff2e00",
+          "background": "#e8e4da",
+          "border": "#0d0d0d",
+          "card": "#ffffff",
+          "destructive": "hsl(10 100% 50%)",
+          "foreground": "#0d0d0d",
+          "input": "hsl(0 0% 5%)",
+          "muted": "#efebe2",
+          "popover": "hsl(0 0% 100%)",
+          "primary": "#ff2e00",
+          "ring": "hsl(10 100% 50%)",
+          "secondary": "hsl(43 19% 81%)"
         },
         "dark": {
-          "--accent": "#ff2e00",
-          "--background": "#e8e4da",
-          "--border": "#0d0d0d",
-          "--card": "#ffffff",
-          "--destructive": "hsl(10 100% 50%)",
-          "--foreground": "#0d0d0d",
-          "--input": "hsl(0 0% 5%)",
-          "--muted": "#efebe2",
-          "--popover": "hsl(0 0% 100%)",
-          "--primary": "#ff2e00",
-          "--ring": "hsl(10 100% 50%)",
-          "--secondary": "hsl(43 19% 81%)"
+          "accent": "#ff2e00",
+          "background": "#e8e4da",
+          "border": "#0d0d0d",
+          "card": "#ffffff",
+          "destructive": "hsl(10 100% 50%)",
+          "foreground": "#0d0d0d",
+          "input": "hsl(0 0% 5%)",
+          "muted": "#efebe2",
+          "popover": "hsl(0 0% 100%)",
+          "primary": "#ff2e00",
+          "ring": "hsl(10 100% 50%)",
+          "secondary": "hsl(43 19% 81%)"
+        }
+      },
+      "css": {
+        "@layer base": {
+          "body": {
+            "background-color": "var(--background)",
+            "color": "var(--foreground)"
+          }
         }
       },
       "meta": {
         "name": "BRUT",
         "vibe": "brutalist, red+black, Anton",
         "mode": "light-only"
-      }
-    },
-    {
-      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
-      "name": "rack-elements",
-      "type": "registry:block",
-      "description": "Server rack UI elements — LED strips, bezel headers, rack units with animated indicators",
-      "registryDependencies": [],
-      "files": [
-        {
-          "path": "led-strip.tsx",
-          "content": "import * as React from \"react\"\nimport { cn } from \"@/lib/utils\"\n\ninterface LedStripProps extends React.HTMLAttributes<HTMLDivElement> {\n  colors?: string[]\n  animated?: boolean\n}\n\nexport function LedStrip({ \n  className, \n  colors = [\"var(--accent-2)\", \"var(--accent)\", \"var(--led-cyan)\", \"var(--accent-2)\"],\n  animated = true,\n  ...props \n}: LedStripProps) {\n  return (\n    <div className={cn(\"flex gap-2 items-center\", className)} {...props}>\n      {colors.map((color, i) => (\n        <div\n          key={i}\n          className=\"w-2 h-2 rounded-full\"\n          style={{\n            background: color,\n            boxShadow: `0 0 8px ${color}`,\n            animation: animated ? `rk-led 1.4s ease-in-out infinite ${i * 0.3}s` : undefined,\n          }}\n        />\n      ))}\n    </div>\n  )\n}\n",
-          "type": "registry:component",
-          "target": "components/ui/led-strip.tsx"
-        },
-        {
-          "path": "rack-bezel.tsx",
-          "content": "import * as React from \"react\"\nimport { cn } from \"@/lib/utils\"\n\ninterface RackBezelProps extends React.HTMLAttributes<HTMLDivElement> {\n  label?: string\n}\n\nexport function RackBezel({ \n  className, \n  label = \"// MOCKUP · RACK_01\",\n  children,\n  ...props \n}: RackBezelProps) {\n  return (\n    <div className={cn(\"relative\", className)} {...props}>\n      <div \n        className=\"flex items-center gap-2 px-4 py-2.5 border-b font-mono text-[10px] tracking-widest\"\n        style={{\n          background: \"var(--bg-2)\",\n          borderBottomColor: \"var(--border-bright)\",\n          color: \"var(--accent)\",\n        }}\n      >\n        <div \n          className=\"w-1.5 h-1.5 rounded-full\"\n          style={{\n            background: \"var(--accent-2)\",\n            boxShadow: \"0 0 6px var(--accent-2)\",\n            animation: \"rk-pulse 1.4s ease-in-out infinite\",\n          }}\n        />\n        {label}\n      </div>\n      {children}\n    </div>\n  )\n}\n",
-          "type": "registry:component",
-          "target": "components/ui/rack-bezel.tsx"
-        },
-        {
-          "path": "rack-unit.tsx",
-          "content": "import * as React from \"react\"\nimport { cn } from \"@/lib/utils\"\n\ninterface RackUnitProps extends React.HTMLAttributes<HTMLDivElement> {\n  label: string\n  ledColor?: string\n  showScrews?: boolean\n}\n\nexport function RackUnit({ \n  className, \n  label,\n  ledColor = \"var(--accent)\",\n  showScrews = true,\n  ...props \n}: RackUnitProps) {\n  return (\n    <div \n      className={cn(\n        \"relative flex items-center justify-between px-4 min-h-[44px] font-mono text-sm\",\n        className\n      )}\n      style={{\n        background: \"linear-gradient(180deg, #1c1c20, #0a0a0c)\",\n        border: \"1px solid var(--border)\",\n        borderRadius: \"2px\",\n        boxShadow: \"inset 0 1px 0 rgba(255, 255, 255, 0.03)\",\n      }}\n      {...props}\n    >\n      {showScrews && (\n        <>\n          <div \n            className=\"absolute left-[-8px] top-1/2 -translate-y-1/2 w-1 h-1 rounded-full\"\n            style={{\n              background: \"radial-gradient(circle at 30% 30%, #5a5a63, #1a1a20)\",\n              boxShadow: \"0 0 0 1px #0a0a0c\",\n            }}\n          />\n          <div \n            className=\"absolute right-[-8px] top-1/2 -translate-y-1/2 w-1 h-1 rounded-full\"\n            style={{\n              background: \"radial-gradient(circle at 30% 30%, #5a5a63, #1a1a20)\",\n              boxShadow: \"0 0 0 1px #0a0a0c\",\n            }}\n          />\n        </>\n      )}\n      <span>{label}</span>\n      <div \n        className=\"w-2 h-2 rounded-full\"\n        style={{\n          background: ledColor,\n          boxShadow: `0 0 8px ${ledColor}`,\n          animation: \"rk-led 1.4s ease-in-out infinite\",\n        }}\n      />\n    </div>\n  )\n}\n",
-          "type": "registry:component",
-          "target": "components/ui/rack-unit.tsx"
-        },
-        {
-          "path": "rack-mock.tsx",
-          "content": "import * as React from \"react\"\nimport { cn } from \"@/lib/utils\"\n\ninterface RackMockProps extends React.HTMLAttributes<HTMLDivElement> {\n  children: React.ReactNode\n}\n\nexport function RackMock({ className, children, ...props }: RackMockProps) {\n  return (\n    <div \n      className={cn(\n        \"relative z-10 w-[88%] flex flex-col gap-2 py-3.5 px-4\",\n        className\n      )}\n      style={{\n        background: \"#0a0a0c\",\n        border: \"1px solid var(--border-bright)\",\n        borderRadius: \"4px\",\n        minHeight: \"220px\",\n      }}\n      {...props}\n    >\n      {children}\n    </div>\n  )\n}\n",
-          "type": "registry:component",
-          "target": "components/ui/rack-mock.tsx"
-        },
-        {
-          "path": "effects.css",
-          "content": "/* Rack theme effects */\n@keyframes rk-led {\n  0%, 100% { opacity: 1; }\n  50% { opacity: 0.5; }\n}\n\n@keyframes rk-pulse {\n  0%, 100% { opacity: 1; transform: scale(1); }\n  50% { opacity: 0.6; transform: scale(0.95); }\n}\n",
-          "type": "registry:file",
-          "target": "app/globals.css"
-        },
-        {
-          "path": "index.ts",
-          "content": "export { LedStrip } from \"./led-strip\"\nexport { RackBezel } from \"./rack-bezel\"\nexport { RackUnit } from \"./rack-unit\"\nexport { RackMock } from \"./rack-mock\"\n",
-          "type": "registry:component",
-          "target": "components/ui/index.ts"
-        }
-      ],
-      "meta": {
-        "concept": "rack"
-      }
-    },
-    {
-      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
-      "name": "crt-elements",
-      "type": "registry:block",
-      "description": "CRT terminal UI elements — phosphor glow terminal, scanlines overlay, blinking cursor, LED indicators",
-      "registryDependencies": [],
-      "files": [
-        {
-          "path": "crt-terminal.tsx",
-          "content": "import * as React from \"react\"\nimport { cn } from \"@/lib/utils\"\n\ninterface CrtTerminalProps extends React.HTMLAttributes<HTMLDivElement> {\n  children: React.ReactNode\n}\n\nexport function CrtTerminal({ className, children, ...props }: CrtTerminalProps) {\n  return (\n    <div \n      className={cn(\n        \"relative w-[88%] px-4 py-4 font-mono text-lg leading-relaxed\",\n        className\n      )}\n      style={{\n        background: \"var(--surface)\",\n        border: \"1px solid var(--border)\",\n        color: \"var(--fg)\",\n        textShadow: \"0 0 8px rgba(74, 246, 38, 0.5)\",\n      }}\n      {...props}\n    >\n      {children}\n    </div>\n  )\n}\n",
-          "type": "registry:component",
-          "target": "components/ui/crt-terminal.tsx"
-        },
-        {
-          "path": "blink-cursor.tsx",
-          "content": "import * as React from \"react\"\nimport { cn } from \"@/lib/utils\"\n\ninterface BlinkCursorProps extends React.HTMLAttributes<HTMLSpanElement> {}\n\nexport function BlinkCursor({ className, ...props }: BlinkCursorProps) {\n  return (\n    <span \n      className={cn(\"inline-block w-2.5 h-[1em] align-text-bottom\", className)}\n      style={{\n        background: \"var(--accent)\",\n        animation: \"crt-blink 1s steps(1) infinite\",\n      }}\n      {...props}\n    />\n  )\n}\n",
-          "type": "registry:component",
-          "target": "components/ui/blink-cursor.tsx"
-        },
-        {
-          "path": "scanlines.tsx",
-          "content": "import * as React from \"react\"\n\nexport function Scanlines() {\n  return (\n    <div \n      className=\"fixed inset-0 z-[100] pointer-events-none\"\n      style={{\n        background: `repeating-linear-gradient(\n          0deg,\n          rgba(0, 0, 0, 0.18) 0,\n          rgba(0, 0, 0, 0.18) 1px,\n          transparent 1px,\n          transparent 3px\n        )`,\n      }}\n    />\n  )\n}\n",
-          "type": "registry:component",
-          "target": "components/ui/scanlines.tsx"
-        },
-        {
-          "path": "crt-led.tsx",
-          "content": "import * as React from \"react\"\nimport { cn } from \"@/lib/utils\"\n\ninterface CrtLedProps extends React.HTMLAttributes<HTMLSpanElement> {\n  color?: string\n}\n\nexport function CrtLed({ \n  className, \n  color = \"var(--accent)\",\n  ...props \n}: CrtLedProps) {\n  return (\n    <span \n      className={cn(\"inline-block w-[9px] h-[9px] rounded-full mr-1 align-middle\", className)}\n      style={{\n        background: color,\n        boxShadow: `0 0 8px ${color}`,\n        animation: \"crt-led 1.2s ease-in-out infinite\",\n      }}\n      {...props}\n    />\n  )\n}\n",
-          "type": "registry:component",
-          "target": "components/ui/crt-led.tsx"
-        },
-        {
-          "path": "effects.css",
-          "content": "/* CRT theme effects */\n@keyframes crt-blink {\n  0%, 49% { opacity: 1; }\n  50%, 100% { opacity: 0; }\n}\n\n@keyframes crt-led {\n  0%, 100% { opacity: 1; }\n  50% { opacity: 0.4; }\n}\n",
-          "type": "registry:file",
-          "target": "app/globals.css"
-        },
-        {
-          "path": "index.ts",
-          "content": "export { CrtTerminal } from \"./crt-terminal\"\nexport { BlinkCursor } from \"./blink-cursor\"\nexport { Scanlines } from \"./scanlines\"\nexport { CrtLed } from \"./crt-led\"\n",
-          "type": "registry:component",
-          "target": "components/ui/index.ts"
-        }
-      ],
-      "meta": {
-        "concept": "crt"
-      }
-    },
-    {
-      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
-      "name": "glitchpage-elements",
-      "type": "registry:block",
-      "description": "Glitch error page UI elements — RGB-split glitch text, error labels, animated stage",
-      "registryDependencies": [],
-      "files": [
-        {
-          "path": "glitch-text.tsx",
-          "content": "import * as React from \"react\"\nimport { cn } from \"@/lib/utils\"\n\ninterface GlitchTextProps extends React.HTMLAttributes<HTMLDivElement> {\n  text?: string\n}\n\nexport function GlitchText({ \n  className, \n  text = \"404\",\n  ...props \n}: GlitchTextProps) {\n  return (\n    <div \n      className={cn(\n        \"relative font-display text-[110px] font-black leading-none\",\n        className\n      )}\n      style={{\n        color: \"var(--accent)\",\n        textShadow: \"3px 0 var(--accent-2), -3px 0 #ffff00\",\n        animation: \"gp-glitch 3s ease-in-out infinite\",\n      }}\n      {...props}\n    >\n      <span className=\"relative z-10\">{text}</span>\n      <span \n        className=\"absolute top-0 left-0 pointer-events-none\"\n        style={{\n          color: \"var(--accent-2)\",\n          clipPath: \"inset(20% 0 60% 0)\",\n          animation: \"gp-glitch-offset 2s ease-in-out infinite\",\n        }}\n        aria-hidden=\"true\"\n      >\n        {text}\n      </span>\n      <span \n        className=\"absolute top-0 left-0 pointer-events-none\"\n        style={{\n          color: \"#ffff00\",\n          clipPath: \"inset(60% 0 10% 0)\",\n          animation: \"gp-glitch-offset 3s ease-in-out infinite reverse\",\n        }}\n        aria-hidden=\"true\"\n      >\n        {text}\n      </span>\n    </div>\n  )\n}\n",
-          "type": "registry:component",
-          "target": "components/ui/glitch-text.tsx"
-        },
-        {
-          "path": "glitch-label.tsx",
-          "content": "import * as React from \"react\"\nimport { cn } from \"@/lib/utils\"\n\ninterface GlitchLabelProps extends React.HTMLAttributes<HTMLDivElement> {\n  children: React.ReactNode\n}\n\nexport function GlitchLabel({ className, children, ...props }: GlitchLabelProps) {\n  return (\n    <div \n      className={cn(\n        \"font-mono text-[11px] tracking-[0.2em] uppercase\",\n        className\n      )}\n      style={{\n        color: \"var(--fg-dim)\",\n      }}\n      {...props}\n    >\n      {children}\n    </div>\n  )\n}\n",
-          "type": "registry:component",
-          "target": "components/ui/glitch-label.tsx"
-        },
-        {
-          "path": "glitch-stage.tsx",
-          "content": "import * as React from \"react\"\nimport { cn } from \"@/lib/utils\"\n\ninterface GlitchStageProps extends React.HTMLAttributes<HTMLDivElement> {\n  children: React.ReactNode\n}\n\nexport function GlitchStage({ className, children, ...props }: GlitchStageProps) {\n  return (\n    <div \n      className={cn(\n        \"relative z-[1] flex flex-col items-center gap-3.5 text-center\",\n        className\n      )}\n      {...props}\n    >\n      {children}\n    </div>\n  )\n}\n",
-          "type": "registry:component",
-          "target": "components/ui/glitch-stage.tsx"
-        },
-        {
-          "path": "effects.css",
-          "content": "/* Glitchpage theme effects */\n@keyframes gp-glitch {\n  0%, 90%, 100% { transform: translate(0); }\n  92% { transform: translate(-3px, 2px); }\n  94% { transform: translate(3px, -1px); }\n  96% { transform: translate(-2px, -2px); }\n  98% { transform: translate(1px, 1px); }\n}\n\n@keyframes gp-glitch-offset {\n  0%, 80%, 100% { transform: translate(0); }\n  85% { transform: translate(-8px, 5px); }\n  90% { transform: translate(5px, -3px); }\n  95% { transform: translate(-4px, 4px); }\n}\n",
-          "type": "registry:file",
-          "target": "app/globals.css"
-        },
-        {
-          "path": "index.ts",
-          "content": "export { GlitchText } from \"./glitch-text\"\nexport { GlitchLabel } from \"./glitch-label\"\nexport { GlitchStage } from \"./glitch-stage\"\n",
-          "type": "registry:component",
-          "target": "components/ui/index.ts"
-        }
-      ],
-      "meta": {
-        "concept": "glitchpage"
       }
     }
   ]

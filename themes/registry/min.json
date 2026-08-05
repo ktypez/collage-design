@@ -5,49 +5,57 @@
   "description": "collage.sh — minimal, olive lime accent",
   "cssVars": {
     "theme": {
-      "--accent-2": "hsl(65 65% 49%)",
-      "--accent-foreground": "hsl(60 9% 96%)",
-      "--border-width": "1px",
-      "--card-foreground": "hsl(80 13% 10%)",
-      "--destructive-foreground": "hsl(0 0% 100%)",
-      "--font-mono": "'JetBrains Mono', ui-monospace, monospace",
-      "--font-sans": "'Inter', system-ui, sans-serif",
-      "--muted-foreground": "#5d6157",
-      "--popover-foreground": "hsl(80 13% 10%)",
-      "--primary-foreground": "hsl(60 9% 96%)",
-      "--radius": "0",
-      "--secondary-foreground": "hsl(80 13% 10%)",
-      "--shadow": "none",
-      "--shadow-lg": "none",
-      "--shadow-md": "none"
+      "accent-2": "hsl(65 65% 49%)",
+      "accent-foreground": "hsl(60 9% 96%)",
+      "border-width": "1px",
+      "card-foreground": "hsl(80 13% 10%)",
+      "destructive-foreground": "hsl(0 0% 100%)",
+      "font-mono": "'JetBrains Mono', ui-monospace, monospace",
+      "font-sans": "'Inter', system-ui, sans-serif",
+      "muted-foreground": "#5d6157",
+      "popover-foreground": "hsl(80 13% 10%)",
+      "primary-foreground": "hsl(60 9% 96%)",
+      "radius": "0",
+      "secondary-foreground": "hsl(80 13% 10%)",
+      "shadow": "none",
+      "shadow-lg": "none",
+      "shadow-md": "none"
     },
     "light": {
-      "--accent": "#7a9a01",
-      "--background": "#f6f7f4",
-      "--border": "#e3e5df",
-      "--card": "#ffffff",
-      "--destructive": "#c7452f",
-      "--foreground": "#1a1c16",
-      "--input": "hsl(90 9% 88%)",
-      "--muted": "#f0f1ed",
-      "--popover": "hsl(0 0% 100%)",
-      "--primary": "#7a9a01",
-      "--ring": "#d2d5cd",
-      "--secondary": "hsl(75 8% 93%)"
+      "accent": "#7a9a01",
+      "background": "#f6f7f4",
+      "border": "#e3e5df",
+      "card": "#ffffff",
+      "destructive": "#c7452f",
+      "foreground": "#1a1c16",
+      "input": "hsl(90 9% 88%)",
+      "muted": "#f0f1ed",
+      "popover": "hsl(0 0% 100%)",
+      "primary": "#7a9a01",
+      "ring": "#d2d5cd",
+      "secondary": "hsl(75 8% 93%)"
     },
     "dark": {
-      "--accent": "#7a9a01",
-      "--background": "#f6f7f4",
-      "--border": "#e3e5df",
-      "--card": "#ffffff",
-      "--destructive": "#c7452f",
-      "--foreground": "#1a1c16",
-      "--input": "hsl(90 9% 88%)",
-      "--muted": "#f0f1ed",
-      "--popover": "hsl(0 0% 100%)",
-      "--primary": "#7a9a01",
-      "--ring": "#d2d5cd",
-      "--secondary": "hsl(75 8% 93%)"
+      "accent": "#7a9a01",
+      "background": "#f6f7f4",
+      "border": "#e3e5df",
+      "card": "#ffffff",
+      "destructive": "#c7452f",
+      "foreground": "#1a1c16",
+      "input": "hsl(90 9% 88%)",
+      "muted": "#f0f1ed",
+      "popover": "hsl(0 0% 100%)",
+      "primary": "#7a9a01",
+      "ring": "#d2d5cd",
+      "secondary": "hsl(75 8% 93%)"
+    }
+  },
+  "css": {
+    "@layer base": {
+      "body": {
+        "background-color": "var(--background)",
+        "color": "var(--foreground)"
+      }
     }
   },
   "meta": {

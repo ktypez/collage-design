@@ -5,50 +5,58 @@
   "description": "BRUT — brutalist, red+black, Anton",
   "cssVars": {
     "theme": {
-      "--accent-deep": "#c91f00",
-      "--accent-foreground": "hsl(0 0% 100%)",
-      "--border-width": "2px",
-      "--card-foreground": "hsl(0 0% 5%)",
-      "--destructive-foreground": "hsl(0 0% 100%)",
-      "--font-display": "'Anton', 'Impact', sans-serif",
-      "--font-mono": "'IBM Plex Mono', ui-monospace, monospace",
-      "--font-sans": "'IBM Plex Mono', 'JetBrains Mono', ui-monospace, monospace",
-      "--muted-foreground": "#3d3d3a",
-      "--popover-foreground": "hsl(0 0% 5%)",
-      "--primary-foreground": "hsl(0 0% 100%)",
-      "--radius": "0",
-      "--secondary-foreground": "hsl(0 0% 5%)",
-      "--shadow": "none",
-      "--shadow-lg": "none",
-      "--shadow-md": "none"
+      "accent-deep": "#c91f00",
+      "accent-foreground": "hsl(0 0% 100%)",
+      "border-width": "2px",
+      "card-foreground": "hsl(0 0% 5%)",
+      "destructive-foreground": "hsl(0 0% 100%)",
+      "font-display": "'Anton', 'Impact', sans-serif",
+      "font-mono": "'IBM Plex Mono', ui-monospace, monospace",
+      "font-sans": "'IBM Plex Mono', 'JetBrains Mono', ui-monospace, monospace",
+      "muted-foreground": "#3d3d3a",
+      "popover-foreground": "hsl(0 0% 5%)",
+      "primary-foreground": "hsl(0 0% 100%)",
+      "radius": "0",
+      "secondary-foreground": "hsl(0 0% 5%)",
+      "shadow": "none",
+      "shadow-lg": "none",
+      "shadow-md": "none"
     },
     "light": {
-      "--accent": "#ff2e00",
-      "--background": "#e8e4da",
-      "--border": "#0d0d0d",
-      "--card": "#ffffff",
-      "--destructive": "hsl(10 100% 50%)",
-      "--foreground": "#0d0d0d",
-      "--input": "hsl(0 0% 5%)",
-      "--muted": "#efebe2",
-      "--popover": "hsl(0 0% 100%)",
-      "--primary": "#ff2e00",
-      "--ring": "hsl(10 100% 50%)",
-      "--secondary": "hsl(43 19% 81%)"
+      "accent": "#ff2e00",
+      "background": "#e8e4da",
+      "border": "#0d0d0d",
+      "card": "#ffffff",
+      "destructive": "hsl(10 100% 50%)",
+      "foreground": "#0d0d0d",
+      "input": "hsl(0 0% 5%)",
+      "muted": "#efebe2",
+      "popover": "hsl(0 0% 100%)",
+      "primary": "#ff2e00",
+      "ring": "hsl(10 100% 50%)",
+      "secondary": "hsl(43 19% 81%)"
     },
     "dark": {
-      "--accent": "#ff2e00",
-      "--background": "#e8e4da",
-      "--border": "#0d0d0d",
-      "--card": "#ffffff",
-      "--destructive": "hsl(10 100% 50%)",
-      "--foreground": "#0d0d0d",
-      "--input": "hsl(0 0% 5%)",
-      "--muted": "#efebe2",
-      "--popover": "hsl(0 0% 100%)",
-      "--primary": "#ff2e00",
-      "--ring": "hsl(10 100% 50%)",
-      "--secondary": "hsl(43 19% 81%)"
+      "accent": "#ff2e00",
+      "background": "#e8e4da",
+      "border": "#0d0d0d",
+      "card": "#ffffff",
+      "destructive": "hsl(10 100% 50%)",
+      "foreground": "#0d0d0d",
+      "input": "hsl(0 0% 5%)",
+      "muted": "#efebe2",
+      "popover": "hsl(0 0% 100%)",
+      "primary": "#ff2e00",
+      "ring": "hsl(10 100% 50%)",
+      "secondary": "hsl(43 19% 81%)"
+    }
+  },
+  "css": {
+    "@layer base": {
+      "body": {
+        "background-color": "var(--background)",
+        "color": "var(--foreground)"
+      }
     }
   },
   "meta": {

@@ -1,206 +1,223 @@
 # Design Gallery
 
-**9 design concepts → shadcn v4 theme presets** — React + Radix UI + Tailwind v4.
-เปลี่ยนธีมทั้งแอปด้วยการสลับ CSS variables ชุดเดียว.
+A shadcn registry (tweakcn-style) for design themes and UI elements.
 
-```
-design concepts (mcky, rack, crt, noc, min, glitchpage, claude, moss, brut)
-        │
-        ▼
-themes/shadcn/<id>.css   ← shadcn v4 format (:root/.dark, hex exact)
-        │
-        ▼
-ติดตั้งทีละ theme (tweakcn/shadcn-style) → ใช้กับโปรเจกต์
-```
+## Overview
 
-## Quick start
+Design Gallery provides **9 design concepts** as shadcn-compatible themes and UI element packs. Install themes and components via the shadcn registry, just like tweakcn.
 
-**Model: ติดตั้ง theme ทีละตัว** — เหมือน shadcn/tweakcn ที่ `add` component ตัวที่ใช้
-ไม่ใช่โหลดทั้งหมด. เริ่มจาก 1 theme แล้วเพิ่มทีหลังตามต้องการ.
+**Registry URL:** `https://design.mcky.space/r/`
 
-### 1. React + shadcn project
+## Quick Start
+
+### 1. Create a shadcn project
 
 ```bash
-# create shadcn project (React + Radix + Tailwind v4)
-npx shadcn@latest init -b radix
-
-# install ONE theme into globals.css
-npx dg add theme mcky --shadcn --dir .
-
-# add Radix components
-npx shadcn@latest add button card dialog tabs
-
-# done — components follow the theme
+npx shadcn@latest init
 ```
 
-### 2. Vue project (pantry-style)
+### 2. Add a theme
 
 ```bash
-# install ONE theme into src/themes/<id>.css
-npx dg add theme claude --vue --dir ./my-vue-app
+# Add theme (colors + variables)
+npx shadcn add https://design.mcky.space/r/rack.json
 
-# add another theme later
-npx dg add theme mcky --vue --dir ./my-vue-app
-npx dg add theme brut --vue --dir ./my-vue-app
+# Add UI elements (LED strips, bezels, etc.)
+npx shadcn add https://design.mcky.space/r/rack-elements.json
 ```
 
-### 3. DG web UI (this project's app/dg-ui)
+### 3. Use in your app
 
-```bash
-# install ONE theme into app/dg-ui/src/themes/<id>.css
-npx dg add theme mcky --ui --dir app/dg-ui
+```tsx
+import { Button } from "@/components/ui/button"
+import { LedStrip, RackBezel, RackUnit } from "@/components/ui"
 
-# add more as needed
-npx dg add theme rack --ui --dir app/dg-ui
+export default function Page() {
+  return (
+    <RackBezel label="// MOCKUP · RACK_01">
+      <RackUnit label="UNIT 01 — my-app" ledColor="var(--accent-2)" />
+      <LedStrip />
+      <Button>Click me</Button>
+    </RackBezel>
+  )
+}
 ```
 
-## CLI (`dg`)
+## Available Themes
 
-```bash
-npx dg add theme <id> --shadcn   # ⭐ React/shadcn → write globals.css
-npx dg add theme <id> --vue      # ⭐ Vue/pantry → copy src/themes/<id>.css
-npx dg add theme <id> --ui       # ⭐ DG web UI → copy app/dg-ui/src/themes/<id>.css
-npx dg add theme <id>            # copy vanilla theme.css (legacy)
-npx dg add component <name>      # copy vanilla component (legacy)
-npx dg theme <id>                # show link snippet
-npx dg list [themes|components]  # list themes/components
-npx dg codegen [id...]           # regenerate vanilla themes
-npx dg shadcn [id...]            # regenerate shadcn v4 presets
-npx dg vue-theme [id...]         # regenerate Vue theme CSS
-npx dg check                     # syntax + token contract + contrast
-npx dg help [cmd]
-```
-
-### Install models
-
-| flag | target | ผล |
-|---|---|---|
-| `--shadcn` | React + Tailwind project | เขียน `:root`/`.dark` blocks ลง globals.css |
-| `--vue` | Vue project (pantry) | copy `themes/vue/<id>.css` → `src/themes/` |
-| `--ui` | DG web UI (app/dg-ui) | copy `themes/shadcn/<id>.css` → `src/themes/` |
-
-ทั้งหมดเป็น **import 1 theme ต่อครั้ง** (tweakcn-style) — ไม่ bundle ทั้งหมด.
-
-```bash
-dg add theme rack --shadcn --dir ./my-app              # auto-find globals.css
-dg add theme claude --shadcn --globals ./app/globals.css
-dg add theme mcky --vue --dir ./pantry
-dg add theme brut --ui --dir app/dg-ui
-```
-
-## Themes (9)
-
-| id | name | DNA | mode |
+| ID | Name | Mode | Description |
 |---|---|---|---|
-| `mcky` | mcky.space | neobrutalism, 3px border, hard shadow, mono 100% | dual |
-| `rack` | STACK//FRAME | server rack, amber LED, Inter+mono | dark |
-| `crt` | PIXSH v1.0 | phosphor green, scanlines, VT323 | dark |
-| `noc` | PACKETGRID | NOC dashboard, cyan+green | dark |
-| `min` | collage.sh | minimal, olive lime accent | light |
-| `glitchpage` | GLITCHPAGE | error page, neon pink, Thai | dark |
-| `claude` | CLAUDE PAPER | warm editorial, clay, Source Serif | dual |
-| `moss` | MOSS | organic, earth + terracotta, Fraunces | light |
-| `brut` | BRUT | brutalist, red+black, Anton | light |
+| `mcky` | mcky.space | dual | Neobrutalism, 3px border, hard shadow, mono 100% |
+| `rack` | STACK//FRAME | dark | Server rack, amber LED, Inter+mono |
+| `crt` | PIXSH v1.0 | dark | Phosphor green, scanlines, VT323 |
+| `noc` | PACKETGRID | dark | NOC dashboard, cyan+green |
+| `min` | collage.sh | light | Minimal, olive lime accent |
+| `glitchpage` | GLITCHPAGE | dark | Error page, neon pink, Thai |
+| `claude` | CLAUDE PAPER | dual | Warm editorial, clay, Source Serif |
+| `moss` | MOSS | light | Organic, earth + terracotta, Fraunces |
+| `brut` | BRUT | light | Brutalist, red+black, Anton |
 
-**Mode semantics ใน shadcn:**
-- `dual` (mcky, claude) → `:root` light + `.dark` dark — toggle `<html class="dark">`
-- `dark-only` (rack, crt, noc, glitchpage) → `:root, .dark` dark — เป็น dark เสมอ
-- `light-only` (min, moss, brut) → `:root, .dark` light — เป็น light เสมอ (กัน `.dark` default มาครอบ)
+**Mode semantics:**
+- `dual` — Has both light and dark variants. Toggle with `<html class="dark">`
+- `dark-only` — Dark theme only. Applied via `:root, .dark { }`
+- `light-only` — Light theme only. Shielded from `.dark` class override
 
-## Format (shadcn v4)
+## Available Elements
 
-```css
-:root {
-  --background: #f5f5f0;        /* exact hex — precision fix (no hsl rounding) */
-  --primary: #ffe066;
-  --radius: 0.375rem;
-  --border-width: 3px;
-  --shadow: 4px 4px 0 var(--border);
-  --font-sans: 'JetBrains Mono', ui-monospace, monospace;
-}
-.dark {
-  --background: #0a0a0a;        /* dual themes only */
+### rack-elements
+Server rack UI elements:
+- `LedStrip` — Animated LED indicators with staggered pulse
+- `RackBezel` — Server rack header with status LED
+- `RackUnit` — Individual rack unit with LED + screw details
+- `RackMock` — Container for rack units
+
+### crt-elements
+CRT terminal UI elements:
+- `CrtTerminal` — Phosphor glow terminal container
+- `BlinkCursor` — Blinking block cursor
+- `Scanlines` — Full-screen scanline overlay
+- `CrtLed` — LED indicator with pulse animation
+
+### glitchpage-elements
+Glitch error page UI elements:
+- `GlitchText` — RGB-split glitch text with clip-path layers
+- `GlitchLabel` — Error label (monospace, uppercase)
+- `GlitchStage` — Container for glitch elements
+
+## Registry Structure
+
+```
+https://design.mcky.space/r/
+├── registry.json          # Collection index (12 items)
+├── mcky.json              # registry:theme
+├── rack.json              # registry:theme
+├── rack-elements.json     # registry:block (components)
+├── crt.json               # registry:theme
+├── crt-elements.json      # registry:block
+├── glitchpage.json        # registry:theme
+├── glitchpage-elements.json # registry:block
+└── ... (9 themes + 3 element packs)
+```
+
+## Development
+
+### Generate registry items
+
+```bash
+# Generate theme items from themes/shadcn/*.css
+node tools/registry.mjs
+
+# Generate element items from src/registry/elements/
+node tools/registry-elements.mjs rack
+node tools/registry-elements.mjs crt
+node tools/registry-elements.mjs glitchpage
+```
+
+### Add new elements
+
+1. Create component in `src/registry/elements/<concept>/`
+2. Add to `tools/registry-elements.mjs` CONCEPTS config
+3. Run `node tools/registry-elements.mjs <concept>`
+4. Commit and push
+
+### Registry format
+
+**registry:theme** (colors + variables):
+```json
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "rack",
+  "type": "registry:theme",
+  "cssVars": {
+    "theme": { "radius": "0", "font-mono": "..." },
+    "light": { "background": "#0a0a0c", "primary": "#ffb000" },
+    "dark": { "background": "#0a0a0c", "primary": "#ffb000" }
+  },
+  "css": {
+    "@layer base": {
+      "body": {
+        "background-color": "var(--background)",
+        "color": "var(--foreground)"
+      }
+    }
+  }
 }
 ```
 
-- สี = **hex เดิม** จาก concepts (แม่นยำ 100%, ไม่มี hex→HSL→RGB rounding loss)
-- non-color (radius/border-width/fonts/shadow) ผ่านตรง
-- `@theme inline` mapping อยู่ใน `themes/shadcn/_base.css` (ใช้ร่วมทุก theme)
+**registry:block** (components):
+```json
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "rack-elements",
+  "type": "registry:block",
+  "files": [
+    { "path": "led-strip.tsx", "content": "..." },
+    { "path": "rack-bezel.tsx", "content": "..." }
+  ]
+}
+```
 
 ## Architecture
 
 ```
-themes/
-├── shadcn/                 # ⭐ shadcn v4 presets (React/Tailwind)
-│   ├── _base.css           # one-time @theme inline mapping
-│   ├── <id>.css ×9         # 9 design concepts
-│   └── README.md
-├── vue/                    # ⭐ Vue themes (pantry-style :root + [data-mode])
-│   ├── <id>.css ×9         # --bg/--surface/--fg/--accent vars
-│   └── README.md
-├── json/                   # 9 JSON themes (React Native)
-├── registry/               # shadcn registry files
-└── <id>/theme.css ×9       # vanilla format (legacy gallery)
-app/dg-ui/
-└── src/themes/             # ⭐ installed themes in DG web UI (tweakcn model)
-    ├── mcky.css            # ← dg add theme mcky --ui
-    ├── rack.css            # ← dg add theme rack --ui
-    └── ...                 # เพิ่มทีละตัว
-src/
-├── tokens/schema.css       # token schema (core ของทุก theme)
-└── components/             # 🔒 DEPRECATED vanilla (gallery only)
-tools/
-├── codegen.mjs             # canonical THEMES map (single source of truth)
-├── hex-source.mjs          # original hex extraction (precision fix)
-├── shadcn-adapter.mjs      # HSL → shadcn v4 (+ exact hex)
-├── vue-theme.mjs           # shadcn → Vue theme CSS
-├── validate.mjs            # token contract + contrast
-└── map.md                  # concept → token mapping
-examples/
-└── shadcn-demo/            # React 19 + Radix drop-in proof
+design-gallery/
+├── themes/
+│   ├── shadcn/            # Source CSS (9 themes)
+│   │   ├── mcky.css
+│   │   ├── rack.css
+│   │   └── ...
+│   └── registry/          # Generated registry JSON
+│       ├── registry.json  # Collection index
+│       ├── mcky.json      # registry:theme
+│       └── rack-elements.json  # registry:block
+├── src/registry/elements/ # Source components
+│   ├── rack/
+│   │   ├── led-strip.tsx
+│   │   ├── rack-bezel.tsx
+│   │   └── effects.css
+│   ├── crt/
+│   └── glitchpage/
+├── tools/
+│   ├── registry.mjs       # Generate theme items
+│   └── registry-elements.mjs  # Generate element items
+└── concepts/              # Original concept HTML (source of truth)
+    ├── rack.html
+    ├── crt.html
+    └── ...
 ```
 
-**Data flow:** `concepts/<id>.css` (design ต้นฉบับ) → `tools/hex-source.mjs`
-(extract hex) + `tools/codegen.mjs` (THEMES map) → `shadcn-adapter.mjs` →
-`themes/shadcn/<id>.css` (และ `vue-theme.mjs` → `themes/vue/<id>.css`).
+## Hosting
 
-## Regenerate
+Registry is hosted at `https://design.mcky.space/r/` via Caddy:
 
-```bash
-npx dg shadcn            # regenerate all 9 shadcn presets
-npx dg shadcn mcky       # one theme
-npx dg shadcn --check    # verify only
-npx dg vue-theme         # regenerate all 9 Vue themes
-npx dg vue-theme mcky    # one Vue theme
+```caddyfile
+design.mcky.space {
+    handle_path /r/* {
+        root * /home/admin/design-gallery/themes/registry
+        header Content-Type "application/json"
+        file_server
+    }
+}
 ```
 
-## Validation
+## Known Issues
 
-```bash
-npx dg check
-```
+- Custom variables (e.g., `--accent-2`, `--led-cyan`) may need manual addition to globals.css after `npx shadcn add`
+- Some themes use custom fonts that need to be loaded separately
 
-- JS syntax ทั้งหมด
-- Theme token contract (`--background/--foreground/--primary/--border/--radius`)
-- HSL format + range
-- WCAG AA contrast (text pairs)
+## Roadmap
 
-## Legacy vanilla (deprecated)
+- [ ] Extract elements for remaining 6 concepts (noc, moss, mcky, brut, min, claude)
+- [ ] Add font loading to theme registry items
+- [ ] Create showcase page demonstrating all themes + elements
+- [ ] Add more UI components per concept (cards, inputs, etc.)
 
-`src/components/*` (54 components, base.css + components.js) — **frozen**
-ตั้งแต่ 2026-08-04. มี accessibility gaps + primitives ที่ปั้นเอง → ใช้แค่ใน
-concept gallery (`app/*.html`). ดู [DEPRECATED.md](src/components/DEPRECATED.md)
+## License
 
-## Tech
+MIT
 
-- **Themes**: CSS custom properties (hex + hsl), shadcn v4 format
-- **Components**: React 19 + Radix UI (ผ่าน shadcn CLI) — ไม่ปั้นเอง
-- **Tooling**: zero-dep node scripts (codegen, adapter, vue-theme, validate, CLI)
-- **No component build from us** — เราส่งแค่ theme layer
-- **Install model**: tweakcn/shadcn-style — ติดตั้ง theme ทีละตัว ไม่ bundle ทั้งหมด
+## Links
 
-## Repo
-
+- Registry: https://design.mcky.space/r/
 - GitHub: https://github.com/ktypez/design-gallery
-- Served: nginx `/design/` → `/home/admin/design-gallery/` (concept gallery)
-- ดู [PLAN.md](PLAN.md), [DEPLOY.md](DEPLOY.md)
+- Inspired by: [tweakcn](https://tweakcn.com)
