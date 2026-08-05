@@ -1,7 +1,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from "./Card"
 import { Badge } from "./Badge"
 import { useTheme } from "./lib/theme"
-import { Package, Palette, Settings, Search, Zap, CheckCircle } from "lucide-react"
+import { Package, Palette, Settings, Search, Zap, CheckCircle, Sun, Moon } from "lucide-react"
 
 const features = [
   { icon: Palette, title: "9 Design Concepts", desc: "mcky, rack, crt, noc, min, glitchpage, claude, moss, brut" },
@@ -25,10 +25,32 @@ const themes = [
 ]
 
 export default function Landing() {
-  const { setTheme } = useTheme()
+  const { setTheme, mode, setMode } = useTheme()
 
   return (
     <div className="min-h-screen bg-background text-foreground">
+      {/* Floating light/dark toggle */}
+      <div className="fixed top-4 right-4 z-50 flex gap-1 p-1 rounded-lg border border-border bg-card/90 backdrop-blur">
+        <button
+          onClick={() => setMode("light")}
+          aria-label="Light mode"
+          className={`p-2 rounded-md transition-colors ${
+            mode === "light" ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:bg-accent"
+          }`}
+        >
+          <Sun className="w-4 h-4" />
+        </button>
+        <button
+          onClick={() => setMode("dark")}
+          aria-label="Dark mode"
+          className={`p-2 rounded-md transition-colors ${
+            mode === "dark" ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:bg-accent"
+          }`}
+        >
+          <Moon className="w-4 h-4" />
+        </button>
+      </div>
+
       {/* Hero */}
       <section className="px-4 sm:px-6 py-16 sm:py-20 text-center max-w-4xl mx-auto">
         <Badge variant="secondary" className="mb-4">Design Gallery Framework</Badge>

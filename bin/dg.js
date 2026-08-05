@@ -750,6 +750,7 @@ function addTheme(args) {
   const dirIdx = args.indexOf('--dir');
   const dir = path.resolve(dirIdx > -1 ? args[dirIdx + 1] : '.');
   const isShadcn = args.includes('--shadcn');
+  const isVue = args.includes('--vue');
   const globalsIdx = args.indexOf('--globals');
   const globalsPath = globalsIdx > -1 ? path.resolve(args[globalsIdx + 1]) : null;
 
@@ -757,15 +758,17 @@ function addTheme(args) {
   if (exists(arg) && arg.endsWith('.css')) {
     src = path.resolve(arg);
   } else {
-    // search shadcn themes then extracted themes
+    // search shadcn themes then extracted themes then vue themes
     const candidates = [
       path.join(ROOT, 'themes', 'shadcn', `${arg}.css`),
       path.join(ROOT, 'themes', 'extracted', `${arg}.css`),
     ];
-    if (!isShadcn) candidates.push(path.join(ROOT, 'themes', arg, 'theme.css'));
+    if (isVue) candidates.unshift(path.join(ROOT, 'themes', 'vue', `${arg}.css`));
+    if (!isShadcn && !isVue) candidates.push(path.join(ROOT, 'themes', arg, 'theme.css'));
     src = candidates.find((p) => exists(p));
     if (!src) {
       if (isShadcn) { err(`theme not found: ${arg} — search: themes/shadcn/, themes/extracted/`); }
+      else if (isVue) { err(`vue theme not found: ${arg} — run 'dg vue-theme ${arg}' first`); }
       else err(`theme not found: ${arg}`);
       return;
     }
@@ -773,6 +776,22 @@ function addTheme(args) {
 
   if (isShadcn) {
     return addShadcnTheme(arg, src, dir, globalsPath);
+  }
+
+  if (isVue) {
+    // Vue model (tweakcn-style): copy ONE theme into src/themes/<id>.css
+    const dst = path.join(dir, 'src', 'themes', `${arg}.css`);
+    log('');
+    log(paint('bold', `  dg add theme ${arg} --vue`) + paint('dim', ` → ${dst}`));
+    log('');
+    copyFile(src, dst);
+    ok(`${arg}.css added to src/themes/`);
+    log('');
+    log(paint('bold', '  Next:'));
+    dim('1. import it in src/lib/theme.ts (dynamic from src/themes/)');
+    dim(`2. to add more: npx dg add theme <id> --vue --dir .`);
+    log('');
+    return;
   }
 
   const dst = path.join(dir, 'theme.css');
