@@ -77,22 +77,13 @@ function generateThemeItem(theme) {
     dark = parseCssBlock(css, '.dark');
   }
   
-  // Separate theme vars (non-color) from light/dark
-  const themeVars = {};
-  const colorKeys = ['background', 'foreground', 'card', 'popover', 'primary', 'secondary', 
-                     'muted', 'accent', 'destructive', 'border', 'input', 'ring'];
-  
-  for (const [key, value] of Object.entries(light)) {
-    if (!colorKeys.includes(key)) {
-      themeVars[key] = value;
-      delete light[key];
-    }
-  }
-  
-  // Also remove theme vars from dark (they're shared)
-  for (const key of Object.keys(themeVars)) {
-    delete dark[key];
-  }
+  // NOTE: keep ALL vars in `light`/`dark` — do NOT split shared vars into
+  // `cssVars.theme`. The shadcn CLI (4.x) writes cssVars.theme into
+  // `@theme inline`, which inlines the value into utilities and never emits a
+  // real CSS custom property at `:root` — so `var(--card-foreground)` and
+  // friends resolve against the base theme's values instead of ours.
+  // Putting every var in `light` (= `:root`) / `dark` (= `.dark`) makes the
+  // CLI write them as actual CSS variables at the right selectors.
   
   const item = {
     $schema: 'https://ui.shadcn.com/schema/registry-item.json',
@@ -100,7 +91,6 @@ function generateThemeItem(theme) {
     type: 'registry:theme',
     description: `${theme.name} — ${theme.vibe}`,
     cssVars: {
-      theme: themeVars,
       light: light,
       dark: dark,
     },
