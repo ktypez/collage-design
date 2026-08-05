@@ -16,7 +16,7 @@ export default function GettingStarted() {
           Initialize a new project with the DG CLI. This sets up Tailwind v4, React, and
           shadcn/ui components.
         </p>
-        <pre className="p-4 bg-muted rounded-lg border border-border font-mono text-sm">
+        <pre className="p-4 bg-muted rounded-lg border border-border font-mono text-sm overflow-x-auto">
 {`# Create new project
 npx dg init my-project
 cd my-project
@@ -31,7 +31,7 @@ npx dg init --dir ./my-existing-app`}
         <p className="text-sm text-muted-foreground mb-3">
           Choose from 9 design concepts. Each theme is a shadcn v4 preset with exact brand colors.
         </p>
-        <pre className="p-4 bg-muted rounded-lg border border-border font-mono text-sm">
+        <pre className="p-4 bg-muted rounded-lg border border-border font-mono text-sm overflow-x-auto">
 {`# Apply theme to your project
 npx dg add theme mcky --shadcn --dir .
 
@@ -51,7 +51,7 @@ npx dg shadcn --oklch  # oklch format (shadcn native)`}
         <p className="text-sm text-muted-foreground mb-3">
           Add Radix-based shadcn components. All components use your theme tokens automatically.
         </p>
-        <pre className="p-4 bg-muted rounded-lg border border-border font-mono text-sm">
+        <pre className="p-4 bg-muted rounded-lg border border-border font-mono text-sm overflow-x-auto">
 {`# Add components via shadcn CLI
 npx shadcn@latest add button card dialog tabs
 
@@ -62,7 +62,7 @@ npx dg add component button`}
 
       <section>
         <h2 className="text-xl font-semibold mb-3">4. Start Building</h2>
-        <pre className="p-4 bg-muted rounded-lg border border-border font-mono text-sm">
+        <pre className="p-4 bg-muted rounded-lg border border-border font-mono text-sm overflow-x-auto">
 {`import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 
@@ -85,7 +85,7 @@ export function App() {
 
       <section>
         <h2 className="text-xl font-semibold mb-3">Project Structure</h2>
-        <pre className="p-4 bg-muted rounded-lg border border-border font-mono text-sm">
+        <pre className="p-4 bg-muted rounded-lg border border-border font-mono text-sm overflow-x-auto">
 {`my-project/
 ├── src/
 │   ├── components/ui/     ← shadcn components (Radix)

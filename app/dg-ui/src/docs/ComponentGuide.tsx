@@ -60,9 +60,9 @@ export default function ComponentGuide() {
             {cat.components.map((comp) => (
               <div
                 key={comp}
-                className="p-3 rounded-lg border border-border bg-card hover:border-muted-foreground transition-colors"
+                className="p-3 rounded-lg border border-border bg-card hover:border-muted-foreground transition-colors min-w-0 overflow-hidden"
               >
-                <span className="font-mono text-sm font-medium">{comp}</span>
+                <span className="font-mono text-sm font-medium truncate block">{comp}</span>
                 {cat.note?.includes("JavaScript") && (
                   <Badge variant="outline" className="text-[10px] ml-1">JS</Badge>
                 )}
@@ -74,7 +74,7 @@ export default function ComponentGuide() {
 
       <section>
         <h2 className="text-xl font-semibold mb-3">Adding Components</h2>
-        <pre className="p-4 bg-muted rounded-lg border border-border font-mono text-sm">
+        <pre className="p-4 bg-muted rounded-lg border border-border font-mono text-sm overflow-x-auto">
 {`# Add via DG CLI
 npx dg add component button
 

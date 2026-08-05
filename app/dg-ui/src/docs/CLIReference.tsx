@@ -88,7 +88,7 @@ export default function CLIReference() {
               </CardHeader>
               <CardContent className="space-y-2">
                 <p className="text-sm text-muted-foreground">{cmd.desc}</p>
-                <pre className="p-3 bg-muted rounded border border-border text-xs font-mono">
+                <pre className="p-3 bg-muted rounded border border-border text-xs font-mono overflow-x-auto">
                   $ {cmd.example}
                 </pre>
                 {cmd.flags.length > 0 && (
@@ -112,7 +112,7 @@ export default function CLIReference() {
 
       <section>
         <h2 className="text-xl font-semibold mb-3">Installation</h2>
-        <pre className="p-4 bg-muted rounded-lg border border-border font-mono text-sm">
+        <pre className="p-4 bg-muted rounded-lg border border-border font-mono text-sm overflow-x-auto">
 {`# Install globally
 npm install -g design-gallery
 

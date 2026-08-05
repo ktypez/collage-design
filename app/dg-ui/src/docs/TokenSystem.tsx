@@ -92,7 +92,7 @@ export default function TokenSystem() {
 
       <section>
         <h2 className="text-xl font-semibold mb-3">Motion Tokens</h2>
-        <pre className="p-4 bg-muted rounded-lg border border-border font-mono text-sm">
+        <pre className="p-4 bg-muted rounded-lg border border-border font-mono text-sm overflow-x-auto">
 {`/* src/tokens/motion.css */
 --duration-fast: 0.1s;
 --duration-normal: 0.2s;
@@ -106,7 +106,7 @@ export default function TokenSystem() {
         <p className="text-sm text-muted-foreground mb-3">
           Override any token in your theme.css to change the entire look.
         </p>
-        <pre className="p-4 bg-muted rounded-lg border border-border font-mono text-sm">
+        <pre className="p-4 bg-muted rounded-lg border border-border font-mono text-sm overflow-x-auto">
 {`:root {
   --primary: 50 100% 71%;        /* amber */
   --radius: 0.375rem;            /* 6px */

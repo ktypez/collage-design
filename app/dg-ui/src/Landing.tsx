@@ -30,17 +30,17 @@ export default function Landing() {
   return (
     <div className="min-h-screen">
       {/* Hero */}
-      <section className="px-6 py-20 text-center max-w-4xl mx-auto">
+      <section className="px-4 sm:px-6 py-16 sm:py-20 text-center max-w-4xl mx-auto">
         <Badge variant="secondary" className="mb-4">Design Gallery Framework</Badge>
-        <h1 className="text-5xl font-bold tracking-tight mb-4">
+        <h1 className="text-4xl sm:text-5xl font-bold tracking-tight mb-4">
           Build beautiful UIs<br />
           <span className="text-primary">with 9 design themes</span>
         </h1>
-        <p className="text-lg text-muted-foreground mb-8 max-w-2xl mx-auto">
+        <p className="text-base sm:text-lg text-muted-foreground mb-8 max-w-2xl mx-auto">
           9 design concepts from design-gallery — each as a shadcn v4 theme preset.
           React 19 + Radix UI + Tailwind v4. Zero dependencies in the theme layer.
         </p>
-        <div className="flex gap-3 justify-center">
+        <div className="flex flex-col sm:flex-row gap-3 justify-center">
           <button className="px-6 py-3 bg-primary text-primary-foreground rounded-lg font-medium hover:opacity-90">
             Get Started
           </button>
@@ -80,21 +80,21 @@ export default function Landing() {
           <p className="text-muted-foreground text-center mb-8">
             Each theme is a complete shadcn v4 preset with exact brand colors
           </p>
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {themes.map((t) => (
               <button
                 key={t.name}
                 onClick={() => setTheme(t.name as any)}
-                className="p-4 rounded-lg border border-border text-left hover:border-primary transition-colors"
+                className="p-4 rounded-lg border border-border text-left hover:border-primary transition-colors min-w-0"
               >
-                <div className="flex items-center gap-3 mb-2">
+                <div className="flex items-center gap-3 mb-2 min-w-0">
                   <div
-                    className="w-8 h-8 rounded-md border border-border"
+                    className="w-8 h-8 rounded-md border border-border shrink-0"
                     style={{ background: t.color }}
                   />
-                  <div>
-                    <div className="font-semibold text-sm">{t.label}</div>
-                    <div className="text-xs text-muted-foreground">{t.vibe}</div>
+                  <div className="min-w-0">
+                    <div className="font-semibold text-sm truncate">{t.label}</div>
+                    <div className="text-xs text-muted-foreground truncate">{t.vibe}</div>
                   </div>
                 </div>
                 <Badge variant="outline" className="mt-2">{t.name}</Badge>
@@ -105,35 +105,35 @@ export default function Landing() {
       </section>
 
       {/* Quick Start */}
-      <section className="px-6 py-16 bg-muted/30">
+      <section className="px-4 sm:px-6 py-16 bg-muted/30">
         <div className="max-w-3xl mx-auto">
-          <h2 className="text-3xl font-bold text-center mb-8">Quick Start</h2>
+          <h2 className="text-2xl sm:text-3xl font-bold text-center mb-8">Quick Start</h2>
           <div className="space-y-4">
             <Card>
-              <CardContent className="p-6">
+              <CardContent className="p-4 sm:p-6">
                 <div className="font-mono text-sm">
                   <p className="text-muted-foreground mb-2">1. Install framework</p>
-                  <code className="block p-3 bg-background rounded border border-border">
+                  <code className="block p-3 bg-background rounded border border-border overflow-x-auto whitespace-pre">
                     npx dg init my-app
                   </code>
                 </div>
               </CardContent>
             </Card>
             <Card>
-              <CardContent className="p-6">
+              <CardContent className="p-4 sm:p-6">
                 <div className="font-mono text-sm">
                   <p className="text-muted-foreground mb-2">2. Add a theme</p>
-                  <code className="block p-3 bg-background rounded border border-border">
+                  <code className="block p-3 bg-background rounded border border-border overflow-x-auto whitespace-pre">
                     npx dg add theme mcky --shadcn --dir .
                   </code>
                 </div>
               </CardContent>
             </Card>
             <Card>
-              <CardContent className="p-6">
+              <CardContent className="p-4 sm:p-6">
                 <div className="font-mono text-sm">
                   <p className="text-muted-foreground mb-2">3. Add components</p>
-                  <code className="block p-3 bg-background rounded border border-border">
+                  <code className="block p-3 bg-background rounded border border-border overflow-x-auto whitespace-pre">
                     npx shadcn@latest add button card dialog tabs
                   </code>
                 </div>

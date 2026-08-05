@@ -29,28 +29,28 @@ export default function ThemesGuide() {
 
       <section>
         <h2 className="text-xl font-semibold mb-3">Available Themes</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 min-w-0">
           {THEMES.map((t) => (
             <Card
               key={t.id}
-              className={`cursor-pointer transition-all hover:border-primary ${
+              className={`cursor-pointer transition-all hover:border-primary min-w-0 overflow-hidden w-full ${
                 themeId === t.id ? "border-primary ring-1 ring-primary" : ""
               }`}
               onClick={() => setTheme(t.id as any)}
             >
-              <CardHeader className="pb-2">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-3">
+              <CardHeader className="pb-2 min-w-0">
+                <div className="flex items-center justify-between gap-2 min-w-0">
+                  <div className="flex items-center gap-3 min-w-0">
                     <div
                       className="w-10 h-10 rounded-md border border-border"
                       style={{ background: t.color }}
                     />
-                    <div>
-                      <CardTitle className="text-sm">{t.name}</CardTitle>
-                      <p className="text-xs text-muted-foreground">{t.vibe}</p>
+                    <div className="min-w-0">
+                      <CardTitle className="text-sm truncate">{t.name}</CardTitle>
+                      <p className="text-xs text-muted-foreground truncate">{t.vibe}</p>
                     </div>
                   </div>
-                  <Badge variant={themeId === t.id ? "default" : "outline"}>
+                  <Badge variant={themeId === t.id ? "default" : "outline"} className="shrink-0">
                     {t.modes}
                   </Badge>
                 </div>
@@ -64,7 +64,7 @@ export default function ThemesGuide() {
         <h2 className="text-xl font-semibold mb-3">Theme Modes</h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <Card>
-            <CardHeader className="pb-2">
+            <CardHeader className="pb-2 min-w-0">
               <CardTitle className="text-sm">Dual Mode</CardTitle>
             </CardHeader>
             <CardContent className="text-sm text-muted-foreground">
@@ -73,7 +73,7 @@ export default function ThemesGuide() {
             </CardContent>
           </Card>
           <Card>
-            <CardHeader className="pb-2">
+            <CardHeader className="pb-2 min-w-0">
               <CardTitle className="text-sm">Dark Only</CardTitle>
             </CardHeader>
             <CardContent className="text-sm text-muted-foreground">
@@ -82,7 +82,7 @@ export default function ThemesGuide() {
             </CardContent>
           </Card>
           <Card>
-            <CardHeader className="pb-2">
+            <CardHeader className="pb-2 min-w-0">
               <CardTitle className="text-sm">Light Only</CardTitle>
             </CardHeader>
             <CardContent className="text-sm text-muted-foreground">
@@ -95,7 +95,7 @@ export default function ThemesGuide() {
 
       <section>
         <h2 className="text-xl font-semibold mb-3">Create a New Theme</h2>
-        <pre className="p-4 bg-muted rounded-lg border border-border font-mono text-sm">
+        <pre className="p-4 bg-muted rounded-lg border border-border font-mono text-sm overflow-x-auto">
 {`/* themes/<id>/theme.css */
 :root {
   --background: 60 17% 95%;        /* HSL space-separated */
@@ -114,7 +114,7 @@ export default function ThemesGuide() {
 
       <section>
         <h2 className="text-xl font-semibold mb-3">Apply a Theme</h2>
-        <pre className="p-4 bg-muted rounded-lg border border-border font-mono text-sm">
+        <pre className="p-4 bg-muted rounded-lg border border-border font-mono text-sm overflow-x-auto">
 {`# Via CLI
 npx dg add theme mcky --shadcn --dir .
 

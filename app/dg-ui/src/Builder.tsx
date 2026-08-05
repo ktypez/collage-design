@@ -95,17 +95,17 @@ export default function Builder() {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <div className="lg:col-span-1 space-y-4">
+        <div className="lg:col-span-1 space-y-4 min-w-0">
           <Card>
             <CardHeader className="pb-3">
               <CardTitle className="text-sm">Tokens</CardTitle>
             </CardHeader>
-            <CardContent className="space-y-3">
+            <CardContent className="space-y-3 min-w-0">
               {TOKEN_NAMES.map(({ key, label, color }) => (
-                <div key={key} className="flex items-center gap-2">
-                  <label className="text-xs text-muted-foreground w-24 shrink-0">{label}</label>
+                <div key={key} className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-2 min-w-0">
+                  <label className="text-xs text-muted-foreground w-full sm:w-24 shrink-0">{label}</label>
                   {color ? (
-                    <div className="flex items-center gap-1 flex-1">
+                    <div className="flex items-center gap-1 flex-1 min-w-0">
                       <input
                         type="color"
                         value={parseHslToHex(tokens[key] || "#000000")}
@@ -140,12 +140,12 @@ export default function Builder() {
           </div>
         </div>
 
-        <div className="lg:col-span-2 space-y-4">
+        <div className="lg:col-span-2 space-y-4 min-w-0">
           <Card>
             <CardHeader className="pb-3">
               <CardTitle className="text-sm">Live Preview</CardTitle>
             </CardHeader>
-            <CardContent className="space-y-3">
+            <CardContent className="space-y-3 min-w-0">
               <div className="flex flex-wrap gap-2">
                 <button className="px-4 py-2 bg-primary text-primary-foreground rounded-md text-sm font-medium">Primary</button>
                 <button className="px-4 py-2 bg-secondary text-secondary-foreground rounded-md text-sm font-medium">Secondary</button>
@@ -153,7 +153,7 @@ export default function Builder() {
                 <button className="px-4 py-2 text-sm font-medium">Ghost</button>
                 <button className="px-4 py-2 bg-destructive text-destructive-foreground rounded-md text-sm font-medium">Destructive</button>
               </div>
-              <div className="flex gap-2">
+              <div className="flex flex-wrap gap-2">
                 <div className="px-3 py-1 bg-primary text-primary-foreground rounded-full text-xs font-semibold">primary</div>
                 <div className="px-3 py-1 bg-secondary text-secondary-foreground rounded-full text-xs font-semibold">secondary</div>
                 <div className="px-3 py-1 bg-destructive text-destructive-foreground rounded-full text-xs font-semibold">danger</div>
@@ -163,7 +163,7 @@ export default function Builder() {
               <div className="p-4 rounded-lg border border-border bg-card">
                 <div className="font-semibold mb-1">Card preview</div>
                 <p className="text-sm text-muted-foreground mb-2">This card uses the current token values.</p>
-                <div className="flex gap-2">
+                <div className="flex flex-wrap gap-2">
                   <button className="px-3 py-1.5 bg-primary text-primary-foreground rounded-md text-sm">Save</button>
                   <button className="px-3 py-1.5 border border-border rounded-md text-sm">Cancel</button>
                 </div>
