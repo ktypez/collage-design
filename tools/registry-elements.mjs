@@ -26,6 +26,20 @@ const CONCEPTS = {
     files: ['led-strip.tsx', 'rack-bezel.tsx', 'rack-unit.tsx', 'rack-mock.tsx', 'effects.css', 'index.ts'],
     registryDependencies: [],
   },
+  crt: {
+    name: 'crt-elements',
+    displayName: 'PIXSH v1.0 Elements',
+    description: 'CRT terminal UI elements — phosphor glow terminal, scanlines overlay, blinking cursor, LED indicators',
+    files: ['crt-terminal.tsx', 'blink-cursor.tsx', 'scanlines.tsx', 'crt-led.tsx', 'effects.css', 'index.ts'],
+    registryDependencies: [],
+  },
+  glitchpage: {
+    name: 'glitchpage-elements',
+    displayName: 'GLITCHPAGE Elements',
+    description: 'Glitch error page UI elements — RGB-split glitch text, error labels, animated stage',
+    files: ['glitch-text.tsx', 'glitch-label.tsx', 'glitch-stage.tsx', 'effects.css', 'index.ts'],
+    registryDependencies: [],
+  },
   // Add more concepts as we extract them
 };
 
