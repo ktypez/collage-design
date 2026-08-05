@@ -28,7 +28,7 @@ export default function Landing() {
   const { setTheme } = useTheme()
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen bg-background text-foreground">
       {/* Hero */}
       <section className="px-4 sm:px-6 py-16 sm:py-20 text-center max-w-4xl mx-auto">
         <Badge variant="secondary" className="mb-4">Design Gallery Framework</Badge>
