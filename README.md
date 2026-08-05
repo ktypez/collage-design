@@ -13,24 +13,26 @@ Design Gallery provides **9 design concepts** as shadcn-compatible themes and UI
 ### 1. Create a shadcn project
 
 ```bash
+# Next.js / Vite / Astro — ใช้ shadcn init ตามปกติ
 npx shadcn@latest init
 ```
 
-### 2. Add a theme
+### 2. Add a theme + elements
 
 ```bash
-# Add theme (colors + variables)
-npx shadcn add https://design.mcky.space/r/rack.json
-
-# Add UI elements (LED strips, bezels, etc.)
-npx shadcn add https://design.mcky.space/r/rack-elements.json
+# ⭐ 1 คำสั่ง ได้ theme (สี/ฟอนต์/radius) + element pack (components)
+npx shadcn add https://design.mcky.space/r/rack.json          # theme colors
+npx shadcn add https://design.mcky.space/r/rack-elements.json # components (LED, bezel)
 ```
 
 ### 3. Use in your app
 
 ```tsx
+// import ตรงจาก path (shadcn convention — ไม่ต้องผ่าน index)
 import { Button } from "@/components/ui/button"
-import { LedStrip, RackBezel, RackUnit } from "@/components/ui"
+import { RackBezel } from "@/components/ui/rack-bezel"
+import { RackUnit } from "@/components/ui/rack-unit"
+import { LedStrip } from "@/components/ui/led-strip"
 
 export default function Page() {
   return (
@@ -41,6 +43,142 @@ export default function Page() {
     </RackBezel>
   )
 }
+```
+
+### 4. สลับ theme (เฉพาะ dual themes)
+
+```tsx
+// dual themes (mcky, claude) มีทั้ง light + dark → toggle class บน <html>
+<html className={isDark ? "dark" : ""}> ...
+```
+
+---
+
+## Registry Usage (npx shadcn add)
+
+Registry รองรับ **2 ประเภท item** — install ผ่าน `npx shadcn add` ทั้งคู่:
+
+| Item type | ตัวอย่าง | ผลลัพธ์ |
+|---|---|---|
+| `registry:theme` | `npx shadcn add .../r/rack.json` | เขียน CSS variables ลง `globals.css` |
+| `registry:block` | `npx shadcn add .../r/rack-elements.json` | copy components ลง `components/ui/` |
+
+### ทุก concept ใช้ได้ (9 themes + 9 element packs)
+
+```bash
+# theme
+npx shadcn add https://design.mcky.space/r/mcky.json
+npx shadcn add https://design.mcky.space/r/claude.json
+
+# theme + elements พร้อมกัน
+npx shadcn add https://design.mcky.space/r/noc.json
+npx shadcn add https://design.mcky.space/r/noc-elements.json
+```
+
+> **Tip:** ใส่เป็น alias ใน `components.json` เพื่อใช้คำสั่งสั้นลง:
+> ```json
+> {
+>   "registries": {
+>     "@dg": "https://design.mcky.space/r/{name}.json"
+>   }
+> }
+> ```
+> ```bash
+> npx shadcn add @dg/rack
+> npx shadcn add @dg/rack-elements
+> ```
+
+### สิ่งที่ install เข้าโปรเจกต์
+
+- **Theme** → เพิ่ม CSS variables ใน `globals.css` (`:root` / `.dark`) + `@layer base` body style
+- **Elements** → copy `.tsx` components + `<concept>-effects.css` (keyframes) ลง `components/ui/`
+
+### ตัวอย่างโค้ดเต็ม (CRT theme)
+
+```bash
+npx shadcn add https://design.mcky.space/r/crt.json
+npx shadcn add https://design.mcky.space/r/crt-elements.json
+npx shadcn add button
+```
+
+```tsx
+import { Button } from "@/components/ui/button"
+import { CrtTerminal } from "@/components/ui/crt-terminal"
+import { BlinkCursor } from "@/components/ui/blink-cursor"
+import { Scanlines } from "@/components/ui/scanlines"
+
+export default function Terminal() {
+  return (
+    <>
+      <Scanlines />  {/* full-screen CRT scanline overlay */}
+      <CrtTerminal>
+        &gt; boot glance.kernel <BlinkCursor />
+      </CrtTerminal>
+      <Button>ENTER</Button>
+    </>
+  )
+}
+```
+
+---
+
+## วิธีปรับแต่ง Theme
+
+### 1. ปรับสี / ฟอนต์ ตรง `globals.css`
+
+Theme เขียนเป็น CSS variables — แก้ค่าตรงๆ ได้เลย:
+
+```css
+/* หลัง npx shadcn add .../r/rack.json */
+:root {
+  --background: #0a0a0c;   /* ← เปลี่ยนเป็นสีที่ชอบ */
+  --foreground: #f5f5f7;
+  --primary: #ffb000;      /* amber LED — เปลี่ยนเป็นสีแบรนด์คุณ */
+  --accent: #ffb000;
+  --border: #2a2a32;
+  --radius: 0;             /* radius ของทุก component */
+  --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+  --font-sans: 'Inter', system-ui, sans-serif;
+}
+```
+
+- ตัวแปรหลักตาม shadcn convention: `--background`, `--foreground`, `--card`, `--popover`, `--primary`, `--secondary`, `--muted`, `--accent`, `--destructive`, `--border`, `--input`, `--ring`, `--radius`
+- ตัวแปร concept-specific: `--accent-2`, `--accent-deep`, `--accent-soft`, `--info`, `--success`, `--warning`, `--led-cyan`, `--border-bright`, `--border-width`, `--shadow`, `--font-display`
+
+### 2. สลับ light / dark
+
+- **dual themes** (mcky, claude): `:root` = light, `.dark` = dark → toggle `<html class="dark">`
+- **dark-only** (rack, crt, noc, glitchpage): เป็น dark เสมอ — ค่าใน `:root, .dark`
+- **light-only** (min, moss, brut): เป็น light เสมอ — shield ไว้ไม่ให้ `.dark` ครอบ
+
+### 3. ปรับ elements ผ่าน props
+
+ทุก element เป็น React component — ปรับ props ได้:
+
+```tsx
+<RackUnit
+  label="UNIT 07 — my-service"
+  ledColor="#00ff66"          /* เปลี่ยนสี LED */
+  showScrews={false}          /* ซ่อนสกรู */
+/>
+
+<NocTile label="CPU" value="42%" unit="▲ stable" />
+<GlitchText text="SORRY" />   {/* เปลี่ยนข้อความ glitch */}
+<BrutButton variant="primary">BUILD RAW</BrutButton>
+```
+
+### 4. เขียน CSS override ต่อยอด
+
+elements ใช้ CSS variables + `cn()` — ต่อยอด class ได้ปกติ:
+
+```tsx
+<MckyCard className="max-w-sm" />   {/* tailwind utilities ใช้ได้ */}
+```
+
+```css
+/* override ในไฟล์ CSS ของคุณ */
+.led-strip { gap: 0.75rem; }
+@keyframes rk-led { 0%, 100% { opacity: 1; } 50% { opacity: 0.2; } } /* ปรับจังหวะ blink */
 ```
 
 ## Available Themes
@@ -64,39 +202,27 @@ export default function Page() {
 
 ## Available Elements
 
-### rack-elements
-Server rack UI elements:
-- `LedStrip` — Animated LED indicators with staggered pulse
-- `RackBezel` — Server rack header with status LED
-- `RackUnit` — Individual rack unit with LED + screw details
-- `RackMock` — Container for rack units
+ทุก concept มี element pack ของตัวเอง (`<id>-elements.json`) — 9 packs:
 
-### crt-elements
-CRT terminal UI elements:
-- `CrtTerminal` — Phosphor glow terminal container
-- `BlinkCursor` — Blinking block cursor
-- `Scanlines` — Full-screen scanline overlay
-- `CrtLed` — LED indicator with pulse animation
-
-### glitchpage-elements
-Glitch error page UI elements:
-- `GlitchText` — RGB-split glitch text with clip-path layers
-- `GlitchLabel` — Error label (monospace, uppercase)
-- `GlitchStage` — Container for glitch elements
+| Pack | Components | Effects |
+|---|---|---|
+| `rack-elements` | `LedStrip`, `RackBezel`, `RackUnit`, `RackMock` | LED blink amber |
+| `crt-elements` | `CrtTerminal`, `BlinkCursor`, `Scanlines`, `CrtLed` | scanline + blink |
+| `glitchpage-elements` | `GlitchText`, `GlitchLabel`, `GlitchStage` | RGB-split glitch |
+| `noc-elements` | `NocTile`, `NocGrid`, `NocHeader` | status pulse |
+| `moss-elements` | `Blob`, `MossCard` | blob drift |
+| `mcky-elements` | `MckyTodo`, `MckyCard` | hard shadow |
+| `brut-elements` | `BrutManifesto`, `BrutButton` | invert-on-hover |
+| `min-elements` | `MinMock`, `MinCard` | soft shadow |
+| `claude-elements` | `ClaudeNote`, `ClaudeCallout` | — |
 
 ## Registry Structure
 
 ```
 https://design.mcky.space/r/
-├── registry.json          # Collection index (12 items)
-├── mcky.json              # registry:theme
-├── rack.json              # registry:theme
-├── rack-elements.json     # registry:block (components)
-├── crt.json               # registry:theme
-├── crt-elements.json      # registry:block
-├── glitchpage.json        # registry:theme
-├── glitchpage-elements.json # registry:block
-└── ... (9 themes + 3 element packs)
+├── registry.json          # Collection index (18 items)
+├── <id>.json              # registry:theme ×9 (mcky, rack, crt, noc, min, glitchpage, claude, moss, brut)
+├── <id>-elements.json     # registry:block ×9 (components + effects.css)
 ```
 
 ## Development
@@ -104,21 +230,22 @@ https://design.mcky.space/r/
 ### Generate registry items
 
 ```bash
-# Generate theme items from themes/shadcn/*.css
+# Generate theme items from themes/shadcn/*.css + rebuild collection
 node tools/registry.mjs
 
-# Generate element items from src/registry/elements/
+# Generate ALL element packs (auto-discovers files per concept)
+node tools/registry-elements.mjs
+# หรือทีละ concept
 node tools/registry-elements.mjs rack
-node tools/registry-elements.mjs crt
-node tools/registry-elements.mjs glitchpage
 ```
 
 ### Add new elements
 
 1. Create component in `src/registry/elements/<concept>/`
-2. Add to `tools/registry-elements.mjs` CONCEPTS config
+2. ถ้าใช้ animation → `import "./<concept>-effects.css"` ใน component (กัน tree-shake)
 3. Run `node tools/registry-elements.mjs <concept>`
-4. Commit and push
+4. Run `node tools/registry.mjs` (rebuild collection)
+5. Commit and push
 
 ### Registry format
 
@@ -144,18 +271,21 @@ node tools/registry-elements.mjs glitchpage
 }
 ```
 
-**registry:block** (components):
+**registry:block** (components + effects):
 ```json
 {
   "$schema": "https://ui.shadcn.com/schema/registry-item.json",
   "name": "rack-elements",
   "type": "registry:block",
   "files": [
-    { "path": "led-strip.tsx", "content": "..." },
-    { "path": "rack-bezel.tsx", "content": "..." }
+    { "path": "led-strip.tsx", "content": "...", "type": "registry:component", "target": "components/ui/led-strip.tsx" },
+    { "path": "rack-bezel.tsx", "content": "...", "type": "registry:component", "target": "components/ui/rack-bezel.tsx" },
+    { "path": "rack-effects.css", "content": "@keyframes rk-led {...}", "type": "registry:file", "target": "components/ui/rack-effects.css" }
   ]
 }
 ```
+
+> **หมายเหตุ:** effects CSS ต้องเป็น file แยก (`<concept>-effects.css`) ที่ components import — อย่าใส่ keyframes ใน `css` field เพราะ (1) shadcn CLI แปลง `@keyframes` เป็น skeleton ว่าง และ (2) Tailwind v4 tree-shake keyframes ที่อ้างผ่าน inline style เท่านั้น. Component ที่ animate ต้อง `import "./<concept>-effects.css"` เพื่อให้ keyframes อยู่ใน production bundle.
 
 ## Architecture
 
@@ -202,12 +332,13 @@ design.mcky.space {
 
 ## Known Issues
 
-- Custom variables (e.g., `--accent-2`, `--led-cyan`) may need manual addition to globals.css after `npx shadcn add`
-- Some themes use custom fonts that need to be loaded separately
+- **Custom fonts** — บาง theme ใช้ font เฉพาะ (Anton, VT323, Fraunces, Source Serif 4) ต้องโหลดแยกเอง เช่น `next/font/google` หรือ `<link>` ใน layout
+- **Custom variables** — ตัวแปร concept-specific (`--accent-2`, `--led-cyan`, `--border-bright` ฯลฯ) ถูกเขียนลง `globals.css` ผ่าน theme install แล้ว แต่ถ้าใช้ element pack โดยไม่มี theme → ต้องเพิ่มเอง (elements มี fallback value กันไว้แล้ว)
+- **Dark-only/light-only** — theme พวกนี้เขียนค่าใน `:root, .dark` แบบเดียวกันทั้งคู่ — mode toggle ไม่มีผล (ตั้งใจ)
 
 ## Roadmap
 
-- [ ] Extract elements for remaining 6 concepts (noc, moss, mcky, brut, min, claude)
+- [x] Elements ครบ 9 concepts (rack, crt, glitchpage, noc, moss, mcky, brut, min, claude)
 - [ ] Add font loading to theme registry items
 - [ ] Create showcase page demonstrating all themes + elements
 - [ ] Add more UI components per concept (cards, inputs, etc.)
