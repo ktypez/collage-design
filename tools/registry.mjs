@@ -156,8 +156,18 @@ function main() {
     }
   }
   
-  // Generate collection
-  const collection = generateCollection(items);
+  // Generate collection — include ALL items found in the registry dir
+  // (theme items + element blocks), so registry.json stays complete
+  const allItems = fs
+    .readdirSync(REGISTRY_DIR)
+    .filter((f) => f.endsWith('.json') && f !== 'registry.json')
+    .sort()
+    .map((f) => {
+      try { return JSON.parse(fs.readFileSync(path.join(REGISTRY_DIR, f), 'utf-8')); }
+      catch { return null; }
+    })
+    .filter(Boolean);
+  const collection = generateCollection(allItems);
   const collectionPath = path.join(REGISTRY_DIR, 'registry.json');
   fs.writeFileSync(collectionPath, JSON.stringify(collection, null, 2));
   console.log(`  ✓ registry.json (collection)`);
