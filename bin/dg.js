@@ -751,6 +751,7 @@ function addTheme(args) {
   const dir = path.resolve(dirIdx > -1 ? args[dirIdx + 1] : '.');
   const isShadcn = args.includes('--shadcn');
   const isVue = args.includes('--vue');
+  const isUi = args.includes('--ui');
   const globalsIdx = args.indexOf('--globals');
   const globalsPath = globalsIdx > -1 ? path.resolve(args[globalsIdx + 1]) : null;
 
@@ -764,11 +765,12 @@ function addTheme(args) {
       path.join(ROOT, 'themes', 'extracted', `${arg}.css`),
     ];
     if (isVue) candidates.unshift(path.join(ROOT, 'themes', 'vue', `${arg}.css`));
-    if (!isShadcn && !isVue) candidates.push(path.join(ROOT, 'themes', arg, 'theme.css'));
+    if (!isShadcn && !isVue && !isUi) candidates.push(path.join(ROOT, 'themes', arg, 'theme.css'));
     src = candidates.find((p) => exists(p));
     if (!src) {
       if (isShadcn) { err(`theme not found: ${arg} — search: themes/shadcn/, themes/extracted/`); }
       else if (isVue) { err(`vue theme not found: ${arg} — run 'dg vue-theme ${arg}' first`); }
+      else if (isUi) { err(`theme not found: ${arg} — search: themes/shadcn/`); }
       else err(`theme not found: ${arg}`);
       return;
     }
@@ -790,6 +792,23 @@ function addTheme(args) {
     log(paint('bold', '  Next:'));
     dim('1. import it in src/lib/theme.ts (dynamic from src/themes/)');
     dim(`2. to add more: npx dg add theme <id> --vue --dir .`);
+    log('');
+    return;
+  }
+
+  if (isUi) {
+    // DG web UI model (tweakcn-style): copy ONE shadcn theme into
+    // app/dg-ui/src/themes/<id>.css (installed themes only)
+    const dst = path.join(dir, 'src', 'themes', `${arg}.css`);
+    log('');
+    log(paint('bold', `  dg add theme ${arg} --ui`) + paint('dim', ` → ${dst}`));
+    log('');
+    copyFile(src, dst);
+    ok(`${arg}.css added to src/themes/`);
+    log('');
+    log(paint('bold', '  Next:'));
+    dim('1. restart dev server — theme appears in switcher');
+    dim(`2. to add more: npx dg add theme <id> --ui --dir .`);
     log('');
     return;
   }

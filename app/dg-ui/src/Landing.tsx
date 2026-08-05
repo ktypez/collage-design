@@ -25,7 +25,7 @@ const themes = [
 ]
 
 export default function Landing() {
-  const { setTheme, mode, setMode } = useTheme()
+  const { setTheme, mode, setMode, installed } = useTheme()
 
   return (
     <div className="min-h-screen bg-background text-foreground">
@@ -100,28 +100,36 @@ export default function Landing() {
         <div className="max-w-6xl mx-auto">
           <h2 className="text-3xl font-bold text-center mb-2">9 Design Themes</h2>
           <p className="text-muted-foreground text-center mb-8">
-            Each theme is a complete shadcn v4 preset with exact brand colors
+            {installed.length} installed — click to switch. Add more:{" "}
+            <code className="text-sm bg-muted px-1.5 py-0.5 rounded">npx dg add theme &lt;id&gt; --ui</code>
           </p>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {themes.map((t) => (
-              <button
-                key={t.name}
-                onClick={() => setTheme(t.name as any)}
-                className="p-4 rounded-lg border border-border text-left hover:border-primary transition-colors min-w-0"
-              >
-                <div className="flex items-center gap-3 mb-2 min-w-0">
-                  <div
-                    className="w-8 h-8 rounded-md border border-border shrink-0"
-                    style={{ background: t.color }}
-                  />
-                  <div className="min-w-0">
-                    <div className="font-semibold text-sm truncate">{t.label}</div>
-                    <div className="text-xs text-muted-foreground truncate">{t.vibe}</div>
+            {themes.map((t) => {
+              const isInstalled = installed.includes(t.name)
+              return (
+                <button
+                  key={t.name}
+                  onClick={() => isInstalled && setTheme(t.name as any)}
+                  className={`p-4 rounded-lg border border-border text-left transition-colors min-w-0 ${
+                    isInstalled ? "hover:border-primary cursor-pointer" : "opacity-60 cursor-not-allowed"
+                  }`}
+                >
+                  <div className="flex items-center gap-3 mb-2 min-w-0">
+                    <div
+                      className="w-8 h-8 rounded-md border border-border shrink-0"
+                      style={{ background: t.color }}
+                    />
+                    <div className="min-w-0">
+                      <div className="font-semibold text-sm truncate">{t.label}</div>
+                      <div className="text-xs text-muted-foreground truncate">{t.vibe}</div>
+                    </div>
                   </div>
-                </div>
-                <Badge variant="outline" className="mt-2">{t.name}</Badge>
-              </button>
-            ))}
+                  <Badge variant={isInstalled ? "outline" : "muted"} className="mt-2">
+                    {isInstalled ? t.name : "+ add"}
+                  </Badge>
+                </button>
+              )
+            })}
           </div>
         </div>
       </section>

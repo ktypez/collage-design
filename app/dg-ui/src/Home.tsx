@@ -104,7 +104,7 @@ export default function Home() {
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-3 gap-2">
-            {Object.entries(useTheme().themes).map(([id]) => (
+            {Object.entries(useTheme().available).map(([id]) => (
               <button
                 key={id}
                 onClick={() => setTheme(id as any)}
