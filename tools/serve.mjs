@@ -35,9 +35,15 @@ function serve(req, res) {
     });
     fs.createReadStream(filePath).pipe(res);
   } else {
-    // SPA fallback
-    const fallback = path.join(ROOT, 'index.html');
-    if (fs.existsSync(fallback)) {
+    // SPA fallback: walk up from request path to find nearest index.html
+    const parts = url.split('/').filter(Boolean);
+    let fallback = null;
+    for (let i = parts.length; i >= 0; i--) {
+      const dir = path.join(ROOT, ...parts.slice(0, i));
+      const candidate = path.join(dir, 'index.html');
+      if (fs.existsSync(candidate)) { fallback = candidate; break; }
+    }
+    if (fallback) {
       res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' });
       fs.createReadStream(fallback).pipe(res);
     } else {
