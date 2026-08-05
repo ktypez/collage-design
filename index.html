@@ -1,0 +1,713 @@
+<!DOCTYPE html>
+<html lang="th" data-theme="min">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Design Gallery — 8 Visual Identities</title>
+  <link rel="icon" type="image/svg+xml" href="/favicons/lab.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&family=Kanit:wght@700;900&family=Sarabun:wght@400;700&family=VT323&family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,500;0,8..60,600;0,8..60,700;1,8..60,400&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,400&family=Anton&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --page-bg: #0e0e10;
+      --page-fg: #e8e8eb;
+      --page-fg-muted: #8a8a93;
+      --page-fg-dim: #5a5a63;
+      --page-border: #2a2a32;
+      --page-surface: #16161a;
+      --page-accent: #c8ff00;
+      --font-sans: 'Inter', -apple-system, system-ui, sans-serif;
+      --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+    }
+
+    html { background: var(--page-bg); }
+    body {
+      font-family: var(--font-sans);
+      color: var(--page-fg);
+      background:
+        radial-gradient(ellipse 80% 50% at 50% -10%, rgba(200,255,0,0.06), transparent),
+        var(--page-bg);
+      min-height: 100vh;
+      padding: 48px 20px 80px;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .wrap { max-width: 1100px; margin: 0 auto; }
+
+    /* ============== topbar ============== */
+    .topbar {
+      display: flex; justify-content: space-between; align-items: center;
+      font-family: var(--font-mono); font-size: 11px;
+      color: var(--page-fg-dim); letter-spacing: 0.1em;
+      margin-bottom: 56px;
+    }
+    .topbar a { color: var(--page-fg-muted); text-decoration: none; }
+    .topbar a:hover { color: var(--page-accent); }
+    .topbar .dot { display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: var(--page-accent); box-shadow: 0 0 8px var(--page-accent); margin-right: 6px; vertical-align: middle; }
+
+    /* ============== hero ============== */
+    .hero { text-align: left; margin-bottom: 56px; }
+    .hero .badge {
+      display: inline-block; font-family: var(--font-mono); font-size: 11px;
+      color: var(--page-fg-muted); letter-spacing: 0.12em;
+      padding: 6px 12px; border: 1px solid var(--page-border);
+      border-radius: 999px; margin-bottom: 20px;
+      background: rgba(255,255,255,0.02);
+    }
+    .hero h1 {
+      font-size: clamp(40px, 6vw, 64px); font-weight: 800;
+      letter-spacing: -0.03em; line-height: 1.05; margin-bottom: 16px;
+    }
+    .hero h1 .accent { color: var(--page-accent); }
+    .hero p {
+      color: var(--page-fg-muted); font-size: 16px; line-height: 1.6;
+      max-width: 640px; margin-bottom: 16px;
+    }
+    .hero .meta {
+      font-family: var(--font-mono); font-size: 11px;
+      color: var(--page-fg-dim); letter-spacing: 0.1em;
+    }
+    .hero .links { margin-top: 24px; display: flex; gap: 10px; flex-wrap: wrap; }
+    .hero .links a {
+      font-family: var(--font-mono); font-size: 12px;
+      padding: 8px 14px; border: 1px solid var(--page-border);
+      border-radius: 6px; color: var(--page-fg-muted);
+      text-decoration: none; transition: all 0.2s;
+    }
+    .hero .links a:hover { border-color: var(--page-accent); color: var(--page-fg); }
+    .hero .links a.primary { background: var(--page-accent); color: #0e0e10; border-color: var(--page-accent); }
+    .hero .links a.primary:hover { filter: brightness(1.07); }
+
+    /* ============== grid ============== */
+    .grid {
+      display: grid; gap: 20px;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    }
+    .card {
+      border: 1px solid var(--page-border); border-radius: 12px;
+      background: var(--page-surface);
+      overflow: hidden; display: flex; flex-direction: column;
+      transition: all 0.3s cubic-bezier(0.22,1,0.36,1);
+    }
+    .card:hover { transform: translateY(-2px); border-color: var(--page-fg-dim); }
+
+    /* card preview — each shows a mini mockup of the theme */
+    .preview {
+      height: 180px; position: relative; overflow: hidden;
+      display: flex; align-items: center; justify-content: center;
+    }
+
+    /* preview: RACK — brushed metal + LEDs */
+    .card[data-id="rack"] .preview {
+      background: linear-gradient(180deg, #2a2a30, #1c1c20, #2a2a30);
+    }
+    .card[data-id="rack"] .preview::before {
+      content: ''; position: absolute; inset: 0;
+      background-image:
+        linear-gradient(rgba(0,0,0,0.4) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,0,0,0.2) 1px, transparent 1px);
+      background-size: 100% 14px, 16px 100%;
+    }
+    .rack-mock {
+      position: relative; z-index: 1;
+      width: 86%; height: 80%;
+      border: 1px solid #3a3a42; border-radius: 2px;
+      background: #111114;
+      display: flex; flex-direction: column; gap: 6px;
+      padding: 10px 16px;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.04);
+    }
+    /* rails + screws 2 ข้าง */
+    .rack-mock::before, .rack-mock::after {
+      content: ''; position: absolute; top: 0; bottom: 0; width: 5px;
+      background-image:
+        linear-gradient(90deg, #0a0a0c, #1c1c20, #0a0a0c),
+        radial-gradient(circle, #5a5a63 1px, transparent 1.6px);
+      background-size: 100% 100%, 100% 14px;
+      background-position: 0 0, 0 5px;
+    }
+    .rack-mock::before { left: 0; }
+    .rack-mock::after { right: 0; }
+    .rack-unit {
+      flex: 1; background: #0a0a0c;
+      border: 1px solid #2a2a32; border-radius: 2px;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 10px; font-family: 'JetBrains Mono', monospace;
+      font-size: 9px; color: #8a8a93; letter-spacing: 0.1em;
+      position: relative;
+    }
+    /* screw หัวหน่วย */
+    .rack-unit::before {
+      content: ''; position: absolute; left: -8px; top: 50%; transform: translateY(-50%);
+      width: 3px; height: 3px; border-radius: 50%;
+      background: radial-gradient(circle at 30% 30%, #5a5a63, #1a1a20);
+      box-shadow: 0 0 0 1px #0a0a0c;
+    }
+    .rack-unit::after {
+      content: ''; width: 6px; height: 6px; border-radius: 50%;
+      background: #00ff66; box-shadow: 0 0 6px #00ff66;
+    }
+    .rack-unit:nth-child(2)::after { background: #ffb000; box-shadow: 0 0 6px #ffb000; }
+    .rack-unit:nth-child(3)::after { background: #00d4ff; box-shadow: 0 0 6px #00d4ff; }
+
+    /* preview: CRT — phosphor green + scanlines */
+    .card[data-id="crt"] .preview {
+      background: #001a0c;
+    }
+    .card[data-id="crt"] .preview::after {
+      content: ''; position: absolute; inset: 0;
+      background: repeating-linear-gradient(0deg,
+        rgba(0,0,0,0.25) 0px, rgba(0,0,0,0.25) 1px, transparent 1px, transparent 3px);
+      mix-blend-mode: multiply; pointer-events: none;
+    }
+    .crt-mock {
+      position: relative; z-index: 1;
+      font-family: 'VT323', monospace;
+      color: #00ff66; text-shadow: 0 0 6px #00ff66;
+      text-align: left; line-height: 1.1;
+      font-size: 18px; padding: 0 14px;
+    }
+    .crt-mock .blink { animation: crt-blink 1s infinite; }
+    @keyframes crt-blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+
+    /* preview: NOC — cyan + grid */
+    .card[data-id="noc"] .preview {
+      background: #0a0e14;
+    }
+    .card[data-id="noc"] .preview::before {
+      content: ''; position: absolute; inset: 0;
+      background-image:
+        linear-gradient(rgba(0,212,255,0.08) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,212,255,0.08) 1px, transparent 1px);
+      background-size: 20px 20px;
+    }
+    .noc-mock {
+      position: relative; z-index: 1;
+      display: flex; gap: 8px; padding: 12px;
+      font-family: 'JetBrains Mono', monospace; font-size: 10px;
+      width: 86%;
+    }
+    .noc-tile {
+      flex: 1; background: #141a22; border: 1px solid #1f2733;
+      border-radius: 4px; padding: 8px; color: #8b95a7;
+      display: flex; flex-direction: column; gap: 4px;
+    }
+    .noc-tile .val { color: #00d4ff; font-size: 14px; font-weight: 600; }
+    .noc-tile .up { color: #00ff9c; font-size: 8px; }
+
+    /* preview: MIN — minimal with lime */
+    .card[data-id="min"] .preview {
+      background: #fafafa;
+    }
+    .min-mock {
+      position: relative; z-index: 1;
+      font-family: 'Inter', sans-serif;
+      text-align: left; width: 86%;
+      color: #0e0e10;
+    }
+    .min-mock .title {
+      font-size: 22px; font-weight: 700; letter-spacing: -0.03em;
+      margin-bottom: 4px;
+    }
+    .min-mock .title .ext { background: #c8ff00; color: #0e0e10; padding: 0 4px; border-radius: 4px; }
+    .min-mock .cmd { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: #8a8a93; }
+    .min-mock .btn { display: inline-block; background: #c8ff00; color: #0e0e10; padding: 4px 10px; border-radius: 6px; font-size: 10px; font-weight: 600; margin-top: 8px; }
+
+    /* preview: GLITCHPAGE — glitch 404 */
+    .card[data-id="glitchpage"] .preview {
+      background: #0f0f1a;
+    }
+    .card[data-id="glitchpage"] .preview::before {
+      content: ''; position: absolute; inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px);
+      background-size: 20px 20px;
+    }
+    .gp-mock {
+      position: relative; z-index: 1;
+      font-family: 'Kanit', sans-serif; font-weight: 900;
+      font-size: 72px; line-height: 1;
+      color: #ff3366;
+      text-shadow: 0 0 12px rgba(255,51,102,0.6), 0 0 40px rgba(255,51,102,0.3);
+    }
+    .gp-mock::before, .gp-mock::after {
+      content: '404'; position: absolute; top: 0; left: 0;
+    }
+    .gp-mock::before { color: #00ffff; clip-path: inset(20% 0 60% 0); transform: translate(-2px, 1px); }
+    .gp-mock::after  { color: #ffff00; clip-path: inset(60% 0 10% 0); transform: translate(2px, -1px); }
+
+    /* preview: CLAUDE PAPER — warm editorial + clay */
+    .card[data-id="claude"] .preview {
+      background: #faf9f5;
+    }
+    .card[data-id="claude"] .preview::after {
+      content: ''; position: absolute; inset: 0;
+      background-image:
+        linear-gradient(rgba(20,20,19,0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(20,20,19,0.05) 1px, transparent 1px);
+      background-size: 40px 40px;
+    }
+    .cp-mock {
+      position: relative; z-index: 1;
+      width: 78%; text-align: left;
+      background: #faf9f5;
+      border: 1px solid rgba(20,20,19,0.14);
+      border-radius: 8px;
+      padding: 14px 16px;
+      box-shadow: 0 2px 8px rgba(20,20,19,0.06);
+      font-family: 'Source Serif 4', Georgia, serif;
+    }
+    .cp-mock .tags { margin-bottom: 8px; }
+    .cp-mock .tag {
+      font-family: 'JetBrains Mono', monospace; font-size: 8px;
+      color: #b85c3f; background: rgba(217,119,87,0.12);
+      padding: 1px 6px; border-radius: 999px; margin-right: 4px;
+    }
+    .cp-mock .t { font-size: 15px; font-weight: 600; color: #141413; margin-bottom: 4px; }
+    .cp-mock .s { font-size: 10px; line-height: 1.5; color: #3d3d3a; margin-bottom: 8px; }
+    .cp-mock .call {
+      border-left: 3px solid #d97757; border-radius: 4px;
+      background: rgba(217,119,87,0.1); padding: 6px 8px;
+      font-size: 9.5px; color: #141413;
+    }
+
+    /* preview: MOSS — organic earth + blob */
+    .card[data-id="moss"] .preview {
+      background: #f5f1e8;
+    }
+    .card[data-id="moss"] .preview::after {
+      content: ''; position: absolute; inset: 0;
+      background-image:
+        radial-gradient(circle at 20% 80%, rgba(106,140,63,0.1) 0, transparent 45%),
+        radial-gradient(circle at 85% 15%, rgba(196,113,74,0.12) 0, transparent 45%);
+    }
+    .ms-mock {
+      position: relative; z-index: 1;
+      width: 82%; height: 76%;
+      background: #fdfbf5;
+      border: 1px solid rgba(46,42,36,0.16);
+      border-radius: 42% 58% 55% 45% / 52% 38% 62% 48%;
+      box-shadow: 0 4px 12px rgba(46,42,36,0.1);
+      display: flex; align-items: center; justify-content: center;
+      animation: ms-drift 14s ease-in-out infinite;
+    }
+    @keyframes ms-drift {
+      0%, 100% { border-radius: 42% 58% 55% 45% / 52% 38% 62% 48%; }
+      33%      { border-radius: 58% 42% 38% 62% / 45% 61% 39% 55%; }
+      66%      { border-radius: 38% 62% 58% 42% / 58% 42% 58% 42%; }
+    }
+    .ms-mock .inner { text-align: left; width: 72%; }
+    .ms-mock .t { font-family: 'Source Serif 4', Georgia, serif; font-size: 16px; font-weight: 600; color: #2e2a24; margin-bottom: 3px; }
+    .ms-mock .s { font-family: 'Source Serif 4', Georgia, serif; font-size: 9.5px; line-height: 1.5; color: #6b645a; }
+    .ms-mock .gr { color: #6a8c3f; }
+
+    /* preview: BRUT — raw brutalist */
+    .card[data-id="brut"] .preview {
+      background: #e8e4da;
+    }
+    .card[data-id="brut"] .preview::before {
+      content: ''; position: absolute; inset: 0;
+      background-image:
+        repeating-linear-gradient(90deg, transparent 0 39px, rgba(13,13,13,0.06) 39px 40px),
+        repeating-linear-gradient(0deg, transparent 0 39px, rgba(13,13,13,0.06) 39px 40px);
+    }
+    .br-mock {
+      position: relative; z-index: 1;
+      width: 78%;
+      background: #ffffff;
+      border: 3px solid #0d0d0d;
+      padding: 14px 16px;
+      text-align: left;
+    }
+    .br-mock .bar { height: 10px; background: #ff2e00; margin-bottom: 10px; }
+    .br-mock .t {
+      font-family: 'Anton', Impact, sans-serif;
+      font-size: 22px; line-height: 1; text-transform: uppercase;
+      color: #0d0d0d; margin-bottom: 6px;
+    }
+    .br-mock .t .ac { color: #ff2e00; }
+    .br-mock .s { font-family: 'JetBrains Mono', monospace; font-size: 8.5px; color: #3d3d3a; }
+
+    /* preview: mcky.space — neobrutalism todo app */
+    .card[data-id="mcky"] .preview {
+      background: #f5f5f0;
+    }
+    .card[data-id="mcky"] .preview::before {
+      content: ''; position: absolute; inset: 0;
+      background-image:
+        linear-gradient(rgba(0,0,0,0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,0,0,0.05) 1px, transparent 1px);
+      background-size: 20px 20px, 20px 20px;
+    }
+    .mk-mock {
+      position: relative; z-index: 1;
+      width: 78%;
+      background: #ffffff;
+      border: 3px solid #000000;
+      box-shadow: 4px 4px 0 #000000;
+      font-family: 'JetBrains Mono', monospace;
+      text-align: left;
+    }
+    .mk-mock .bar { height: 6px; background: #ffe066; border-bottom: 2px solid #000000; }
+    .mk-mock .row {
+      display: flex; align-items: center; gap: 5px;
+      padding: 5px 8px;
+      border-bottom: 1.5px solid #000000;
+      font-size: 8px; color: #000000;
+    }
+    .mk-mock .row:last-child { border-bottom: none; }
+    .mk-mock .chk {
+      width: 8px; height: 8px; flex-shrink: 0;
+      border: 1.5px solid #000000; border-radius: 2px;
+    }
+    .mk-mock .row.done .chk { background: #000000; }
+    .mk-mock .row.done .txt { color: #777777; text-decoration: line-through; }
+    .mk-mock .prio { width: 5px; height: 5px; border-radius: 50%; flex-shrink: 0; background: #06d6a0; }
+    .mk-mock .prio.med { background: #ff9f43; }
+    .mk-mock .prio.low { background: #4361ee; }
+    .mk-mock .txt { flex: 1; }
+    .mk-mock .tag {
+      font-size: 6px; font-weight: 700; color: #000000;
+      border: 1px solid #000000; border-radius: 2px;
+      padding: 0 3px; text-transform: uppercase;
+    }
+
+    /* ============== card body ============== */
+    .card-body { padding: 18px 20px 20px; flex: 1; display: flex; flex-direction: column; }
+    .card-num {
+      font-family: var(--font-mono); font-size: 10px;
+      color: var(--page-fg-dim); letter-spacing: 0.15em; margin-bottom: 8px;
+    }
+    .card-name {
+      font-size: 20px; font-weight: 700; letter-spacing: -0.01em;
+      margin-bottom: 2px; color: var(--page-fg);
+    }
+    .card-id {
+      font-family: var(--font-mono); font-size: 11px;
+      color: var(--page-fg-muted); margin-bottom: 12px;
+    }
+    .card-desc {
+      color: var(--page-fg-muted); font-size: 13px; line-height: 1.6;
+      margin-bottom: 16px; flex: 1;
+    }
+    .card-specs {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px;
+      font-family: var(--font-mono); font-size: 10px;
+      color: var(--page-fg-dim); letter-spacing: 0.05em;
+      padding-top: 12px; border-top: 1px solid var(--page-border);
+      margin-bottom: 14px;
+    }
+    .card-specs span { display: block; }
+    .card-specs b { color: var(--page-fg); font-weight: 500; }
+    .card-cta {
+      display: inline-flex; align-items: center; gap: 4px;
+      font-family: var(--font-mono); font-size: 11px;
+      color: var(--page-fg-muted); text-decoration: none;
+      letter-spacing: 0.05em; padding: 6px 0;
+      border-bottom: 1px solid transparent; align-self: flex-start;
+      transition: all 0.2s;
+    }
+    .card-cta:hover { color: var(--page-accent); border-bottom-color: var(--page-accent); }
+
+    /* ============== footer ============== */
+    .foot {
+      margin-top: 64px; padding-top: 24px;
+      border-top: 1px solid var(--page-border);
+      display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px;
+      font-family: var(--font-mono); font-size: 11px;
+      color: var(--page-fg-dim); letter-spacing: 0.05em;
+    }
+    .foot a { color: var(--page-fg-muted); text-decoration: none; }
+    .foot a:hover { color: var(--page-accent); }
+
+    @media (max-width: 640px) {
+      body { padding: 32px 16px 60px; }
+      .topbar { margin-bottom: 36px; }
+      .hero { margin-bottom: 36px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+
+    <!-- topbar -->
+    <div class="topbar">
+      <span><span class="dot"></span>design-gallery · 09 designs</span>
+      <span>
+        <a href="concepts/rack.html">concepts →</a>
+        <a href="/registry" style="margin-left:1rem;color:var(--page-accent);font-weight:600">registry →</a>
+      </span>
+    </div>
+
+    <!-- registry banner -->
+    <div style="margin-bottom:2rem;padding:1.25rem 1.5rem;border:1px solid var(--page-accent);border-radius:8px;background:linear-gradient(135deg,rgba(200,255,0,0.06),rgba(200,255,0,0.02))">
+      <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem">
+        <div>
+          <div style="font-family:var(--font-mono);font-size:11px;color:var(--page-accent);letter-spacing:0.12em;margin-bottom:0.25rem">// SHADCN REGISTRY · 9 THEMES + 9 ELEMENT PACKS</div>
+          <div style="font-size:20px;font-weight:700;margin-bottom:0.25rem">Install ผ่าน <code style="background:var(--page-surface);padding:1px 5px;border-radius:3px;font-size:15px">npx shadcn add</code> — tweakcn-style</div>
+          <div style="font-size:13px;color:var(--page-fg-muted);max-width:560px">ใช้ theme + elements ทั้ง 9 concepts ในโปรเจกต์ shadcn/radix ของคุณได้ทันที. ดู <a href="/registry" style="color:var(--page-accent)">docs &amp; usage</a></div>
+        </div>
+        <a href="/registry" style="padding:0.625rem 1.25rem;background:var(--page-accent);color:#0e0e10;border-radius:6px;font-weight:600;text-decoration:none;font-family:var(--font-mono);font-size:13px;white-space:nowrap">open registry →</a>
+      </div>
+    </div>
+
+    <!-- hero -->
+    <header class="hero">
+      <div class="badge">CENTRAL DESIGN LIBRARY · v1.0</div>
+      <h1>Design <span class="accent">Gallery</span></h1>
+      <p>
+        คลัง design กลาง — 9 visual identity ที่ใช้ร่วมกันได้
+        theme-agnostic engine + design = plugin เพิ่ม design ใหม่โดยไม่แตะ logic
+      </p>
+      <div class="meta">// PICK A DESIGN → เปิด standalone ดูเต็ม หรือสลับธีมใน components view</div>
+      <div class="links">
+        <a class="primary" href="concepts/rack.html">Browse Concepts →</a>
+        <a href="https://github.com/ktypez/design-gallery" target="_blank" rel="noopener">GitHub ↗</a>
+      </div>
+    </header>
+
+    <!-- design cards -->
+    <main class="grid">
+
+      <article class="card" data-id="rack">
+        <div class="preview">
+          <div class="rack-mock">
+            <div class="rack-unit">UNIT 01</div>
+            <div class="rack-unit">UNIT 02</div>
+            <div class="rack-unit">UNIT 03</div>
+            <div class="rack-unit">UNIT 04</div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="card-num">// 01 / 09</div>
+          <div class="card-name">STACK//FRAME</div>
+          <div class="card-id">id: rack · server rack</div>
+          <p class="card-desc">
+            Server rack ที่ render ด้วย brushed metal + amber LEDs + screw heads
+            declarative chrome (rails + leds) → sharp-renderer ใช้ manifest เดียวกับ client
+          </p>
+          <div class="card-specs">
+            <span><b>LEDs</b> amber/cyan/green</span>
+            <span><b>Font</b> JetBrains</span>
+            <span><b>Live</b> /status</span>
+          </div>
+          <a class="card-cta" href="concepts/rack.html">standalone preview →</a>
+        </div>
+      </article>
+
+      <article class="card" data-id="crt">
+        <div class="preview">
+          <div class="crt-mock">
+            &gt; boot glance.kernel<span class="blink">█</span><br>
+            <span style="color:#ffb000">OK</span> // 7 services
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="card-num">// 02 / 09</div>
+          <div class="card-name">PIXSH v1.0</div>
+          <div class="card-id">id: crt · retro terminal</div>
+          <p class="card-desc">
+            CRT terminal ยุค 80s — phosphor green + scanlines + VT323 monospace
+            subtle vignette ให้ feel เหมือนจอโค้ง
+          </p>
+          <div class="card-specs">
+            <span><b>Scan</b> 3px loop</span>
+            <span><b>Font</b> VT323</span>
+            <span><b>Live</b> Glance /</span>
+          </div>
+          <a class="card-cta" href="concepts/crt.html">standalone preview →</a>
+        </div>
+      </article>
+
+      <article class="card" data-id="noc">
+        <div class="preview">
+          <div class="noc-mock">
+            <div class="noc-tile"><span>CPU</span><span class="val">42%</span><span class="up">▲ stable</span></div>
+            <div class="noc-tile"><span>MEM</span><span class="val">68%</span><span class="up">▲ normal</span></div>
+            <div class="noc-tile"><span>NET</span><span class="val">12M</span><span class="up">▲ live</span></div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="card-num">// 03 / 09</div>
+          <div class="card-name">PACKETGRID</div>
+          <div class="card-id">id: noc · NOC dashboard</div>
+          <p class="card-desc">
+            Network Operations Center — dark slate + cyan accent + blueprint grid
+            เหมาะกับ monitoring, stat tiles, real-time data
+          </p>
+          <div class="card-specs">
+            <span><b>Grid</b> 20px loop</span>
+            <span><b>Font</b> JetBrains</span>
+            <span><b>Use</b> ref</span>
+          </div>
+          <a class="card-cta" href="concepts/noc.html">standalone preview →</a>
+        </div>
+      </article>
+
+      <article class="card" data-id="min">
+        <div class="preview">
+          <div class="min-mock">
+            <div class="title">collage<span class="ext">.sh</span></div>
+            <div class="cmd">$ build --output=png</div>
+            <div class="btn">▶ render</div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="card-num">// 04 / 09</div>
+          <div class="card-name">collage.sh</div>
+          <div class="card-id">id: min · minimal geek</div>
+          <p class="card-desc">
+            Minimal geek aesthetic — lime accent (#c8ff00) + Inter sans + JetBrains Mono
+            default สำหรับ 7-days collage output ใน production
+          </p>
+          <div class="card-specs">
+            <span><b>Accent</b> #c8ff00</span>
+            <span><b>Font</b> Inter</span>
+            <span><b>Live</b> collage</span>
+          </div>
+          <a class="card-cta" href="concepts/min.html">standalone preview →</a>
+        </div>
+      </article>
+
+      <article class="card" data-id="glitchpage">
+        <div class="preview">
+          <div class="gp-mock">404</div>
+        </div>
+        <div class="card-body">
+          <div class="card-num">// 05 / 09</div>
+          <div class="card-name">GLITCHPAGE</div>
+          <div class="card-id">id: glitchpage · error page</div>
+          <p class="card-desc">
+            Error-page DNA จาก nginx — dark navy + drift grid + glitch number + terminal
+            deploy 5 status (403/404/500/502/503) พร้อม Thai copy ขำๆ
+          </p>
+          <div class="card-specs">
+            <span><b>Glitch</b> 3s loop</span>
+            <span><b>Font</b> Kanit</span>
+            <span><b>Use</b> nginx err</span>
+          </div>
+          <a class="card-cta" href="concepts/glitchpage.html">standalone preview →</a>
+        </div>
+      </article>
+
+      <article class="card" data-id="claude">
+        <div class="preview">
+          <div class="cp-mock">
+            <div class="tags"><span class="tag">#warm</span><span class="tag">#editorial</span><span class="tag">#dual-mode</span></div>
+            <div class="t">Why paper still wins</div>
+            <div class="s">Quiet surfaces, clay accents, serif ที่อ่านได้ทั้งอังกฤษ-จีน light/dark ใจเย็นเท่ากัน</div>
+            <div class="call">❝ Reading stays at 17px / 1.72 leading.</div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="card-num">// 06 / 09</div>
+          <div class="card-name">CLAUDE PAPER</div>
+          <div class="card-id">id: claude · warm editorial</div>
+          <p class="card-desc">
+            Obsidian theme สาย editorial — clay accent (#d97757) + paper surfaces + bilingual serif + SF Mono
+            ธีมแรกในคลังที่มี dual mode (light/dark บน hierarchy เดียวกัน)
+          </p>
+          <div class="card-specs">
+            <span><b>Mode</b> light/dark</span>
+            <span><b>Font</b> Source Serif</span>
+            <span><b>Use</b> Obsidian</span>
+          </div>
+          <a class="card-cta" href="concepts/claude.html">standalone preview →</a>
+        </div>
+      </article>
+
+      <article class="card" data-id="moss">
+        <div class="preview">
+          <div class="ms-mock">
+            <div class="inner">
+              <div class="t">the garden <span class="gr">grows itself</span></div>
+              <div class="s">7 seeds · 6 weeks of sun · 0 pesticides. organic collage ที่ไม่รีบร้อน</div>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="card-num">// 07 / 09</div>
+          <div class="card-name">MOSS</div>
+          <div class="card-id">id: moss · organic</div>
+          <p class="card-desc">
+            Organic aesthetic — earth palette (moss green + terracotta + sand) + blob shapes + Fraunces serif
+            ตรงข้าม dark techno ตัวอื่นในคลัง เหมาะกับอะไรที่ "โตช้า ๆ"
+          </p>
+          <div class="card-specs">
+            <span><b>Shape</b> blob 16s</span>
+            <span><b>Font</b> Fraunces</span>
+            <span><b>Vibe</b> organic</span>
+          </div>
+          <a class="card-cta" href="concepts/moss.html">standalone preview →</a>
+        </div>
+      </article>
+
+      <article class="card" data-id="brut">
+        <div class="preview">
+          <div class="br-mock">
+            <div class="bar"></div>
+            <div class="t">beauty is not <span class="ac">requested.</span></div>
+            <div class="s">1px border · 0px radius · 100% attitude</div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="card-num">// 08 / 09</div>
+          <div class="card-name">BRUT</div>
+          <div class="card-id">id: brut · brutalist</div>
+          <p class="card-desc">
+            Brutalist — ไม่ขออนุญาตสวย raw palette (black/white/red) + Anton display + IBM Plex Mono
+            0px radius, 2px border, ไม่มี shadow, hover = invert ฉับพลัน
+          </p>
+          <div class="card-specs">
+            <span><b>Radius</b> 0px</span>
+            <span><b>Font</b> Anton</span>
+            <span><b>Vibe</b> no mercy</span>
+          </div>
+          <a class="card-cta" href="concepts/brut.html">standalone preview →</a>
+        </div>
+      </article>
+
+      <article class="card" data-id="mcky">
+        <div class="preview">
+          <div class="mk-mock">
+            <div class="bar"></div>
+            <div class="row done"><span class="chk"></span><span class="prio"></span><span class="txt">ship neobrutalism</span><span class="tag">build</span></div>
+            <div class="row done"><span class="chk"></span><span class="prio"></span><span class="txt">write blog #th</span><span class="tag">blog</span></div>
+            <div class="row"><span class="chk"></span><span class="prio med"></span><span class="txt">water the plants</span><span class="tag">life</span></div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="card-num">// 09 / 09</div>
+          <div class="card-name">mcky.space</div>
+          <div class="card-id">id: mcky · neobrutalism</div>
+          <p class="card-desc">
+            Design system ของเว็บจริง — 3px border ดำ + hard shadow (4px 4px 0) + amber hover
+            + mono 100% (JetBrains Mono) + accent สด 8 สี, dual light/dark
+          </p>
+          <div class="card-specs">
+            <span><b>Border</b> 3px #000</span>
+            <span><b>Font</b> JetBrains</span>
+            <span><b>Live</b> mcky.space</span>
+          </div>
+          <a class="card-cta" href="concepts/mcky.html">standalone preview →</a>
+        </div>
+      </article>
+
+    </main>
+
+    <!-- footer -->
+    <footer class="foot">
+      <span>// design-gallery · 2026 · ktypez</span>
+      <span>
+        <a href="concepts/rack.html">concepts</a> ·
+        <a href="https://github.com/ktypez/design-gallery" target="_blank" rel="noopener">github</a>
+      </span>
+    </footer>
+
+  </div>
+</body>
+</html>
