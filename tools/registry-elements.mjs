@@ -133,30 +133,6 @@ function generateElementItem(conceptId, meta) {
   return item;
 }
 
-// Naive parser: convert CSS text into the nested object form the
-// shadcn registry `css` field expects. Handles @keyframes + rules.
-function parseCssToObject(cssText) {
-  const out = {};
-  const atRuleRe = /@keyframes\s+([\w-]+)\s*\{([\s\S]*?)\n\}/g;
-  let m;
-  while ((m = atRuleRe.exec(cssText)) !== null) {
-    const frames = {};
-    const frameRe = /([\d.]+%|from|to)\s*\{([\s\S]*?)\n\}/g;
-    let f;
-    while ((f = frameRe.exec(m[2])) !== null) {
-      const decls = {};
-      const declRe = /([\w-]+)\s*:\s*([^;]+);/g;
-      let d;
-      while ((d = declRe.exec(f[2])) !== null) {
-        decls[d[1].trim()] = d[2].trim();
-      }
-      frames[f[1].trim()] = decls;
-    }
-    out[`@keyframes ${m[1]}`] = frames;
-  }
-  return out;
-}
-
 function main() {
   const conceptId = process.argv[2];
 
