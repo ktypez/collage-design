@@ -5,60 +5,92 @@
   "items": [
     {
       "$schema": "https://ui.shadcn.com/schema/registry-item.json",
-      "name": "mcky",
+      "name": "brut-elements",
+      "type": "registry:block",
+      "description": "Brutalist UI elements — manifesto panel, invert-on-hover buttons",
+      "registryDependencies": [],
+      "files": [
+        {
+          "path": "brut-button.tsx",
+          "content": "import * as React from \"react\"\nimport { cn } from \"@/lib/utils\"\n\ninterface BrutButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {\n  variant?: \"primary\" | \"default\"\n}\n\nexport function BrutButton({ \n  className, \n  variant = \"default\",\n  children,\n  ...props \n}: BrutButtonProps) {\n  const styles = variant === \"primary\" \n    ? {\n        background: \"var(--accent, #ff2e00)\",\n        color: \"#fff\",\n        border: \"2px solid var(--fg, #0d0d0d)\",\n      }\n    : {\n        background: \"var(--white, #ffffff)\",\n        color: \"var(--fg, #0d0d0d)\",\n        border: \"2px solid var(--fg, #0d0d0d)\",\n      }\n  \n  return (\n    <button\n      className={cn(\n        \"px-4 py-2.5 text-xs font-bold uppercase tracking-wider transition-none\",\n        \"hover:invert cursor-pointer\",\n        className\n      )}\n      style={{\n        ...styles,\n        borderRadius: \"0\",\n        fontFamily: \"var(--font-mono, 'IBM Plex Mono', monospace)\",\n      }}\n      {...props}\n    >\n      {children}\n    </button>\n  )\n}\n",
+          "type": "registry:component",
+          "target": "components/ui/brut-button.tsx"
+        },
+        {
+          "path": "brut-manifesto.tsx",
+          "content": "import * as React from \"react\"\nimport { cn } from \"@/lib/utils\"\n\ninterface BrutManifestoProps extends React.HTMLAttributes<HTMLDivElement> {\n  kicker?: string\n  title?: string\n  accent?: string\n  description?: string\n}\n\nexport function BrutManifesto({ \n  className, \n  kicker = \"// manifesto · v1.0\",\n  title = \"BEauty is not\",\n  accent = \"requested.\",\n  description = \"1px border · 0px radius · 100% attitude. design ที่ไม่ขออนุญาตใคร และไม่ต้องขอโทษด้วย\",\n  ...props \n}: BrutManifestoProps) {\n  return (\n    <div \n      className={cn(\"relative p-6 border-3\", className)}\n      style={{\n        background: \"var(--white, #ffffff)\",\n        border: \"3px solid var(--fg, #0d0d0d)\",\n      }}\n      {...props}\n    >\n      <div \n        className=\"h-3.5 mb-3.5\"\n        style={{ background: \"var(--accent, #ff2e00)\" }}\n      />\n      \n      <div \n        className=\"font-mono text-[10px] tracking-widest uppercase mb-1.5 font-bold\"\n        style={{ color: \"var(--fg, #0d0d0d)\" }}\n      >\n        {kicker}\n      </div>\n      \n      <h3 \n        className=\"text-[34px] font-normal uppercase leading-none mb-2\"\n        style={{ \n          fontFamily: \"var(--font-display, 'Anton', sans-serif)\",\n          color: \"var(--fg, #0d0d0d)\",\n        }}\n      >\n        {title} <span style={{ color: \"var(--accent, #ff2e00)\" }}>{accent}</span>\n      </h3>\n      \n      <p \n        className=\"text-xs mb-3.5\"\n        style={{ color: \"var(--fg-muted, var(--muted-foreground))\" }}\n      >\n        {description}\n      </p>\n    </div>\n  )\n}\n",
+          "type": "registry:component",
+          "target": "components/ui/brut-manifesto.tsx"
+        },
+        {
+          "path": "effects.css",
+          "content": "/* Brut uses instant invert on hover - no keyframe animations */\n",
+          "type": "registry:file",
+          "target": "app/globals.css"
+        },
+        {
+          "path": "index.ts",
+          "content": "export { BrutManifesto } from \"./brut-manifesto\"\nexport { BrutButton } from \"./brut-button\"\n",
+          "type": "registry:component",
+          "target": "components/ui/index.ts"
+        }
+      ],
+      "meta": {
+        "concept": "brut",
+        "displayName": "BRUT Elements"
+      }
+    },
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "name": "brut",
       "type": "registry:theme",
-      "description": "mcky.space — neobrutalism, 3px border, hard shadow, mono 100%",
+      "description": "BRUT — brutalist, red+black, Anton",
       "cssVars": {
         "theme": {
-          "accent-2": "#00cec9",
-          "accent-deep": "#d9a400",
-          "accent-foreground": "hsl(0 0% 0%)",
-          "border-width": "3px",
-          "card-foreground": "hsl(0 0% 0%)",
-          "destructive-foreground": "hsl(0 0% 0%)",
-          "font-display": "'JetBrains Mono', ui-monospace, monospace",
-          "font-mono": "'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace",
-          "font-sans": "'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace",
-          "font-serif": "'JetBrains Mono', ui-monospace, monospace",
-          "info": "#4361ee",
-          "muted-foreground": "#333333",
-          "popover-foreground": "hsl(0 0% 0%)",
-          "primary-foreground": "hsl(0 0% 0%)",
-          "radius": "0.375rem",
-          "secondary-foreground": "hsl(0 0% 0%)",
-          "shadow": "4px 4px 0 hsl(var(--border))",
-          "shadow-lg": "4px 4px 0 hsl(var(--border))",
-          "shadow-md": "4px 4px 0 hsl(var(--border))",
-          "success": "#06d6a0",
-          "warning": "#ff9f43"
+          "accent-deep": "#c91f00",
+          "accent-foreground": "hsl(0 0% 100%)",
+          "border-width": "2px",
+          "card-foreground": "hsl(0 0% 5%)",
+          "destructive-foreground": "hsl(0 0% 100%)",
+          "font-display": "'Anton', 'Impact', sans-serif",
+          "font-mono": "'IBM Plex Mono', ui-monospace, monospace",
+          "font-sans": "'IBM Plex Mono', 'JetBrains Mono', ui-monospace, monospace",
+          "muted-foreground": "#3d3d3a",
+          "popover-foreground": "hsl(0 0% 5%)",
+          "primary-foreground": "hsl(0 0% 100%)",
+          "radius": "0",
+          "secondary-foreground": "hsl(0 0% 5%)",
+          "shadow": "none",
+          "shadow-lg": "none",
+          "shadow-md": "none"
         },
         "light": {
-          "accent": "#ffe066",
-          "background": "#f5f5f0",
-          "border": "#000000",
+          "accent": "#ff2e00",
+          "background": "#e8e4da",
+          "border": "#0d0d0d",
           "card": "#ffffff",
-          "destructive": "#ff6b6b",
-          "foreground": "#000000",
-          "input": "hsl(0 0% 0%)",
-          "muted": "#eaeae4",
+          "destructive": "hsl(10 100% 50%)",
+          "foreground": "#0d0d0d",
+          "input": "hsl(0 0% 5%)",
+          "muted": "#efebe2",
           "popover": "hsl(0 0% 100%)",
-          "primary": "#ffe066",
-          "ring": "hsl(0 0% 0%)",
-          "secondary": "hsl(60 17% 91%)"
+          "primary": "#ff2e00",
+          "ring": "hsl(10 100% 50%)",
+          "secondary": "hsl(43 19% 81%)"
         },
         "dark": {
-          "accent": "#ffe066",
-          "background": "#0a0a0a",
-          "border": "#888888",
-          "card": "#141414",
-          "destructive": "hsl(0 100% 71%)",
-          "foreground": "#e0e0e0",
-          "input": "hsl(0 0% 53%)",
-          "muted": "#1f1f1f",
-          "popover": "hsl(0 0% 8%)",
-          "primary": "#ffe066",
-          "ring": "hsl(50 100% 71%)",
-          "secondary": "hsl(0 0% 12%)"
+          "accent": "#ff2e00",
+          "background": "#e8e4da",
+          "border": "#0d0d0d",
+          "card": "#ffffff",
+          "destructive": "hsl(10 100% 50%)",
+          "foreground": "#0d0d0d",
+          "input": "hsl(0 0% 5%)",
+          "muted": "#efebe2",
+          "popover": "hsl(0 0% 100%)",
+          "primary": "#ff2e00",
+          "ring": "hsl(10 100% 50%)",
+          "secondary": "hsl(43 19% 81%)"
         }
       },
       "css": {
@@ -70,78 +102,166 @@
         }
       },
       "meta": {
-        "name": "mcky.space",
-        "vibe": "neobrutalism, 3px border, hard shadow, mono 100%",
+        "name": "BRUT",
+        "vibe": "brutalist, red+black, Anton",
+        "mode": "light-only"
+      }
+    },
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "name": "claude-elements",
+      "type": "registry:block",
+      "description": "Warm editorial UI elements — note card with tags, callout quote",
+      "registryDependencies": [],
+      "files": [
+        {
+          "path": "claude-callout.tsx",
+          "content": "import * as React from \"react\"\nimport { cn } from \"@/lib/utils\"\n\ninterface ClaudeCalloutProps extends React.HTMLAttributes<HTMLDivElement> {\n  icon?: string\n  children: React.ReactNode\n}\n\nexport function ClaudeCallout({ \n  className, \n  icon = \"❝\",\n  children,\n  ...props \n}: ClaudeCalloutProps) {\n  return (\n    <div \n      className={cn(\"flex gap-2.5 p-2.5 rounded-lg text-[13.5px]\", className)}\n      style={{ \n        background: \"var(--accent-soft, rgba(217, 119, 87, 0.1))\",\n        color: \"var(--fg, var(--foreground))\",\n      }}\n      {...props}\n    >\n      <span \n        className=\"font-mono flex-shrink-0\"\n        style={{ color: \"var(--accent, #d97757)\" }}\n      >\n        {icon}\n      </span>\n      <span>{children}</span>\n    </div>\n  )\n}\n",
+          "type": "registry:component",
+          "target": "components/ui/claude-callout.tsx"
+        },
+        {
+          "path": "claude-note.tsx",
+          "content": "import * as React from \"react\"\nimport { cn } from \"@/lib/utils\"\n\ninterface ClaudeNoteProps extends React.HTMLAttributes<HTMLDivElement> {\n  tags?: string[]\n  title?: string\n  description?: string\n  callout?: string\n  meta?: string\n}\n\nexport function ClaudeNote({ \n  className, \n  tags = [\"#warm\", \"#editorial\", \"#dual-mode\"],\n  title = \"Why paper still wins\",\n  description = \"Quiet surfaces, clay accents, and a serif that doesn't shout. Light and dark built on the same hierarchy — calm either way.\",\n  callout = \"Reading stays at 17px with 1.72 line height. Your eyes will thank you.\",\n  meta = \"// obsidian · 2026-07-31 · vault: notes\",\n  ...props \n}: ClaudeNoteProps) {\n  return (\n    <div \n      className={cn(\"relative p-6 border rounded-lg\", className)}\n      style={{\n        background: \"var(--bg, var(--background))\",\n        border: \"1px solid var(--border, #e5e5e5)\",\n        boxShadow: \"var(--shadow, 0 2px 8px rgba(0,0,0,0.08))\",\n      }}\n      {...props}\n    >\n      <div className=\"mb-2.5\">\n        {tags.map((tag, i) => (\n          <span \n            key={i}\n            className=\"inline-block font-mono text-[10px] px-2 py-0.5 rounded-full mr-1.5\"\n            style={{ \n              color: \"var(--accent-deep, #b85c3f)\",\n              background: \"var(--accent-soft, rgba(217, 119, 87, 0.1))\",\n            }}\n          >\n            {tag}\n          </span>\n        ))}\n      </div>\n      \n      <h3 \n        className=\"text-2xl font-semibold tracking-tight leading-tight mb-2\"\n        style={{ color: \"var(--fg, var(--foreground))\" }}\n      >\n        {title}\n      </h3>\n      \n      <p \n        className=\"text-[15px] mb-3.5\"\n        style={{ color: \"var(--fg-muted, var(--muted-foreground))\" }}\n      >\n        {description}\n      </p>\n      \n      {callout && (\n        <div \n          className=\"flex gap-2.5 p-2.5 rounded-lg text-[13.5px]\"\n          style={{ \n            background: \"var(--accent-soft, rgba(217, 119, 87, 0.1))\",\n            color: \"var(--fg, var(--foreground))\",\n          }}\n        >\n          <span \n            className=\"font-mono flex-shrink-0\"\n            style={{ color: \"var(--accent, #d97757)\" }}\n          >\n            ❝\n          </span>\n          <span>{callout}</span>\n        </div>\n      )}\n      \n      {meta && (\n        <div \n          className=\"mt-3.5 pt-3 border-t font-mono text-[10px]\"\n          style={{ \n            borderTop: \"1px solid var(--border, #e5e5e5)\",\n            color: \"var(--fg-dim, var(--muted-foreground))\",\n          }}\n        >\n          {meta}\n        </div>\n      )}\n    </div>\n  )\n}\n",
+          "type": "registry:component",
+          "target": "components/ui/claude-note.tsx"
+        },
+        {
+          "path": "effects.css",
+          "content": "/* Claude uses soft shadows - no animations */\n",
+          "type": "registry:file",
+          "target": "app/globals.css"
+        },
+        {
+          "path": "index.ts",
+          "content": "export { ClaudeNote } from \"./claude-note\"\n",
+          "type": "registry:component",
+          "target": "components/ui/index.ts"
+        }
+      ],
+      "meta": {
+        "concept": "claude",
+        "displayName": "CLAUDE PAPER Elements"
+      }
+    },
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "name": "claude",
+      "type": "registry:theme",
+      "description": "CLAUDE PAPER — warm editorial, clay, Source Serif",
+      "cssVars": {
+        "theme": {
+          "accent-deep": "#b85c3f",
+          "accent-foreground": "hsl(60 25% 98%)",
+          "border-width": "1px",
+          "card-foreground": "hsl(60 7% 7%)",
+          "destructive-foreground": "hsl(60 25% 98%)",
+          "font-display": "'Source Serif 4', Georgia, serif",
+          "font-mono": "ui-monospace, 'SF Mono', monospace",
+          "font-sans": "'Source Serif 4', 'Source Han Serif SC', Georgia, serif",
+          "font-serif": "'Source Serif 4', 'Source Han Serif SC', Georgia, serif",
+          "info": "#3a5f8a",
+          "muted-foreground": "#3d3d3a",
+          "popover-foreground": "hsl(60 7% 7%)",
+          "primary-foreground": "hsl(60 25% 98%)",
+          "radius": "0.75rem",
+          "secondary-foreground": "hsl(60 7% 7%)",
+          "shadow": "0 1px 2px hsl(60 7% 7% / 0.05), 0 8px 24px -18px hsl(60 7% 7% / 0.18)",
+          "shadow-lg": "0 4px 12px hsl(60 7% 7% / 0.1), 0 24px 48px -24px hsl(60 7% 7% / 0.25)",
+          "shadow-md": "0 1px 2px hsl(60 7% 7% / 0.05), 0 8px 24px -18px hsl(60 7% 7% / 0.18)",
+          "success": "#3d7a4e",
+          "warning": "#a06a00"
+        },
+        "light": {
+          "accent": "#d97757",
+          "background": "#faf9f5",
+          "border": "hsl(60 7% 7% / 0.12)",
+          "card": "#ffffff",
+          "destructive": "#b03a2e",
+          "foreground": "#141413",
+          "input": "hsl(60 7% 7% / 0.12)",
+          "muted": "#f1efe8",
+          "popover": "hsl(0 0% 100%)",
+          "primary": "#d97757",
+          "ring": "hsl(60 7% 7% / 0.22)",
+          "secondary": "hsl(56 27% 95%)"
+        },
+        "dark": {
+          "accent": "#e38b6b",
+          "background": "#30302e",
+          "border": "hsl(60 25% 98% / 0.14)",
+          "card": "#383835",
+          "destructive": "#e0806f",
+          "foreground": "#faf9f5",
+          "input": "hsl(60 25% 98% / 0.14)",
+          "muted": "#242422",
+          "popover": "hsl(60 3% 21%)",
+          "primary": "#e38b6b",
+          "ring": "hsl(60 25% 98% / 0.24)",
+          "secondary": "hsl(60 4% 14%)"
+        }
+      },
+      "css": {
+        "@layer base": {
+          "body": {
+            "background-color": "var(--background)",
+            "color": "var(--foreground)"
+          }
+        }
+      },
+      "meta": {
+        "name": "CLAUDE PAPER",
+        "vibe": "warm editorial, clay, Source Serif",
         "mode": "dual"
       }
     },
     {
       "$schema": "https://ui.shadcn.com/schema/registry-item.json",
-      "name": "rack",
-      "type": "registry:theme",
-      "description": "STACK//FRAME — server rack, amber LED, Inter+mono",
-      "cssVars": {
-        "theme": {
-          "accent-2": "#00ff66",
-          "accent-foreground": "hsl(240 8% 4%)",
-          "border-width": "1px",
-          "card-foreground": "hsl(240 7% 96%)",
-          "destructive-foreground": "hsl(240 7% 96%)",
-          "font-mono": "'JetBrains Mono', ui-monospace, monospace",
-          "font-sans": "'Inter', system-ui, sans-serif",
-          "info": "#00d4ff",
-          "muted-foreground": "#8a8a93",
-          "popover-foreground": "hsl(240 7% 96%)",
-          "primary-foreground": "hsl(240 8% 4%)",
-          "radius": "0",
-          "secondary-foreground": "hsl(240 7% 96%)",
-          "shadow": "none",
-          "shadow-lg": "none",
-          "shadow-md": "none",
-          "success": "hsl(145 100% 50%)",
-          "warning": "hsl(40 100% 50%)"
+      "name": "crt-elements",
+      "type": "registry:block",
+      "description": "CRT terminal UI elements — phosphor glow terminal, scanlines overlay, blinking cursor, LED indicators",
+      "registryDependencies": [],
+      "files": [
+        {
+          "path": "blink-cursor.tsx",
+          "content": "import * as React from \"react\"\nimport { cn } from \"@/lib/utils\"\n\ninterface BlinkCursorProps extends React.HTMLAttributes<HTMLSpanElement> {}\n\nexport function BlinkCursor({ className, ...props }: BlinkCursorProps) {\n  return (\n    <span \n      className={cn(\"inline-block w-2.5 h-[1em] align-text-bottom\", className)}\n      style={{\n        background: \"var(--accent)\",\n        animation: \"crt-blink 1s steps(1) infinite\",\n      }}\n      {...props}\n    />\n  )\n}\n",
+          "type": "registry:component",
+          "target": "components/ui/blink-cursor.tsx"
         },
-        "light": {
-          "accent": "#ffb000",
-          "background": "#0a0a0c",
-          "border": "#2a2a32",
-          "card": "#16161a",
-          "destructive": "#ff3b30",
-          "foreground": "#f5f5f7",
-          "input": "hsl(240 8% 18%)",
-          "muted": "hsl(240 9% 7%)",
-          "popover": "hsl(240 9% 9%)",
-          "primary": "#ffb000",
-          "ring": "#3a3a42",
-          "secondary": "hsl(240 9% 7%)"
+        {
+          "path": "crt-led.tsx",
+          "content": "import * as React from \"react\"\nimport { cn } from \"@/lib/utils\"\n\ninterface CrtLedProps extends React.HTMLAttributes<HTMLSpanElement> {\n  color?: string\n}\n\nexport function CrtLed({ \n  className, \n  color = \"var(--accent)\",\n  ...props \n}: CrtLedProps) {\n  return (\n    <span \n      className={cn(\"inline-block w-[9px] h-[9px] rounded-full mr-1 align-middle\", className)}\n      style={{\n        background: color,\n        boxShadow: `0 0 8px ${color}`,\n        animation: \"crt-led 1.2s ease-in-out infinite\",\n      }}\n      {...props}\n    />\n  )\n}\n",
+          "type": "registry:component",
+          "target": "components/ui/crt-led.tsx"
         },
-        "dark": {
-          "accent": "#ffb000",
-          "background": "#0a0a0c",
-          "border": "#2a2a32",
-          "card": "#16161a",
-          "destructive": "#ff3b30",
-          "foreground": "#f5f5f7",
-          "input": "hsl(240 8% 18%)",
-          "muted": "hsl(240 9% 7%)",
-          "popover": "hsl(240 9% 9%)",
-          "primary": "#ffb000",
-          "ring": "#3a3a42",
-          "secondary": "hsl(240 9% 7%)"
+        {
+          "path": "crt-terminal.tsx",
+          "content": "import * as React from \"react\"\nimport { cn } from \"@/lib/utils\"\n\ninterface CrtTerminalProps extends React.HTMLAttributes<HTMLDivElement> {\n  children: React.ReactNode\n}\n\nexport function CrtTerminal({ className, children, ...props }: CrtTerminalProps) {\n  return (\n    <div \n      className={cn(\n        \"relative w-[88%] px-4 py-4 font-mono text-lg leading-relaxed\",\n        className\n      )}\n      style={{\n        background: \"var(--surface)\",\n        border: \"1px solid var(--border)\",\n        color: \"var(--fg)\",\n        textShadow: \"0 0 8px rgba(74, 246, 38, 0.5)\",\n      }}\n      {...props}\n    >\n      {children}\n    </div>\n  )\n}\n",
+          "type": "registry:component",
+          "target": "components/ui/crt-terminal.tsx"
+        },
+        {
+          "path": "scanlines.tsx",
+          "content": "import * as React from \"react\"\n\nexport function Scanlines() {\n  return (\n    <div \n      className=\"fixed inset-0 z-[100] pointer-events-none\"\n      style={{\n        background: `repeating-linear-gradient(\n          0deg,\n          rgba(0, 0, 0, 0.18) 0,\n          rgba(0, 0, 0, 0.18) 1px,\n          transparent 1px,\n          transparent 3px\n        )`,\n      }}\n    />\n  )\n}\n",
+          "type": "registry:component",
+          "target": "components/ui/scanlines.tsx"
+        },
+        {
+          "path": "effects.css",
+          "content": "/* CRT theme effects */\n@keyframes crt-blink {\n  0%, 49% { opacity: 1; }\n  50%, 100% { opacity: 0; }\n}\n\n@keyframes crt-led {\n  0%, 100% { opacity: 1; }\n  50% { opacity: 0.4; }\n}\n",
+          "type": "registry:file",
+          "target": "app/globals.css"
+        },
+        {
+          "path": "index.ts",
+          "content": "export { CrtTerminal } from \"./crt-terminal\"\nexport { BlinkCursor } from \"./blink-cursor\"\nexport { Scanlines } from \"./scanlines\"\nexport { CrtLed } from \"./crt-led\"\n",
+          "type": "registry:component",
+          "target": "components/ui/index.ts"
         }
-      },
-      "css": {
-        "@layer base": {
-          "body": {
-            "background-color": "var(--background)",
-            "color": "var(--foreground)"
-          }
-        }
-      },
+      ],
       "meta": {
-        "name": "STACK//FRAME",
-        "vibe": "server rack, amber LED, Inter+mono",
-        "mode": "dark-only"
+        "concept": "crt",
+        "displayName": "PIXSH v1.0 Elements"
       }
     },
     {
@@ -212,137 +332,45 @@
     },
     {
       "$schema": "https://ui.shadcn.com/schema/registry-item.json",
-      "name": "noc",
-      "type": "registry:theme",
-      "description": "PACKETGRID — NOC dashboard, cyan+green",
-      "cssVars": {
-        "theme": {
-          "accent-2": "#00d4ff",
-          "accent-foreground": "hsl(207 29% 5%)",
-          "border-width": "1px",
-          "card-foreground": "hsl(207 38% 90%)",
-          "destructive-foreground": "hsl(207 38% 90%)",
-          "font-mono": "'JetBrains Mono', ui-monospace, monospace",
-          "font-sans": "'Inter', system-ui, sans-serif",
-          "info": "hsl(190 100% 50%)",
-          "muted-foreground": "#7d8fa1",
-          "popover-foreground": "hsl(207 38% 90%)",
-          "primary-foreground": "hsl(207 29% 5%)",
-          "radius": "0",
-          "secondary-foreground": "hsl(207 38% 90%)",
-          "shadow": "none",
-          "shadow-lg": "none",
-          "shadow-md": "none",
-          "success": "#3ddc84",
-          "warning": "hsl(38 92% 50%)"
+      "name": "glitchpage-elements",
+      "type": "registry:block",
+      "description": "Glitch error page UI elements — RGB-split glitch text, error labels, animated stage",
+      "registryDependencies": [],
+      "files": [
+        {
+          "path": "glitch-label.tsx",
+          "content": "import * as React from \"react\"\nimport { cn } from \"@/lib/utils\"\n\ninterface GlitchLabelProps extends React.HTMLAttributes<HTMLDivElement> {\n  children: React.ReactNode\n}\n\nexport function GlitchLabel({ className, children, ...props }: GlitchLabelProps) {\n  return (\n    <div \n      className={cn(\n        \"font-mono text-[11px] tracking-[0.2em] uppercase\",\n        className\n      )}\n      style={{\n        color: \"var(--fg-dim)\",\n      }}\n      {...props}\n    >\n      {children}\n    </div>\n  )\n}\n",
+          "type": "registry:component",
+          "target": "components/ui/glitch-label.tsx"
         },
-        "light": {
-          "accent": "#35f0c8",
-          "background": "#0a0f14",
-          "border": "#1c2836",
-          "card": "#0f161d",
-          "destructive": "#ff5c5c",
-          "foreground": "#d9e6f2",
-          "input": "hsl(207 27% 16%)",
-          "muted": "#131c25",
-          "popover": "hsl(206 28% 9%)",
-          "primary": "#35f0c8",
-          "ring": "#2a3b4d",
-          "secondary": "hsl(207 28% 11%)"
+        {
+          "path": "glitch-stage.tsx",
+          "content": "import * as React from \"react\"\nimport { cn } from \"@/lib/utils\"\n\ninterface GlitchStageProps extends React.HTMLAttributes<HTMLDivElement> {\n  children: React.ReactNode\n}\n\nexport function GlitchStage({ className, children, ...props }: GlitchStageProps) {\n  return (\n    <div \n      className={cn(\n        \"relative z-[1] flex flex-col items-center gap-3.5 text-center\",\n        className\n      )}\n      {...props}\n    >\n      {children}\n    </div>\n  )\n}\n",
+          "type": "registry:component",
+          "target": "components/ui/glitch-stage.tsx"
         },
-        "dark": {
-          "accent": "#35f0c8",
-          "background": "#0a0f14",
-          "border": "#1c2836",
-          "card": "#0f161d",
-          "destructive": "#ff5c5c",
-          "foreground": "#d9e6f2",
-          "input": "hsl(207 27% 16%)",
-          "muted": "#131c25",
-          "popover": "hsl(206 28% 9%)",
-          "primary": "#35f0c8",
-          "ring": "#2a3b4d",
-          "secondary": "hsl(207 28% 11%)"
+        {
+          "path": "glitch-text.tsx",
+          "content": "import * as React from \"react\"\nimport { cn } from \"@/lib/utils\"\n\ninterface GlitchTextProps extends React.HTMLAttributes<HTMLDivElement> {\n  text?: string\n}\n\nexport function GlitchText({ \n  className, \n  text = \"404\",\n  ...props \n}: GlitchTextProps) {\n  return (\n    <div \n      className={cn(\n        \"relative font-display text-[110px] font-black leading-none\",\n        className\n      )}\n      style={{\n        color: \"var(--accent)\",\n        textShadow: \"3px 0 var(--accent-2), -3px 0 #ffff00\",\n        animation: \"gp-glitch 3s ease-in-out infinite\",\n      }}\n      {...props}\n    >\n      <span className=\"relative z-10\">{text}</span>\n      <span \n        className=\"absolute top-0 left-0 pointer-events-none\"\n        style={{\n          color: \"var(--accent-2)\",\n          clipPath: \"inset(20% 0 60% 0)\",\n          animation: \"gp-glitch-offset 2s ease-in-out infinite\",\n        }}\n        aria-hidden=\"true\"\n      >\n        {text}\n      </span>\n      <span \n        className=\"absolute top-0 left-0 pointer-events-none\"\n        style={{\n          color: \"#ffff00\",\n          clipPath: \"inset(60% 0 10% 0)\",\n          animation: \"gp-glitch-offset 3s ease-in-out infinite reverse\",\n        }}\n        aria-hidden=\"true\"\n      >\n        {text}\n      </span>\n    </div>\n  )\n}\n",
+          "type": "registry:component",
+          "target": "components/ui/glitch-text.tsx"
+        },
+        {
+          "path": "effects.css",
+          "content": "/* Glitchpage theme effects */\n@keyframes gp-glitch {\n  0%, 90%, 100% { transform: translate(0); }\n  92% { transform: translate(-3px, 2px); }\n  94% { transform: translate(3px, -1px); }\n  96% { transform: translate(-2px, -2px); }\n  98% { transform: translate(1px, 1px); }\n}\n\n@keyframes gp-glitch-offset {\n  0%, 80%, 100% { transform: translate(0); }\n  85% { transform: translate(-8px, 5px); }\n  90% { transform: translate(5px, -3px); }\n  95% { transform: translate(-4px, 4px); }\n}\n",
+          "type": "registry:file",
+          "target": "app/globals.css"
+        },
+        {
+          "path": "index.ts",
+          "content": "export { GlitchText } from \"./glitch-text\"\nexport { GlitchLabel } from \"./glitch-label\"\nexport { GlitchStage } from \"./glitch-stage\"\n",
+          "type": "registry:component",
+          "target": "components/ui/index.ts"
         }
-      },
-      "css": {
-        "@layer base": {
-          "body": {
-            "background-color": "var(--background)",
-            "color": "var(--foreground)"
-          }
-        }
-      },
+      ],
       "meta": {
-        "name": "PACKETGRID",
-        "vibe": "NOC dashboard, cyan+green",
-        "mode": "dark-only"
-      }
-    },
-    {
-      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
-      "name": "min",
-      "type": "registry:theme",
-      "description": "collage.sh — minimal, olive lime accent",
-      "cssVars": {
-        "theme": {
-          "accent-2": "hsl(65 65% 49%)",
-          "accent-foreground": "hsl(60 9% 96%)",
-          "border-width": "1px",
-          "card-foreground": "hsl(80 13% 10%)",
-          "destructive-foreground": "hsl(0 0% 100%)",
-          "font-mono": "'JetBrains Mono', ui-monospace, monospace",
-          "font-sans": "'Inter', system-ui, sans-serif",
-          "muted-foreground": "#5d6157",
-          "popover-foreground": "hsl(80 13% 10%)",
-          "primary-foreground": "hsl(60 9% 96%)",
-          "radius": "0",
-          "secondary-foreground": "hsl(80 13% 10%)",
-          "shadow": "none",
-          "shadow-lg": "none",
-          "shadow-md": "none"
-        },
-        "light": {
-          "accent": "#7a9a01",
-          "background": "#f6f7f4",
-          "border": "#e3e5df",
-          "card": "#ffffff",
-          "destructive": "#c7452f",
-          "foreground": "#1a1c16",
-          "input": "hsl(90 9% 88%)",
-          "muted": "#f0f1ed",
-          "popover": "hsl(0 0% 100%)",
-          "primary": "#7a9a01",
-          "ring": "#d2d5cd",
-          "secondary": "hsl(75 8% 93%)"
-        },
-        "dark": {
-          "accent": "#7a9a01",
-          "background": "#f6f7f4",
-          "border": "#e3e5df",
-          "card": "#ffffff",
-          "destructive": "#c7452f",
-          "foreground": "#1a1c16",
-          "input": "hsl(90 9% 88%)",
-          "muted": "#f0f1ed",
-          "popover": "hsl(0 0% 100%)",
-          "primary": "#7a9a01",
-          "ring": "#d2d5cd",
-          "secondary": "hsl(75 8% 93%)"
-        }
-      },
-      "css": {
-        "@layer base": {
-          "body": {
-            "background-color": "var(--background)",
-            "color": "var(--foreground)"
-          }
-        }
-      },
-      "meta": {
-        "name": "collage.sh",
-        "vibe": "minimal, olive lime accent",
-        "mode": "light-only"
+        "concept": "glitchpage",
+        "displayName": "GLITCHPAGE Elements"
       }
     },
     {
@@ -415,59 +443,97 @@
     },
     {
       "$schema": "https://ui.shadcn.com/schema/registry-item.json",
-      "name": "claude",
+      "name": "mcky-elements",
+      "type": "registry:block",
+      "description": "Neobrutalism UI elements — hard-shadow todo app, 3px border cards",
+      "registryDependencies": [],
+      "files": [
+        {
+          "path": "mcky-card.tsx",
+          "content": "import * as React from \"react\"\nimport { cn } from \"@/lib/utils\"\n\ninterface MckyCardProps extends React.HTMLAttributes<HTMLDivElement> {\n  title?: string\n  description?: string\n}\n\nexport function MckyCard({ \n  className, \n  title = \"Neobrutalism\",\n  description = \"3px borders, hard shadows, mono fonts. No mercy.\",\n  ...props \n}: MckyCardProps) {\n  return (\n    <div \n      className={cn(\"p-4 border-3\", className)}\n      style={{\n        background: \"var(--surface, var(--card))\",\n        border: \"3px solid var(--border, #0a0a0c)\",\n        boxShadow: \"var(--shadow, 4px 4px 0 var(--border))\",\n      }}\n      {...props}\n    >\n      <h3 \n        className=\"text-lg font-bold mb-2 uppercase tracking-wide\"\n        style={{ \n          fontFamily: \"var(--font-mono, 'JetBrains Mono', monospace)\",\n          color: \"var(--fg, var(--foreground))\",\n        }}\n      >\n        {title}\n      </h3>\n      <p \n        className=\"text-sm\"\n        style={{ color: \"var(--fg-muted, var(--muted-foreground))\" }}\n      >\n        {description}\n      </p>\n    </div>\n  )\n}\n",
+          "type": "registry:component",
+          "target": "components/ui/mcky-card.tsx"
+        },
+        {
+          "path": "mcky-todo.tsx",
+          "content": "import * as React from \"react\"\nimport { cn } from \"@/lib/utils\"\n\ninterface MckyTodoProps extends React.HTMLAttributes<HTMLDivElement> {\n  title?: string\n  items?: Array<{\n    text: string\n    done?: boolean\n    priority?: \"high\" | \"med\" | \"low\"\n    tag?: string\n  }>\n}\n\nexport function MckyTodo({ \n  className, \n  title = \"today\",\n  items = [\n    { text: \"ship neobrutalism theme\", done: true, priority: \"high\", tag: \"build\" },\n    { text: \"write blog #th\", done: true, priority: \"med\" },\n    { text: \"water the plants\", done: false, priority: \"low\" },\n  ],\n  ...props \n}: MckyTodoProps) {\n  const priorityColors = {\n    high: \"var(--danger, #ff3b30)\",\n    med: \"var(--warn, #ffb000)\",\n    low: \"var(--info, #00d4ff)\",\n  }\n  \n  return (\n    <div \n      className={cn(\"border-3 bg-surface\", className)}\n      style={{\n        border: \"3px solid var(--border, #0a0a0c)\",\n        background: \"var(--surface, var(--card))\",\n        boxShadow: \"var(--shadow, 4px 4px 0 var(--border))\",\n      }}\n      {...props}\n    >\n      <div \n        className=\"flex items-center justify-between px-4 py-3 border-b-3\"\n        style={{ borderBottom: \"3px solid var(--border, #0a0a0c)\" }}\n      >\n        <div className=\"text-[10px] font-bold uppercase tracking-wider\">\n          {title}\n        </div>\n        <div \n          className=\"text-[10px]\"\n          style={{ color: \"var(--fg-dim, var(--muted-foreground))\" }}\n        >\n          {items.filter(i => i.done).length} / {items.length} done\n        </div>\n      </div>\n      \n      {items.map((item, i) => (\n        <div \n          key={i}\n          className=\"flex items-center gap-2 px-4 py-2.5 border-b-2 last:border-b-0\"\n          style={{ borderBottom: i < items.length - 1 ? \"2px solid var(--border, #0a0a0c)\" : \"none\" }}\n        >\n          <div \n            className=\"w-3.5 h-3.5 border-2 rounded-[3px] flex-shrink-0 grid place-items-center\"\n            style={{ \n              border: \"2px solid var(--border, #0a0a0c)\",\n              background: item.done ? \"var(--fg, var(--foreground))\" : \"transparent\",\n            }}\n          >\n            {item.done && (\n              <div \n                className=\"w-[5px] h-2 border-r-2 border-b-2 rotate-45 -translate-x-[1px] -translate-y-[1px]\"\n                style={{ borderColor: \"var(--surface, var(--card))\" }}\n              />\n            )}\n          </div>\n          \n          {item.priority && (\n            <div \n              className=\"w-2 h-2 rounded-full border flex-shrink-0\"\n              style={{ \n                background: priorityColors[item.priority],\n                border: `1px solid var(--border, #0a0a0c)`,\n              }}\n            />\n          )}\n          \n          <div \n            className={cn(\"flex-1 text-xs\", item.done && \"line-through\")}\n            style={{ \n              color: item.done ? \"var(--fg-dim, var(--muted-foreground))\" : \"var(--fg, var(--foreground))\",\n            }}\n          >\n            {item.text}\n          </div>\n          \n          {item.tag && (\n            <div \n              className=\"text-[8px] uppercase font-bold tracking-wider px-1.5 py-0.5 border-2 rounded\"\n              style={{ \n                border: \"1.5px solid var(--border, #0a0a0c)\",\n                color: \"var(--fg-muted, var(--muted-foreground))\",\n              }}\n            >\n              {item.tag}\n            </div>\n          )}\n        </div>\n      ))}\n    </div>\n  )\n}\n",
+          "type": "registry:component",
+          "target": "components/ui/mcky-todo.tsx"
+        },
+        {
+          "path": "effects.css",
+          "content": "/* MCKY uses hard shadows and 3px borders - no animations */\n",
+          "type": "registry:file",
+          "target": "app/globals.css"
+        },
+        {
+          "path": "index.ts",
+          "content": "export { MckyTodo } from \"./mcky-todo\"\nexport { MckyCard } from \"./mcky-card\"\n",
+          "type": "registry:component",
+          "target": "components/ui/index.ts"
+        }
+      ],
+      "meta": {
+        "concept": "mcky",
+        "displayName": "mcky.space Elements"
+      }
+    },
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "name": "mcky",
       "type": "registry:theme",
-      "description": "CLAUDE PAPER — warm editorial, clay, Source Serif",
+      "description": "mcky.space — neobrutalism, 3px border, hard shadow, mono 100%",
       "cssVars": {
         "theme": {
-          "accent-deep": "#b85c3f",
-          "accent-foreground": "hsl(60 25% 98%)",
-          "border-width": "1px",
-          "card-foreground": "hsl(60 7% 7%)",
-          "destructive-foreground": "hsl(60 25% 98%)",
-          "font-display": "'Source Serif 4', Georgia, serif",
-          "font-mono": "ui-monospace, 'SF Mono', monospace",
-          "font-sans": "'Source Serif 4', 'Source Han Serif SC', Georgia, serif",
-          "font-serif": "'Source Serif 4', 'Source Han Serif SC', Georgia, serif",
-          "info": "#3a5f8a",
-          "muted-foreground": "#3d3d3a",
-          "popover-foreground": "hsl(60 7% 7%)",
-          "primary-foreground": "hsl(60 25% 98%)",
-          "radius": "0.75rem",
-          "secondary-foreground": "hsl(60 7% 7%)",
-          "shadow": "0 1px 2px hsl(60 7% 7% / 0.05), 0 8px 24px -18px hsl(60 7% 7% / 0.18)",
-          "shadow-lg": "0 4px 12px hsl(60 7% 7% / 0.1), 0 24px 48px -24px hsl(60 7% 7% / 0.25)",
-          "shadow-md": "0 1px 2px hsl(60 7% 7% / 0.05), 0 8px 24px -18px hsl(60 7% 7% / 0.18)",
-          "success": "#3d7a4e",
-          "warning": "#a06a00"
+          "accent-2": "#00cec9",
+          "accent-deep": "#d9a400",
+          "accent-foreground": "hsl(0 0% 0%)",
+          "border-width": "3px",
+          "card-foreground": "hsl(0 0% 0%)",
+          "destructive-foreground": "hsl(0 0% 0%)",
+          "font-display": "'JetBrains Mono', ui-monospace, monospace",
+          "font-mono": "'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace",
+          "font-sans": "'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace",
+          "font-serif": "'JetBrains Mono', ui-monospace, monospace",
+          "info": "#4361ee",
+          "muted-foreground": "#333333",
+          "popover-foreground": "hsl(0 0% 0%)",
+          "primary-foreground": "hsl(0 0% 0%)",
+          "radius": "0.375rem",
+          "secondary-foreground": "hsl(0 0% 0%)",
+          "shadow": "4px 4px 0 hsl(var(--border))",
+          "shadow-lg": "4px 4px 0 hsl(var(--border))",
+          "shadow-md": "4px 4px 0 hsl(var(--border))",
+          "success": "#06d6a0",
+          "warning": "#ff9f43"
         },
         "light": {
-          "accent": "#d97757",
-          "background": "#faf9f5",
-          "border": "hsl(60 7% 7% / 0.12)",
+          "accent": "#ffe066",
+          "background": "#f5f5f0",
+          "border": "#000000",
           "card": "#ffffff",
-          "destructive": "#b03a2e",
-          "foreground": "#141413",
-          "input": "hsl(60 7% 7% / 0.12)",
-          "muted": "#f1efe8",
+          "destructive": "#ff6b6b",
+          "foreground": "#000000",
+          "input": "hsl(0 0% 0%)",
+          "muted": "#eaeae4",
           "popover": "hsl(0 0% 100%)",
-          "primary": "#d97757",
-          "ring": "hsl(60 7% 7% / 0.22)",
-          "secondary": "hsl(56 27% 95%)"
+          "primary": "#ffe066",
+          "ring": "hsl(0 0% 0%)",
+          "secondary": "hsl(60 17% 91%)"
         },
         "dark": {
-          "accent": "#e38b6b",
-          "background": "#30302e",
-          "border": "hsl(60 25% 98% / 0.14)",
-          "card": "#383835",
-          "destructive": "#e0806f",
-          "foreground": "#faf9f5",
-          "input": "hsl(60 25% 98% / 0.14)",
-          "muted": "#242422",
-          "popover": "hsl(60 3% 21%)",
-          "primary": "#e38b6b",
-          "ring": "hsl(60 25% 98% / 0.24)",
-          "secondary": "hsl(60 4% 14%)"
+          "accent": "#ffe066",
+          "background": "#0a0a0a",
+          "border": "#888888",
+          "card": "#141414",
+          "destructive": "hsl(0 100% 71%)",
+          "foreground": "#e0e0e0",
+          "input": "hsl(0 0% 53%)",
+          "muted": "#1f1f1f",
+          "popover": "hsl(0 0% 8%)",
+          "primary": "#ffe066",
+          "ring": "hsl(50 100% 71%)",
+          "secondary": "hsl(0 0% 12%)"
         }
       },
       "css": {
@@ -479,9 +545,149 @@
         }
       },
       "meta": {
-        "name": "CLAUDE PAPER",
-        "vibe": "warm editorial, clay, Source Serif",
+        "name": "mcky.space",
+        "vibe": "neobrutalism, 3px border, hard shadow, mono 100%",
         "mode": "dual"
+      }
+    },
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "name": "min-elements",
+      "type": "registry:block",
+      "description": "Minimal UI elements — soft-shadow render mock, clean cards",
+      "registryDependencies": [],
+      "files": [
+        {
+          "path": "min-card.tsx",
+          "content": "import * as React from \"react\"\nimport { cn } from \"@/lib/utils\"\n\ninterface MinCardProps extends React.HTMLAttributes<HTMLDivElement> {\n  title?: string\n  description?: string\n}\n\nexport function MinCard({ \n  className, \n  title = \"Minimal Design\",\n  description = \"Clean, focused, essential. Nothing more, nothing less.\",\n  ...props \n}: MinCardProps) {\n  return (\n    <div \n      className={cn(\"p-5 border rounded-lg\", className)}\n      style={{\n        background: \"var(--surface, var(--card))\",\n        border: \"1px solid var(--border, #e5e5e5)\",\n      }}\n      {...props}\n    >\n      <h3 \n        className=\"text-lg font-semibold mb-2\"\n        style={{ color: \"var(--fg, var(--foreground))\" }}\n      >\n        {title}\n      </h3>\n      <p \n        className=\"text-sm\"\n        style={{ color: \"var(--fg-muted, var(--muted-foreground))\" }}\n      >\n        {description}\n      </p>\n    </div>\n  )\n}\n",
+          "type": "registry:component",
+          "target": "components/ui/min-card.tsx"
+        },
+        {
+          "path": "min-mock.tsx",
+          "content": "import * as React from \"react\"\nimport { cn } from \"@/lib/utils\"\n\ninterface MinMockProps extends React.HTMLAttributes<HTMLDivElement> {\n  title?: string\n  extension?: string\n  command?: string\n  buttonText?: string\n}\n\nexport function MinMock({ \n  className, \n  title = \"collage\",\n  extension = \".sh\",\n  command = \"$ build --output=png --theme=min\",\n  buttonText = \"▶ render\",\n  ...props \n}: MinMockProps) {\n  return (\n    <div \n      className={cn(\"relative p-5 border rounded-xl\", className)}\n      style={{\n        background: \"var(--surface, var(--card))\",\n        border: \"1px solid var(--border, #e5e5e5)\",\n        boxShadow: \"0 8px 24px -12px rgba(20, 24, 16, 0.14)\",\n      }}\n      {...props}\n    >\n      <div className=\"text-[28px] font-bold tracking-tight\">\n        {title}\n        <span \n          className=\"px-1.5 rounded\"\n          style={{ \n            background: \"var(--accent-bright, #c8ff00)\",\n            color: \"var(--fg, #0e0e10)\",\n          }}\n        >\n          {extension}\n        </span>\n      </div>\n      \n      <div \n        className=\"font-mono text-xs my-1.5\"\n        style={{ color: \"var(--fg-dim, var(--muted-foreground))\" }}\n      >\n        {command}\n      </div>\n      \n      <button\n        className=\"inline-block px-4 py-2 rounded-lg text-xs font-bold\"\n        style={{\n          background: \"var(--accent, #7a9a01)\",\n          color: \"#fff\",\n          boxShadow: \"0 4px 14px -6px rgba(122, 154, 1, 0.4)\",\n        }}\n      >\n        {buttonText}\n      </button>\n    </div>\n  )\n}\n",
+          "type": "registry:component",
+          "target": "components/ui/min-mock.tsx"
+        },
+        {
+          "path": "effects.css",
+          "content": "/* Min uses soft shadows - no animations */\n",
+          "type": "registry:file",
+          "target": "app/globals.css"
+        },
+        {
+          "path": "index.ts",
+          "content": "export { MinMock } from \"./min-mock\"\n",
+          "type": "registry:component",
+          "target": "components/ui/index.ts"
+        }
+      ],
+      "meta": {
+        "concept": "min",
+        "displayName": "collage.sh Elements"
+      }
+    },
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "name": "min",
+      "type": "registry:theme",
+      "description": "collage.sh — minimal, olive lime accent",
+      "cssVars": {
+        "theme": {
+          "accent-2": "hsl(65 65% 49%)",
+          "accent-foreground": "hsl(60 9% 96%)",
+          "border-width": "1px",
+          "card-foreground": "hsl(80 13% 10%)",
+          "destructive-foreground": "hsl(0 0% 100%)",
+          "font-mono": "'JetBrains Mono', ui-monospace, monospace",
+          "font-sans": "'Inter', system-ui, sans-serif",
+          "muted-foreground": "#5d6157",
+          "popover-foreground": "hsl(80 13% 10%)",
+          "primary-foreground": "hsl(60 9% 96%)",
+          "radius": "0",
+          "secondary-foreground": "hsl(80 13% 10%)",
+          "shadow": "none",
+          "shadow-lg": "none",
+          "shadow-md": "none"
+        },
+        "light": {
+          "accent": "#7a9a01",
+          "background": "#f6f7f4",
+          "border": "#e3e5df",
+          "card": "#ffffff",
+          "destructive": "#c7452f",
+          "foreground": "#1a1c16",
+          "input": "hsl(90 9% 88%)",
+          "muted": "#f0f1ed",
+          "popover": "hsl(0 0% 100%)",
+          "primary": "#7a9a01",
+          "ring": "#d2d5cd",
+          "secondary": "hsl(75 8% 93%)"
+        },
+        "dark": {
+          "accent": "#7a9a01",
+          "background": "#f6f7f4",
+          "border": "#e3e5df",
+          "card": "#ffffff",
+          "destructive": "#c7452f",
+          "foreground": "#1a1c16",
+          "input": "hsl(90 9% 88%)",
+          "muted": "#f0f1ed",
+          "popover": "hsl(0 0% 100%)",
+          "primary": "#7a9a01",
+          "ring": "#d2d5cd",
+          "secondary": "hsl(75 8% 93%)"
+        }
+      },
+      "css": {
+        "@layer base": {
+          "body": {
+            "background-color": "var(--background)",
+            "color": "var(--foreground)"
+          }
+        }
+      },
+      "meta": {
+        "name": "collage.sh",
+        "vibe": "minimal, olive lime accent",
+        "mode": "light-only"
+      }
+    },
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "name": "moss-elements",
+      "type": "registry:block",
+      "description": "Organic UI elements — drifting blobs, earth-tone cards",
+      "registryDependencies": [],
+      "files": [
+        {
+          "path": "blob.tsx",
+          "content": "import * as React from \"react\"\nimport { cn } from \"@/lib/utils\"\n\ninterface BlobProps extends React.HTMLAttributes<HTMLDivElement> {\n  size?: \"sm\" | \"md\" | \"lg\"\n  color?: string\n}\n\nexport function Blob({ \n  className, \n  size = \"md\",\n  color = \"var(--accent, #6a8c3f)\",\n  ...props \n}: BlobProps) {\n  const sizes = {\n    sm: \"w-16 h-16\",\n    md: \"w-24 h-24\",\n    lg: \"w-32 h-32\",\n  }\n  \n  return (\n    <div \n      className={cn(\n        \"rounded-full\",\n        sizes[size],\n        className\n      )}\n      style={{\n        background: color,\n        animation: \"blob-drift 16s ease-in-out infinite\",\n      }}\n      {...props}\n    />\n  )\n}\n",
+          "type": "registry:component",
+          "target": "components/ui/blob.tsx"
+        },
+        {
+          "path": "moss-card.tsx",
+          "content": "import * as React from \"react\"\nimport { cn } from \"@/lib/utils\"\n\ninterface MossCardProps extends React.HTMLAttributes<HTMLDivElement> {\n  title?: string\n  description?: string\n}\n\nexport function MossCard({ \n  className, \n  title = \"Organic Growth\",\n  description = \"Natural patterns emerge from simple rules. Watch the garden grow.\",\n  ...props \n}: MossCardProps) {\n  return (\n    <div \n      className={cn(\"p-5 border rounded-xl\", className)}\n      style={{\n        background: \"var(--surface, var(--card))\",\n        border: \"1px solid var(--border, #d4c9b8)\",\n      }}\n      {...props}\n    >\n      <h3 \n        className=\"text-xl font-semibold mb-2 tracking-tight\"\n        style={{ \n          fontFamily: \"var(--font-display, 'Fraunces', serif)\",\n          color: \"var(--fg, var(--foreground))\",\n        }}\n      >\n        {title}\n      </h3>\n      <p \n        className=\"text-sm leading-relaxed\"\n        style={{ color: \"var(--fg-muted, var(--muted-foreground))\" }}\n      >\n        {description}\n      </p>\n    </div>\n  )\n}\n",
+          "type": "registry:component",
+          "target": "components/ui/moss-card.tsx"
+        },
+        {
+          "path": "effects.css",
+          "content": "@keyframes blob-drift {\n  0%, 100% { transform: translate(0, 0) scale(1); }\n  33% { transform: translate(10px, -10px) scale(1.05); }\n  66% { transform: translate(-5px, 5px) scale(0.95); }\n}\n",
+          "type": "registry:file",
+          "target": "app/globals.css"
+        },
+        {
+          "path": "index.ts",
+          "content": "export { Blob } from \"./blob\"\nexport { MossCard } from \"./moss-card\"\n",
+          "type": "registry:component",
+          "target": "components/ui/index.ts"
+        }
+      ],
+      "meta": {
+        "concept": "moss",
+        "displayName": "MOSS Elements"
       }
     },
     {
@@ -561,55 +767,100 @@
     },
     {
       "$schema": "https://ui.shadcn.com/schema/registry-item.json",
-      "name": "brut",
+      "name": "noc-elements",
+      "type": "registry:block",
+      "description": "NOC dashboard UI elements — metric tiles, 3-column grid, pulsing status header",
+      "registryDependencies": [],
+      "files": [
+        {
+          "path": "noc-grid.tsx",
+          "content": "import * as React from \"react\"\nimport { cn } from \"@/lib/utils\"\n\ninterface NocGridProps extends React.HTMLAttributes<HTMLDivElement> {\n  columns?: 2 | 3 | 4\n}\n\nexport function NocGrid({ \n  className, \n  columns = 3,\n  children,\n  ...props \n}: NocGridProps) {\n  return (\n    <div \n      className={cn(\"grid gap-2 rounded-md p-3.5\", className)}\n      style={{\n        gridTemplateColumns: `repeat(${columns}, 1fr)`,\n        background: \"rgba(10, 15, 20, 0.9)\",\n        border: \"1px solid var(--border-bright, var(--border))\",\n      }}\n      {...props}\n    >\n      {children}\n    </div>\n  )\n}\n",
+          "type": "registry:component",
+          "target": "components/ui/noc-grid.tsx"
+        },
+        {
+          "path": "noc-header.tsx",
+          "content": "import * as React from \"react\"\nimport { cn } from \"@/lib/utils\"\n\ninterface NocHeaderProps extends React.HTMLAttributes<HTMLDivElement> {\n  label?: string\n}\n\nexport function NocHeader({ \n  className, \n  label = \"// MOCKUP · NOC_01\",\n  ...props \n}: NocHeaderProps) {\n  return (\n    <div \n      className={cn(\"flex items-center gap-2 px-4 py-2 border-b font-mono text-[10px] tracking-widest\", className)}\n      style={{\n        background: \"var(--surface-2, var(--muted))\",\n        borderBottomColor: \"var(--border-bright, var(--border))\",\n        color: \"var(--fg, var(--foreground))\",\n      }}\n      {...props}\n    >\n      <div \n        className=\"w-1.5 h-1.5 rounded-full\"\n        style={{\n          background: \"var(--ok, #3ddc84)\",\n          boxShadow: \"0 0 6px var(--ok, #3ddc84)\",\n          animation: \"noc-pulse 1.6s ease-in-out infinite\",\n        }}\n      />\n      {label}\n    </div>\n  )\n}\n",
+          "type": "registry:component",
+          "target": "components/ui/noc-header.tsx"
+        },
+        {
+          "path": "noc-tile.tsx",
+          "content": "import * as React from \"react\"\nimport { cn } from \"@/lib/utils\"\n\ninterface NocTileProps extends React.HTMLAttributes<HTMLDivElement> {\n  label?: string\n  value?: string\n  unit?: string\n}\n\nexport function NocTile({ \n  className, \n  label = \"CPU\",\n  value = \"42%\",\n  unit = \"▲ stable\",\n  ...props \n}: NocTileProps) {\n  return (\n    <div \n      className={cn(\n        \"border rounded p-2.5 min-h-[40px] flex flex-col justify-center gap-0.5 font-mono\",\n        className\n      )}\n      style={{\n        background: \"var(--surface, var(--card))\",\n        borderColor: \"var(--border, #2a2a32)\",\n      }}\n      {...props}\n    >\n      <div \n        className=\"tracking-wider text-[9px] uppercase\"\n        style={{ color: \"var(--fg-dim, var(--muted-foreground))\" }}\n      >\n        {label}\n      </div>\n      <div \n        className=\"text-[22px] font-bold leading-tight\"\n        style={{ color: \"var(--accent-2, #00ff66)\" }}\n      >\n        {value}\n      </div>\n      {unit && (\n        <div \n          className=\"tracking-wide text-[9px]\"\n          style={{ color: \"var(--ok, #3ddc84)\" }}\n        >\n          {unit}\n        </div>\n      )}\n    </div>\n  )\n}\n",
+          "type": "registry:component",
+          "target": "components/ui/noc-tile.tsx"
+        },
+        {
+          "path": "effects.css",
+          "content": "@keyframes noc-pulse {\n  0%, 100% { opacity: 1; }\n  50% { opacity: 0.35; }\n}\n",
+          "type": "registry:file",
+          "target": "app/globals.css"
+        },
+        {
+          "path": "index.ts",
+          "content": "export { NocTile } from \"./noc-tile\"\nexport { NocGrid } from \"./noc-grid\"\nexport { NocHeader } from \"./noc-header\"\n",
+          "type": "registry:component",
+          "target": "components/ui/index.ts"
+        }
+      ],
+      "meta": {
+        "concept": "noc",
+        "displayName": "PACKETGRID Elements"
+      }
+    },
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "name": "noc",
       "type": "registry:theme",
-      "description": "BRUT — brutalist, red+black, Anton",
+      "description": "PACKETGRID — NOC dashboard, cyan+green",
       "cssVars": {
         "theme": {
-          "accent-deep": "#c91f00",
-          "accent-foreground": "hsl(0 0% 100%)",
-          "border-width": "2px",
-          "card-foreground": "hsl(0 0% 5%)",
-          "destructive-foreground": "hsl(0 0% 100%)",
-          "font-display": "'Anton', 'Impact', sans-serif",
-          "font-mono": "'IBM Plex Mono', ui-monospace, monospace",
-          "font-sans": "'IBM Plex Mono', 'JetBrains Mono', ui-monospace, monospace",
-          "muted-foreground": "#3d3d3a",
-          "popover-foreground": "hsl(0 0% 5%)",
-          "primary-foreground": "hsl(0 0% 100%)",
+          "accent-2": "#00d4ff",
+          "accent-foreground": "hsl(207 29% 5%)",
+          "border-width": "1px",
+          "card-foreground": "hsl(207 38% 90%)",
+          "destructive-foreground": "hsl(207 38% 90%)",
+          "font-mono": "'JetBrains Mono', ui-monospace, monospace",
+          "font-sans": "'Inter', system-ui, sans-serif",
+          "info": "hsl(190 100% 50%)",
+          "muted-foreground": "#7d8fa1",
+          "popover-foreground": "hsl(207 38% 90%)",
+          "primary-foreground": "hsl(207 29% 5%)",
           "radius": "0",
-          "secondary-foreground": "hsl(0 0% 5%)",
+          "secondary-foreground": "hsl(207 38% 90%)",
           "shadow": "none",
           "shadow-lg": "none",
-          "shadow-md": "none"
+          "shadow-md": "none",
+          "success": "#3ddc84",
+          "warning": "hsl(38 92% 50%)"
         },
         "light": {
-          "accent": "#ff2e00",
-          "background": "#e8e4da",
-          "border": "#0d0d0d",
-          "card": "#ffffff",
-          "destructive": "hsl(10 100% 50%)",
-          "foreground": "#0d0d0d",
-          "input": "hsl(0 0% 5%)",
-          "muted": "#efebe2",
-          "popover": "hsl(0 0% 100%)",
-          "primary": "#ff2e00",
-          "ring": "hsl(10 100% 50%)",
-          "secondary": "hsl(43 19% 81%)"
+          "accent": "#35f0c8",
+          "background": "#0a0f14",
+          "border": "#1c2836",
+          "card": "#0f161d",
+          "destructive": "#ff5c5c",
+          "foreground": "#d9e6f2",
+          "input": "hsl(207 27% 16%)",
+          "muted": "#131c25",
+          "popover": "hsl(206 28% 9%)",
+          "primary": "#35f0c8",
+          "ring": "#2a3b4d",
+          "secondary": "hsl(207 28% 11%)"
         },
         "dark": {
-          "accent": "#ff2e00",
-          "background": "#e8e4da",
-          "border": "#0d0d0d",
-          "card": "#ffffff",
-          "destructive": "hsl(10 100% 50%)",
-          "foreground": "#0d0d0d",
-          "input": "hsl(0 0% 5%)",
-          "muted": "#efebe2",
-          "popover": "hsl(0 0% 100%)",
-          "primary": "#ff2e00",
-          "ring": "hsl(10 100% 50%)",
-          "secondary": "hsl(43 19% 81%)"
+          "accent": "#35f0c8",
+          "background": "#0a0f14",
+          "border": "#1c2836",
+          "card": "#0f161d",
+          "destructive": "#ff5c5c",
+          "foreground": "#d9e6f2",
+          "input": "hsl(207 27% 16%)",
+          "muted": "#131c25",
+          "popover": "hsl(206 28% 9%)",
+          "primary": "#35f0c8",
+          "ring": "#2a3b4d",
+          "secondary": "hsl(207 28% 11%)"
         }
       },
       "css": {
@@ -621,9 +872,127 @@
         }
       },
       "meta": {
-        "name": "BRUT",
-        "vibe": "brutalist, red+black, Anton",
-        "mode": "light-only"
+        "name": "PACKETGRID",
+        "vibe": "NOC dashboard, cyan+green",
+        "mode": "dark-only"
+      }
+    },
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "name": "rack-elements",
+      "type": "registry:block",
+      "description": "Server rack UI elements — LED strips, bezel headers, rack units with animated indicators",
+      "registryDependencies": [],
+      "files": [
+        {
+          "path": "led-strip.tsx",
+          "content": "import * as React from \"react\"\nimport { cn } from \"@/lib/utils\"\n\ninterface LedStripProps extends React.HTMLAttributes<HTMLDivElement> {\n  colors?: string[]\n  animated?: boolean\n}\n\nexport function LedStrip({ \n  className, \n  colors = [\"var(--accent-2)\", \"var(--accent)\", \"var(--led-cyan)\", \"var(--accent-2)\"],\n  animated = true,\n  ...props \n}: LedStripProps) {\n  return (\n    <div className={cn(\"flex gap-2 items-center\", className)} {...props}>\n      {colors.map((color, i) => (\n        <div\n          key={i}\n          className=\"w-2 h-2 rounded-full\"\n          style={{\n            background: color,\n            boxShadow: `0 0 8px ${color}`,\n            animation: animated ? `rk-led 1.4s ease-in-out infinite ${i * 0.3}s` : undefined,\n          }}\n        />\n      ))}\n    </div>\n  )\n}\n",
+          "type": "registry:component",
+          "target": "components/ui/led-strip.tsx"
+        },
+        {
+          "path": "rack-bezel.tsx",
+          "content": "import * as React from \"react\"\nimport { cn } from \"@/lib/utils\"\n\ninterface RackBezelProps extends React.HTMLAttributes<HTMLDivElement> {\n  label?: string\n}\n\nexport function RackBezel({ \n  className, \n  label = \"// MOCKUP · RACK_01\",\n  children,\n  ...props \n}: RackBezelProps) {\n  return (\n    <div className={cn(\"relative\", className)} {...props}>\n      <div \n        className=\"flex items-center gap-2 px-4 py-2.5 border-b font-mono text-[10px] tracking-widest\"\n        style={{\n          background: \"var(--bg-2)\",\n          borderBottomColor: \"var(--border-bright)\",\n          color: \"var(--accent)\",\n        }}\n      >\n        <div \n          className=\"w-1.5 h-1.5 rounded-full\"\n          style={{\n            background: \"var(--accent-2)\",\n            boxShadow: \"0 0 6px var(--accent-2)\",\n            animation: \"rk-pulse 1.4s ease-in-out infinite\",\n          }}\n        />\n        {label}\n      </div>\n      {children}\n    </div>\n  )\n}\n",
+          "type": "registry:component",
+          "target": "components/ui/rack-bezel.tsx"
+        },
+        {
+          "path": "rack-mock.tsx",
+          "content": "import * as React from \"react\"\nimport { cn } from \"@/lib/utils\"\n\ninterface RackMockProps extends React.HTMLAttributes<HTMLDivElement> {\n  children: React.ReactNode\n}\n\nexport function RackMock({ className, children, ...props }: RackMockProps) {\n  return (\n    <div \n      className={cn(\n        \"relative z-10 w-[88%] flex flex-col gap-2 py-3.5 px-4\",\n        className\n      )}\n      style={{\n        background: \"#0a0a0c\",\n        border: \"1px solid var(--border-bright)\",\n        borderRadius: \"4px\",\n        minHeight: \"220px\",\n      }}\n      {...props}\n    >\n      {children}\n    </div>\n  )\n}\n",
+          "type": "registry:component",
+          "target": "components/ui/rack-mock.tsx"
+        },
+        {
+          "path": "rack-unit.tsx",
+          "content": "import * as React from \"react\"\nimport { cn } from \"@/lib/utils\"\n\ninterface RackUnitProps extends React.HTMLAttributes<HTMLDivElement> {\n  label: string\n  ledColor?: string\n  showScrews?: boolean\n}\n\nexport function RackUnit({ \n  className, \n  label,\n  ledColor = \"var(--accent)\",\n  showScrews = true,\n  ...props \n}: RackUnitProps) {\n  return (\n    <div \n      className={cn(\n        \"relative flex items-center justify-between px-4 min-h-[44px] font-mono text-sm\",\n        className\n      )}\n      style={{\n        background: \"linear-gradient(180deg, #1c1c20, #0a0a0c)\",\n        border: \"1px solid var(--border)\",\n        borderRadius: \"2px\",\n        boxShadow: \"inset 0 1px 0 rgba(255, 255, 255, 0.03)\",\n      }}\n      {...props}\n    >\n      {showScrews && (\n        <>\n          <div \n            className=\"absolute left-[-8px] top-1/2 -translate-y-1/2 w-1 h-1 rounded-full\"\n            style={{\n              background: \"radial-gradient(circle at 30% 30%, #5a5a63, #1a1a20)\",\n              boxShadow: \"0 0 0 1px #0a0a0c\",\n            }}\n          />\n          <div \n            className=\"absolute right-[-8px] top-1/2 -translate-y-1/2 w-1 h-1 rounded-full\"\n            style={{\n              background: \"radial-gradient(circle at 30% 30%, #5a5a63, #1a1a20)\",\n              boxShadow: \"0 0 0 1px #0a0a0c\",\n            }}\n          />\n        </>\n      )}\n      <span>{label}</span>\n      <div \n        className=\"w-2 h-2 rounded-full\"\n        style={{\n          background: ledColor,\n          boxShadow: `0 0 8px ${ledColor}`,\n          animation: \"rk-led 1.4s ease-in-out infinite\",\n        }}\n      />\n    </div>\n  )\n}\n",
+          "type": "registry:component",
+          "target": "components/ui/rack-unit.tsx"
+        },
+        {
+          "path": "effects.css",
+          "content": "/* Rack theme effects */\n@keyframes rk-led {\n  0%, 100% { opacity: 1; }\n  50% { opacity: 0.5; }\n}\n\n@keyframes rk-pulse {\n  0%, 100% { opacity: 1; transform: scale(1); }\n  50% { opacity: 0.6; transform: scale(0.95); }\n}\n",
+          "type": "registry:file",
+          "target": "app/globals.css"
+        },
+        {
+          "path": "index.ts",
+          "content": "export { LedStrip } from \"./led-strip\"\nexport { RackBezel } from \"./rack-bezel\"\nexport { RackUnit } from \"./rack-unit\"\nexport { RackMock } from \"./rack-mock\"\n",
+          "type": "registry:component",
+          "target": "components/ui/index.ts"
+        }
+      ],
+      "meta": {
+        "concept": "rack",
+        "displayName": "STACK//FRAME Elements"
+      }
+    },
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "name": "rack",
+      "type": "registry:theme",
+      "description": "STACK//FRAME — server rack, amber LED, Inter+mono",
+      "cssVars": {
+        "theme": {
+          "accent-2": "#00ff66",
+          "accent-foreground": "hsl(240 8% 4%)",
+          "border-width": "1px",
+          "card-foreground": "hsl(240 7% 96%)",
+          "destructive-foreground": "hsl(240 7% 96%)",
+          "font-mono": "'JetBrains Mono', ui-monospace, monospace",
+          "font-sans": "'Inter', system-ui, sans-serif",
+          "info": "#00d4ff",
+          "muted-foreground": "#8a8a93",
+          "popover-foreground": "hsl(240 7% 96%)",
+          "primary-foreground": "hsl(240 8% 4%)",
+          "radius": "0",
+          "secondary-foreground": "hsl(240 7% 96%)",
+          "shadow": "none",
+          "shadow-lg": "none",
+          "shadow-md": "none",
+          "success": "hsl(145 100% 50%)",
+          "warning": "hsl(40 100% 50%)"
+        },
+        "light": {
+          "accent": "#ffb000",
+          "background": "#0a0a0c",
+          "border": "#2a2a32",
+          "card": "#16161a",
+          "destructive": "#ff3b30",
+          "foreground": "#f5f5f7",
+          "input": "hsl(240 8% 18%)",
+          "muted": "hsl(240 9% 7%)",
+          "popover": "hsl(240 9% 9%)",
+          "primary": "#ffb000",
+          "ring": "#3a3a42",
+          "secondary": "hsl(240 9% 7%)"
+        },
+        "dark": {
+          "accent": "#ffb000",
+          "background": "#0a0a0c",
+          "border": "#2a2a32",
+          "card": "#16161a",
+          "destructive": "#ff3b30",
+          "foreground": "#f5f5f7",
+          "input": "hsl(240 8% 18%)",
+          "muted": "hsl(240 9% 7%)",
+          "popover": "hsl(240 9% 9%)",
+          "primary": "#ffb000",
+          "ring": "#3a3a42",
+          "secondary": "hsl(240 9% 7%)"
+        }
+      },
+      "css": {
+        "@layer base": {
+          "body": {
+            "background-color": "var(--background)",
+            "color": "var(--foreground)"
+          }
+        }
+      },
+      "meta": {
+        "name": "STACK//FRAME",
+        "vibe": "server rack, amber LED, Inter+mono",
+        "mode": "dark-only"
       }
     }
   ]

@@ -6,12 +6,6 @@
   "registryDependencies": [],
   "files": [
     {
-      "path": "glitch-text.tsx",
-      "content": "import * as React from \"react\"\nimport { cn } from \"@/lib/utils\"\n\ninterface GlitchTextProps extends React.HTMLAttributes<HTMLDivElement> {\n  text?: string\n}\n\nexport function GlitchText({ \n  className, \n  text = \"404\",\n  ...props \n}: GlitchTextProps) {\n  return (\n    <div \n      className={cn(\n        \"relative font-display text-[110px] font-black leading-none\",\n        className\n      )}\n      style={{\n        color: \"var(--accent)\",\n        textShadow: \"3px 0 var(--accent-2), -3px 0 #ffff00\",\n        animation: \"gp-glitch 3s ease-in-out infinite\",\n      }}\n      {...props}\n    >\n      <span className=\"relative z-10\">{text}</span>\n      <span \n        className=\"absolute top-0 left-0 pointer-events-none\"\n        style={{\n          color: \"var(--accent-2)\",\n          clipPath: \"inset(20% 0 60% 0)\",\n          animation: \"gp-glitch-offset 2s ease-in-out infinite\",\n        }}\n        aria-hidden=\"true\"\n      >\n        {text}\n      </span>\n      <span \n        className=\"absolute top-0 left-0 pointer-events-none\"\n        style={{\n          color: \"#ffff00\",\n          clipPath: \"inset(60% 0 10% 0)\",\n          animation: \"gp-glitch-offset 3s ease-in-out infinite reverse\",\n        }}\n        aria-hidden=\"true\"\n      >\n        {text}\n      </span>\n    </div>\n  )\n}\n",
-      "type": "registry:component",
-      "target": "components/ui/glitch-text.tsx"
-    },
-    {
       "path": "glitch-label.tsx",
       "content": "import * as React from \"react\"\nimport { cn } from \"@/lib/utils\"\n\ninterface GlitchLabelProps extends React.HTMLAttributes<HTMLDivElement> {\n  children: React.ReactNode\n}\n\nexport function GlitchLabel({ className, children, ...props }: GlitchLabelProps) {\n  return (\n    <div \n      className={cn(\n        \"font-mono text-[11px] tracking-[0.2em] uppercase\",\n        className\n      )}\n      style={{\n        color: \"var(--fg-dim)\",\n      }}\n      {...props}\n    >\n      {children}\n    </div>\n  )\n}\n",
       "type": "registry:component",
@@ -22,6 +16,12 @@
       "content": "import * as React from \"react\"\nimport { cn } from \"@/lib/utils\"\n\ninterface GlitchStageProps extends React.HTMLAttributes<HTMLDivElement> {\n  children: React.ReactNode\n}\n\nexport function GlitchStage({ className, children, ...props }: GlitchStageProps) {\n  return (\n    <div \n      className={cn(\n        \"relative z-[1] flex flex-col items-center gap-3.5 text-center\",\n        className\n      )}\n      {...props}\n    >\n      {children}\n    </div>\n  )\n}\n",
       "type": "registry:component",
       "target": "components/ui/glitch-stage.tsx"
+    },
+    {
+      "path": "glitch-text.tsx",
+      "content": "import * as React from \"react\"\nimport { cn } from \"@/lib/utils\"\n\ninterface GlitchTextProps extends React.HTMLAttributes<HTMLDivElement> {\n  text?: string\n}\n\nexport function GlitchText({ \n  className, \n  text = \"404\",\n  ...props \n}: GlitchTextProps) {\n  return (\n    <div \n      className={cn(\n        \"relative font-display text-[110px] font-black leading-none\",\n        className\n      )}\n      style={{\n        color: \"var(--accent)\",\n        textShadow: \"3px 0 var(--accent-2), -3px 0 #ffff00\",\n        animation: \"gp-glitch 3s ease-in-out infinite\",\n      }}\n      {...props}\n    >\n      <span className=\"relative z-10\">{text}</span>\n      <span \n        className=\"absolute top-0 left-0 pointer-events-none\"\n        style={{\n          color: \"var(--accent-2)\",\n          clipPath: \"inset(20% 0 60% 0)\",\n          animation: \"gp-glitch-offset 2s ease-in-out infinite\",\n        }}\n        aria-hidden=\"true\"\n      >\n        {text}\n      </span>\n      <span \n        className=\"absolute top-0 left-0 pointer-events-none\"\n        style={{\n          color: \"#ffff00\",\n          clipPath: \"inset(60% 0 10% 0)\",\n          animation: \"gp-glitch-offset 3s ease-in-out infinite reverse\",\n        }}\n        aria-hidden=\"true\"\n      >\n        {text}\n      </span>\n    </div>\n  )\n}\n",
+      "type": "registry:component",
+      "target": "components/ui/glitch-text.tsx"
     },
     {
       "path": "effects.css",
@@ -37,6 +37,7 @@
     }
   ],
   "meta": {
-    "concept": "glitchpage"
+    "concept": "glitchpage",
+    "displayName": "GLITCHPAGE Elements"
   }
 }
