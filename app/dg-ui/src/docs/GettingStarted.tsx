@@ -29,15 +29,22 @@ npx dg init --dir ./my-existing-app`}
       <section>
         <h2 className="text-xl font-semibold mb-3">2. Add a Theme</h2>
         <p className="text-sm text-muted-foreground mb-3">
-          Choose from 9 design concepts. Each theme is a shadcn v4 preset with exact brand colors.
+          เลือกจาก 9 design concepts. ติดตั้ง <strong>ทีละ theme</strong> (tweakcn-style)
+          — เหมือน shadcn ที่ add component ตัวที่ใช้. แต่ละ theme เป็น shadcn v4 preset
+          ด้วย exact brand colors.
         </p>
         <pre className="p-4 bg-muted rounded-lg border border-border font-mono text-sm overflow-x-auto">
-{`# Apply theme to your project
+{`# React + shadcn project → เขียนลง globals.css
 npx dg add theme mcky --shadcn --dir .
 
-# Or generate all themes
-npx dg shadcn
-npx dg shadcn --oklch  # oklch format (shadcn native)`}
+# Vue project → copy ลง src/themes/
+npx dg add theme claude --vue --dir .
+
+# DG web UI → copy ลง app/dg-ui/src/themes/
+npx dg add theme rack --ui --dir app/dg-ui
+
+# เพิ่ม theme อื่นทีหลัง (install ละ 1 ตัว)
+npx dg add theme brut --shadcn --dir .`}
         </pre>
         <div className="mt-3 flex flex-wrap gap-2">
           {["mcky", "rack", "crt", "noc", "min", "glitchpage", "claude", "moss", "brut"].map((t) => (

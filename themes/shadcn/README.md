@@ -1,6 +1,6 @@
-# shadcn v4 theme presets
+# shadcn v4 theme presets (React/Tailwind)
 
-9 design concepts ของเราใน **shadcn v4 format** — ใช้ได้กับ project ที่ใช้
+9 design concepts ใน **shadcn v4 format** — ใช้กับ project ที่ใช้
 React + Radix UI + Tailwind v4 (ผ่าน shadcn/ui registry)
 
 ```
@@ -17,10 +17,25 @@ themes/shadcn/
 └── brut.css           # light-only
 ```
 
+## Install (tweakcn-style — ทีละ theme)
+
+```bash
+# install 1 theme ลง globals.css ของ React/shadcn project
+npx dg add theme mcky --shadcn --dir .
+
+# เพิ่ม theme อื่นทีหลัง
+npx dg add theme rack --shadcn --dir .
+```
+
+ผลลัพธ์: เขียน `:root`/`.dark` blocks ลง `globals.css` + เพิ่ม `@theme inline`
+mapping ถ้ายังไม่มี + ลบ blocks เดิม (theme ใหม่ไม่ถูก override).
+
 ## Format
 
-- สีทั้งหมด wrap ใน `hsl(...)` (ตรงกับที่ shadcn v4 รับได้ — docs ของเขาก็ใช้ hsl)
-- hard-shadow ใช้ `var(--border)` แทน `hsl(var(--border))` (เพราะ --border เป็น hsl() แล้ว)
+- สีทั้งหมดเป็น **hex เดิม** จาก concepts (precision fix — ไม่มี rounding loss)
+- dual (mcky, claude) → `:root` light + `.dark` dark
+- dark-only (rack, crt, noc, glitchpage) → `:root, .dark` dark
+- light-only (min, moss, brut) → `:root, .dark` light (กัน `.dark` default มาครอบ)
 - non-color (radius/border-width/font/shadow) ผ่านตรง
 
 ## วิธีใช้ใน shadcn project
@@ -30,12 +45,15 @@ themes/shadcn/
 เอา `_base.css` (block `@theme inline`) ไปใส่ใน `globals.css` หลัง `@import "tailwindcss"`.
 block นี้เหมือนกันทุก theme — ทำครั้งเดียว.
 
-### 2. เลือก theme
+### 2. ติดตั้ง theme
 
-- **dual** (mcky, claude): เอา `:root` (light) + `.dark` (dark) ไปวางใน globals.css
-  แล้ว toggle `<html class="dark">`
-- **dark-only** (rack, crt, noc, glitchpage): วาง block `:root, .dark` — เป็น dark เสมอ
-- **light-only** (min, moss, brut): วาง block `:root, .dark` — เป็น light เสมอ (กัน `.dark` default มาครอบ)
+```bash
+npx dg add theme <id> --shadcn --dir .
+```
+
+- **dual** (mcky, claude): `:root` light + `.dark` dark → toggle `<html class="dark">`
+- **dark-only** (rack, crt, noc, glitchpage): เป็น dark เสมอ
+- **light-only** (min, moss, brut): เป็น light เสมอ
 
 ### 3. ใช้ components
 
@@ -52,9 +70,7 @@ npx dg shadcn --check    # verify เท่านั้น (ไม่เขี�
 source of truth ยังเป็น `tools/codegen.mjs` (THEMES map) — แก้ตรงนั้นแล้ว `dg codegen && dg shadcn`
 จะอัปเดตทั้ง vanilla + shadcn format
 
-## หมายเหตุ architecture
+## หมายเหตุ
 
-ตัวนี้เป็น **Track A** ของแผน pivot:
-- **เก็บ**: token map (THEMES), codegen, validate, 9 themes
-- **แทน**: component primitives ที่ปั้นเอง → Radix via shadcn registry
-- **ผล**: themes/shadcn/ = drop-in กับ shadcn project ใดก็ได้
+- สำหรับ Vue project ใช้ `--vue` (ดู `themes/vue/README.md`)
+- สำหรับ DG web UI ใช้ `--ui` (ดู `app/dg-ui/src/themes/`)

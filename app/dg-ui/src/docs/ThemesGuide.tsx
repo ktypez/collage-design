@@ -29,6 +29,12 @@ export default function ThemesGuide() {
 
       <section>
         <h2 className="text-xl font-semibold mb-3">Available Themes</h2>
+        <p className="text-sm text-muted-foreground mb-3">
+          9 design concepts — ติดตั้ง <strong>ทีละ theme</strong> (tweakcn-style).
+          Theme ที่ install แล้วสลับได้ทันที; ตัวที่ยังไม่ได้ install ใช้คำสั่ง
+          <code className="text-xs bg-muted px-1.5 py-0.5 rounded mx-1">dg add theme &lt;id&gt; --ui</code>
+          เพิ่มก่อน.
+        </p>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 min-w-0">
           {THEMES.map((t) => (
             <Card
@@ -113,14 +119,20 @@ export default function ThemesGuide() {
       </section>
 
       <section>
-        <h2 className="text-xl font-semibold mb-3">Apply a Theme</h2>
+        <h2 className="text-xl font-semibold mb-3">Install a Theme</h2>
         <pre className="p-4 bg-muted rounded-lg border border-border font-mono text-sm overflow-x-auto">
-{`# Via CLI
-npx dg add theme mcky --shadcn --dir .
+{`# 3 install targets (tweakcn-style — ทีละตัว)
+npx dg add theme mcky --shadcn --dir ./my-app   # React/shadcn → globals.css
+npx dg add theme claude --vue --dir ./pantry    # Vue → src/themes/<id>.css
+npx dg add theme rack --ui --dir app/dg-ui      # DG web UI → src/themes/<id>.css
 
-# In HTML/CSS
-<link rel="stylesheet" href="themes/mcky/theme.css">`}
+# เพิ่ม theme อื่นทีหลังแบบเดิม
+npx dg add theme brut --shadcn --dir ./my-app`}
         </pre>
+        <p className="text-sm text-muted-foreground mt-2">
+          สำหรับ Vue/DG web UI: theme ถูก inject เป็น CSS variable ได้ runtime (ดู Themes page).
+          สำหรับ shadcn: เขียนตรงลง globals.css ดู <code>themes/shadcn/_base.css</code>.
+        </p>
       </section>
     </div>
   )

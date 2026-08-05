@@ -7,53 +7,85 @@
 design concepts (mcky, rack, crt, noc, min, glitchpage, claude, moss, brut)
         │
         ▼
-themes/shadcn/<id>.css   ← shadcn v4 format (:root/.dark, hsl() + exact hex)
+themes/shadcn/<id>.css   ← shadcn v4 format (:root/.dark, hex exact)
         │
         ▼
-ใช้กับ shadcn project ใดก็ได้
+ติดตั้งทีละ theme (tweakcn/shadcn-style) → ใช้กับโปรเจกต์
 ```
 
 ## Quick start
 
+**Model: ติดตั้ง theme ทีละตัว** — เหมือน shadcn/tweakcn ที่ `add` component ตัวที่ใช้
+ไม่ใช่โหลดทั้งหมด. เริ่มจาก 1 theme แล้วเพิ่มทีหลังตามต้องการ.
+
+### 1. React + shadcn project
+
 ```bash
-# 1. create shadcn project (React + Radix + Tailwind v4)
+# create shadcn project (React + Radix + Tailwind v4)
 npx shadcn@latest init -b radix
 
-# 2. install a design concept as the theme
+# install ONE theme into globals.css
 npx dg add theme mcky --shadcn --dir .
 
-# 3. add Radix components
+# add Radix components
 npx shadcn@latest add button card dialog tabs
 
-# 4. done — components follow the theme
+# done — components follow the theme
 ```
 
-หรือดู [examples/shadcn-demo/](examples/shadcn-demo/) — React app พร้อม 9 themes
-สลับ runtime ได้จริง.
+### 2. Vue project (pantry-style)
+
+```bash
+# install ONE theme into src/themes/<id>.css
+npx dg add theme claude --vue --dir ./my-vue-app
+
+# add another theme later
+npx dg add theme mcky --vue --dir ./my-vue-app
+npx dg add theme brut --vue --dir ./my-vue-app
+```
+
+### 3. DG web UI (this project's app/dg-ui)
+
+```bash
+# install ONE theme into app/dg-ui/src/themes/<id>.css
+npx dg add theme mcky --ui --dir app/dg-ui
+
+# add more as needed
+npx dg add theme rack --ui --dir app/dg-ui
+```
 
 ## CLI (`dg`)
 
 ```bash
-npx dg init [dir]                        # scaffold (vanilla — legacy)
-npx dg add theme <id> --shadcn           # ⭐ install theme into shadcn globals.css
-npx dg add theme <id>                    # copy vanilla theme.css
-npx dg add component <name>              # copy vanilla component (legacy)
-npx dg theme <id>                        # show link snippet
-npx dg list [themes|components]          # list themes/components
-npx dg codegen [id...]                   # regenerate vanilla themes
-npx dg shadcn [id...]                    # regenerate shadcn v4 presets
-npx dg check                             # syntax + token contract + contrast
+npx dg add theme <id> --shadcn   # ⭐ React/shadcn → write globals.css
+npx dg add theme <id> --vue      # ⭐ Vue/pantry → copy src/themes/<id>.css
+npx dg add theme <id> --ui       # ⭐ DG web UI → copy app/dg-ui/src/themes/<id>.css
+npx dg add theme <id>            # copy vanilla theme.css (legacy)
+npx dg add component <name>      # copy vanilla component (legacy)
+npx dg theme <id>                # show link snippet
+npx dg list [themes|components]  # list themes/components
+npx dg codegen [id...]           # regenerate vanilla themes
+npx dg shadcn [id...]            # regenerate shadcn v4 presets
+npx dg vue-theme [id...]         # regenerate Vue theme CSS
+npx dg check                     # syntax + token contract + contrast
 npx dg help [cmd]
 ```
 
-`dg add theme --shadcn`:
-- อ่าน `themes/shadcn/<id>.css` → เขียน `:root`/`.dark` blocks ลง globals.css
-- backup globals.css ก่อนเขียน, เพิ่ม `@theme inline` mapping ถ้ายังไม่มี
-- ลบ blocks เดิม (shadcn default) → theme ใหม่ไม่ถูก override
+### Install models
+
+| flag | target | ผล |
+|---|---|---|
+| `--shadcn` | React + Tailwind project | เขียน `:root`/`.dark` blocks ลง globals.css |
+| `--vue` | Vue project (pantry) | copy `themes/vue/<id>.css` → `src/themes/` |
+| `--ui` | DG web UI (app/dg-ui) | copy `themes/shadcn/<id>.css` → `src/themes/` |
+
+ทั้งหมดเป็น **import 1 theme ต่อครั้ง** (tweakcn-style) — ไม่ bundle ทั้งหมด.
 
 ```bash
 dg add theme rack --shadcn --dir ./my-app              # auto-find globals.css
 dg add theme claude --shadcn --globals ./app/globals.css
+dg add theme mcky --vue --dir ./pantry
+dg add theme brut --ui --dir app/dg-ui
 ```
 
 ## Themes (9)
@@ -99,11 +131,21 @@ dg add theme claude --shadcn --globals ./app/globals.css
 
 ```
 themes/
-├── shadcn/                 # ⭐ shadcn v4 presets (drop-in)
+├── shadcn/                 # ⭐ shadcn v4 presets (React/Tailwind)
 │   ├── _base.css           # one-time @theme inline mapping
 │   ├── <id>.css ×9         # 9 design concepts
 │   └── README.md
-├── <id>/theme.css ×9       # vanilla format (legacy gallery)
+├── vue/                    # ⭐ Vue themes (pantry-style :root + [data-mode])
+│   ├── <id>.css ×9         # --bg/--surface/--fg/--accent vars
+│   └── README.md
+├── json/                   # 9 JSON themes (React Native)
+├── registry/               # shadcn registry files
+└── <id>/theme.css ×9       # vanilla format (legacy gallery)
+app/dg-ui/
+└── src/themes/             # ⭐ installed themes in DG web UI (tweakcn model)
+    ├── mcky.css            # ← dg add theme mcky --ui
+    ├── rack.css            # ← dg add theme rack --ui
+    └── ...                 # เพิ่มทีละตัว
 src/
 ├── tokens/schema.css       # token schema (core ของทุก theme)
 └── components/             # 🔒 DEPRECATED vanilla (gallery only)
@@ -111,16 +153,16 @@ tools/
 ├── codegen.mjs             # canonical THEMES map (single source of truth)
 ├── hex-source.mjs          # original hex extraction (precision fix)
 ├── shadcn-adapter.mjs      # HSL → shadcn v4 (+ exact hex)
+├── vue-theme.mjs           # shadcn → Vue theme CSS
 ├── validate.mjs            # token contract + contrast
 └── map.md                  # concept → token mapping
 examples/
 └── shadcn-demo/            # React 19 + Radix drop-in proof
-app/                        # legacy concept gallery (vanilla)
 ```
 
 **Data flow:** `concepts/<id>.css` (design ต้นฉบับ) → `tools/hex-source.mjs`
 (extract hex) + `tools/codegen.mjs` (THEMES map) → `shadcn-adapter.mjs` →
-`themes/shadcn/<id>.css`.
+`themes/shadcn/<id>.css` (และ `vue-theme.mjs` → `themes/vue/<id>.css`).
 
 ## Regenerate
 
@@ -128,6 +170,8 @@ app/                        # legacy concept gallery (vanilla)
 npx dg shadcn            # regenerate all 9 shadcn presets
 npx dg shadcn mcky       # one theme
 npx dg shadcn --check    # verify only
+npx dg vue-theme         # regenerate all 9 Vue themes
+npx dg vue-theme mcky    # one Vue theme
 ```
 
 ## Validation
@@ -151,8 +195,9 @@ concept gallery (`app/*.html`). ดู [DEPRECATED.md](src/components/DEPRECATED
 
 - **Themes**: CSS custom properties (hex + hsl), shadcn v4 format
 - **Components**: React 19 + Radix UI (ผ่าน shadcn CLI) — ไม่ปั้นเอง
-- **Tooling**: zero-dep node scripts (codegen, adapter, validate, CLI)
+- **Tooling**: zero-dep node scripts (codegen, adapter, vue-theme, validate, CLI)
 - **No component build from us** — เราส่งแค่ theme layer
+- **Install model**: tweakcn/shadcn-style — ติดตั้ง theme ทีละตัว ไม่ bundle ทั้งหมด
 
 ## Repo
 

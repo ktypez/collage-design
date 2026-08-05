@@ -169,6 +169,10 @@ npx dg check
 - [x] **JSON theme spec** — themes as JSON (React Native / cross-platform compatible)
 - [x] **Shadcn registry** — registry.json format for shadcn CLI
 - [x] **Web UI prototype** — React 19 + shadcn + 5 pages (Home/Themes/Builder/Components/Extract)
+- [x] **tweakcn model (install 1 theme)** — `dg add theme <id> --ui/--vue` copies 1 theme
+  ลง `src/themes/<id>.css` (ไม่ bundle ทั้งหมด). Web UI (app/dg-ui) + pantry (Vue) ใช้แล้ว:
+  `import.meta.glob` + persistence + installed-vs-available UI. Deleted themes.json.
+- [x] **`dg add theme --vue`** — themes/vue/*.css + pantry tweakcn model
 
 ### Maybe (done)
 - [x] **Online gallery** — web UI replaces static HTML gallery

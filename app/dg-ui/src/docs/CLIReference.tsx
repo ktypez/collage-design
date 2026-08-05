@@ -13,13 +13,15 @@ const COMMANDS = [
   },
   {
     name: "dg add theme",
-    usage: "dg add theme <id> --shadcn [--dir <path>]",
-    desc: "Apply a DG theme to a shadcn project's globals.css",
+    usage: "dg add theme <id> [--shadcn|--vue|--ui] [--dir <path>]",
+    desc: "Install ONE theme (tweakcn-style). Target depends on flag:",
     example: "npx dg add theme mcky --shadcn --dir ./my-app",
     flags: [
-      { flag: "--shadcn", desc: "write to globals.css (shadcn format)" },
+      { flag: "--shadcn", desc: "React/shadcn → write :root/.dark blocks to globals.css" },
+      { flag: "--vue", desc: "Vue/pantry → copy themes/vue/<id>.css to src/themes/" },
+      { flag: "--ui", desc: "DG web UI → copy themes/shadcn/<id>.css to app/dg-ui/src/themes/" },
       { flag: "--dir", desc: "target project root (auto-finds globals.css)" },
-      { flag: "--globals", desc: "explicit path to globals.css" },
+      { flag: "--globals", desc: "explicit path to globals.css (--shadcn only)" },
     ],
   },
   {
@@ -108,6 +110,25 @@ export default function CLIReference() {
             </Card>
           ))}
         </div>
+      </section>
+
+      <section>
+        <h2 className="text-xl font-semibold mb-3">Theme Install Models</h2>
+        <p className="text-sm text-muted-foreground mb-3">
+          ติดตั้ง theme <strong>ทีละตัว</strong> (tweakcn/shadcn-style) — ไม่โหลดทั้งหมด.
+          เริ่ม 1 theme แล้วเพิ่มทีหลังตามต้องการ:
+        </p>
+        <pre className="p-4 bg-muted rounded-lg border border-border font-mono text-sm overflow-x-auto">
+{`# React + shadcn project → เขียนลง globals.css
+npx dg add theme mcky --shadcn --dir ./my-app
+
+# Vue project (pantry-style) → copy ลง src/themes/
+npx dg add theme claude --vue --dir ./my-vue-app
+npx dg add theme brut  --vue --dir ./my-vue-app
+
+# DG web UI (แอปนี้) → copy ลง src/themes/
+npx dg add theme rack --ui --dir app/dg-ui`}
+        </pre>
       </section>
 
       <section>
